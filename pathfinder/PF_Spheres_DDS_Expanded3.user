@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Expanded Options 3"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="somTlToughShield" name="Tough Shield" compset="SoMTalent" description="You add your shield bonus to AC as a shield bonus to your CMD.\n\nYou can use active defense against combat maneuvers, allowing creatures benefiting from your active defense (including yourself) to add your active defense bonus to their CMD (not including the benefit of the base shield)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_OEO3"/>
+    <tag group="SoMSphere" tag="Shield"/>
+    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <eval phase="PostAttr" priority="6001"><![CDATA[~ If we're disabled, do nothing
+     doneif (tagis[Helper.SpcDisable] <> 0)
+
+     var bon as number
+
+     ~ Locate the shields
+     foreach pick in hero from BaseArmor where "EquipType.Shield & fieldval:gIsEquip <> 0"
+          if (eachpick.isgizmo = 1) then
+               bon = maximum(bon, eachpick.field[arAC].value)
+               endif
+          nexteach
+     ~ There is no way to set a shield bonus for CMD, so add an untyped bonus.
+     hero.child[ManeuvDef].field[Bonus].value += bon
+
+     ~ Since we can not use Shield bonuses, add a situation clarification:
+     var msg as string
+     msg = " Includes a permanent +" & bon & " shield bonus"
+     #situational[hero.child[ManeuvDef], msg, "Tough Shield"]
+
+     ~ If we also have Mobile Bulwark Style active, call it out.
+     doneif (hero.childfound[fMobBulSty].field[abilActive].value = 0)
+     msg = " Includes the +" & bon & " untyped bonus for the active style"
+     #situational[hero.child[ManeuvDef], msg, "Mobile Bulwark Style"]]]></eval>
+    </thing>
+  </document>

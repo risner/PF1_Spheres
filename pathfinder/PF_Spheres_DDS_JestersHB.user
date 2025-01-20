@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Jester's HB"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="fTacticalWarping" name="Tactical Warping (Champion)" compset="Feat" description="{b}Prerequisites:{/b} Fencing sphere, Warp sphere, character level 8th.\n\n{b}Benefit:{/b} Whenever you teleport into a square adjacent to a creature, you may attempt to feint that creature as a swift action.\n\nIf you possess the Emergency Teleport talent, when a creature attacks you during a round you successfully feinted that creature, you may teleport using the Emergency Teleport talent without spending an additional spell point." summary="Learn to combine your ranged prowess with warp magic." uniqueness="useronce">
+    <fieldval field="reqBAB" value="8"/>
+    <usesource source="pPF1e_Sph_OJestHB"/>
+    <tag group="fCategory" tag="SoPCasting" name="Casting" abbrev="Casting"/>
+    <tag group="fCategory" tag="SoPChampion" name="Champion" abbrev="Champion"/>
+    <tag group="Helper" tag="ShowSpec" name="Show Spec" abbrev="Show Spec"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <exprreq message="Warp Sphere required."><![CDATA[#hasability[sopTlWarp] <> 0]]></exprreq>
+    <exprreq message="Fencing Sphere reqiuired."><![CDATA[#hasability[somTlSpFencing] <> 0]]></exprreq>
+    <exprreq message="Character level 8th required."><![CDATA[#totallevelcount[] >= 8]]></exprreq>
+    </thing>
+  </document>

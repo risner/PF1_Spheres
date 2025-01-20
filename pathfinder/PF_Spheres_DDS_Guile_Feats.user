@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Fests"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="fSoGXSKTal" name="Extra Skill Talent" compset="Feat" description="Your acumen and expertise are easily expanded.\n\n{b}Benefit:{/b} Gain either an additional skill sphere or a talent from a skill sphere you possess.\n\n{b}Special:{/b} You may take this feat multiple times. The effects stack." summary="You gain an additional skill talent">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="NoPathSoc"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <eval phase="PostLevel" priority="1000"><![CDATA[~ If we're disabled, do nothing
+         doneif (tagis[Helper.FtDisable] <> 0)
+         hero.childfound[resSGSSGen].field[resMax].value += 1]]></eval>
+    </thing>
+  <thing id="fSoGUtilDile" name="Utilitarian Dilettante" compset="Feat" description="{b}Prerequisite:{/b} Extra Skill Talent.\n\n{b}Benefit:{/b} You gain two bonus skill talents with the [utility] tag.\n\n{b}Special:{/b} You can take this feat multiple times if you have taken Extra Skill Talent multiple times, up to a maximum number of times equal to the number of times you have taken Extra Skill Talent." summary="You gain an additional magic talent">
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="NoPathSoc"/>
+    <tag group="ReqFeat" tag="fSoGXSKTal"/>
+    <eval phase="PostLevel" priority="1000"><![CDATA[~ If we're disabled, do nothing
+         doneif (tagis[Helper.FtDisable] <> 0)
+
+         hero.childfound[resSGUtilTal].field[resMax].value += 2]]></eval>
+    <prereq message="You may take this feat as many times you have taken Extra Skill Talent">
+      <validate><![CDATA[
+        validif (hero.tagcount[HasFeat.fSoGUtilDile] - hero.tagcount[HasFeat.fSoGXSKTal] <= 0)]]></validate>
+      </prereq>
+    </thing>
+  </document>

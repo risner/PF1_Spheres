@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGBodyControl" style="lblTitle">
+    <label text="Body Control Sphere"/>
+    </portal>
+  <portal id="pSoGTalBodyControl" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.BodyControl & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.BodyControl & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="BodyControl"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Body Control Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEBodyCont].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwBodyControl" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.BodyControl]]></list>
+      <candidate><![CDATA[SoGSphere.BodyControl & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Body Control Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Body Control Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Body Control Info layout -->
+  <layout id="loSoGBodyControl">
+    <portalref portal="pSoGBodyControl" taborder="5"/>
+    <portalref portal="pSoGTalBodyControl" taborder="10"/>
+    <portalref portal="pSoGDrwBodyControl" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpBodyCont"/>
+    <templateref template="tmSoGDCSph" thing="sogSpBodyCont"/>
+    <templateref template="tmSoGRngSp" thing="sogSpBodyCont"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGBodyControl].batchadd
+                portal[pSoGBodyControl].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalBodyControl].batchadd[5]
+                portal[pSoGTalBodyControl].width = autoright
+
+                perform portal[pSoGDrwBodyControl].batchadd[5]
+                portal[pSoGDrwBodyControl].width = autoright
+
+                height += portal[pSoGDrwBodyControl].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGBodyControl" name="Body Control" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.BodyControl</live>
+    <layoutref layout="loSoGBodyControl"/>
+    </panel>
+  </document>

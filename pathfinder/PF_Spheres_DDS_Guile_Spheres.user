@@ -1,0 +1,2752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Spheres"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="sogSpBodyCont" name="Body Control" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="BodyControl" name="Body Control" abbrev="Body Control"/>
+    </thing>
+  <thing id="resSGSEBodyCont" name="Bonus Body Control Talents" compset="Resource" panellink="tbSoGBodyControl">
+    <fieldval field="resObject" value="Bonus Body Control Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="BodyControl"/>
+    <tag group="SoGSphere" tag="BodyControl"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.BodyControl]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdBCo" name="{align center}Body Control" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="BodyControl"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpBodyCont" name="Body Control Sphere" compset="SoGTalent" description="Operatives of the Body Control sphere are skilled at meditation and unlocking the limits of internal physiology. They can make their bodies do extraordinary things otherwise thought possible only with magic.\n\nYou gain the following benefits when you gain the Body Control sphere.\nAssociated Skill: Escape Artist. When you gain the Body Control sphere, you gain 5 ranks in Escape Artist, plus 5 ranks per additional talent spent in the Body Control sphere (maximum ranks equal to your Hit Dice). If you already have ranks in Escape Artist, you may immediately retrain them. You don't gain or retrain ranks when you temporarily gain a talent.\nSkill Leverage: You unlock skill leverage with the Acrobatics and Escape Artist skills.\n\nTODO: Need to update to errata versions." uniqueness="useronce">
+    <comment>TODO sogTlMeditation is pre-errata, now need to implement Slip Past and Meditate [approach].</comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="BodyControl" name="Body Control" abbrev="Body Control"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="SoGAssocSk" tag="skEscape"/>
+    <tag group="SkLeverage" tag="skEscape"/>
+    <tag group="SkLeverage" tag="skAcrobat"/>
+    <bootstrap thing="sogSpBodyCont"></bootstrap>
+    <bootstrap thing="sogTlMeditation">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlMeditation</containerreq>
+      </bootstrap>
+    </thing>
+  <thing id="sogTlMeditation" name="Meditation" compset="SoGTalent" description="Adopting this approach is a swift action. While you maintain this approach, you gain some conscious control over your physiological processes and your emotional responses. You can attempt an Escape Artist check as an immediate action to oppose any Intimidate or Perform check that would succeed against you. The DC of the opponent's check increases by 3, which can cause it to fail. You can also attempt an Escape Artist check as an immediate action if you would fail a saving throw against one of the following effects: a charm effect, an emotion effect, a fear effect, or an effect that gives the nauseated, paralyzed, or sickened conditions. If your skill check succeeds against the save DC, you get a +3 insight bonus on the saving throw, which can cause it to succeed instead of fail. When you meditate, you may add a talent with the (control) tag to your meditation, or two talents if at least one has the [utility] tag. Some (control) talents add to the list of effects you can make an Escape Artist check against using this approach." summary="Meditation approach" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="InitTalent" name="Base Sphere Ability" abbrev="Base Sphere Ability"/>
+    <tag group="User" tag="Activation" name="Activation" abbrev="Activation"/>
+    <tag group="tCastTime" tag="Swift1"/>
+    <tag group="SoGSphere" tag="BodyControl" name="Body Control" abbrev="Body Control"/>
+    <eval phase="Final" priority="10000">doneif (tagis[Helper.SpcDisable] = 1)
+      doneif (field[abilActive].value = 0)</eval>
+    </thing>
+  <thing id="sogTlBreathContr" name="Breath Control" compset="SoGTalent" description="You can hold your breath for an additional 1 minute per rank in the associated skill you possess while meditating. In addition, while meditating and holding your breath, you do not have to stop holding your breath to speak. Instead, you lose 1 minute of remaining breath per round that you speak.\n\nYou can endure a failed saving throw from any suffocation or inhaled effect or a failed Constitution check attempted to hold your breath. If you are still holding your breath when your meditation ends, you lose any remaining additional time added by the meditation but still have all of your normal amount of breath remaining." summary="You have enhanced control over your breathing." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="BodyControl"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="Hide" tag="Activation"/>
+    </thing>
+  <thing id="sogDbPhysFocus" name="Physiological Focus" compset="SoGDrawbk" description="You use Heal instead of Escape Artist for the associated skill, and unlock skill leverage with Heal in addition to the usual skills." summary="You can use Heal as a master." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGSphere" tag="BodyControl"/>
+    <tag group="SphOfGuil" tag="NoBnTalent"/>
+    <tag group="SoGTlClass" tag="AltStart"/>
+    <tag group="SoGTlClass" tag="ReqRetrain"/>
+    <eval phase="First" priority="1000"><![CDATA[~ This change is kept after a buy off.
+      perform hero.findchild[SoGTalent,"SoGSphere.BodyControl & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+
+      ~ Delete the default
+      perform focus.delete[SoGAssocSk.skEscape]
+
+      perform focus.assign[SoGAssocSk.skHeal]]]>
+      <after name="Assign initial Associated Skill"/>
+      </eval>
+    <eval phase="PostLevel" priority="2000" name="Change Skill Leverage"><![CDATA[~ This change is kept after a buy off.
+      perform hero.findchild[SoGTalent,"SoGSphere.BodyControl & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+
+      ~ Delete the default
+      perform focus.delete[SkLeverage.skEscape]
+
+      perform focus.assign[SkLeverage.skHeal]]]>
+      <after name="Assign initial Skill Leverage"/>
+      </eval>
+    </thing>
+  <thing id="sogSpArtifice" name="Artifice Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice" name="Artifice"/>
+    </thing>
+  <thing id="resSGSEArtifice" name="Bonus Artifice Talents" compset="Resource" panellink="tbSoGArtifice">
+    <fieldval field="resObject" value="Bonus Artifice Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Artifice"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Artifice]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdArt" name="{align center}Artifice" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpArtifice" name="Artifice Sphere" compset="SoGTalent" description="Operatives of the Artifice sphere are adept at using objects to their fullest potential at a fast pace, offering operatives ways of creating, fixing, and augmenting objects to make them fit the operatives needs at a given moment.\n\n{b}Associated Skill{/b}: One Artistry or Craft skill (depending on your chosen package).\n\nYou gain the following benefits when you gain the Artifice sphere:\n\nYou gain 5 ranks in the chosen associated skill, plus 5 ranks per additional talent spent in the Artifice sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the associated skill you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with your chosen package's associated skill, and one Artistry skill, one Craft skill, or Knowledge (engineering).\n\n{b}Package{/b}: When you gain the Artifice sphere, you gain one of the following packages with its included trinket function. You may take the Expanded Artificer talent to gain an additional package. When you gain a package, you choose one of the package's associated skills to be the associated skill for that package and its effects.\n\nAdditionally, you gain the Trinket and Cobbled Creation abilities.\n\nTODO: Add packages." summary="Gain access to the Artifice Sphere" uniqueness="useronce">
+    <comment>TODO Chooser 1 should be a packages, then take associated skill from the package. I currently have this hardcoded and do not have the Trinket and Cobbled Creation abilities. Chooser 2 should be the additonal skill leverage {Artistry skill, one Craft skill, or Knowledge (engineering)}</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; Helper.SkCatCraft"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <bootstrap thing="sogSpArtifice"></bootstrap>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    </thing>
+  <thing id="sogSpBluster" name="Bluster Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Bluster" name="Bluster"/>
+    </thing>
+  <thing id="resSGSEBluster" name="Bonus Bluster Talents" compset="Resource" panellink="tbSoGBluster">
+    <fieldval field="resObject" value="Bonus Bluster Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Bluster"/>
+    <tag group="SoGSphere" tag="Bluster"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Bluster]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdBlu" name="{align center}Bluster" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Bluster"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpBluster" name="Bluster Sphere" compset="SoGTalent" description="Operatives of the Bluster sphere are skilled at trickery and emotional influence. They know how to make the most of information about enemies' hopes and fears.\n\n{b}Associated Skill{/b}: Bluff or Intimidate. Choose one to be the associated skill when you gain the sphere.\n\nYou gain the following benefits when you gain the Bluster sphere:\n\nYou gain 5 ranks in the chosen skill, plus 5 ranks per additional talent spent in the Bluster sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the chosen skill, you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with the Bluff and Intimidate skills.\n\n{b}Bonus Talent{/b}: When you gain the Bluster sphere, you gain one (quip) talent of your choice. It cannot be an exceptional talent. If you choose one with the [utility] tag, you can take the Bluster base sphere as a [utility] talent.\n\nYou also gain the Flaunt Secrets and Quip abilities.\n\nTODO: Implement Bonus Talent, Flaunt Secrets, Quip all need implemented." summary="Gain access to the Bluster Sphere" uniqueness="useronce">
+    <comment>TODO Bonus Talent, Flaunt Secrets, Quip all need implemented. All talents need implemented.</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Helper.skBluff | Helper.skIntim)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Bluster"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SkLeverage" tag="skBluff"/>
+    <tag group="SkLeverage" tag="skIntim"/>
+    <bootstrap thing="sogSpBluster"></bootstrap>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    </thing>
+  <thing id="sogTlSpNavigation" name="Navigation Sphere" compset="SoGTalent" description="Operatives of the Navigation sphere learn to survive and operate in a wide variety of environments, studying their surroundings in order to best navigate or control them. They are skilled pathfinders and transporters, capable of finding the best route to any location and the best method of getting there. On a grand scale, an adventurer skilled in navigation can traverse any territory with ease, while in the heat of the moment their abilities enable impressive tactical maneuvers.\n\n{b}Associated Skill{/b}: One skill of your choice from your chosen package below.\n\nYou gain the following benefits when you gain the Navigation sphere.\n\nYou gain 5 ranks in one of the package's associated skills, plus 5 ranks per additional talent spent in the Navigation sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the associated skill you may immediately retrain them.\n\n{b}Skill Leverage{/b}:You unlock skill leverage with the associated skills of your package.{b}Package{/b}: When you gain the Navigation sphere, you gain one of the following packages with its included acclimation. You may take the Expanded Wayfarer talent to gain additional packages.\n\nYou also acquire the Acclimate and Pathing abilities.\n\nTODO: Nothing is implemented beyond this base sphere." summary="Gain access to the Navigation Sphere" uniqueness="useronce">
+    <comment>TODO Nothing is implemented beyond this base sphere.</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Bluster"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <bootstrap thing="sogSpBluster"></bootstrap>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    </thing>
+  <thing id="sogTlSpFaction" name="Faction" compset="SoGTalent" description="Operatives of the Faction sphere are adept at running and leading organizations, whether ranking leaders who move retainers like pawns or trusted agents equipped appropriately for each job. They quickly and effectively allocate faction resources to accomplish their goals.\n\n{b}Associated Skill{/b}: Appraise, a Knowledge skill, or a Profession skill, determined by the package you choose below.\n\nYou gain 5 ranks in the chosen skill, plus 5 ranks per additional talent spent in the Faction sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the associated skill not from a skill sphere, you may immediately retrain them.\n\n{b}Faction Affiliation{/b}: You are affiliated with an organization or group and possess some control over its assets, whether due to earned trust or high rank. Your faction might be a government agency, a guild, a political entity, or any other sizable organization. Your talents might represent figuring out a way for the faction to provide that service for the first time or earning the trust to be granted discretion over a service that already existed.\n\nOver the course of a campaign, you may leave, join, or found a faction (or multiple). You may use your sphere abilities with whatever faction or factions you are currently affiliated with, provided you meet the basic expectations of your rank in each one.\n\nYour faction usually offers other benefits beyond what you have Faction sphere talents for, but the faction rations those benefits in proportion to its resources, your service, and the needs of all members including you. Your game might track these further benefits using subsystems such as the fame and prestige rules in Pathfinder Roleplaying Game: Ultimate Campaign or the organizational influence rules in Pathfinder Roleplaying Game: Ultimate Intrigue.\n\n{b}Faction Type{/b}: Whatever your faction, it generally falls into one of the following categories. If a faction falls into multiple types, choose one to represent the elements of the faction that you have the most direct access to or work with your GM to mix and match elements to make a new faction type. The faction type determines what kind of resources it has available, although you can only requisition resources specifically granted by your Faction sphere package or talents.\n\n{indent 15}• {b}Arcane Faction{/b}: {b}Equipment{/b}: Spell foci, material components, texts, wizard spellbooks, alchemical tools or weapons; {b}Mundane Service{/b}: sage, arcane trainer; {b}Spellcasting Service{/b}: Sorcerer/wizard spell list (choose three schools of magic that are outside the faction’s focus of study; they aren’t generally available)\n\n• {b}Martial Faction{/b}: {b}Equipment{/b}: Weapons and armor, mounts, training texts, magus spellbooks (Pathfinder Roleplaying Game: Ultimate Magic), alchemical remedies or weapons, formula books; {b}Mundane Service{/b}: coach cab, combat trainer, messenger, ship’s passage; {b}Spellcasting Service{/b}: Adept, magus, or shaman spell list (Pathfinder Roleplaying Game: Advanced Class Guide)\n\n• {b}Religious Faction{/b}: {b}Equipment{/b}: Holy or unholy symbols, weapons and armor of traditional styles, texts and tools related to the faith and its attributes, the deity’s favored animal, alchemical remedies or weapons; {b}Mundane Service{/b}: sage, religious trainer, healing skills; {b}Spellcasting Service{/b}: Cleric spell list\n\n• {b}Skilled Faction{/b}: {b}Equipment{/b}: Tools used for the faction’s favored skills such as disguise kits for spies or artisan’s tools for a crafter’s guild, alchemist formula books (Pathfinder Roleplaying Game: Advanced Class Guide), anything manufactured by the guild, animals used by the guild, any alchemical item; {b}Mundane Service{/b}: artist, coach cab, entertainer, messenger, ship’s passage, skilled trainer, medical services; {b}Spellcasting Service{/b}: Bard spell list\n\n• {b}Wilderness Faction{/b}: {b}Equipment{/b}: Adventuring and travel gear, work animals, alchemical remedies and tools; {b}Mundane Service{/b}: animal trainer, coach cab, messenger, ship’s passage, wilderness trainer; {b}Spellcasting Service{/b}: Druid spell list\n\n{indent -15}{b}The Faction Sphere and Wealth{/b}\n\nThe Faction sphere offers a way to effectively turn some non-monetary resources into resources you would normally pay gold for, most visibly with (supply) talents. However, player characters should not generally get permanent character wealth directly from their faction simply because they have the Faction sphere. Faction retainers are paid in funds directly from the faction’s coffers that player characters do not handle. Wealth generated by faction operations go back into the mechanical benefits they provide, into establishing the faction’s infrastructure, paying faction employees, and paying taxes or other costs of doing business." summary="Gain access to the Faction Sphere" uniqueness="useronce">
+    <comment>TODO Packages, Requisition, Special restrictions (Animal companion e.g.), all the Sidbar, "Disguises and Your Faction", talents, and drawbacks need implemented.</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Helper.skAppraise | Helper.SkCatCraft)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Bluster"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SkLeverage" tag="skBluff"/>
+    <tag group="SkLeverage" tag="skIntim"/>
+    <bootstrap thing="sogSpBluster"></bootstrap>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    </thing>
+  <thing id="sogSpFaction" name="Faction Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Faction" name="Faction"/>
+    </thing>
+  <thing id="resSGSEFaction" name="Bonus Faction Talents" compset="Resource" panellink="tbSoGFaction">
+    <fieldval field="resObject" value="Bonus Faction Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Faction"/>
+    <tag group="SoGSphere" tag="Faction"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Faction]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdFac" name="{align center}Faction" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Faction"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogSpNavigation" name="Navigation Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Navigation" name="Navigation"/>
+    </thing>
+  <thing id="resSGSENavigation" name="Bonus Navigation Talents" compset="Resource" panellink="tbSoGNavigation">
+    <fieldval field="resObject" value="Bonus Navigation Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Navigation"/>
+    <tag group="SoGSphere" tag="Navigation"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Navigation]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdNav" name="{align center}Navigation" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Navigation"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogSpPerformanc" name="Performance Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Performance" name="Performance"/>
+    </thing>
+  <thing id="resSGSEPerformanc" name="Bonus Performance Talents" compset="Resource" panellink="tbSoGPerformanc">
+    <fieldval field="resObject" value="Bonus Performance Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Performance"/>
+    <tag group="SoGSphere" tag="Performance"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Performance]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdPer" name="{align center}Performance" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Performance"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogSpSpellhack" name="Spellhacking Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Spellhacking" name="Spellhacking"/>
+    </thing>
+  <thing id="resSGSESpellhack" name="Bonus Spellhacking Talents" compset="Resource" panellink="tbSoGSpellhack">
+    <fieldval field="resObject" value="Bonus Spellhacking Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Spellhacking"/>
+    <tag group="SoGSphere" tag="Spellhacking"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Spellhacking]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdSpe" name="{align center}Spellhacking" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Spellhacking"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogSpStudy" name="Study Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Study" name="Study"/>
+    </thing>
+  <thing id="resSGSEStudy" name="Bonus Study Talents" compset="Resource" panellink="tbSoGStudy">
+    <fieldval field="resObject" value="Bonus Study Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Study"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Study]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdStu" name="{align center}Study" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpStudy" name="Study Sphere" compset="SoGTalent" description="Operatives of the Study sphere are able to use their vast knowledge to their advantage, whether this be in a library or the heat of combat. These operatives hold information in high regard, and use it to great effect.\n\n{b}Associated Skill{/b}: A single Knowledge or Lore skill of your choice.\n\nYou gain the following benefits when you gain the Study sphere.\n\nWhen you gain the Study sphere, you gain 5 ranks in the associated skill, plus 5 ranks per additional talent spent in the Study sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the chosen Knowledge or Lore skill you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with the associated skill, plus one Knowledge or Lore skill of your choice.\n\n{b}Bonus Talent{/b}: When you first gain the Study sphere, you gain one (theory) talent of your choice. It cannot be an exceptional talent. If you choose one with the [utility] tag, you can take the Study base sphere as a [utility] talent.\n\nYou also acquire the Knowledgeable, Prescient Study, and Theorize abilities.\n\nTODO: Bonus Talent, Knowledgeable, Prescient Study, and Theorize are not implemented." summary="Gain access to the Study Sphere" panellink="tbSoGStudy" uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Helper.SkCatKnow | Helper.SkCatLore)"/>
+    <fieldval field="usrCandid2" value="component.BaseSkill &amp; (Helper.SkCatKnow | Helper.SkCatLore)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere" name="Sphere access" abbrev="Sphere access"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="ChooseSrc2" tag="Hero"/>
+    <tag group="User" tag="NoAutoName"/>
+    <tag group="Hide" tag="Activation"/>
+    <bootstrap thing="sogSpStudy"></bootstrap>
+    <bootstrap thing="sogTlKnowledgea">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlKnowledgea</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlPresStudy">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlPresStudy</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlTheorize">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlTheorize</containerreq>
+      </bootstrap>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[     doneif (tagis[Helper.SpcDisable] <> 0)
+     doneif (field[usrChosen1].ischosen + field[usrChosen2].ischosen = 0)
+
+     if (field[usrChosen1].ischosen <> 0) then
+       perform assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]
+     endif
+
+     if (field[usrChosen2].ischosen <> 0) then
+       perform assignstr["SkLeverage." & field[usrChosen2].chosen.idstring]
+     endif]]></eval>
+    </thing>
+  <thing id="sogTlKnowledgea" name="Knowledgeable" compset="SoGTalent" description="You can attempt untrained Knowledge skill checks as if you were trained." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="Helper" tag="ShowStatbl" name="ShowStatbl" abbrev="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="abAction" tag="None" name="No action" abbrev="None"/>
+    <tag group="abRange" tag="Personal" name="Personal" abbrev="pers"/>
+    <eval phase="PreAttr" priority="10000"><![CDATA[
+      ~ If we're not shown, just get out now
+      doneif (tagis[Helper.ShowSpec] = 0)
+
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      var searchexpr as string
+      if (hero.tagis[source.PUConsSkil] = 0) then
+        searchexpr = "Helper.SkCatKnow"
+      else
+        searchexpr = "thingid.cskNature | thingid.cskReligio | thingid.cskSociety | thingid.cskSpellcr"
+        endif
+
+      foreach pick in hero from BaseSkill where searchexpr
+        perform eachpick.delete[Helper.TrainOnly]
+        nexteach]]></eval>
+    </thing>
+  <thing id="sogTlPresStudy" name="Prescient Study" compset="SoGTalent" description="You are able to predict what research might be useful to you. This typically involves refreshing your memory at a library rather than actually performing research; this research is assumed to have been done at some point in the past or during a sleepless night during downtime. When you reveal this plan (by, for example, consulting a cryptic note) as a full-round action, you may take 10 on a Knowledge or Lore check even in combat or while distracted.\n\nIf you have at least 5 ranks in the associated skill and spend 1 use of skill leverage, you may treat the result as if you had rolled 20 on the die.\n\nIf your campaign uses research rules (see Chapter 3 of Pathfinder Roleplaying Game: Ultimate Intrigue), instead choose a library you have been to and make a research check as if you had spent 8 hours researching there. You gain any information this research would reveal to you. Once you reveal a research check as a plan, you cannot reveal it again until you spend at least 8 hours with unrestricted access to a suitable library." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="abAction" tag="FullRound"/>
+    </thing>
+  <thing id="sogTlTheorize" name="Theorize" compset="SoGTalent" description="As an immediate action, you can begin a theory on a creature, object, or area that you have successfully recalled information about, choosing a single (theory) talent to apply to the subject of your theory. A theory applies to all instances of the subject; if you begin a theory on a dire wolf, it applies to all dire wolves, but not other wolf-like animals. Creatures that vary exclusively by size (such as an earth elemental) or subtype (such as an orc and human bandit that share the same number of Hit Dice) are treated as the same `instance’ of a subject.\n\nWhile you have an active theory, you can expand it by gaining notions. Each theory can gain notions in unique ways, with a specific action granting one notion to the theory when it is observed. A specific action can only grant one notion once per round (unless specified otherwise). A theory can have a maximum number of notions equal to twice your operative ability modifier (minimum 1), with any notions beyond this maximum being wasted.\n\nYou can use these notions on any breakthrough listed within the theory; usually improving the base ability granted by the theory or granting you new actions to use.\n\nYou can only have one theory active at one time; if you attempt to theorize a second time while you have an active theory, you must choose which theory to maintain. A theory lasts until you change to a different subject, and remains indefinitely (so long as your memories remain intact). When a theory ends, it loses all notions.\n\nYou can always outwit the subject of your theory by spending 3 notions, generally by divulging something you have theorized about them." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="abAction" tag="Immediate"/>
+    </thing>
+  <thing id="sogTlFocusedStudy" name="Focused Study" compset="SoGTalent" description="You gain a Knowledge or Lore skill of your choice as an additional associated skill for this sphere, and you unlock skill leverage with that skill. You can choose this talent multiple times; each time choosing a new skill." summary="Gain an additional associated skill and leverage." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Helper.SkCatKnow | Helper.SkCatLore)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <eval phase="PostLevel" priority="103" name="Assign an additional Associated Skill"><![CDATA[     doneif (tagis[Helper.SpcDisable] <> 0)
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.findchild[SoGTalent,"SoGSphere.Study & SoGTlClass.GainSphere"].setfocus
+     doneif (state.isfocus = 0)
+
+     ~ Assign to me, so I can use to validate.
+     perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]
+
+     ~ Assign to the GainSphere talent.
+     perform focus.assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    <eval phase="PostLevel" priority="2000" name="Change Skill Leverage"><![CDATA[     doneif (tagis[Helper.SpcDisable] <> 0)
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.findchild[SoGTalent,"SoGSphere.Study & SoGTlClass.GainSphere"].setfocus
+     doneif (state.isfocus = 0)
+
+     perform focus.assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]>
+     <after name="Assign initial Skill Leverage"/>
+     </eval>
+    <evalrule phase="Final" priority="2147483647" message="You cannot choose a skill already associated with the sphere."><![CDATA[     ~ Look for a skill already associated.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.findchild[SoGTalent,"SoGSphere.Study & SoGTlClass.GainSphere"].setfocus
+     doneif (state.isfocus = 0)
+
+     if (focus.tagcountstr["SoGAssocSk." & field[usrChosen1].chosen.idstring] > 1) then
+               @valid = 0
+               done
+     endif
+     @valid = 1]]></evalrule>
+    </thing>
+  <thing id="sogSpSurvivalis" name="Survivalism Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Survivalism" name="Survivalism"/>
+    </thing>
+  <thing id="resSGSESurvivalis" name="Bonus Survivalism Talents" compset="Resource" panellink="tbSoGSurvivalis">
+    <fieldval field="resObject" value="Bonus Survivalism Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Survivalism"/>
+    <tag group="SoGSphere" tag="Survivalism"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Survivalism]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdSur" name="{align center}Survivalism" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Survivalism"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogSpVocation" name="Vocation" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <eval phase="PostLevel" priority="1000"></eval>
+    </thing>
+  <thing id="resSGSEVocation" name="Bonus Vocation Talents" compset="Resource" panellink="tbSoGVocation">
+    <fieldval field="resObject" value="Bonus Vocation Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Vocation"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Vocation]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdVoc" name="{align center}Vocation" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpVocation" name="Vocation Sphere" compset="SoGTalent" description="The Vocation sphere represents your background and natural aptitude towards certain trades and skill sets. Unlike most skill spheres, there is no base sphere ability or benefit to the Vocation sphere; it has no associated skill and does not unlock skill leverage.\n\nWhen you first gain the Vocation sphere, choose one Vocation talent of your choice and gain it for free. You can gain the Vocation base sphere as a utility talent; if you do, you must choose a [utility] talent as the free talent." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="sogSpVocation"></bootstrap>
+    <eval phase="First" priority="1000"><![CDATA[~ grant a bonus talent
+
+     ~ If taken as a utility talent (SoGTlClass.Utility), find a [utility].
+     ~ Otherwise find a sphere-specific talent.
+     if (tagis[SoGTlClass.Utility] <> 0) then
+          perform hero.findchild[SoGTalent,"SoGSphere.Vocation & SoGTlClass.Utility & !SoGSpTlSel.? & !SoGTlClass.InitTalent"].setfocus
+     else
+          perform hero.findchild[SoGTalent,"SoGSphere.Vocation & SoGBonTal.Vocation & !SoGSpTlSel.? & !SoGTlClass.InitTalent"].setfocus
+     endif
+     doneif (state.isfocus = 0)
+
+     perform focus.assign[SoGTlClass.InitTalent]]]></eval>
+    <eval phase="Final" priority="20001" name="Increase Class Skill Bonus +3 -> +4"><![CDATA[~ Look for skills that need bumped from +3 to +4.
+
+              ~ If we are not the first copy, get out.
+              doneif (tagis[Helper.FirstCopy] = 0)
+
+              ~ If we are not Guile, get out.
+              doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+              foreach pick in hero from BaseSkill where "SphOfGuil.TradeDupe"
+                    if (eachpick.tagis[Helper.ClassSkill] = 1) then
+                          eachpick.field[skClsSkBon].value += 1
+                    endif
+              nexteach
+        ]]>
+        <after name="Tag all duplicate TradeSkills"/>
+        </eval>
+    <eval phase="First" priority="13000" name="Tag all duplicate TradeSkills"><![CDATA[      ~ Tag all duplicate TradeSkills
+
+      foreach pick in hero from BaseSkill
+        if (eachpick.tagcount[TradeSkill.?] > 1) then
+          perform eachpick.assign[SphOfGuil.TradeDupe]
+        endif
+      nexteach]]>
+      <before name="Increase Class Skill Bonus +3 -> +4"/>
+      <after name="Enable skill spheres"/>
+      </eval>
+    <evalrule phase="Final" priority="99999999999999" index="2" message="You must select a talent with the bonus talent provided by the base Vocation sphere"><![CDATA[     ~ find a talent that hasn't been ...
+     if (tagis[SphOfGuil.NoBnTalent] <> 0) then
+       @valid = 1
+       done
+     endif
+     if (tagis[SoGTlClass.Utility] <> 0) then
+       @message = "You must select a [utility] talent with the bonus talent provided by the base Vocation sphere"
+     endif
+     ~ our selection yet
+     perform hero.findchild[SoGTalent,"SoGSphere.Vocation & (SoGTlClass.Utility | SoGBonTal.Vocation) & !SoGSpTlSel.? & SoGTlClass.InitTalent"].setfocus
+
+     doneif (state.isfocus = 0)
+
+     ~ if found, mark the talent as our selection and we're valid
+     perform focus.assign[SoGSpTlSel.sogSpVocation]
+     @valid = 1]]></evalrule>
+    </thing>
+  <thing id="sogTlSkillAcuity" name="Skill Acuity" compset="SoGTalent" description="Choose one skill that is a class skill for you. You gain an insight bonus to checks attempted with that skill equal to 1/2 your ranks in that skill, rounded down (minimum 1) and unlock skill leverage with that skill.\n\nThis talent may be selected multiple times, each time applying to a different skill.\n\n{b}Associated Feat{/b}: Skill Focus (chosen skill)." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; ClassSkill.?"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="HasFeat" tag="fSkillFoc"/>
+    <eval phase="PostLevel" priority="9000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+      call fTargetFoc
+      doneif (state.isfocus = 0)
+
+      ~ 1/2 your ranks in that skill, rounded down (minimum 1)
+      field[abValue].value = maximum(1,round(focus.field[skRanks].value/2,0,-1))
+      #applybonus[BonInsight,focus,field[abValue].value]]]>
+      <after name="Calc skRanks"/>
+      </eval>
+    <eval phase="PostLevel" priority="2000" name="Change Skill Leverage"><![CDATA[     doneif (tagis[Helper.SpcDisable] <> 0)
+     doneif (field[usrChosen1].ischosen = 0)
+
+     ~ Get out, if duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.findchild[SoGTalent,"SoGSphere.Vocation & SoGTlClass.GainSphere"].setfocus
+     doneif (state.isfocus = 0)
+
+     perform focus.assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]>
+     <after name="Assign initial Skill Leverage"/>
+     </eval>
+    <eval phase="PostLevel" priority="15000" name="Skill Acuity Skill Focus"><![CDATA[
+      ~set our focus to the selected pick
+      call fTargetFoc
+      doneif (state.isfocus = 0)
+
+      ~ Assign a tag so we know we've taken skill focus
+      perform focus.assign[Helper.SkillFocus]]]>
+      <after name="Suppress Innate Skills"/>
+      </eval>
+    </thing>
+  <thing id="sogTlAlternateMet" name="Alternate Methods" compset="SoGTalent" description="You can use any ability score of your choice for Artistry, Craft, and Profession checks instead of their usual ability scores, as long as the ability score is relevant to the chosen skill. For example, using Strength or Dexterity for Craft (armor) or Profession (blacksmith) to represent working metal, Intelligence for Profession (barrister), or Dexterity for Artistry (choreography)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <eval phase="Final" priority="15001" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     foreach pick in hero from BaseSkill where "ClassSkill.Craft"
+          #situational[eachpick, "May use any ability score modifier that the GM feels is relevant", field[thingname].text]
+          nexteach
+
+     foreach pick in hero from BaseSkill where "ClassSkill.Profession"
+          #situational[eachpick, "May use any ability score modifier that the GM feels is relevant", field[thingname].text]
+          nexteach]]></eval>
+    </thing>
+  <thing id="sogTlArchaeologis" name="Archaeologist" compset="SoGTalent" description="You gain Appraise, Knowledge (history), Spellcraft, and Use Magic Device as class skills. When attempting a Spellcraft check to identify the properties of a magic item, you may attempt as many checks as you wish per day rather than just one (which allows you to take 20 on such checks)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+      perform hero.child[skAppraise].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      if (hero.childlives[skKnowHist] = 1) then
+           perform hero.child[skKnowHist].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+      endif
+      perform hero.child[skSpellcr].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform hero.child[skUseMagic].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+
+      perform this.assign[TradeSkill.skAppraise]
+      perform this.assign[TradeSkill.skKnowHist]
+      perform this.assign[TradeSkill.skSpellcr]
+      perform this.assign[TradeSkill.skUseMagic]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ When attempting a Spellcraft check to identify the properties of a magic item, you may attempt as many checks as you wish per day rather than just one (which allows you to take 20 on such checks).
+
+     #situational[hero.childfound[skSpellcr], "May take 20 to identify the properties of a magic item.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlConArt" name="Con Artist" compset="SoGTalent" description="You gain Bluff, Disguise, Knowledge (local), and Linguistics as class skills. You may use the better of your Charisma or Intelligence modifier when attempting either Bluff or Knowledge (local) checks, chosen when you select this talent." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skBluff | Reference.skKnowLoc)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+      perform hero.child[skBluff].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform hero.child[skDisguise].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      if (hero.childlives[skKnowLoc] = 1) then
+           perform hero.child[skKnowLoc].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+      endif
+      perform hero.child[skLinguist].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+
+      perform this.assign[TradeSkill.skBluff]
+      perform this.assign[TradeSkill.skDisguise]
+      perform this.assign[TradeSkill.skKnowLoc]
+      perform this.assign[TradeSkill.skLinguist]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+      doneif (tagis[Helper.SpcDisable] <> 0)
+      ~ or a duplicate.
+      doneif (tagis[Helper.FirstCopy] = 0)
+
+      doneif (field[usrChosen1].ischosen = 0)
+
+     ~ You may use the better of your Charisma or Intelligence modifier when attempting either Bluff or Knowledge (local) checks, chosen when you select this talent.
+       perform field[usrChosen1].chosen.assign[SkillOpt.aINT]
+       perform field[usrChosen1].chosen.assign[SkillOpt.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlUndeadSlay" name="Undead Slayer" compset="SoGTalent" description="You gain Intimidate, Knowledge (religion), Knowledge (planes), and Survival as class skills. You can attempt Intimidate checks against undead creatures to influence their attitude as if they were not immune to mind-affecting effects." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skIntim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowRel] = 1) then
+           perform hero.child[skKnowRel].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowPlan] = 1) then
+           perform hero.child[skKnowPlan].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSurvival].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skIntim]
+     perform this.assign[TradeSkill.skKnowRel]
+     perform this.assign[TradeSkill.skKnowPlan]
+     perform this.assign[TradeSkill.skSurvival]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can attempt Intimidate checks against undead creatures to influence their attitude as if they were not immune to mind-affecting effects.
+     #situational[hero.childfound[skIntim], "You may Intimidate undead immune to mind-affecting.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlMystic" name="Mystic" compset="SoGTalent" description="You gain Heal, Knowledge (planes), Knowledge (religion), and Spellcraft as class skills. You may treat deadly wounds on a creature even if it was wounded more than 24 hours ago and may treat deadly wounds on each creature up to twice per day." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skHeal].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowPlan] = 1) then
+           perform hero.child[skKnowPlan].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowRel] = 1) then
+           perform hero.child[skKnowRel].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSpellcr].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skHeal]
+     perform this.assign[TradeSkill.skKnowPlan]
+     perform this.assign[TradeSkill.skKnowRel]
+     perform this.assign[TradeSkill.skSpellcr]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You may treat deadly wounds on a creature even if it was wounded more than 24 hours ago and may treat deadly wounds on each creature up to twice per day.
+     #situational[hero.childfound[skHeal], "You may treat deadly wounds after 24 hours and also twice daily.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlServant" name="Servant" compset="SoGTalent" description="You gain Handle Animal, Heal, Knowledge (nobility), and Stealth as class skills. You can use your Knowledge (nobility) modifier for any skill check to aid another." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skHandleAn].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skHeal].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowNobl] = 1) then
+           perform hero.child[skKnowNobl].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skStealth].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skHandleAn]
+     perform this.assign[TradeSkill.skHeal]
+     perform this.assign[TradeSkill.skKnowNobl]
+     perform this.assign[TradeSkill.skStealth]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can use your Knowledge (nobility) modifier for any skill check to aid another.
+     #situational[hero.childfound[skKnowNobl], "May be used for any aid another check.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlSkyPilot" name="Sky Pilot" compset="SoGTalent" description="You gain Acrobatics, Fly, Knowledge (geography), and Survival as class skills. You treat yourself and any vehicle you are piloting as one size larger for the purpose of being checked or blown away by wind." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skAcrobat].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skFly].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowGeog] = 1) then
+           perform hero.child[skKnowGeog].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSurvival].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skAcrobat]
+     perform this.assign[TradeSkill.skFly]
+     perform this.assign[TradeSkill.skKnowGeog]
+     perform this.assign[TradeSkill.skSurvival]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You treat yourself and any vehicle you are piloting as one size larger for the purpose of being checked or blown away by wind.
+     #situational[hero.childfound[skFly], "Treat yourself & any vehicle you pilot as 1 size larger for the purpose of being checked or blown away by wind.", field[thingname].text]
+     ]]></eval>
+    </thing>
+  <thing id="sogTlDiplomat" name="Diplomat" compset="SoGTalent" description="You gain Diplomacy, Knowledge (local), Linguistics, and Sense Motive as class skills. If you fail a Diplomacy check to alter a creature's attitude and the creature's attitude would worsen, instead the creature's attitude towards you is unchanged. A specific creature may only be affected by this ability once every 24 hours." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skDiplo].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowLoc] = 1) then
+           perform hero.child[skKnowLoc].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skLinguist].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skSenseMot].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skDiplo]
+     perform this.assign[TradeSkill.skKnowLoc]
+     perform this.assign[TradeSkill.skLinguist]
+     perform this.assign[TradeSkill.skSenseMot]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~  If you fail a Diplomacy check to alter a creature's attitude and the creature's attitude would worsen, instead the creature's attitude towards you is unchanged. A specific creature may only be affected by this ability once every 24 hours.
+     #situational[hero.childfound[skDiplo], "Failure to alter attitude never worsens (once/24 hour)", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlDuelist" name="Duelist" compset="SoGTalent" description="You gain Bluff, Intimidate, Linguistics, and Sense Motive as class skills. You gain a +1 insight bonus on these skill checks against a target who has attacked you within the last 24 hours." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skBluff].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skIntim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skLinguist].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skSenseMot].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skBluff]
+     perform this.assign[TradeSkill.skIntim]
+     perform this.assign[TradeSkill.skLinguist]
+     perform this.assign[TradeSkill.skSenseMot]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You gain a +1 insight bonus on these skill checks against a target who has attacked you within the last 24 hours.
+     #situational[hero.childfound[skBluff], "+1 insight to target who attacked you < 24 hrs", field[thingname].text]
+     #situational[hero.childfound[skIntim], "+1 insight to target who attacked you < 24 hrs", field[thingname].text]
+     #situational[hero.childfound[skLinguist], "+1 insight to target who attacked you < 24 hrs", field[thingname].text]
+     #situational[hero.childfound[skSenseMot], "+1 insight to target who attacked you < 24 hrs", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlFalconer" name="Falconer" compset="SoGTalent" description="You gain Climb, Fly, Handle Animal, and Knowledge (nature) as class skills. As a swift action, you may improve the maneuverability of any flying creature that can hear you by one step to a maximum of good for 1 round." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="abAction" tag="Swift"/>
+    <tag group="abDuration" tag="Round"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skClimb].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skFly].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skHandleAn].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowNat] = 1) then
+       perform hero.child[skKnowNat].setfocus
+       perform focus.assign[Helper.ClassSkill]
+       perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+
+     perform this.assign[TradeSkill.skClimb]
+     perform this.assign[TradeSkill.skFly]
+     perform this.assign[TradeSkill.skHandleAn]
+     perform this.assign[TradeSkill.skKnowNat]]]></eval>
+    </thing>
+  <thing id="sogTlRoughrider" name="Roughrider" compset="SoGTalent" description="You gain Climb, Handle Animal, Ride, and Swim as class skills. Whenever you take cover, soft fall, fast mount, or fast dismount with an unwilling mount, you ignore any Climb modifiers." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skClimb].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skHandleAn].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skRide].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skSwim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skClimb]
+     perform this.assign[TradeSkill.skHandleAn]
+     perform this.assign[TradeSkill.skRide]
+     perform this.assign[TradeSkill.skSwim]]]></eval>
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ Whenever you take cover, soft fall, fast mount, or fast dismount with an unwilling mount, you ignore any Climb modifiers.
+     #situational[hero.childfound[skClimb], "Ignore climb modifiers to cover, soft fall, fast mount, or fast dismount with an unwilling mount.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlDungDelver" name="Dungeon Delver" compset="SoGTalent" description="You gain Acrobatics, Disable Device, Knowledge (dungeoneering), and Use Magic Device as class skills. You are only considered to have failed by 5 or more on any of these skill checks if you fail by 7 or more." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You gain Acrobatics, Disable Device, Knowledge (dungeoneering), and Use Magic Device as class skills.
+
+     perform hero.child[skAcrobat].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skDisable].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowDun] = 1) then
+           perform hero.child[skKnowDun].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skUseMagic].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skAcrobat]
+     perform this.assign[TradeSkill.skDisable]
+     perform this.assign[TradeSkill.skKnowDun]
+     perform this.assign[TradeSkill.skUseMagic]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You are only considered to have failed by 5 or more on any of these skill checks if you fail by 7 or more.
+
+     #situational[hero.childfound[skAcrobat], "You fail by 7 instead of 5.", field[thingname].text]
+     #situational[hero.childfound[skDisable], "You fail by 7 instead of 5.", field[thingname].text]
+     #situational[hero.childfound[skKnowDun], "You fail by 7 instead of 5.", field[thingname].text]
+     #situational[hero.childfound[skUseMagic], "You fail by 7 instead of 5.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlMedium" name="Medium" compset="SoGTalent" description="You gain Diplomacy, Fly, Knowledge (planes), and Knowledge (religion) as class skills. You can use the better of your Intelligence or Charisma modifier when attempting Diplomacy checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You gain Diplomacy, Fly, Knowledge (planes), and Knowledge (religion) as class skills.
+     perform hero.child[skDiplo].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skFly].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowPlan] = 1) then
+           perform hero.child[skKnowPlan].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowRel] = 1) then
+           perform hero.child[skKnowRel].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+
+     perform this.assign[TradeSkill.skDiplo]
+     perform this.assign[TradeSkill.skFly]
+     perform this.assign[TradeSkill.skKnowPlan]
+     perform this.assign[TradeSkill.skKnowRel]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can use the better of your Intelligence or Charisma modifier when attempting Diplomacy checks.
+     perform hero.child[skDiplo].assign[SkillOpt.aINT]
+     perform hero.child[skDiplo].assign[SkillOpt.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlExperiment" name="Experimenter" compset="SoGTalent" description="You gain Fly, Intimidate, Knowledge (engineering), and Use Magic Device as class skills. You may use the better of your Intelligence or Charisma modifier for Intimidate checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You gain Fly, Intimidate, Knowledge (engineering), and Use Magic Device as class skills.
+     perform hero.child[skFly].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skIntim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowEng] = 1) then
+           perform hero.child[skKnowEng].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skUseMagic].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skFly]
+     perform this.assign[TradeSkill.skIntim]
+     perform this.assign[TradeSkill.skKnowEng]
+     perform this.assign[TradeSkill.skUseMagic]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~  You may use the better of your Intelligence or Charisma modifier for Intimidate checks.
+     perform hero.child[skIntim].assign[SkillOpt.aINT]
+     perform hero.child[skIntim].assign[SkillOpt.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlMonsterHunt" name="Monster Hunter" compset="SoGTalent" description="You gain Appraise, Intimidate, Knowledge (arcana), and Survival as class skills. You do not take penalties on Intimidate checks for being smaller than your target." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skAppraise].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skIntim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowArca] = 1) then
+           perform hero.child[skKnowArca].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSurvival].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skAppraise]
+     perform this.assign[TradeSkill.skIntim]
+     perform this.assign[TradeSkill.skKnowArca]
+     perform this.assign[TradeSkill.skSurvival]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You do not take penalties on Intimidate checks for being smaller than your target.
+     #situational[hero.childfound[skIntim], "No size penalties to Intimidate creatures aware of you.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlMageHunt" name="Mage Hunter" compset="SoGTalent" description="You gain Disable Device, Disguise, Knowledge (arcana), and Spellcraft as class skills. You can disable magical traps using Disable Device as if you had the trapfinding class feature." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skDisable].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skDisguise].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowArca] = 1) then
+           perform hero.child[skKnowArca].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSpellcr].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skDisable]
+     perform this.assign[TradeSkill.skDisguise]
+     perform this.assign[TradeSkill.skKnowArca]
+     perform this.assign[TradeSkill.skSpellcr]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can disable magical traps using Disable Device as if you had the trapfinding class feature.
+     #situational[hero.childfound[skDisable], "You disable magical traps as if you had trapfinding.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlStoryteller" name="Storyteller" compset="SoGTalent" description="You gain Diplomacy, Knowledge (history), Knowledge (local), and Knowledge (nobility) as class skills. You can use the higher of your Charisma or Intelligence modifiers when attempting two of Knowledge (history), Knowledge (local), and Knowledge (nobility) checks, chosen when you select this talent." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skKnowHist | Reference.skKnowLoc | Reference.skKnowNobl)"/>
+    <fieldval field="usrCandid2" value="component.BaseSkill &amp; (Reference.skKnowHist | Reference.skKnowLoc | Reference.skKnowNobl)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="ChooseSrc2" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="User" tag="NoAutoName"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skDiplo].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowHist] = 1) then
+           perform hero.child[skKnowHist].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowLoc] = 1) then
+           perform hero.child[skKnowLoc].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowNobl] = 1) then
+           perform hero.child[skKnowNobl].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+
+     perform this.assign[TradeSkill.skAppraise]
+     perform this.assign[TradeSkill.skKnowHist]
+     perform this.assign[TradeSkill.skKnowLoc]
+     perform this.assign[TradeSkill.skKnowNobl]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+      doneif (field[usrChosen1].ischosen = 0)
+      doneif (field[usrChosen2].ischosen = 0)
+
+     ~ You can use the higher of your Charisma or Intelligence modifiers when attempting two of Knowledge (history), Knowledge (local), and Knowledge (nobility) checks, chosen when you select this talent.
+     perform field[usrChosen1].chosen.assign[SkillOver.aINT]
+     perform field[usrChosen1].chosen.assign[SkillOver.aCHA]
+     perform field[usrChosen2].chosen.assign[SkillOver.aINT]
+     perform field[usrChosen2].chosen.assign[SkillOver.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlFalseMage" name="False Mage" compset="SoGTalent" description="You gain Bluff, Knowledge (arcana), Sleight of Hand, and Use Magic Device as class skills. You may use your Charisma modifier in place of your Dexterity modifier for Sleight of Hand checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skBluff].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowArca] = 1) then
+           perform hero.child[skKnowArca].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSleight].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skUseMagic].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skBluff]
+     perform this.assign[TradeSkill.skKnowArca]
+     perform this.assign[TradeSkill.skSleight]
+     perform this.assign[TradeSkill.skUseMagic]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You may use your Charisma modifier in place of your Dexterity modifier for Sleight of Hand checks.
+     perform hero.child[skSleight].assign[SkillOpt.aDEX]
+     perform hero.child[skSleight].assign[SkillOpt.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlFeyFriend" name="Fey Friend" compset="SoGTalent" description="You gain Knowledge (nature), Knowledge (nobility), Linguistics, and Spellcraft as class skills. You can use your Charisma modifier in place of your Intelligence modifier for Spellcraft checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     if (hero.childlives[skKnowNat] = 1) then
+           perform hero.child[skKnowNat].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowNobl] = 1) then
+           perform hero.child[skKnowNobl].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skLinguist].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skSpellcr].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skKnowNat]
+     perform this.assign[TradeSkill.skKnowNobl]
+     perform this.assign[TradeSkill.skLinguist]
+     perform this.assign[TradeSkill.skSpellcr]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can use your Charisma modifier in place of your Intelligence modifier for Spellcraft checks.
+     perform hero.child[skSpellcr].assign[SkillOpt.aINT]
+     perform hero.child[skSpellcr].assign[SkillOpt.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlGossip" name="Gossip" compset="SoGTalent" description="You gain Diplomacy, Knowledge (local), Knowledge (nobility), and Sense Motive as class skills. You can use your Charisma modifier in place of your Wisdom modifier for Sense Motive checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skDiplo].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowLoc] = 1) then
+           perform hero.child[skKnowLoc].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowNobl] = 1) then
+           perform hero.child[skKnowNobl].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSenseMot].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skDiplo]
+     perform this.assign[TradeSkill.skKnowLoc]
+     perform this.assign[TradeSkill.skKnowNobl]
+     perform this.assign[TradeSkill.skSenseMot]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can use your Charisma modifier in place of your Wisdom modifier for Sense Motive checks.
+     perform hero.child[skSenseMot].assign[SkillOver.aWIS]
+     perform hero.child[skSenseMot].assign[SkillOver.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlDilettante" name="Dilettante" compset="SoGTalent" description="You gain four skills of your choice as class skills, at least one of which must be a background skill. You may select this talent multiple times, gaining a different set of skills each time.\n\nTODO: Should require background skills enabled, validate one is a background skill, and verify all are unique.">
+    <fieldval field="usrCandid1" value="component.BaseSkill"/>
+    <fieldval field="usrCandid2" value="component.BaseSkill"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="User" tag="NoAutoName"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="ChooseSrc2" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <bootstrap thing="sogTlDilettantH">
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      doneif (field[usrChosen1].ischosen = 0)
+      doneif (field[usrChosen2].ischosen = 0)
+
+      perform field[usrChosen1].chosen.setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform this.assignstr["TradeSkill." & focus.idstring]
+
+      perform field[usrChosen2].chosen.setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform this.assignstr["TradeSkill." & focus.idstring]]]></eval>
+    </thing>
+  <thing id="sogTlDilettantH" name="Dilettante" compset="SoGTalent" uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill"/>
+    <fieldval field="usrCandid2" value="component.BaseSkill"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="User" tag="NoAutoName"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="ChooseSrc2" tag="Hero"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Helper"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Hide" tag="Activation"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      doneif (field[usrChosen1].ischosen = 0)
+      doneif (field[usrChosen2].ischosen = 0)
+      doneif (isroot = 0)
+
+      perform field[usrChosen1].chosen.setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & root.idstring]
+      perform root.assignstr["TradeSkill." & focus.idstring]
+
+      perform field[usrChosen2].chosen.setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & root.idstring]
+      perform root.assignstr["TradeSkill." & focus.idstring]]]></eval>
+    </thing>
+  <thing id="sogTlEntertainer" name="Entertainer" compset="SoGTalent" description="You gain Acrobatics, Disguise, Escape Artist, and Sleight of Hand as class skills. You may use the better of your Dexterity or Charisma modifier when using one of these skills (chosen when you gain this talent) to entertain or interact with a creature that is aware of you (including escaping from a grapple or tumbling through a creature's space). You may select this talent a second time, in which case you may use the better of the two ability score modifiers on all of the chosen skills.">
+    <fieldval field="tMaxTaken" value="2"/>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skAcrobat | thingid.skDisguise | thingid.skEscape | thingid.skSleight)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skAcrobat].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skDisguise].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skEscape].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skSleight].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skAcrobat]
+     perform this.assign[TradeSkill.skDisguise]
+     perform this.assign[TradeSkill.skEscape]
+     perform this.assign[TradeSkill.skSleight]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+
+     var bCHA as number
+     bCHA = hero.child[aCHA].field[aModBonus].value
+     bCHA -= hero.child[aDEX].field[aModBonus].value
+     var bDEX as number
+     bDEX = 0 - bCHA
+
+     if (field[tTaken].value = 1) then
+       doneif (field[usrChosen1].ischosen = 0)
+       perform field[usrChosen1].chosen.setfocus
+       doneif (state.isfocus = 0)
+       if (focus.tagis[SkillAbil.aCHA] <> 0) then
+         if (bDEX > 0) then
+           #situational[focus, "+" & bDEX & " to interact with a creature that is aware of you.", field[thingname].text]
+         endif
+       endif
+       done
+     else
+       if (tagis[Helper.FirstCopy] = 1) then
+         if (bCHA > 0) then
+           #situational[hero.child[skAcrobat], "+" & bCHA & " to interact with a creature that is aware of you.", field[thingname].text]
+           #situational[hero.child[skEscape], "+" & bCHA & " to interact with a creature that is aware of you.", field[thingname].text]
+           #situational[hero.child[skSleight], "+" & bCHA & " to interact with a creature that is aware of you.", field[thingname].text]
+         else
+           #situational[hero.child[skDisguise], "+" & bDEX & " to interact with a creature that is aware of you.", field[thingname].text]
+         endif
+         field[abText].text = "Acro, Disgu, Esc, Sleight"
+       else
+         field[abText].text = "Taken twice"
+       endif
+       field[usrCandid1].text = ""
+       perform delete[ChooseSrc1.?]
+       perform assign[LvNamePar.AppText]
+       perform assign[SbNamePar.AppText]
+     endif]]></eval>
+    </thing>
+  <thing id="sogTlThug" name="Thug" compset="SoGTalent" description="You gain Disguise, Intimidate, Knowledge (local), and Stealth as class skills. You can add your Strength modifier in place of your Charisma modifier when attempting Intimidate checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skDisguise].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skIntim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowLoc] = 1) then
+           perform hero.child[skKnowLoc].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skStealth].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skDisguise]
+     perform this.assign[TradeSkill.skIntim]
+     perform this.assign[TradeSkill.skKnowLoc]
+     perform this.assign[TradeSkill.skStealth]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You can add your Strength modifier in place of your Charisma modifier when attempting Intimidate checks.
+     perform hero.child[skIntim].assign[SkillOver.aSTR]
+     perform hero.child[skIntim].assign[SkillOver.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlPlanewalker" name="Plane-walker" compset="SoGTalent" description="You gain Fly, Knowledge (planes), Linguistics, and Use Magic Device as class skills. You can use your Charisma modifier when attempting your choice of either Knowledge (planes) or Linguistics checks instead of your Intelligence modifier." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skKnowPlan | Reference.skLinguist)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skFly].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowPlan] = 1) then
+           perform hero.child[skKnowPlan].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skLinguist].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skUseMagic].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skFly]
+     perform this.assign[TradeSkill.skKnowPlan]
+     perform this.assign[TradeSkill.skLinguist]
+     perform this.assign[TradeSkill.skUseMagic]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     doneif (field[usrChosen1].ischosen = 0)
+
+     ~ You can use your Charisma modifier when attempting your choice of either Knowledge (planes) or Linguistics checks instead of your Intelligence modifier.
+     perform field[usrChosen1].chosen.assign[SkillOver.aINT]
+     perform field[usrChosen1].chosen.assign[SkillOver.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlAthlete" name="Athlete" compset="SoGTalent" description="You gain Acrobatics, Climb, Fly, and Swim as class skills. You may use the better of your Dexterity or Strength modifier instead of the normal ability modifier for one of Climb, Acrobatics, Fly, or Swim, chosen when you select this talent. You may select this talent a second time, in which case you may use the better of the two ability score modifiers on all of the chosen skills.">
+    <fieldval field="tMaxTaken" value="2"/>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skAcrobat | Reference.skClimb | Reference.skFly | Reference.skSwim)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SphOfGuil" tag="LnNoCount"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ You may use the better of your Dexterity or Strength modifier instead of the normal ability modifier for one of Climb, Acrobatics, Fly, or Swim, chosen when you select this talent. You may select this talent a second time, in which case you may use the better of the two ability score modifiers on all of the chosen skills.
+     if (field[tTaken].value < 2) then
+       perform field[usrChosen1].chosen.assign[SkillOpt.aSTR]
+       perform field[usrChosen1].chosen.assign[SkillOpt.aDEX]
+     else
+       perform hero.child[skClimb].assign[SkillOpt.aSTR]
+       perform hero.child[skClimb].assign[SkillOpt.aDEX]
+       perform hero.child[skAcrobat].assign[SkillOpt.aSTR]
+       perform hero.child[skAcrobat].assign[SkillOpt.aDEX]
+       perform hero.child[skFly].assign[SkillOpt.aSTR]
+       perform hero.child[skFly].assign[SkillOpt.aDEX]
+       perform hero.child[skSwim].assign[SkillOpt.aSTR]
+       perform hero.child[skSwim].assign[SkillOpt.aDEX]
+       endif]]></eval>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+      perform hero.child[skAcrobat].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform hero.child[skClimb].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform hero.child[skFly].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+      perform hero.child[skSwim].setfocus
+      perform focus.assign[Helper.ClassSkill]
+      perform focus.assignstr["TradeSkill." & this.idstring]
+
+      perform this.assign[TradeSkill.skAcrobat]
+      perform this.assign[TradeSkill.skClimb]
+      perform this.assign[TradeSkill.skFly]
+      perform this.assign[TradeSkill.skSwim]]]>
+      <before name="Process Skill Replacements"/>
+      <before name="Tag all duplicate TradeSkills"/>
+      <after name="Call SoGSetupTl"/>
+      </eval>
+    <eval phase="Final" priority="99999999" index="3"><![CDATA[
+      if (field[tTaken].value > 1) then
+          if (tagis[Helper.FirstCopy] = 1) then
+              field[abText].text = "Acrobatics, Climb, Fly, and Swim"
+          else
+              field[abText].text = "Taken Twice"
+          endif
+          perform assign[LvNamePar.AppText]
+          perform assign[SbNamePar.AppText]
+          field[usrCandid1].text = ""
+          perform delete[ChooseSrc1.?]
+        if (tagis[Helper.FirstCopy] = 0) then
+          perform assign[Helper.SpecUp]
+        endif
+      endif]]></eval>
+    </thing>
+  <thing id="sogTlDragonEnvoy" name="Dragon Envoy" compset="SoGTalent" description="You gain Diplomacy, Fly, Knowledge (arcana), and Knowledge (planes) as class skills. Creatures do not gain a bonus to Intimidate checks against you for being larger than you." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skDiplo].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skFly].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowArca] = 1) then
+           perform hero.child[skKnowArca].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowPlan] = 1) then
+           perform hero.child[skKnowPlan].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+
+     perform this.assign[TradeSkill.skDiplo]
+     perform this.assign[TradeSkill.skFly]
+     perform this.assign[TradeSkill.skKnowArca]
+     perform this.assign[TradeSkill.skKnowPlan]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ Creatures do not gain a bonus to Intimidate checks against you for being larger than you.
+
+     #situational[hero.childfound[skIntim], "Creatures larger than you gain no bonus to Intimidate you.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogTlSeaCultist" name="Sea Cultist" compset="SoGTalent" description="You gain Knowledge (dungeoneering), Knowledge (religion), Swim, and Use Magic Device as class skills. You can use the highest of your Charisma, Wisdom, or Intelligence modifiers for attempting either Knowledge (dungeoneering) or Knowledge (religion) checks, chosen when you select this talent." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skKnowDun | Reference.skKnowRel)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     if (hero.childlives[skKnowDun] = 1) then
+           perform hero.child[skKnowDun].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowRel] = 1) then
+           perform hero.child[skKnowRel].setfocus
+           perform focus.assign[Helper.ClassSkill]
+           perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSwim].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     perform hero.child[skUseMagic].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skKnowDun]
+     perform this.assign[TradeSkill.skKnowRel]
+     perform this.assign[TradeSkill.skSwim]
+     perform this.assign[TradeSkill.skUseMagic]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     doneif (field[usrChosen1].ischosen = 0)
+
+     ~ You can use the highest of your Charisma, Wisdom, or Intelligence modifiers for attempting either Knowledge (dungeoneering) or Knowledge (religion) checks, chosen when you select this talent.
+
+     perform field[usrChosen1].chosen.assign[SkillOver.aINT]
+     perform field[usrChosen1].chosen.assign[SkillOver.aWIS]
+     perform field[usrChosen1].chosen.assign[SkillOver.aCHA]]]></eval>
+    </thing>
+  <thing id="sogTlGreenskeeper" name="Greenskeeper" compset="SoGTalent" description="You gain Heal, Knowledge (nature), Knowledge (geography), and Survival as class skills. You can use your Wisdom modifier in place of your Intelligence modifier when attempting Knowledge (nature) or Knowledge (geography) checks, chosen when you take this talent." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skKnowNat | Reference.skKnowGeog)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Trade"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="First" priority="11000"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     perform hero.child[skHeal].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+     if (hero.childlives[skKnowNat] = 1) then
+       perform hero.child[skKnowNat].setfocus
+       perform focus.assign[Helper.ClassSkill]
+       perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     if (hero.childlives[skKnowGeog] = 1) then
+       perform hero.child[skKnowGeog].setfocus
+       perform focus.assign[Helper.ClassSkill]
+       perform focus.assignstr["TradeSkill." & this.idstring]
+     endif
+     perform hero.child[skSurvival].setfocus
+     perform focus.assign[Helper.ClassSkill]
+     perform focus.assignstr["TradeSkill." & this.idstring]
+
+     perform this.assign[TradeSkill.skHeal]
+     perform this.assign[TradeSkill.skKnowNat]
+     perform this.assign[TradeSkill.skKnowGeog]
+     perform this.assign[TradeSkill.skSurvival]]]></eval>
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     doneif (field[usrChosen1].ischosen = 0)
+
+     ~ You can use your Wisdom modifier in place of your Intelligence modifier when attempting Knowledge (nature) or Knowledge (geography) checks, chosen when you take this talent.
+     perform field[usrChosen1].chosen.assign[SkillOver.aINT]
+     perform field[usrChosen1].chosen.assign[SkillOver.aWIS]]]></eval>
+    </thing>
+  <thing id="sogSpHerbalism" name="Herbalism Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism" name="Herbalism"/>
+    </thing>
+  <thing id="resSGPkHerbalism" name="Herbalism Packages" compset="Resource" panellink="tbSoGHerbalism">
+    <fieldval field="resObject" value="Herbalism Packages"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGPackage" tag="Herbalism"/>
+    </thing>
+  <thing id="resSGSEHerbalism" name="Bonus Herbalism Talents" compset="Resource" panellink="tbSoGHerbalism">
+    <fieldval field="resObject" value="Bonus Herbalism Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Herbalism"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Herbalism]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdHer" name="{align center}Herbalism" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpHerbalism" name="Herbalism Sphere" compset="SoGTalent" description="Operatives of the Herbalism sphere are able to utilize their knowledge of herbal lore and remedies to bolster their allies, as well as restore them from many of the afflictions that befall adventurers in the field.\n\n{b}Associated Skill{/b}: Heal or Profession (herbalist) (depending on your chosen package).\n\nYou gain 5 ranks in your package's associated skills, plus 5 ranks per additional talent spent in the Herbalism sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the associated skill you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with your chosen package’s associated skill and Knowledge (nature).\n\n{b}Package{/b}: When you gain the Herbalism sphere, choose one of the following packages: (herbal) or (remedy). You can take the Expanded Herbalist talent to gain an additional package." summary="Gain access to the Herbalism Sphere" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere" name="Sphere access" abbrev="Sphere access"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SkLeverage" tag="skKnowNat"/>
+    <tag group="Hide" tag="Activation"/>
+    <bootstrap thing="abSoGSkLeverage"></bootstrap>
+    <bootstrap thing="sogSpHerbalism"></bootstrap>
+    </thing>
+  <thing id="sogTlHerbalLore" name="Herbal Lore" compset="SoGTalent" description="Choose three of the following herb types. You learn the practical applications of these herbs, and where they can be found in the wild. Gathering a batch of herbs requires 1 hour, and may be done during the same period of time required to prepare spells or other daily abilities. You may gather an additional batch of herbs at any time by spending 1 hour gathering herbs. Herbs may be gathered anywhere that plants or fungi grow, including caves or densely packed cities but not a lifeless demiplane.\n\nA single batch of herbs contains a number of herbs equal to your ranks in the associated skill + your operative ability modifier, and contains any combination of herbs you can gather. A gathered herb loses its potency after 24 hours. You may only gather a number of batches per day equal to your operative ability modifier.\n\nUnless otherwise specified, consuming a herb is a standard action, and grants its benefits for a number of rounds equal to 1/2 your ranks in the associated skill + your operative ability modifier, or until the user benefits from the herb, whichever comes first, unless otherwise indicated.\n\n {b}Bitter Herbs{/b}: Known for their restorative properties, a bitter herb can be consumed to heal 1 point of ability damage after 10 minutes has elapsed.\n{indent 5}{b}Bland Herbs{/b}: Used to slow or hasten natural bodily processes, a bland herb can be consumed to reduce the next instance of weapon damage received by an amount equal to your operative ability modifier. Alternatively you may reduce the value of the next instance of bleed damage you would suffer by an equal amount.\n{b}Cool Herbs{/b}: Used to boost cognitive functions, a cool herb can be consumed to gain a +2 competence bonus to the next Intelligence-, Wisdom-, or Charisma-based ability check or skill check the user attempts within the herb’s duration.\n{b}Dry Herbs{/b}: Utilized to protect the body and mind, a dry herb can be consumed to allow the user to reroll one saving throw they attempt within a number of rounds equal to your operative modifier. The user decides whether to reroll the saving throw after the results are revealed and must take the second result even if it is worse.\n{b}Intense Herbs{/b}: Used to elicit a short-term benefit or one that alters the user’s energy, an intense herb can be consumed to gain a +5-foot alchemical bonus to all of the user’s speeds for the herb’s duration.\n{indent 5}{i}Special{/i}: If you possess the Double Dose talent, the numerical increase instead applies to the herb’s duration.\n{b}Sour Herbs{/b}: Used to rapidly ferment or sour a concoction to enhance its effects–although typically with unfortunate side effects–a sour herb can be consumed to gain a +2 competence bonus to saving throws against disease and poison effects. At any point during the herb’s duration, the user can spend a swift action to retch, making them sickened for 1 round and granting them a new saving throw against any poisons they are suffering from (a failed attempt does not further the poisons effects).\n{b}Spicy Herbs{/b}: Used to enhance and alter physical abilities, a spicy herb can be consumed to gain a +2 competence bonus to the next Strength-, Dexterity-, or Constitution-based ability check or skill check the user attempts within the herb’s duration.\n{b}Sweet Herbs{/b}: Known to encourage natural healing processes, a sweet herb can be consumed to gain fast healing 1 for the herb’s duration.\n{b}Tainted Herbs{/b}: Used to harm as opposed to heal, a tainted herb can be used as a contact or ingested poison that deals 1 Constitution damage (immediate onset, Fortitude negates). A tainted herb can be added to a concoction as a twist, making it tainted. A tainted concoction changes any bonuses that it grants to an equivalent penalty, as well as reversing any other effects of the concoction. Some twists may not be able to be cleanly ‘reversed’ (such as the Energizer bitter herb twist), and may be incompatible. In these instances, the twist instead increases the saving throw DC of the tainted concoction by 1. A tainted concoction is considered an injury or ingested poison (chosen upon creation) for abilities that rely on it, and when exposed to it, grants a Fortitude save to negate its effects." uniqueness="useronce">
+    <fieldval field="abRange" value="3"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="abAction" tag="Standard"/>
+    <tag group="LvNamePar" tag="IncRange"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <eval phase="Render" priority="400"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      ~ Double this if Large Batch is active.
+      field[abValue].value = field[tOM].value
+      perform hero.childfound[sogTlLargeBatch].setfocus
+      if (state.isfocus <> 0) then
+           if (focus.tagis[Helper.SpcDisable] = 0) then
+                field[abValue].value += field[tOM].value
+                field[abRange].value += 3 * focus.countme
+           endif
+      endif
+      field[abRangText].text = field[abRange].value & " types"
+
+      perform hero.childfound[sogTlSpHerbalism].setfocus
+      if (state.isfocus <> 0) then
+           field[abValue].value += focus.field[tAssocRanks].value
+      endif
+      field[abText].text =  "herbs"]]></eval>
+    </thing>
+  <thing id="sogTlMedicalExp" name="Medical Expertise" compset="SoGTalent" description="When you treat deadly wounds on a creature, you only need 10 minutes to do so, can do so an additional time per day, and if you exceed the DC by 5 or more, you can add your operative modifier (minimum 1) instead of your Wisdom modifier to the amount healed. You can spend 1 use of skill leverage to ignore the daily limit on a creature when treating deadly wounds on them.\n\nFor every 5 ranks in this package’s associated skill you possess, you reduce the time taken to treat deadly wounds this way by 1 step (10 minutes > 1 minute > full-round > standard > move > swift); attempting to do so as a full-round action or shorter provokes attacks of opportunity." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlPhysicianE" name="Physician’s Efficacy" compset="SoGTalent" description="You can adopt this approach as a swift action. While adopting this approach, you gain a +2 insight bonus to Heal checks, +1 per 4 associated ranks. You can also treat deadly wounds as a full-round action (which provokes attacks of opportunity); or one step faster if you can already do so as a full-round action.\n\nYou can spend 1 use of skill leverage when adopting this approach to allow you to treat any roll of a 4 or lower on a Heal check as if you had rolled a 5 instead, as well as allowing you to add twice your operative modifier (minimum 1) instead of your Wisdom modifier if you exceed the DC to treat deadly wounds by 5 or more." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Approach"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlNaturalEye" name="Naturalist's Eye" compset="SoGTalent" description="You may adopt this approach as a swift action. While you maintain this approach, you gain a +2 insight bonus to this package’s associated skill checks, Knowledge (nature) and Survival checks, increasing by 1 per 4 ranks in the associated skill you possess. You can also identify a poison or potion as a swift or immediate action with a successful associated skill check against the save DC of the poison (if a poison) or 15 + the potion’s spell level (if a potion)–to identify a poison or potion, you must either be handling it or witness it affecting a creature within close range.\n\nAdditionally, you can use this package’s associated skill instead of any Dexterity-, Intelligence-, Wisdom-, or Charisma-based skill check made against a plant creature or any such check made in regards to plants. Whenever you attempt such a check, you can spend 1 use of skill leverage to treat the check as though you had rolled a 15 on the die–this is treated as if you had taken 10 on the check.\n\nFinally, you regain 1 skill leverage when you successfully identify a plant or plant type creature that you have never encountered before." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Approach"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlHerbHerbal" name="Herbal" compset="SoGTalent" description="{b}Associated Skill{/b}: Profession (herbalist).\n\nYou gain the herbal lore and naturalist’s eye abilities." summary="Gain herbal lore and naturalist's eye." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="Package"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGAssocSk" tag="skProfHerb"/>
+    <tag group="SoGTalDesc" tag="HerbHerbal"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="SoGIsPkg" tag="Herbal"/>
+    <bootstrap thing="sogTlHerbalLore">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlHerbalLore</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlNaturalEye">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlNaturalEye</containerreq>
+      </bootstrap>
+    <eval phase="First" priority="1000">perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]</eval>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage">perform hero.childfound[sogTlSpHerbalism].setfocus
+     doneif (state.isfocus = 0)
+     perform focus.assign[SkLeverage.skProfHerb]</eval>
+    </thing>
+  <thing id="sogTlHerbRemedy" name="Remedy" compset="SoGTalent" description="{b}Associated Skill{/b}: Heal.\n\nYou gain the medical expertise and physician’s efficacy abilities." summary="Gain medical expertise and physician’s efficacy." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="Package"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGAssocSk" tag="skHeal"/>
+    <tag group="SoGTalDesc" tag="HerbRemedy"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="SoGIsPkg" tag="Remedy"/>
+    <bootstrap thing="sogTlMedicalExp">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlMedicalExp</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlPhysicianE">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlPhysicianE</containerreq>
+      </bootstrap>
+    <eval phase="First" priority="1000">perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skHeal]</eval>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage">perform hero.childfound[sogTlSpHerbalism].setfocus
+     doneif (state.isfocus = 0)
+     perform focus.assign[SkLeverage.skHeal]</eval>
+    </thing>
+  <thing id="somTlExpHerbPkg" name="Expanded Herbalist" compset="SoGTalent" description="You gain one Herbalism sphere package which you do not already possess. You unlock skill leverage with the package’s associated skill (in addition to the other benefits associated with gaining a new package)" summary="Gain a Herbalism package" uniqueness="useronce">
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <eval phase="PostAttr" priority="30000">hero.childfound[resSGPkHerbalism].field[resMax].value += 1</eval>
+    </thing>
+  <thing id="sogTlDoubleDose" name="Double Dose" compset="SoGTalent" description="As a swift action you may combine two herbs into a “double-dose”. A double-dose may not be used to create concoctions. A double-dose provides the benefits of both herbs when consumed. If a double-dose is made with two of the same herb, any numerical effects of the herb are increased by 1 + 1 per 4 ranks in the associated skill." summary="Gather all six types and double OAM." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <eval phase="Render" priority="400"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      foreach pick in hero from SoGTalent where "SoGSphere.Herbalism & SoGAssocSk.?"
+           ~ ignore ourselves
+           if (eachpick.intersect[thingid,thingid] = 0) then
+                perform eachpick.pulltags[SoGAssocSk.?]
+           endif
+      nexteach
+
+      var ranks as number
+      var searchexpr as string
+      searchexpr = replace(tagids[SoGAssocSk.?, " | "],"SoGAssocSk","thingid",0)
+      foreach pick in hero from BaseSkill where searchexpr
+           ranks = maximum(eachpick.field[skRanks].value,ranks)
+      nexteach
+
+      ~ numerical effects ... increased by 1 + 1 per 4 ranks in the associated skill.
+      field[abValue].value = 1 + round(ranks/4,0,-1)
+      field[abText].text = "+" & field[abValue].value]]></eval>
+    </thing>
+  <thing id="sogTlLargeBatch" name="Large Batch" compset="SoGTalent" description="You may gather an additional 3 types of herbs. In addition, you double your operative ability modifier when determining how many herbs you gather in a batch." summary="Gather all six types and double OAM.\n\nYou can take this talent multiple times–each time you do so, choose an additional 3 types of herbs.">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    </thing>
+  <thing id="sogDbHerbExpert" name="Herbology Expert" compset="SoGDrawbk" description="You lose the Naturalist's Eye approach. You gain the Double Dose talent." summary="Trade Naturalist's Eye for Double Dose." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SphOfGuil" tag="NoBnTalent"/>
+    <tag group="SoGBanTal" tag="sogTlNaturalEye"/>
+    <bootstrap thing="sogTlDoubleDose">
+      <autotag group="LvNamePar" tag="EncParenth"/>
+      </bootstrap>
+    <exprreq message="Remedy package required">#hasability[sogTlHerbRemedy] = 1</exprreq>
+    </thing>
+  <thing id="sogSpCommunicatio" name="Communication Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication" name="Communication"/>
+    </thing>
+  <thing id="resSGSECommunicat" name="Bonus Communication Talents" compset="Resource" panellink="tbSoGCommunication">
+    <fieldval field="resObject" value="Bonus Communication Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Communication"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Communication]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdCom" name="{align center}Communication" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpCommunicat" name="Communication Sphere" compset="SoGTalent" description="Operatives of the Communication sphere are skilled at clear speech, clever wordplay, persuasive rhetoric, and translation across all sorts of differences. They can easily understand other creatures despite language barriers. Others listen to the operative and weigh their words seriously.\n\n{b}Associated Skill{/b}: Diplomacy or Linguistics. Choose one to be the associated skill when you gain the sphere.\n\nYou gain the following benefits when you gain the Communication sphere.\n\nYou gain 5 ranks in that skill, plus 5 ranks per additional talent spent in the Communication sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the associated skill not from a skill sphere, you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with the Diplomacy and Linguistics skills.\n\n{b}Bonus Talent{/b}: You gain a bonus talent with the (rapport) tag, described below. It cannot be an exceptional talent. If you choose a [utility] talent as this bonus talent, you can take the base sphere as a [utility] talent.\n\nYou also gain the Build Rapport ability." summary="Gain access to the Communication Sphere" uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skDiplo | Reference.skLinguist)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere" name="Sphere access" abbrev="Sphere access"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="SkLeverage" tag="skDiplo"/>
+    <tag group="SkLeverage" tag="skLinguist"/>
+    <bootstrap thing="abSoGSkLeverage"></bootstrap>
+    <bootstrap thing="sogTlBetray">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlBetray</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlBuildRapport">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlBuildRapport</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogSpCommunicatio"></bootstrap>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    <eval phase="First" priority="1000" index="2"><![CDATA[~ grant a bonus (rapport) talent
+
+     ~ If taken as a utility talent (SoGTlClass.Utility), find a [utility] (rapport).
+     ~ Otherwise find a sphere-specific (rapport).
+     if (tagis[SoGTlClass.Utility] <> 0) then
+          perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGTlClass.Utility & SoGTalDesc.Rapport & !SoGSpTlSel.? & !SoGTlClass.ExcepTalent & !SoGTlClass.InitTalent"].setfocus
+     else
+          perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGBonTal.Communication & SoGTalDesc.Rapport & !SoGSpTlSel.? & !SoGTlClass.ExcepTalent & !SoGTlClass.InitTalent"].setfocus
+     endif
+     doneif (state.isfocus = 0)
+
+     perform focus.assign[SoGTlClass.InitTalent]]]></eval>
+    <evalrule phase="Final" priority="99999999999999" index="3" message="You must select a (rapport) talent with the bonus talent provided by the base Communication sphere"><![CDATA[@valid = 1
+
+     doneif (tagis[Helper.FirstCopy] = 0)
+
+     ~ find a rapport talent that hasn't been ...
+     if (tagis[SoGTlClass.Utility] <> 0) then
+          @message = "You must select a [utility] (rapport) talent with the bonus talent provided by the base Communication sphere"
+     endif
+     ~ our selection yet
+     perform hero.findchild[SoGTalent,"SoGSphere.Communication & (SoGTlClass.Utility | SoGBonTal.Communication) & SoGTalDesc.Rapport & !SoGSpTlSel.? & !SoGTlClass.ExcepTalent & SoGTlClass.InitTalent"].setfocus
+
+     doneif (state.isfocus = 0)
+
+     ~ if found, mark the talent as our selection and we're valid
+     perform focus.assign[SoGSpTlSel.sogSpCommunicatio]
+     @valid = 1]]></evalrule>
+    </thing>
+  <thing id="sogTlBuildRapport" name="Build Rapport" compset="SoGTalent" description="When you interact with a creature that is not hostile to you within 30 feet, you can choose to form a rapport with that creature as a standard action, or as a move action if you know one of the creature's motivations. You cannot form a rapport with a mindless creature. The rapport remains until 24 hours pass, you or the creature chooses to end the rapport as a swift action, or you form another rapport. You can form a rapport with multiple creatures at once if you know a motivation for each of them, up to a number of targets equal to your operative ability modifier.\n\nYou can always use gestures to communicate simple concepts to creatures you share a rapport with without using words just as easily as with words, regardless of whether you share a language. Communicating complex information this way requires a successful DC 25 Linguistics check; failing by 5 or more conveys inaccurate information rather than what the creature intended to share.\n\nEach creature that shares a rapport with you (including you) automatically succeeds at Bluff (or Linguistics) checks to send secret messages to each other, although they still attempt a skill check to determine if observers understand. They can use their Linguistics modifier in place of their Bluff modifier to pass the secret message at no penalty.\n\nYou can choose one or two (rapport) talents you have when you form a rapport and apply the effect to creatures sharing your rapport (including you). You can only choose two (rapport) talents to apply at once if one or both of them have the [utility] tag.\n\nIf you target a creature who already shares a rapport with someone else, you can join the existing rapport without counting against its maximum number of targets, and you can add one of your own (rapport) talents for all members to benefit from. You cannot add a talent the rapport already has. This replaces build rapport's usual effect.\n\n(Rapport) talents grant additional benefits to creatures you form a rapport with. You may only apply the effects of a single (rapport) talent when forming a rapport, or two talents if one of them has the [utility] tag. These talents provide a benefit to all creatures that share your rapport, which always includes you (unless noted otherwise)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <eval phase="Render" priority="400"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      field[abValue].value = field[tOM].value
+      field[abText].text =  "targets"]]></eval>
+    </thing>
+  <thing id="sogTlBetray" name="Betray" compset="SoGTalent" description="You can outwit allied NPCs, but only as part of taking a hostile action against them. If a creature believes you are an ally, you can outwit the creature by worsening their attitude (generally to hostile, though the GM might rule otherwise)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlBolstRapport" name="Bolstering Rapport" compset="SoGTalent" description="Creatures that share your {i}rapport{/i} understand each other well enough to share their willpower. Whenever a creature sharing your {i}rapport{/i} (including you) attempts a Will saving throw, another creature sharing the {i}rapport{/i} may spend an immediate action to attempt a skill check with the associated skill against the DC of the saving throw; if successful, the saving throw is attempted with a +2 morale bonus. This can be used after the result of the roll to change the outcome, and both allies must be able to see or hear each other to give an encouraging word, meaningful glance, or other sign of support.\n\nSimilarly, a creature sharing your {i}rapport{/i} can spend an immediate action when an enemy attempts an Intimidate check against another creature sharing your {i}rapport{/i} with to grant a +4 morale bonus to the DC of the check.\n\nThese benefits increase by 1 for every 6 ranks you possess in the sphere’s associated skill." uniqueness="useronce">
+    <comment> TODO add 1 for every 6 ranks to name</comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Rapport"/>
+    </thing>
+  <thing id="sogTlVeiledDialog" name="Veiled Dialogue" compset="SoGTalent" description="Any creature who shares your rapport can use your associated skill modifier to pass secret messages and takes no longer than speaking plainly to do so. In addition, all who share your rapport can communicate up to 25 words per round with just a look or a gesture, so that observers cannot tell they are communicating at all without succeeding at a Perception or Sense Motive check against DC 20 + your ranks in the sphere's associated skill. Among other things, this allows them to briefly discuss tactics during an encounter without alerting foes as long as they can see or touch each other." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Rapport"/>
+    </thing>
+  <thing id="sogTlInstLoophole" name="Instant Loophole" compset="SoGTalent" description="You can use the Linguistics skill to find a loophole (new skill use) in an effect targeting you or a creature that shares your rapport as an immediate action. If you successfully interrupt the effect beginning, you and everyone who can understand you can roll twice and use the higher result for their saving throw. (This counts as using find a loophole on that effect, so you cannot find a loophole in that effect again for 24 hours.)" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Rapport"/>
+    <bootstrap thing="stFindLoop"></bootstrap>
+    </thing>
+  <thing id="sogTlMentLoophole" name="Mental Loophole" compset="SoGTalent" description="You can use the Linguistics skill to find a loophole (new skill use) in any mind-affecting effect other than a curse. If the effect was language-dependent, the new save is attempted with a +4 insight bonus. You end the effect if the new saving throw succeeds. This is a harmless language-dependent, mind-affecting effect." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <bootstrap thing="stFindLoop"></bootstrap>
+    </thing>
+  <thing id="sogTlSkilledComm" name="Skilled Communicator" compset="SoGTalent" description="When you gain this talent, you gain Bluff, Diplomacy, or Linguistics as an additional associated skill for this sphere. You also unlock skill leverage with the skill if you have not already; if you have, you unlock skill leverage with another skill of your choice that you are trained in. (You cannot choose a skill already associated with the sphere.)\n\n{b}Note{/b}: A second chooser is presented to find a replacement skill to unlock Skill Leverage, if needed." summary="Gain Bluff, Diplomacy, or Linguistics as an additional associated skill." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Reference.skBluff | Reference.skDiplo | Reference.skLinguist)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <eval phase="PostLevel" priority="103" name="Assign an additional Associated Skill"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+
+      perform focus.assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
+    <eval phase="PostLevel" priority="2000" name="Change Skill Leverage"><![CDATA[      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
+
+      perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+
+      ~ This is kind of tricky. This and the class ability Ready for Violence have
+      ~ qualifiers to the general rule that duplicate Skill Leverage allows you to
+      ~ pick new skills.
+
+      ~ You also unlock skill leverage with the skill if you have not already;
+      ~ If you have, you unlock skill leverage with another skill of your choice
+      ~ that you are trained in.
+
+      ~ Check if we do or do not have Skill Leverage.
+      if (focus.tagcountstr["SkLeverage." & field[usrChosen1].chosen.idstring] = 0) then
+           perform focus.assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]
+      else
+           var ex as string
+           ex &= replace(focus.tagids[SkLeverage.?,":"],"SkLeverage.","",0)
+           ex = "!thingid." & replace(ex, ":", " & !thingid.", 0)
+           field[usrCandid2].text = "component.BaseSkill & Helper.HasRanks & (" & ex & ")"
+           perform assign[ChooseSrc2.Hero]
+
+           doneif (field[usrChosen2].ischosen = 0)
+
+           ~ The validation script will check if we have duplicates.
+           perform focus.assignstr["SkLeverage." & field[usrChosen2].chosen.idstring]
+      endif]]>
+      <after name="Assign initial Skill Leverage"/>
+      </eval>
+    <evalrule phase="Final" priority="2147483647" message="You cannot choose a skill already associated with the sphere."><![CDATA[     ~ enforce the rule:
+     ~ "You cannot choose a skill already associated with the sphere."
+     ~ To do so, count the associated skills on the sphere, look for matches.
+     foreach pick in hero from SoGTalent where "SoGSphere.Communication & SoGAssocSk.? & !" & tagids[thingid.?]
+          if (eachpick.intersect[SoGAssocSk,SoGAssocSk] = 1) then
+               @valid = 0
+               done
+          endif
+     nexteach
+     @valid = 1]]></evalrule>
+    <evalrule phase="Final" priority="2147483647" index="2" message="You must choose a skill without Skill Leverage to make into Skill Leverage."><![CDATA[     ~ enforce the rule that the skill must not already be a sill with Skill Leverage and you must have ranks.
+
+     ~ Valid if we don't have a second chooser.
+     validif (tagis[ChooseSrc2.Hero] = 0)
+
+     @valid = 0
+     doneif (field[usrChosen2].ischosen = 0)
+
+     perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGTlClass.GainSphere"].setfocus
+     doneif (state.isfocus = 0)
+
+     doneif (focus.tagcountstr["SkLeverage." & field[usrChosen2].chosen.idstring] > 1)
+     @valid = 1]]></evalrule>
+    </thing>
+  <thing id="sogTlBeastWhisp" name="Beast Whisperer" compset="SoGTalent" description="You can communicate and understand simple concepts with any animal, magical beast, or vermin that lacks a language. Its comprehension is limited by its Intelligence, but even a mindless creature can understand simple directions to food or warnings about danger. You take a –4 penalty on skill checks that would otherwise be impossible to attempt with the creature. You can use the associated skill in place of Handle Animal to push an animal. In addition, you unlock skill leverage with Handle Animal." summary="Communicate with animals, magical beasts, and vermin." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="Hide" tag="Activation"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage">perform hero.childfound[sogTlSpCommunicat].assign[SkLeverage.skHandleAn]</eval>
+    <eval phase="Render" priority="500"><![CDATA[      doneif (tagis[Helper.FirstCopy] = 0)
+      doneif (tagis[Helper.SpcDisable] <> 0)
+      var b as number
+
+      perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+
+      var searchexpr as string
+      searchexpr = replace(focus.tagids[SoGAssocSk.?, " | "],"SoGAssocSk","thingid",0)
+      foreach pick in hero from BaseSkill where searchexpr
+           b = maximum(eachpick.field[skTotal].value,b)
+      nexteach
+
+      ~ Best Associated Skill bonus skTotal - Handle Animal skTotal - 4
+      b = b - hero.childfound[skHandleAn].field[skTotal].value - 4
+
+      if (b > 0) then
+           #situational[hero.child[skHandleAn],"+" & b & " to communicate or push animal, magical beast, or vermin", field[name].text]
+      endif]]>
+      <after name="Skill Final"/>
+      </eval>
+    </thing>
+  <thing id="sogDbAggressive" name="Aggressive" compset="SoGDrawbk" description="You use Intimidate for the associated skill. You cannot communicate simple concepts or complex information with creatures you share a rapport with. Instead, you can use Intimidate to demand cooperation from any creature who shares your rapport or whose motivation you know as a full-round action without taking a penalty." summary="You can use Intimidate to demand cooperation from any creature who shares your rapport." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGSphere" tag="Communication"/>
+    <tag group="SphOfGuil" tag="NoBnTalent"/>
+    <tag group="SoGTlClass" tag="AltStart"/>
+    <tag group="SoGTlClass" tag="ReqRetrain"/>
+    <eval phase="PostLevel" priority="1000"><![CDATA[      perform hero.findchild[SoGTalent,"SoGSphere.Communication & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+      doneif (focus.field[usrChosen1].ischosen = 0)
+
+      ~ Delete the chosen
+      perform focus.deletestr["SoGAssocSk." & focus.field[usrChosen1].chosen.idstring]
+
+      ~ Remove the selection
+      perform focus.delete[ChooseSrc1.?]
+      focus.field[usrCandid1].text = ""
+
+      perform focus.assign[SoGAssocSk.skIntim]]]>
+      <after name="Assign initial Associated Skill"/>
+      </eval>
+    <eval phase="Render" priority="50000" index="2"><![CDATA[      doneif (tagis[SphOfGuil.DBBuyoff] = 1)
+     perform hero.childfound[sogTlBuildRapport].setfocus
+     if (state.isfocus = 1) then
+          focus.field[CustDesc].text = replace(focus.field[CustDesc].text, "You can always use gestures to communicate simple concepts to creatures you share a rapport with without using words just as easily as with words, regardless of whether you share a language. Communicating complex information this way requires a successful DC 25 Linguistics check; failing by 5 or more conveys inaccurate information rather than what the creature intended to share.","{b}You cannot communicate simple concepts or complex information with creatures you share a rapport with.{/b} Instead, you can use Intimidate to demand cooperation from any creature who shares your rapport or whose motivation you know as a full-round action without taking a penalty.",1)
+     endif]]></eval>
+    </thing>
+  <thing id="sogSpSubterfuge" name="Subterfuge Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge" name="Subterfuge"/>
+    </thing>
+  <thing id="resSGSESubterfuge" name="Bonus Subterfuge Talents" compset="Resource" panellink="tbSoGSubterfuge">
+    <fieldval field="resObject" value="Bonus Subterfuge Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Subterfuge"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Subterfuge]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdSub" name="{align center}Subterfuge" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpSubterfuge" name="Subterfuge Sphere" compset="SoGTalent" description="Operatives of the Subterfuge sphere train to avoid scrutiny and act unsuspected. They are unobtrusive when they need to be, moving with crowds and moving so subtly that their actions are unnoticed even when they are plainly seen. Even when noticed, Subterfuge masters can seem like they belong almost anywhere, drawing no attention even under an enemy's nose.\n\n{b}Associated Skill{/b}: Disguise.\n\nYou gain the following benefits when you gain the Subterfuge sphere.\n\nWhen you gain the Subterfuge sphere, you gain 5 ranks in Disguise, plus 5 ranks per additional talent spent in the Subterfuge sphere (maximum ranks equal to your Hit Dice). If you already have ranks in Disguise, you may immediately retrain them.\n\n{b}Skill Leverage{/b}: When you gain the Subterfuge sphere, you unlock skill leverage with the Disguise and Sleight of Hand skills.\n\nYou also acquire the Baffling Revelation, Confident Subtlety, and Fast Disguise abilities." summary="Gain access to the Subterfuge Sphere" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere" name="Sphere access" abbrev="Sphere access"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGAssocSk" tag="skDisguise"/>
+    <tag group="SkLeverage" tag="skDisguise"/>
+    <tag group="SkLeverage" tag="skSleight"/>
+    <bootstrap thing="sogSpSubterfuge"></bootstrap>
+    <bootstrap thing="sogTlBaffRevela">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlBaffRevela</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlConfSubtlety">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlConfSubtlety</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlFastDisguise">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlFastDisguise</containerreq>
+      </bootstrap>
+    </thing>
+  <thing id="sogTlFastDisguise" name="Fast Disguise" compset="SoGTalent" description="You can don a disguise as a full-round action, including using a disguise kit and changing your clothing and accessories. You can don or doff worn magic items and shields this way. If you don a disguise that features delicate details or you attempt to impersonate a specific individual, you take a -5 penalty to your Disguise check if you took less than 1d4+1 rounds. Changing your physical features requires spending 1 use from a disguise kit, but changing your clothes does not. If you have any (disguise) talents, you can apply one as part of creating this disguise. While you wear a disguise you created, the physical reminder of the disguise helps you reflexively act in character, giving you a +2 circumstance bonus on Bluff and Disguise checks as long as they do not conflict with the disguise you wear. For example, you could not use the bonus to attempt a Disguise check to make a voice different from the person you are disguised as. The bonus increases by 1 per 5 ranks in Disguise you possess.\n\n{b}Associated Feat:{/b} Deceitful." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="HasFeat" tag="fDeceit"/>
+    </thing>
+  <thing id="sogTlBaffRevela" name="Baffling Revelation" compset="SoGTalent" description="You can outwit any creature as long as they are fooled by your current disguise, you possess an item they believed they possessed, or you know a secret they consider important and well-kept. To outwit them using this ability, you must brandish the item they thought they had, you must reveal the secret, or you must take an action your target believed you would not or could not take because of your successful disguise (such as casting a spell when they believed you were a barbarian with a taboo against magic). Revealing a secret or your disguised nature can be verbal or visual, as appropriate. Creatures must generally be within 30 feet for you to outwit them verbally, but they can be up to 60 feet away if you reveal your ruse visually. Anyone who discovers you are disguised this way does not necessarily discover who you are. Once an item or secret is used to outwit a creature, that item or secret cannot be used by anyone to outwit that creature again. Revealing you are disguised to one creature usually reveals it to everyone within range, preventing you from outwitting them separately that way." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlConfSubtlety" name="Confident Subtlety" compset="SoGTalent" description="Adopting this approach is a swift action. While you maintain this approach, you reduce the penalty for making a Sleight of Hand check as a move action or for not making a subtle action longer by 6." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Approach"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlEffTheft" name="Effortless Theft" compset="SoGTalent" description="You can stow up to two held objects, each with a different hand, as a swift action. You can attempt one Sleight of Hand check either to lift an object or hide an object on your person as part of a move, standard, or full-round action to move, or as part of a standard or longer action to attempt a Bluff, Diplomacy, or Intimidate check." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    </thing>
+  <thing id="sogTlConfRanks" name="Confusion In The Ranks" compset="SoGTalent" description="You are skilled at exploiting the routines and casual interactions within organizations and social groups. You disguise yourself as a generic member of a group (not a specific individual). You can take 10 on Disguise checks even in combat while you can see someone of the appropriate status (such as a guard in a specific place, mercenary of a specific company, or officer of a specific rank in a specific organization).\n\nWhile you wear the disguise created by this talent, you can always take 10 on Bluff checks to convince people you belong to your apparent group and can attempt such a lie as a move or swift action even in combat. Even if a creature is not fooled by your disguise, if you are disguised as a member of its group or an allied group, you can use your Disguise modifier in place of your Acrobatics modifier to avoid attacks of opportunity from it." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Disguise"/>
+    </thing>
+  <thing id="sogTlDrabOutfit" name="Drab Outfit" compset="SoGTalent" description="You tailor your disguise to blend into an environment without being obviously nefarious in function. Your drab outfit might make you look like a farmer, servant, hunter, beggar, or other person expected to dress in a plain manner. Choose an environment when you create the disguise from the list of ranger's favored terrain. In that environment, you get a +4 circumstance bonus to your Stealth checks from your camouflage. If anyone uses a skill to assess your proficiency, you can use your Disguise modifier in place of your Bluff modifier to make them underestimate you.\n\nAnyone who observes or interacts with you recalls only a vague impression of the event afterward unless they succeeded at a Perception check against your Disguise check. If you are very distinctive, such as matching the description of a fugitive or if you are the only humanoid in the area, their Perception check is attempted with a +5 bonus. On a failed check, the observer recalls no more detail than your size category and rough body shape (such as humanoid) and the approximate topic of conversation. This disguise has no effect on the memory of anyone who observes you do something alarming such as attacking or stealing. Your disguise imposes a -2 penalty on Diplomacy, Intimidate, and Perform skill checks." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Disguise"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    </thing>
+  <thing id="sogTlUnrecManner" name="Unrecognizable Mannerisms" compset="SoGTalent" description="As a free action or as part of speaking, you can mimic any sound or voice you have heard. No magical or special effects of the sound are produced by your mimicry. Observers get an opposed Perception check to notice your fakery as normal, but you attempt a new Disguise check each time you mimic a different creature or sound. You get a +5 competence bonus on your Disguise check for these sounds; this bonus does not stack with that from polymorph effects or auditory illusions.\n\nAs a swift action, you can alter your voice and mannerisms so completely that others might not recognize you even if you are not visually disguised. This allows you to attempt a Disguise check to prevent others from recognizing you even though you have not changed your clothing or face. You cannot pass for someone specific who does not already closely resemble you and you cannot change your (disguise) talent this way." summary="Gain a mockingbird like ability." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <eval phase="First" priority="1000"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      perform hero.child[skDisguise].setfocus
+      var bon as number
+      bon = maximum(5 - focus.field[BonComp].value, 0)
+      #situational[focus, "+" & bon & " to interact with a creature that is aware of you.", field[thingname].text]]]></eval>
+    </thing>
+  <thing id="sogDbDeft" name="Deft" compset="SoGDrawbk" description="You use Sleight of Hand (instead of Disguise) as the associated skill for this sphere. You lose the fast disguise ability and cannot gain (disguise) talents; you gain the Effortless Theft talent instead." summary="You can use Sleight of Hand adeptly." uniqueness="useronce">
+    <comment>
+     Counting Bonus Talents
+	  If a base sphere or drawback grants an additional talent
+	  (such as via a package selection or alternate start), the
+	  additional talents do not count as talents spent for rules
+	  that count the number of talents spent in a sphere. (This
+	  most often applies to gaining skill ranks.)
+
+SoGBanDesc.Disguise warns you the talent is banned in the pick view.
+</comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGSphere" tag="Subterfuge"/>
+    <tag group="SphOfGuil" tag="NoBnTalent"/>
+    <tag group="SoGTlClass" tag="UtilStart"/>
+    <tag group="SoGBanDesc" tag="Disguise"/>
+    <tag group="SoGTlClass" tag="AltStart"/>
+    <tag group="SoGBanTal" tag="sogTlFastDisguise"/>
+    <bootstrap thing="sogTlEffTheft">
+      <autotag group="SphOfGuil" tag="NoBnTalent"/>
+      </bootstrap>
+    <eval phase="First" priority="1000"><![CDATA[~ This change is kept after a buy off.
+      perform hero.findchild[SoGTalent,"SoGSphere.Subterfuge & SoGTlClass.GainSphere"].setfocus
+      doneif (state.isfocus = 0)
+
+      ~ Delete the default
+      perform focus.delete[SoGAssocSk.skDisguise]
+
+      perform focus.assign[SoGAssocSk.skSleight]]]>
+      <after name="Assign initial Associated Skill"/>
+      </eval>
+    </thing>
+  <thing id="sogSpInvestigatio" name="Investigation Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Investigation" name="Investigation"/>
+    </thing>
+  <thing id="resSGSEInvestigat" name="Bonus Investigation Talents" compset="Resource" panellink="tbSoGInvestigation">
+    <fieldval field="resObject" value="Bonus Investigation Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Investigation"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Investigation]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdInv" name="{align center}Investigation" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpInvestigat" name="Investigation Sphere" compset="SoGTalent" description="Operatives of the Investigation sphere are trained to pick up subtle and esoteric details about the world around them. They can glean information from the tiniest clues.\n\n{b}Associated Skill{/b}: Sense Motive.\n\nYou gain the following benefits when you gain the Investigation sphere:\n\nYou gain 5 ranks in Sense Motive, plus 5 ranks per additional talent spent in the Investigation sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the associated skill not from a skill sphere, you may immediately retrain them. You do not gain excess ranks until you are a high enough level to put them in the associated skill; they cannot be spent on other skills. You do not gain or retrain ranks when you temporarily gain a talent.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with the Perception and Sense Motive skills.\n\nYou also acquire the Analyze and Scrutinize abilities." summary="Gain access to the Investigation Sphere" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere" name="Sphere access" abbrev="Sphere access"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGAssocSk" tag="skSenseMot"/>
+    <tag group="SkLeverage" tag="skPercep"/>
+    <tag group="SkLeverage" tag="skSenseMot"/>
+    <bootstrap thing="sogSpInvestigatio"></bootstrap>
+    <bootstrap thing="sogTlAnalyze">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlAnalyze</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlEducHunch">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlEducHunch</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlRevealEvi">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlRevealEvi</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlScrutinize">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlScrutinize</containerreq>
+      </bootstrap>
+    </thing>
+  <thing id="sogTlAnalyze" name="Analyze" compset="SoGTalent" description="As a swift action, you can analyze a creature, object, or area that you can see within close range, choosing an (analyze) talent and attempting a skill check using any of the talent's analyze skills against a DC (or opposed check) as listed within the talent. If you succeed, you gain a simple analysis from the target, whereas if you fail, you gain a flawed analysis. A flawed analysis yields similar information to a simple analysis, but fundamentally flawed -- it might be inconsistent, mostly false with a hint of truth, or an exaggeration or understatement.\n\nYou can instead use analyze as a standard action to attempt to gain more information than a simple analysis. If you exceed the analyze DC by the listed amount, you can spend 1 use of skill leverage or outwit them as a cost to gain a detailed analysis instead of a simple analysis.\n\nOnce you attempt to use a specific (analyze) talent against a target or subject, you cannot do so again for 30 minutes. You cannot attempt to retry an analyze attempt against the same topic or detail (just like the Sense Motive skill). The GM may alter a talent's analyze skill or DC depending on the situation, such as a skill not being applicable or disadvantageous circumstances (such as distance or environment).\n\nYou gain the Educated Hunch (analyze) talent when you gain the Investigation sphere.\n\n{b}Special{/b}: If you have been blinded for long enough to overcome some of the condition's drawbacks, you also gain Auditory Analysis as a bonus talent." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlScrutinize" name="Scrutinize" compset="SoGTalent" description="You may adopt this approach as a swift action, designating either a 10-foot square or a single creature or object that you can see to scrutinize. You gain a +2 insight bonus to Perception and Sense Motive checks attempted against the scrutinized target (or actions taken within the area), increasing by 1 per 5 ranks in the associated skill you possess.\n\nAdditionally, if you scrutinize a target for at least 3 consecutive rounds, you also treat any roll of a 4 or lower on such checks as if you had rolled a 5 instead.\n\nIf you can no longer see the designated target or area, you abandon the approach." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="SoGTalDesc" tag="Approach"/>
+    </thing>
+  <thing id="sogTlEducHunch" name="Educated Hunch (analyze)" compset="SoGTalent" description="{b}Analyze Skills{/b}: Sense Motive;\n{b}Analyze DC{/b}: 20\n\nYou analyze a 30-foot cube area centered within range, gaining a vague feeling or impression from something within the area. You must dictate the subject of your analysis, but it can be a place, person, group, or situation. The GM is the final arbiter as to what is a suitable target.\n\n{b}Simple{/b}: You gain a hunch about your subject, learning whether something feels off or wrong about them, otherwise functioning as the get a hunch Sense Motive skill use. Generally, something `feeling off` could vary greatly, such as an individual being disguised or having bad intentions, an object of great power (regardless of its functions), or even a close friend who is nervous or keeping a recently told secret. You do not learn why the subject is suspicious--only whether it is or not.\n\n{b}Detailed (+5 DC){/b}: As a simple analysis, but you gain either a `good`, `bad`, `good and bad` or `neutral` impression. The definition of what is a `good` or `bad` impression should be left up to the GM, but should generally be associated with your own motivations and ideals. For example, a disguised guard and a disguised assassin using this talent on one another would both gain a `bad` impression." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Analyze"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    <tag group="SkillNeeded" tag="skSenseMot"/>
+    </thing>
+  <thing id="sogTlRevealEvi" name="Reveal Evidence" compset="SoGTalent" description="You can outwit an opponent by sharing evidence of one of their secrets. Suitable secrets include private motivations and anything they don’t want widely known. You must not have shared evidence of that secret with them before." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlInferConnect" name="Infer Connection" compset="SoGTalent" description="Analyze Skills: Diplomacy or Sense Motive;\nAnalyze DC: 10 + the target's Diplomacy, Bluff, or Will save modifier (whichever is higher).\n\nYou analyze the target's attitude and association towards either a specific creature, a group of similar creatures, or an organization that they are interacting with, discerning their social standing within society." summary="You analyze the target's attitude and association towards either a specific creature, a group of similar creatures, or an organization that they are interacting with, discerning their social standing within society." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Analyze"/>
+    <tag group="SkillNeeded" tag="skDiplo"/>
+    <tag group="SkillNeeded" tag="skSenseMot"/>
+    </thing>
+  <thing id="sogDbUnorthodoxMe" name="Unorthodox Methods" compset="SoGDrawbk" description="You do not commonly use deduction and awareness to discern information, opting for more specific approaches.\n\nWhen using your analyze ability, you cannot use Perception or Sense Motive as an analyze skill. If the talent does not have any alternative skills, you may not use the talent.\n\nYou gain an (analyze) talent that has an analyze skill other than Perception or Sense Motive. Choose one of those other analyze skills; that skill is your associated skill for the Investigation sphere." summary="You do not commonly use deduction and awareness to discern information, opting for more specific approaches." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.SoGTalent &amp; SoGSphere.Investigation &amp; SoGTalDesc.Analyze"/>
+    <fieldval field="usrCandid2" value="component.BaseSkill"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGSphere" tag="Investigation"/>
+    <tag group="SoGTlClass" tag="AltStart"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Hide" tag="Activation"/>
+    <tag group="User" tag="NoAutoName"/>
+    <eval phase="First" name="Disable analyze talents invalid with Unorthodox Methods."><![CDATA[     ~ do nothing if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+
+~ TODO Is there a way to use a SoGTalDesc.Unorthodox tag to make this easier?
+
+     var candid1 as string
+     var candid2 as string
+     foreach pick in hero from SoGTalent where "SoGSphere.Investigation & SoGTalDesc.Analyze & (SkillNeeded.skPercep | SkillNeeded.skSenseMot)"
+          if ((eachpick.tagis[SkillNeeded.skPercep] + eachpick.tagis[SkillNeeded.skSenseMot]) > 0) then
+               if (tagis[SphOfGuil.DBBuyoff] = 0) then
+                    perform eachpick.delete[SkillNeeded.skPercep]
+                    perform eachpick.delete[SkillNeeded.skSenseMot]
+               endif
+          endif
+          if (eachpick.tagcount[SkillNeeded.?] = 0) then
+               if (tagis[SphOfGuil.DBBuyoff] = 0) then
+                    perform eachpick.assign[Helper.SpcDisable]
+                    perform eachpick.assign[Hide.All]
+                    perform eachpick.assign[Hide.Activation]
+                    perform eachpick.assign[Hide.Tracker]
+                    perform eachpick.delete[User.Activation]
+                    perform eachpick.delete[User.Tracker]
+               endif
+          elseif (eachpick.tagis[Helper.SpcDisable] = 0) then
+               if (tagis[SphOfGuil.DBBuyoff] = 0) then
+                    eachpick.field[DescAppend].text &= "{br}You may not use Perception or Sense Motive with this talent."
+               endif
+               if (empty(candid1) = 0) then
+                    candid1 &= "|"
+               endif
+               candid1 &= "thingid." & eachpick.idstring
+               if (empty(candid2) = 0) then
+                    candid2 &= "|"
+               endif
+               candid2 &= replace(eachpick.tagids[SkillNeeded.?,"|"],"SkillNeeded","Reference",0)
+          endif
+     nexteach
+
+     if (empty(candid1) = 0) then
+          field[usrCandid1].text = candid1
+     endif
+     if (empty(candid2) = 0) then
+          field[usrCandid2].text = candid2
+     endif]]></eval>
+    <eval phase="PostLevel" priority="1000"><![CDATA[      perform hero.findchild[SoGTalent,"SoGSphere.Investigation & SoGTlClass.GainSphere"].setfocus
+
+      doneif (state.isfocus = 0)
+      doneif (field[usrChosen1].ischosen = 0)
+      doneif (field[usrChosen2].ischosen = 0)
+
+      ~ Delete the default
+      doneif (focus.tagis[SoGAssocSk.skSenseMot] = 0)
+      perform focus.delete[SoGAssocSk.skSenseMot]
+
+      perform focus.assignstr["SoGAssocSk." & field[usrChosen2].chosen.idstring]]]>
+      <before name="Set Sphere Effective Level"/>
+      <before name="Apply free ranks for associated skills SoG"/>
+      <after name="Assign initial Associated Skill"/>
+      </eval>
+    <evalrule phase="Final" priority="2147483647" message="You have invalid choices. "><![CDATA[     ~ You must add an (analyze) talent that has an analyze skill other than Perception or Sense Motive.
+
+     ~ Ignore if disabled
+     validif (tagis[Helper.SpcDisable] <> 0)
+
+     @valid = 1
+     if (field[usrChosen1].ischosen = 0) then
+          @valid = 0
+          @message &= "You must choose an (analyze) talent. "
+     elseif (field[usrChosen2].ischosen = 0) then
+          @valid = 0
+          @message &= "You must choose a skill needed for the talent. "
+     elseif (field[usrChosen1].chosen.tagids[SkillNeeded.?,"|"] = 0) then
+          @valid = 0
+          @message &= "The talent must need a skill other than Perception or Sense Motive. "
+     elseif (field[usrChosen1].chosen.tagis[SoGTalDesc.Analyze] = 0) then
+          @valid = 0
+          @message &= "The talent must be an (analyze) talent. "
+     endif
+
+     perform field[usrChosen2].chosen.setfocus
+     if (state.isfocus = 0) then
+          @valid = 0
+          @message &= "The skill must be one chosen on the hero. "
+     endif
+     perform field[usrChosen1].chosen.setfocus
+     if (state.isfocus = 0) then
+          @valid = 0
+          @message &= "The talent must be one chosen on the hero. "
+     else
+          ~ Pull SkillNeeded from chosen to Unorthodox Methods
+          perform focus.pulltags[SkillNeeded.?]
+          ~ Switch to the skill
+          perform field[usrChosen2].chosen.setfocus
+     
+          if (focus.intersect[Reference,SkillNeeded] = 0) then
+               @valid = 0
+               @message &= "The skill must be an option on the talent. "
+          else
+               ~ if found, mark as our selection and we're valid
+               perform focus.pushtags[SoGDbTlSel.?]
+               @valid = 1
+               done
+          endif
+     endif]]></evalrule>
+    </thing>
+  <thing id="sogSpInfiltration" name="Infiltration Sphere" compset="SoGSphere" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Infiltration" name="Infiltration"/>
+    </thing>
+  <thing id="resSGSEInfiltrati" name="Bonus Infiltration Talents" compset="Resource" panellink="tbSoGInfiltration">
+    <fieldval field="resObject" value="Bonus Infiltration Talents"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGBonTal" tag="Infiltration"/>
+    <tag group="SoGSphere" tag="Infiltration"/>
+    <eval phase="Final">~ Add bonus talents
+        field[resMax].value += hero.tagcount[SoGBonTal.Infiltration]</eval>
+    <eval phase="Final" priority="999999999999" index="2"><![CDATA[
+        ~ If we have any bonus talents, show the sphere tab
+        if (field[resMax].value > 0) then
+          perform pulltags[SoGBonTal.?,SoGSphTab]
+          perform hero.pushtags[SoGSphTab.?]
+        endif]]></eval>
+    </thing>
+  <thing id="sogTlHdInf" name="{align center}Infiltration" compset="SoGTalent" isshowonly="yes">
+    <tag group="SoGSphere" tag="Infiltration"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    </thing>
+  <thing id="sogTlSpInfiltrati" name="Infiltration Sphere" compset="SoGTalent" description="Operatives of the Infiltration sphere train to avoid scrutiny, move stealthily, and outsmart traps that stand in their way. They are silent and unobtrusive when they need to be, blending into shadows and moving where no eyes will see.\n\n{b}Associated Skill{/b}: Disable Device.\n\nYou gain the following benefits when you gain the Infiltration sphere.\n\nWhen you gain the Infiltration sphere, you gain 5 ranks in Disable Device, plus 5 ranks per additional talent spent in the Infiltration sphere (maximum ranks equal to your Hit Dice). If you already have ranks in Disable Device, you may immediately retrain them.\n\n{b}Skill Leverage{/b}: When you gain the Infiltration sphere, you unlock skill leverage with Disable Device and Stealth.\n\nYou also acquire the Fast Sabotage and Light Step abilities." summary="Gain access to the Infiltration Sphere" uniqueness="useronce">
+    <comment>TODO Need to add Startle talent.</comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere" name="Sphere access" abbrev="Sphere access"/>
+    <tag group="SoGSphere" tag="Infiltration"/>
+    <tag group="Helper" tag="AlwaysAvl" name="AlwaysAvl" abbrev="AlwaysAvl"/>
+    <tag group="SoGAssocSk" tag="skDisable"/>
+    <tag group="SkLeverage" tag="skDisable"/>
+    <tag group="SkLeverage" tag="skStealth"/>
+    <bootstrap thing="sogSpInfiltration"></bootstrap>
+    <bootstrap thing="sogTlFastSabotage">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlFastSabotage</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlLightStep">
+      <containerreq phase="First" priority="500">!SoGBanTal.sogTlLightStep</containerreq>
+      </bootstrap>
+    </thing>
+  <thing id="sogTlFastSabotage" name="Fast Sabotage" compset="SoGTalent" description="You can attempt Disable Device on any item that would normally require up to 2d4 rounds in a single standard action (without a penalty for work ing quickly). You can perform disastrous sabotage (new skill use) in 1d4 rounds (without a penalty for working quickly). If the sabotage allows a saving throw, it is against your sphere DC if that is higher than the usual DC. If the sabotage allows a skill check, the DC is 15 + 150% your ranks in Disable Device + your operative ability modifier. Instead of a common Disable Device sabotage effect, you can apply the effect of a suitable (sabotage) talent to the device, but you cannot apply a talent faster by accepting a Disable Device penalty (as you can with disastrous sabotage).\n\nYou can apply the sabotage effect immediately or choose for it to take effect when triggered. Typical triggers are when it is used a certain number of times (for items like weapons) or after a certain total number of minutes of use (for items like tools or vehicles). You can also make the trigger contingent on specific, physically distinct modes of use. For example, you might make sabotage to armor trigger when the wearer attempts two skill checks to move or sabotage to a lock trigger upon becoming specifically locked or specifically unlocked. When sabotage is triggered by an action or the use of the item, it takes effect during the triggering use (which might penalize or waste that action). If a (sabotage) talent's effect goes unused for more than 1 day, it triggers.\n\nUntil it becomes relevant, the sabotage can generally only be noticed with an active Perception check opposed to your Disable Device result. (Sabotage that has not been triggered yet is never relevant.) Most sabotage that has not yet triggered can be removed without triggering it with a successful opposed Craft check using a suitable skill for the item or with an opposed Disable Device check at a -5 penalty. If a creature attempts to remove sabotage that has not triggered yet and fails by 5 or more, the sabotage triggers immediately.\n\nEach sabotage indicates how it can be ended; if it requires an opposed skill check to end, use either Disable Device at a penalty or Craft unless noted otherwise.\n\nThe standard action allowed by this ability is fast enough to sabotage an item held or carried by a creature with a successful dirty trick combat maneuver check (a new Disable Device skill use on page 44). Sabotaging an item a creature wears or carries is not a hostile action for magical effects like invisibility if you give the sabotage a trigger (rather than applying the effect immediately)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Infiltration"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlLightStep" name="Light Step" compset="SoGTalent" description="You adopt this approach as a swift action while you are using Stealth. You reduce by 5 the penalty to Stealth for moving up to your full speed, for skulking in the open (page 72), as part of creating a diversion to hide, or for relying on positional concealment (page 15). The penalty is reduced by the number of ranks in Stealth you possess instead if that is higher. You abandon the approach when you break Stealth." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Infiltration"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="InitTalent"/>
+    </thing>
+  <thing id="sogTlSkilledSneak" name="Skilled Sneak" compset="SoGTalent" description="You gain Stealth as an additional associated skill for this sphere (gaining ranks normally)." summary="Gain Stealth as an additional associated skill." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Infiltration"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <eval phase="First" priority="103">perform hero.childfound[sogTlSpInfiltrati].assign[SoGAssocSk.skStealth]</eval>
+    </thing>
+  <thing id="cVigSkilledSoc" name="Skilled Socialite" compset="CustomSpec" description="A vigilante can select a [utility] talent in place of a social talent. He may select this social talent multiple times.\n\nAuthor Note: Its intended to be able to take any utility talent from other spheres if using the variant rule [LotS Utility Talents in Non-Skill Spheres]." summary="Select a [utility] talent in place of a social talent.">
+    <comment>Hydronz's (the author) clarified how this works on Discord: https://discord.com/channels/533773201549819925/533774611415040010/1317126790048776262</comment>
+    <fieldval field="usrCandid1" value="component.DDSTalent &amp; (SoGTalDesc.Utility | SoGTlClass.Expanded)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpVig" name="Vigilante" abbrev="Vigilante"/>
+    <tag group="abAction" tag="None" name="No action" abbrev="None"/>
+    <tag group="abCategory" tag="VigSocTal" name="Vigilante Social Talent" abbrev="Vigilante Social Talent"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="Secondary" name="Secondary" abbrev="Secondary"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="User" tag="NoAutoName"/>
+    <eval phase="First" name="Add a Skilled Socialite Utility Talent"><![CDATA[~ Add one [utility] talent.
+     doneif (tagis[Helper.SpcDisable] <> 0)
+
+     debug "🛠 Adding one [utility] talent from Skilled Socialite."
+     hero.findchild[Resource, "thingid.resSGUtilTal"].field[resMax].value += 1
+
+     doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
+
+     ~ Also add here if enabled.
+     debug "🛠 Adding one Expanded [utility] talent from Skilled Socialite."
+     hero.findchild[Resource, "thingid.resSGExUtilTal"].field[resMax].value += 1]]>
+     <before name="Increment talents spent if applicable"/>
+     <before name="Increment talents spent if applicable SoG"/>
+     </eval>
+    <eval phase="First" name="Disable the utility talent if not in social persona."><![CDATA[     ~ do nothing if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+
+     ~ done if nothing chosen
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.findchild[Ability,"Ability.cVigIDHelp & !Helper.SpcDisable"].setfocus
+     doneif (state.isfocus = 0)
+
+     ~ done if in Social persona.
+     doneif (focus.field[usrIndex].value = 0) 
+
+     perform field[usrChosen1].chosen.setfocus
+     doneif (state.isfocus = 0)
+
+     perform focus.assign[Helper.SpcDisable]]]></eval>
+    <evalrule phase="Final" priority="99999999999999" message="You must select a [utility] talent with the bonus talent provided by the Skilled Socialite.\n\nWhen the optional rule {b}Utility Talents in Non-Skill Spheres{/b} is enabled, this enables Expaneded Utility Talents.">~ confirm our selection is a [utility] talent
+     @valid = 0
+     doneif (field[usrChosen1].ischosen = 0)
+     doneif (field[usrChosen1].chosen.tagis[SoGTalDesc.Utility] + field[usrChosen1].chosen.tagis[TalentDesc.Utility] = 0)
+
+     @valid = 1</evalrule>
+    </thing>
+  <thing id="sogTlUtilStart" name="Utility Start" compset="SoGTalent" description="This meta talent supports several different ways of taking a skill sphere as a [utility] talent. Most skill spheres cannot otherwise be gained in place of utility talents.\n\nThe following options are available:\n●{nbsp}You can take a drawback with the [utility start] tag to gain the base sphere with a [utility] talent.\n\n{indent 0}Unlike in Spheres of Power and Spheres of Might, drawbacks in Spheres of Guile are not specifically part of a trade tradition, and are therefore included on the sphere pages.\n\nTo use this feature, take this meta talent in the Utility Talents list and one of the following base spheres in Skill Sphere Talents list:\n{indent 30}Artifice, Bluster, BodyControl, Communication, Navigation, Subterfuge\n{indent 0}Then choose a Utility Start drawback on the sphere's tab or a compatible [utility] talent in the Utility Talents.\n\nTODO: This does not work yet, it is a skeleton. It may be better to build directly into the drawbacks similar to how this is supported Vocation and Communication." summary="Gain a base sphere as a [utility] talent.">
+    <comment><![CDATA[Need to make these:
+Artifice - Careful Engineer [utility start]
+		You cannot create trinkets (nor can you benefit
+		from talents that augment them) and you lose the
+		function granted by your chosen package. You gain
+		the Artificer's Eye or Favorite Tools talent, in
+		addition to a (flourish) talent of your choice.
+		Special: This drawback can be taken as a [utility
+		start] if the chosen (flourish) talent is a utility
+		talent.
+Bluster -  Boundless Wit [utility start]
+		You find countless openings to practice your wits. You gain the
+		Verbal Trap talent and do not gain the quip ability.
+	- Deadly Presence [utility start]
+		You prefer to have a threatening or imposing aura about you,
+		instead of a glare. You do not gain the quip ability, and gain the
+		Nebulous Threat talent.
+Body Control - Thermoregulation [utility start]
+		You do not gain the Maintain Stamina (control)
+		talent. You gain the Regulate Heat talent instead.
+Navigation - Cartographer [utility start]
+		You prefer the art of mapping the world, rather than surviving
+		and navigating it. You lose the acclimate and pathing abilities,
+		and gain either the Cartographer's Knack or Lay Of The Land talent.
+            - Heedless Advance [utility start]
+		Your desire to navigate is built on a boundless passion for
+		exploration more than an understanding of your environment. You
+		lose the acclimate and pathing abilities, and gain either the
+		Fleet Movement or Triumphant Arrival talent.
+Spellhacking - Destabilized Focus
+		Through a damaged implement, unstable source of
+		magic, or some other source of instability, you
+		have adapted to using these mishaps to your advantage.
+		You do not gain the hack magic ability (or a (hack)
+		talent of your choice), and gain a (mishap) talent
+		of your choice instead. If you choose a [utility]
+		(mishap) talent, the base sphere gains the [utility]
+		tag.
+              - Stable Instrument
+		You do not gain the control mishap ability, and
+		gain the Steady Hacker talent instead. If you choose
+		a [utility] talent as your free (hack) talent, the
+		base sphere gains the [utility] tag.
+    component.SoGTalent & SoGSphere.GainSphere & SoGTlClass.UtilStart]]></comment>
+    <fieldval field="usrCandid1" value="component.SoGTalent &amp; SoGTlClass.GainSphere &amp; SoGTlClass.UtilStart"/>
+    <fieldval field="usrCandid2" value="component.SoGDrawbk &amp; SoGTlClass.UtilStart"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGTlClass" tag="GainSphere"/>
+    <tag group="SoGTlClass" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="ChooseSrc2" tag="Hero"/>
+    <tag group="User" tag="NoAutoName"/>
+    <eval phase="PostLevel" priority="1000" name="Utility Start increase resMax"><![CDATA[doneif (tagis[Helper.SpcDisable] = 1)
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform field[usrChosen1].chosen.setfocus
+     doneif (state.isfocus = 0)
+
+     ~ Since we are starting via the Utility Start feature, this [utility] talent
+     ~     costs a [utility] talent. In exchange, we grant 1 Skill Sphere talent
+     ~     you may use for the base sphere. You must also take a drawback with
+     ~     [utility start]. Select those with the two choosers.
+     perform hero.findchild[Resource, "thingid.resSGSSGen"].setfocus
+
+     doneif (state.isfocus = 0)
+
+     ~ Increase our available generic skills.
+     focus.field[resMax].value += 1
+     debug "💸 " & this.field[name].text & "(" & this.uniqindex & ") on resource resSGSSGen +1 resMax 2234"
+     ]]></eval>
+    <evalrule phase="Final" priority="2147483647" message="You must choose a Utility Start drawback."><![CDATA[doneif (tagis[Helper.SpcDisable] = 1)
+     doneif (field[usrChosen1].ischosen = 0)
+
+     @valid = 0
+
+     if (field[usrChosen2].ischosen <> 0) then
+          ~ We have a second choice chosen, check if it is a UtilStart
+          if (field[usrChosen2].chosen.tagis[SoGTlClass.UtilStart] <> 0) then
+               @valid = 1
+          endif
+      endif]]></evalrule>
+    </thing>
+  <thing id="sogTlBuyof" name="- Buyoff Drawback -" compset="SoGTalent" description="Select this option to mark one of your drawbacks as being bought off. The drawback will remain on your character but will no longer function." summary="Select a drawback to buy off.">
+    <fieldval field="usrCandid1" value="component.SoGDrawbk &amp; !SoGTlClass.ReqRetrain"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="SphOfGuil" tag="CustTalent"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <eval phase="First" priority="50">doneif (field[usrChosen1].ischosen = 0)
+
+      perform field[usrChosen1].chosen.assign[Helper.SpecUp]
+      perform field[usrChosen1].chosen.assign[SphOfGuil.DBBuyoff]
+      perform field[usrChosen1].chosen.delete[Helper.ShowSpec]</eval>
+    </thing>
+  </document>

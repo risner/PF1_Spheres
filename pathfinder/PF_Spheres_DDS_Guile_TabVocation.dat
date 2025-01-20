@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGVocation" style="lblTitle">
+    <label text="Vocation Sphere"/>
+    </portal>
+  <portal id="pSoGTradeSkillCnt" style="lblLeftNormal">
+    <label text="Trade Skills">
+      <labeltext><![CDATA[
+      ~ A Trade Tradition is required for Skill Replacements.
+      if (hero.tagis[SphOfGuil.Trade] = 0) then
+           @text = "Select a Trade Tradition"
+      else
+           @text = "Skill Replacements: " & hero.childfound[resSGTrSkCnt].field[resSummary].text
+      endif
+      ]]></labeltext>
+      </label>
+    </portal>
+  <!--
+	May need !SoGTalDesc.Trade to force Trade talents elsewhere.
+  -->
+  <portal id="pSoGTalVocation" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Vocation & !SoGTlClass.Package & !SphOfGuil.HideTables & !SoGTalDesc.Trade]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Vocation & !SoGTalDesc.Trade & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Vocation"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Vocation Talents: " & hero.childfound[resSGSEVocation].field[resSummary].text]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEVocation].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Trade Talent Pool -->
+  <portal id="pSoGTradTalCnt" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Vocation & SoGTalDesc.Trade & !SoGTlClass.Package & !SphOfMigh.HideTables]]></list>
+      <candidate><![CDATA[SoGTalDesc.Trade & SoGSphere.Vocation & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGTlClass" tag="Trade"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Trade Talents: " & hero.childfound[resSGTraTal].field[resSummary].text]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGTraTal].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pVocClassSkills" style="lblTitle">
+    <label text="Class Skills Statuses"/>
+    <mouseinfo><![CDATA[
+                        @text &= "{align center}{b}Class Skill Reports{/b}"
+                        @text &= "{br}{br}"
+                        @text &= "{align left}{b}Non Class Skills{/b} lists all skills not currently class skills."
+                        @text &= "{br}{br}"
+                        @text &= "{align left}{b}Overlapping Class Skills{/b} lists any class skills marked as a class skills more than once."
+                ]]></mouseinfo>
+    </portal>
+  <portal id="pVocNonClassSkills" style="lblLeftNormal">
+    <label text="Non-Class Skills" ismultiline="yes">
+      <labeltext><![CDATA[
+                      @text = hero.child[SoGOverlappingSk].field[nonClass].text
+		      ]]></labeltext>
+      </label>
+    </portal>
+  <portal id="pVocOverlapSkills" style="lblLeftNormal">
+    <label text="Overlapping Class Skills" ismultiline="yes">
+      <labeltext><![CDATA[
+                      @text = hero.child[SoGOverlappingSk].field[overlap].text
+		      ]]></labeltext>
+      </label>
+    </portal>
+  <portal id="pSoGSkillReplace" style="table">
+    <table_auto component="SoGSkillReplace" showtemplate="tmSoGSkPk" autothing="SoGSkillReplace" columns="2">
+      <headertitle><![CDATA[@text = "{ref TraSkilRep}Trade Skill Replacements{ref}"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGTrSkCnt].field[resAddICnt].text
+        if (pos(@text,"Add New") <> -1) then
+          @text= replace(@text,"Add New","Add Optional",1)
+        endif]]></additem>
+      </table_auto>
+    </portal>
+  <!-- Vocation Sphere layout -->
+  <layout id="loSoGVocation">
+    <portalref portal="pSoGVocation" taborder="5"/>
+    <portalref portal="pSoGTradeSkillCnt" taborder="8"/>
+    <portalref portal="pSoGTalVocation" taborder="5"/>
+    <portalref portal="pSoGTradTalCnt" taborder="10"/>
+    <portalref portal="pVocClassSkills" taborder="15"/>
+    <portalref portal="pVocNonClassSkills" taborder="20"/>
+    <portalref portal="pVocOverlapSkills" taborder="25"/>
+    <portalref portal="pSoGSkillReplace" taborder="30"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpVocation" taborder="10"/>
+    <templateref template="tmSoGDCSph" thing="sogSpVocation" taborder="20"/>
+    <templateref template="tmSoGRngSp" thing="sogSpVocation" taborder="25"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGVocation].batchadd
+                portal[pSoGVocation].width = autoright
+
+                if (template[tmSoGAsRnSph].field[SphereCPLv].value = 0) then
+                     template[tmSoGAsRnSph].visible = 0
+                endif
+
+                if (template[tmSoGDCSph].field[abDC].value = 0) then
+                     template[tmSoGDCSph].visible = 0
+                endif
+
+                if (template[tmSoGRngSp].field[SphRangCls].value = 0) then
+                     template[tmSoGRngSp].visible = 0
+                endif
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                if (hero.tagis[SphOfGuil.Trade] = 0) then
+                     portal[pVocClassSkills].visible =0
+
+                     portal[pVocNonClassSkills].visible =0
+                     portal[pVocOverlapSkills].visible =0
+                     portal[pSoGSkillReplace].visible =0
+		else
+		     perform portal[pVocClassSkills].batchadd
+                     portal[pVocClassSkills].width = autoright
+
+		     perform portal[pVocNonClassSkills].batchadd
+		     perform portal[pVocOverlapSkills].batchadd
+		     perform portal[pSoGSkillReplace].batchadd
+		endif
+
+
+                perform portal[pSoGTalVocation].batchadd[8]
+                perform portal[pSoGTradTalCnt].batchadd[8]
+
+                perform batchplace
+
+                portal[pSoGTradeSkillCnt].top = 20
+                portal[pSoGTradeSkillCnt].height = 41
+		perform portal[pSoGTradeSkillCnt].alignedge[right, -5]
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGVocation" name="Vocation" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Vocation | SphOfGuil.Trade</live>
+    <layoutref layout="loSoGVocation"/>
+    <position><![CDATA[
+             layout[loSoGVocation].top = 0
+        ]]></position>
+    </panel>
+  </document>

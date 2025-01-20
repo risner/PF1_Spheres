@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGSurvivalis" style="lblTitle">
+    <label text="Survivalism Sphere"/>
+    </portal>
+  <portal id="pSoGTalSurvivalis" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Survivalism & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Survivalism & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Survivalism"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Survivalism Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSESurvivalis].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwSurvivalis" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Survivalism]]></list>
+      <candidate><![CDATA[SoGSphere.Survivalism & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Survivalism Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Survivalism Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Survivalism Info layout -->
+  <layout id="loSoGSurvivalis">
+    <portalref portal="pSoGSurvivalis" taborder="5"/>
+    <portalref portal="pSoGTalSurvivalis" taborder="10"/>
+    <portalref portal="pSoGDrwSurvivalis" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpSurvivalis"/>
+    <templateref template="tmSoGDCSph" thing="sogSpSurvivalis"/>
+    <templateref template="tmSoGRngSp" thing="sogSpSurvivalis"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGSurvivalis].batchadd
+                portal[pSoGSurvivalis].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalSurvivalis].batchadd[5]
+                portal[pSoGTalSurvivalis].width = autoright
+
+                perform portal[pSoGDrwSurvivalis].batchadd[5]
+                portal[pSoGDrwSurvivalis].width = autoright
+
+                height += portal[pSoGDrwSurvivalis].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGSurvivalis" name="Survivalis" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Survivalism</live>
+    <layoutref layout="loSoGSurvivalis"/>
+    </panel>
+  </document>

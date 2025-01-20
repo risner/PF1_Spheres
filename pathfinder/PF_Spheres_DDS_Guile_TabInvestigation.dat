@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGInvestigation" style="lblTitle">
+    <label text="Investigation Sphere"/>
+    </portal>
+  <portal id="pSoGTalInvestigation" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Investigation & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Investigation & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Investigation"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Investigation Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEInvestigat].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwInvestigation" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Investigation]]></list>
+      <candidate><![CDATA[SoGSphere.Investigation & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Investigation Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Investigation Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Investigation Info layout -->
+  <layout id="loSoGInvestigation">
+    <portalref portal="pSoGInvestigation" taborder="5"/>
+    <portalref portal="pSoGTalInvestigation" taborder="10"/>
+    <portalref portal="pSoGDrwInvestigation" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpInvestigatio"/>
+    <templateref template="tmSoGDCSph" thing="sogSpInvestigatio"/>
+    <templateref template="tmSoGRngSp" thing="sogSpInvestigatio"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGInvestigation].batchadd
+                portal[pSoGInvestigation].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalInvestigation].batchadd[5]
+                portal[pSoGTalInvestigation].width = autoright
+
+                perform portal[pSoGDrwInvestigation].batchadd[5]
+                portal[pSoGDrwInvestigation].width = autoright
+
+                height += portal[pSoGDrwInvestigation].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGInvestigation" name="Investigation" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Investigation</live>
+    <layoutref layout="loSoGInvestigation"/>
+    </panel>
+  </document>

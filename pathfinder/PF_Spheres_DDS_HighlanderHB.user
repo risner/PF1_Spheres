@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - The Highlander's HB"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="somTlArmFocus" name="Armor Expert" compset="SoMTalent" description="You increase the armor bonus to AC of any armor you are wearing by +1. When your base attack bonus reaches +8, you lower the armor check penalty of any armor you wear by 1. For every 8 points of base attack bonus you gain thereafter, you reduce the armor check penalty of your worn armor by a further 1 (this cannot reduce your armor check penalty below 0). The benefits granted by this talent do not stack with those provided by the Armor Focus and Improved Armor Focus feats. {b}Associated Feat:{/b} Armor Focus." uniqueness="useronce">
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_Sph_OHighHB"/>
+    <tag group="SoMSphere" tag="Equipment" name="Equipment" abbrev="Equipment"/>
+    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="HasFeat" tag="fArmorFoc"/>
+    <eval phase="PostLevel" priority="1000"><![CDATA[~ Was using field[tEffBAB].value, assigned at Post-attributes/5500.
+      ~ However, we need this done by Post-level/1000 to display in skills
+      ~ correctly, so I've replaced with the #BAB[] macro.
+      ~ This breaks the adjustment: pSoMCmbTrEffBABTl
+      ~    Combat Training: Effective BAB/Skill rank (Talent)
+      var acp as number
+      acp = round(#BAB[]/8,0,-1)
+
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      ~find all our armors
+      foreach pick in hero from BaseArmor where "EquipType.Armor"
+        eachpick.field[arAC].value += field[abValue].value
+        if (acp > 0) then
+          eachpick.field[arArmorChk].value = minimum(0,eachpick.field[arArmorChk].value + acp)
+        endif
+        nexteach]]></eval>
+    </thing>
+  </document>

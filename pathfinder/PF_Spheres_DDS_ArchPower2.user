@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Archetypes of Power 2"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arSoWeBanshee" name="Banshee" compset="ClassVary" description="Whereas most soul weavers delve into influencing the physical forms of others, the banshee is focused on manipulating the mental state of others around her. Although not completely a banshee, these soul weavers take on many properties of these sorrowful wraiths, known to fill the air with her sorrowful dirges and screams of the departed.\n\nTODO: Missing abilities below\nSorrow (2nd level)\nHear Heartbeat (4th level)\nParanoia (6th level)\nDoomed Soul (8th level)\nTerrorize (10th level)\nWail (14th level)\nSpawn of Sorrow (16th level)" uniqueness="unique">
+    <comment>~ Channel Energy description append, also make it count as the Versatile Channeler feat</comment>
+    <fieldval field="srcBookInf" value="Archetypes of Power 2"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    <tag group="AbReplace" tag="cSoPMstLifeDeath" name="Master of Life and Death" abbrev="Master of Life and Death"/>
+    <tag group="AbModify" tag="cSoPSlWChE" name="Channel Energy" abbrev="Channel Energy"/>
+    <tag group="AbReplace" tag="cSoPAidDed" name="Aid the Dead" abbrev="Aid the Dead"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="AbReplace" tag="cSoPBless" name="Blessing" abbrev="Blessing"/>
+    <tag group="NotClassSk" tag="skHeal"/>
+    <tag group="ClassSkill" tag="skBluff"/>
+    <tag group="AbReplace" tag="cSoPTmpRes" name="Temporary Resurrection" abbrev="Temporary Resurrection"/>
+    <tag group="AbReplace" tag="cSoPLovlor" name="Lovelorn Soul" abbrev="Lovelorn Soul"/>
+    <tag group="AbReplace" tag="cSoPCurSpr" name="Curious Spirit" abbrev="Curious Spirit"/>
+    <tag group="AbReplace" tag="cSoPBlight" name="Blight" abbrev="Blight"/>
+    <bootstrap thing="cSoPWraithFormW">
+      <autotag group="ClSpecWhen" tag="1"/>
+      <autotag group="abCategory" tag="SoPSlWBnNx"/>
+      <autotag group="abAction" tag="Standard"/>
+      <autotag group="abDuration" tag="Round"/>
+      <autotag group="AbilType" tag="Super"/>
+      <autotag group="LvNamePar" tag="AppText"/>
+      <assignval field="shortname" value="Banshee Form"/>
+      <assignval field="CustDesc" value="{b}Modification from Banshee Form{/b}: The banshee may expend a soul to become slightly ethereal, gaining the benefits of the wraith form ability as a wraith of her level a number of rounds equal to her casting ability modifier (minimum 1). The banshee may end this effect as a free action.{br}{br} * The wraith takes half damage from non-magic weapons.{br} * The wraith cannot make weapon or natural weapon attacks while in wraith form unless he uses a weapon with the ghost touch special ability.{br} * Effects originating from corporeal sources that do not deal damage have a 20% chance to fail against the wraith instead of the normal 50%. Force effect are not subject to this failure chance.{br} * The wraith retains all worn equipment not exceeding his maximum load as well as the benefits from any magic items that grant a continuous effect, but gains no benefit from physical armor or shields.{br} * The wraith uses normal movement speeds (treat moving through solid objects as ground movement).{br} * When not on or in a solid or liquid, the wraith falls slowly and may glide, moving with a speed of 30 feet with maneuverability (perfect), but falling 1 foot for every 5 feet traveled (unless possessing a fly speed).{br}{br}Activating this ability is a move action and ending it is a free action. He may not activate this ability if carrying a load greater than his maximum load. Should the wraith become corporeal while in a solid object, he is immediately shunted to the nearest empty space, taking 1d6 untyped damage per 5 feet traveled."/>
+      <assignval field="abDuration" value="rounds"/>
+      </bootstrap>
+    <bootstrap thing="sopSpMind">
+      <autotag group="ClSpecWhen" tag="1"/>
+      <autotag group="Helper" tag="Free"/>
+      <autotag group="SoPDupBon" tag="Mind"/>
+      </bootstrap>
+    <link linkage="varies" thing="cHelpSPSlW"/>
+    <eval phase="Render" priority="100001" index="4"><![CDATA[~ foreach bootstrap in focus from BaseSpell
+~ better way ^
+      var s as string
+      var t as string
+
+      perform hero.childfound[cSoPWraithFormW].setfocus
+
+      s = focus.field[shortname].text
+      t = focus.field[thingname].text
+
+      focus.field[listname].text  = replace(focus.field[listname].text, t, s, 0)
+      focus.field[livename].text  = replace(focus.field[livename].text, t, s, 0)
+
+      perform hero.childfound[cSoPBndNex].setfocus
+
+      s = "Sorrowful Nexus"
+      t = focus.field[thingname].text
+
+      focus.field[listname].text  = replace(focus.field[listname].text, t, s, 0)
+      focus.field[livename].text  = replace(focus.field[livename].text, t, s, 0)
+      focus.field[actName].text  = replace(focus.field[actName].text, t, s, 0)
+      focus.field[shortname].text  = replace(focus.field[shortname].text, t, s, 0)]]></eval>
+    <eval phase="PostAttr" priority="10000" index="3"><![CDATA[      var v as number
+
+      ~ CAM rounds
+      v = hero.childfound[SoPCAM].field[CAM].value
+      hero.childfound[cSoPWraithFormW].field[abValue].value = v
+      hero.childfound[cSoPWraithFormW].field[abText].text = v & " rounds"]]></eval>
+    <evalrule phase="Validation" priority="5000" message="Must channel negative energy" summary="Must channel negative energy">validif (hero.tagis[Hero.ChanPos] = 0)</evalrule>
+    </thing>
+  </document>

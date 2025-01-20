@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Power"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arLivingBanner" name="Living Banner" compset="ClassVary" description="While many vigilantes rely on fear and intimidation to cow their enemies, others choose to gird themselves in symbols of hope, inspiring the people they protect and the allies who stand beside them to greater and greater acts of courage.\n\nTODO: Nothing is implemented past 1st level." uniqueness="unique">
+    <comment>Not fully implemented</comment>
+    <arrayval field="cvCustTTot" index="1" value="-1"/>
+    <usesource source="pPF1e_Sph_Power"/>
+    <tag group="ClVaryName" tag="AppParen"/>
+    <tag group="AbReplace" tag="cVigFriApp"/>
+    <tag group="AbReplace" tag="cVigStarAp"/>
+    <tag group="AbReplace" tag="cVigStunAp"/>
+    <tag group="AbReplace" tag="cVigUnshak"/>
+    <link linkage="varies" thing="cHelpVig"/>
+    </thing>
+  </document>

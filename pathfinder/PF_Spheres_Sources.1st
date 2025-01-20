@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Structure">
+  <!-- (C) James Risner, 2023-2025
+     BSD-2-Clause license
+-->
+
+<!-- ============================================== -->
+<!-- REFERENCES                                     -->
+<!-- ============================================== -->
+
+  <!-- Expanded Utility reference -->
+  <reference id="LotSExpUtil" contents="You may choose some utility talents in non-skill spheres as [utility] talents using a variant rule from Legends of the Spheres. When you do so, the same amount will be deducted from your available [utility] talents."/>
+  <reference id="TraSkilRep" contents="{align center}{b}Trade Skill Replacements{/b}{br}{br}{align left}Removed are marked 💥.{br}Added are marked ✅."/>
+  <!-- ============================================== -->
+<!-- GROUPS                                         -->
+<!-- ============================================== -->
+  <group id="Assist">
+    <value id="AddBinder" name="Armorist (Collector) adds Binder"/>
+    </group>
+  <group id="SphOfGuil">
+    <value id="Trade" name="Trade Tradition"/>
+    <value id="Class" name="Operative Class"/>
+    <value id="OM" name="Operative Mod"/>
+    <value id="NoBnTalent" name="No Bonus Talent from this Drawback"/>
+    <value id="LnNoCount" name="Do not include talent count in livename"/>
+    <value id="LnNoCollap" name="Do not collapse with other instances of same talent"/>
+    <value id="FixDisable" name="Apply Helper.SpcDisable fix"/>
+    <value id="DBBuyoff" name="Drawback bought off with talent"/>
+    <value id="DBBanSelTl" name="Drawback bans selected talent"/>
+    <value id="DBBanSelDs" name="Drawback bans selected talent's descriptors"/>
+    <value id="DBBanSelEx" name="Selected talent exempted from ban"/>
+    <value id="AnySphTal" name="'Any talent from sphere' helper"/>
+    <value id="HideTables" name="Hide talent from tables"/>
+    <value id="DupeBonTal" name="If hero already has this talent, grant bonus talent"/>
+    <value id="TempTalent" name="Talent gained temporarily"/>
+    <value id="AllSpheres" name="Hero considered to have access to all spheres"/>
+    <value id="TradeDupe" name="TradeSkill duplicated"/>
+    <value id="CustTalent" name="Custom Talent"/>
+    </group>
+  <!-- Operative Modifier attributes -->
+  <group id="SoGOMAttr" name="Operative Attrib." inherit="UseAttr"/>
+  <!-- Operative level progression -->
+  <group id="SoGOLProg" name="Operative Level">
+    <value id="Virtuoso" name="Virtuoso"/>
+    <value id="Journeyman" name="Journeyman"/>
+    <value id="Trained" name="Trained"/>
+    </group>
+  <!-- Operative Trade Rank for classes -->
+  <group id="SoGTRank" name="Trade Rank">
+    <value id="Adroit" name="Adroit"/>
+    <value id="Competent" name="Competent"/>
+    </group>
+  <!-- Skills associated with a sphere -->
+  <group id="SoGAssocSk" name="Associated Skill" inherit="ClassSkill"></group>
+  <group id="SoGTopAsSk" name="Top Associated Skill" inherit="ClassSkill"></group>
+  <group id="ExRankValM" name="Might ExtRanks Value" inherit="Value"></group>
+  <group id="ExRankValG" name="Guile ExtRanks Value" inherit="Value"></group>
+  <!-- Skills needed for a talent use -->
+  <group id="SkillNeeded" name="Skill Used" inherit="ClassSkill"></group>
+  <!-- Skill Leverage -->
+  <group id="SkLeverage" name="Skill Leverage" inherit="ClassSkill"></group>
+  <group id="SkLevPick" name="Chosen Skills">
+    <value id="Chosen" name="Chosen SkLeverage"/>
+    </group>
+  <group id="SoGSphere" name="Sphere" dynamic="yes">
+    <value id="Artifice" name="Artifice"/>
+    <value id="Bluster" name="Bluster"/>
+    <value id="BodyControl" name="Body Control"/>
+    <value id="Communication" name="Communication"/>
+    <value id="Faction" name="Faction"/>
+    <value id="Herbalism" name="Herbalism"/>
+    <value id="Infiltration" name="Infiltration"/>
+    <value id="Investigation" name="Investigation"/>
+    <value id="Navigation" name="Navigation"/>
+    <value id="Performance" name="Performance"/>
+    <value id="Spellhacking" name="Spellhacking"/>
+    <value id="Study" name="Study"/>
+    <value id="Subterfuge" name="Subterfuge"/>
+    <value id="Survivalism" name="Survivalism"/>
+    <value id="Vocation" name="Vocation"/>
+    </group>
+  <group id="SoGPackage" name="Sphere Package" inherit="SoGSphere"></group>
+  <group id="SoGBonTal" name="Bonus Talent" inherit="SoGSphere"></group>
+  <group id="SoGSphTab" name="Show Sphere Tab" inherit="SoGSphere"></group>
+  <group id="SoGDupBon" name="Bonus talent if dupe" inherit="SoGSphere"></group>
+  <group id="SoGHasTal" name="Has Talent" inherit="SoGSphere"></group>
+  <!-- Spheres of Guile Talent Class -->
+  <group id="SoGTlClass" name="Talent Class" sequence="explicit">
+    <value id="InitTalent" name="Base Sphere Ability" order="1"/>
+    <value id="Talent" name="Basic Talent" order="1"/>
+    <value id="GainSphere" name="Sphere access" order="0"/>
+    <value id="Helper" name="Helper" order="1"/>
+    <value id="Package" name="Package" order="1"/>
+    <value id="Trade" name="A chosen Trade talent" order="1"/>
+    <value id="Any" name="A chosen Skill talent" order="1"/>
+    <value id="Utility" name="A chosen Utility talent" order="1"/>
+    <value id="Expanded" name="A chosen Non-Skill Utility talent" order="1"/>
+    <value id="AltStart" name="Has an Alternate Start" order="1"/>
+    <value id="ReqRetrain" name="Retrain to Remove"/>
+    <value id="UtilStart" name="Has an Utility Start" order="1"/>
+    <value id="ExcepTalent" name="Exceptional talent" order="1"/>
+    </group>
+  <!-- Talent descriptors -->
+  <group id="SoGTalDesc" name="Talent descriptor" dynamic="yes">
+    <value id="AltStart" name="Alternate Start for a Sphere" order="1"/>
+    <value id="UtilStart" name="Sphere has a Utility Start" order="1"/>
+    <value id="Trade" name="Trade" order="1"/>
+    <value id="Utility" name="Utility" order="1"/>
+    <value id="Analyze" name="Analyze" order="2"/>
+    <value id="Approach" name="Approach" order="2"/>
+    <value id="Disguise" name="Disguise" order="2"/>
+    <value id="Plan" name="Plan" order="2"/>
+    <value id="Rapport" name="Rapport" order="2"/>
+    <value id="Unorthodox" name="Unorthodox Methods" order="2"/>
+    <value id="HerbHerbal" name="Herbal" order="3"/>
+    <value id="HerbRemedy" name="Remedy" order="3"/>
+    </group>
+  <!-- All Sphere descriptiors (Guile, Might & Power) -->
+  <group id="TalentDesc" name="Talent descriptor" dynamic="yes">
+    <value id="Utility" name="Utility" order="1"/>
+    </group>
+  <group id="SoGBanDesc" name="DB bans descriptor" inherit="SoGTalDesc"></group>
+  <group id="SoGDBanEx" name="Exempt from desc ban" inherit="SoGTalDesc"></group>
+  <group id="SoGBanTal" name="DB bans talent" dynamic="yes"></group>
+  <group id="SoGPrqDsc" name="Meet prereq for desc" inherit="SoGTalDesc"></group>
+  <group id="SoGVarTal1" name="Var. talent 1 choice" dynamic="yes"> </group>
+  <group id="SoGVarTal2" name="Var. talent 2 choice" dynamic="yes"></group>
+  <group id="SoGVarTals" name="Var. talent = Adroit">
+    <value id="Auto" name="Automatic only"/>
+    <value id="Adroit" name="Adroit only"/>
+    </group>
+  <group id="SoGHasTlDs" name="Has talent w/desc" inherit="SoGTalDesc"></group>
+  <group id="SoGIsPkg" name="Sphere package" dynamic="yes">
+    <value id="Gear" name="Gear"/>
+    </group>
+  <group id="SoGHasPkg" name="Hero has sphere pkg" inherit="SoGIsPkg"></group>
+  <group id="SoGReqPkg" name="Requires sphere pkg" inherit="SoGIsPkg"></group>
+  <group id="TradeSkill" name="[Trade] ClassSkills" inherit="ClassSkill" dynamic="yes"></group>
+  <group id="TradeClSk" name="TraTradition ClassSk" inherit="ClassSkill" dynamic="yes"></group>
+  <group id="ExtRanks" name="skExtRanks applied" inherit="ClassSkill" dynamic="yes"></group>
+  <!-- ============================================== -->
+<!-- SOURCES                                        -->
+<!-- ============================================== -->
+
+<!-- Pathfinder 1e Spheres House Rules -->
+  <source id="pSoGHsRls" name="Spheres of Guile House Rules" selectable="no" parent="pDropDead" reportable="no"></source>
+  <source id="pSoGNoExcpT" name="No Exceptional Talents" selectable="yes" parent="pSoGHsRls" sortorder="1" description="Exceptional Talents cannot be selected"></source>
+  <source id="pPF1e_ExpUtil" name="(LotS) Some non-Guile talents count as [utility]" selectable="yes" parent="pSoGHsRls" sortorder="2"></source>
+  <source id="pPF1e_AssocComp" name="Variant Rule Associated Skills" selectable="yes" parent="pSoGHsRls" sortorder="3" description="If a character has skill spheres or packages with the same associated skill as combat spheres or packages, they do not gain more ranks than their usual maximum. Instead, they gain a competence bonus on checks with that skill equal to one-half their character level (minimum +1). This takes precedence over pure combat spheres using onehalf their base attack bonus in such situations."></source>
+  <source id="pSoGUnrOM" name="Unrestricted OM choice" selectable="yes" parent="pSoGHsRls" sortorder="4" description="Any ability can be selected as operator modifier"></source>
+  <!-- Pathfinder 1e Spheres -->
+  <source id="pPF1e_Sph" name="Spheres Community Pack (PF1e v0.4)" selectable="no" parent="pDropDead" sortorder="10" description="Community Pack for Spheres (Pathfinder 1e)"></source>
+  <source id="pPF1e_Sph_Guile" name="Spheres of Guile" selectable="yes" parent="pPF1e_Sph" sortorder="0"></source>
+  <source id="pPF1e_Sph_Might" name="Spheres of Might" selectable="yes" parent="pPF1e_Sph" sortorder="1"></source>
+  <source id="pPF1e_Sph_Power" name="Spheres of Power" selectable="yes" parent="pPF1e_Sph" sortorder="2"></source>
+  <source id="pPF1e_Sph_Other" name="DDS Expansions" selectable="no" parent="pPF1e_Sph" sortorder="3"></source>
+  <source id="pPF1e_Sph_AoP2" name="Archetypes of Power 2" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
+  <source id="pPF1e_Sph_OEO3" name="Expanded Options 3" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
+  <source id="pPF1e_Sph_OJestHB" name="Jester's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
+  <source id="pPF1e_Sph_LotSpheres" name="Legends of the Spheres" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApoc" name="Spheres Apocrypha" selectable="no" parent="pPF1e_Sph_Other" sortorder="1"></source>
+  <source id="pPF1e_Sph_OApocArTa" name="Spheres Apocrypha: Armor Talents" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApocArTa2" name="Spheres Apocrypha: Armor Talents 2" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApocCasTr" name="Spheres Apocrypha: Casting Traditions" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApocCasT2" name="Spheres Apocrypha: Casting Traditions 2" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApocSwash" name="Spheres Apocrypha: Swashbucklers" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApocColle" name="Spheres Apocrypha: The Collector Armorist" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OConqHB" name="The Conqueror's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_OHighHB" name="The Highlander's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_ManaHB" name="The Initiate's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_OWarden" name="The Warden" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_OYouxHB" name="The Youxia's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_OTreasure" name="Treasures of the Spheres" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_DRS_Other" name="DRS Expansions" selectable="no" parent="pPF1e_Sph" sortorder="4"></source>
+  <source id="pPF1e_DRS_InvIng" name="Diamond Spheres: Invention &amp; Ingenuity" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
+  <!-- This corrects an error in the source file that ships with this book. -->
+  <source id="pSoPWildMagic" name="Wild Magic Handbook" selectable="yes" parent="pSoPHandb" sortorder="21" description="New Archetypes, Class Options, and Wild Magic Events"></source>
+  </document>

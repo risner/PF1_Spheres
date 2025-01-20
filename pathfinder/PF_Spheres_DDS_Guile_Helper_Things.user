@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Helper Things"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="mechSoG" name="Spheres of Guile Mechanic" compset="Mechanics" description="This is a helper thing whose purpose is to bootstrap various components required by the Spheres of Guile system.">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <bootstrap thing="SoGOM"></bootstrap>
+    <bootstrap thing="SoGOverlappingSk"></bootstrap>
+    <bootstrap thing="resSGSSGen"></bootstrap>
+    <bootstrap thing="resSGSEArtifice"></bootstrap>
+    <bootstrap thing="resSGSEBluster"></bootstrap>
+    <bootstrap thing="resSGSEBodyCont"></bootstrap>
+    <bootstrap thing="resSGSECommunicat"></bootstrap>
+    <bootstrap thing="resSGSEFaction"></bootstrap>
+    <bootstrap thing="resSGSEHerbalism"></bootstrap>
+    <bootstrap thing="resSGPkHerbalism"></bootstrap>
+    <bootstrap thing="resSGSEInfiltrati"></bootstrap>
+    <bootstrap thing="resSGSEInvestigat"></bootstrap>
+    <bootstrap thing="resSGSENavigation"></bootstrap>
+    <bootstrap thing="resSGSEPerformanc"></bootstrap>
+    <bootstrap thing="resSGSESpellhack"></bootstrap>
+    <bootstrap thing="resSGSEStudy"></bootstrap>
+    <bootstrap thing="resSGSESubterfuge"></bootstrap>
+    <bootstrap thing="resSGSESurvivalis"></bootstrap>
+    <bootstrap thing="resSGSEVocation"></bootstrap>
+    <bootstrap thing="resSGTraTrad"></bootstrap>
+    <bootstrap thing="resSGTraTal"></bootstrap>
+    <bootstrap thing="resSGUtilTal"></bootstrap>
+    <bootstrap thing="resSGExUtilTal"></bootstrap>
+    <bootstrap thing="resSGTrSkCnt"></bootstrap>
+    <bootstrap thing="SoGTTTrai"></bootstrap>
+    <bootstrap thing="SoGTTJour"></bootstrap>
+    <bootstrap thing="SoGTTVirt"></bootstrap>
+    <bootstrap thing="resSGSkLeverage">
+      <containerreq phase="First" priority="500">SphOfGuil.Class</containerreq>
+      </bootstrap>
+    <bootstrap thing="stAddSkillUse">
+      <containerreq phase="First" priority="500">SphOfGuil.Class</containerreq>
+      </bootstrap>
+    <eval phase="Render" priority="999999999999999999"><![CDATA[
+	  doneif (hero.tagis[source.pDDSSoM] <> 1)
+
+          ~ If we are not Guile, get out.
+          doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+	  var nameTxt as string
+
+	  var br as string
+	  br = "{br}"
+
+	  ~ Go through all talents
+	  foreach thing in SoGTalent where "!SoGTlClass.Helper & !SoGTlClass.GainSphere"
+	    if (eachthing.ispick = 0) then
+	      var descTxt as string
+	      ~ Add descriptors to name
+		  if (eachthing.tagis[SoGTalDesc.?] <> 0) then
+		    nameTxt = eachthing.field[name].text & " (" & eachthing.tagnames[SoGTalDesc.?, ", "] & ")"
+		    perform eachthing.amendthing[name,nameTxt]
+		  endif
+
+		  descTxt = ""
+		  perform eachthing.setfocus
+                  ~ Look up descriptions to put into thing before it's a pick
+		  call SoGTalDscr
+		  perform state.clearfocus
+
+                  ~ Set the description
+		  if (empty(descTxt) = 0) then
+                       perform eachthing.amendthing[description,descTxt]
+		  endif
+		endif
+	  nexteach
+
+	  ~ Go through all drawbacks
+	  foreach thing in SoGDrawbk
+	    if (eachthing.ispick = 0) then
+              var descTxt as string
+              descTxt = ""
+
+              ~ Sphere, and descriptors if any
+              if (eachthing.tagis[SoGSphere.?] <> 0) then
+                    descTxt &= "{b}Sphere:{/b} " & eachthing.tagnames[SoGSphere.?]
+              endif
+              if (eachthing.tagis[SoGTalDesc.?] <> 0) then
+                    descTxt &= " (" & eachthing.tagnames[SoGTalDesc.?, ", "] & ")"
+              endif
+
+              if (eachthing.tagis[SoGTlClass.AltStart] + eachthing.tagis[SoGTlClass.UtilStart] > 0) then
+                   descTxt &= "{br}"
+                   if (eachthing.tagis[SoGTlClass.AltStart] <> 0) then
+                        descTxt &= "[Alternate Start"
+                        if (eachthing.tagis[SoGTlClass.ReqRetrain] <> 0) then
+                             descTxt &= " (" & eachthing.tagnames[SoGTlClass.ReqRetrain] & ")"
+                        endif
+                        descTxt &= "] "
+                   endif
+
+                   if (eachthing.tagis[SoGTlClass.UtilStart] <> 0) then
+                        descTxt &= "[Utility Start]"
+                   endif
+              endif
+
+              if (empty(descTxt) = 0) then
+                   ~ Now append the original description
+                   descTxt &= "{br}{br}" & eachthing.field[descript].text
+                   perform eachthing.amendthing[description,descTxt]
+              endif
+            endif
+	  nexteach]]></eval>
+    <eval phase="PostAttr" priority="10000" name="Allow operatives to take a trade tradition"><![CDATA[
+      ~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      ~ You are permitted a Trade Tradition if you used the adjustment to
+      ~      trade out your class skills.
+      ~ You are also permitted a Trade Tradition if you have a Guile class at
+      ~      first level.
+
+      ~ Guile classes assign SphOfGuil.Class, so find any class with one.
+      perform hero.findchild[BaseClHelp,"SphOfGuil.Class & Helper.FirstLevel"].setfocus
+
+      ~ If we have neither the SphOfGuil.Trade tag or any Guile classes, get out.
+      doneif (hero.tagis[SphOfGuil.Trade] + state.isfocus = 0)
+
+      ~ You are limited to 1 optional Trade Tradition.
+      hero.childfound[resSGTraTrad].field[resMax].value = 1]]>
+      <after name="Handle Adroit"/>
+      <after name="Assign Trade Rank based on skill points of class"/>
+      <after name="Link class helper to trade tradition"/>
+      </eval>
+    <eval phase="PostLevel" priority="5000" name="Handle Skill Focus on associated skill ranks"><![CDATA[~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      ~ Handle Skill Focus bug ignoring skExtRanks to apply bonus.
+      ~ Much the same as the script in thingid mechSoM.
+      foreach pick in hero from BaseFeat where "IsFeat.fSkillFoc & !Helper.TargRank10"
+        if (eachpick.field[abValue].value < 6) then
+          if (eachpick.field[usrChosen1].ischosen = 1) then
+            perform eachpick.field[usrChosen1].chosen.setfocus
+            if (focus.field[skExtRanks].value + focus.field[skUser].value + focus.field[skInnate].value >= 10) then
+              perform eachpick.assign[Helper.TargRank10]
+            endif
+          endif
+        endif
+        perform state.clearfocus
+      nexteach]]></eval>
+    <eval phase="PostLevel" priority="1001" name="Mark SoM talents as ExtRanks"><![CDATA[~ Some Might rules need knowledge of how many spheres are contributing ranks.
+
+     ~ We run for all characters, because this aids a Might only character.
+     ~ We are ran from mechSoG because I can not alter mechSoM.
+
+     ~ If we have no Combat Training, get out.
+     doneif (hero.tagis[HasAbility.abSoMCmbTr] = 0)
+
+     ~ Iterate through all SoM talents looking for associated skills, to tag them.
+     foreach pick in hero from SoMTalent where "SoMAssocSk.?"
+          var tags as string
+          tags = eachpick.tagids[SoMAssocSk.?,"|"]
+          tags = replace(tags,"SoMAssocSk","ExtRanks",0) & "|"
+
+          ~ If there is a better way to do, please contribute it.
+          var i as number
+          i = pos(tags, "|")
+          while (i > -1)
+               var a as string
+               a = left(tags, i)
+               tags = mid(tags, i+1, 200)
+               if (eachpick.tagcountstr[a] = 0) then
+                    perform eachpick.assignstr[a]
+                    perform hero.assignstr[a]
+                    var t as string
+                    var s as string
+                    t = replace(a,"ExtRanks","thingid",0)
+                    s = replace(a,"ExtRanks","SoMAssocSk",0)
+                    perform hero.firstchild[t].assignstr[s]
+               endif
+               i = pos(tags, "|")
+          loop
+     nexteach]]>
+     <before name="Apply free ranks for associated skills SoG"/>
+     <after name="Apply free ranks for associated skills"/>
+     </eval>
+    <eval phase="PostLevel" priority="1003" name="Handle competence bonus on associated skill dup"><![CDATA[~ This supports some Might sphere's competence bonus for duplicate associated skills.
+          ~ We run for all characters, because this aids a Might only character.
+          ~ We are ran from mechSoG because I can not alter mechSoM.
+
+          ~ Many spheres care about whether or not another sphere contributes ranks to a skill.
+          ~ Running for all characters, the several foreach loops should be noop if nothing found.
+
+          ~ * Leadership sphere covers Diplomacy:
+	  ~      "If you possess multiple spheres that grant ranks in
+	  ~      Diplomacy, you gain a competence bonus on Diplomacy checks
+	  ~      equal to half your base attack bonus instead of retraining
+	  ~      the ranks multiple times. This is only applied once."
+
+          ~ * Athletics sphere covers Acrobatics:
+          ~      "If you possess both the (leap) and (run) packages,
+          ~      you gain a competence bonus on Acrobatics checks equal
+          ~      to half your base attack bonus instead of retraining the
+          ~      ranks a second time."
+
+          ~ * Skill spheres covers skill spheres:
+          ~      "If a character has multiple skill spheres or packages
+          ~      with the same associated skill, they do not gain more
+          ~      ranks than their usual maximum. Instead, they gain a
+          ~      competence bonus on checks with that skill equal to
+          ~      one-half their character level (minimum +1)."
+
+          ~ * Tinker sphere covers any sphere:
+          ~      "If you possess multiple spheres that grant ranks
+          ~      in the associated skill, you gain a competence bonus
+          ~      on skill checks using that associated skill
+          ~      equal to 1/2 your Hit Dice instead of gaining
+          ~      additional ranks in the associated skill."
+          ~   The released files do not contain the Tinker sphere, so this
+          ~   is just for informational purposes only.
+
+          var c as number
+
+          ~ Apply the rule for Leadership sphere and Diplomacy ranks.
+          foreach pick in hero where "((thingid.somTlSpWarleader | thingid.somTlLeadership) & SoMAssocSk.skDiplo)"
+               c += 1
+          nexteach
+          if (c > 1) then
+               var b as number
+               b = round(#BAB[]/2,0,01)
+               #applybonus[BonComp,hero.child[skDiplo], b]
+~              debug "👷 Adding compentence bonus of " & b & " to Diplomacy"
+          endif
+
+          ~ Apply the rule for Athletics sphere and Acrobatics ranks.
+          c = 0
+          foreach pick in hero where "((thingid.somTlAthLeap | thingid.somTlAthRun) & SoMAssocSk.skAcrobat)"
+               c += 1
+          nexteach
+          if (c > 1) then
+               var b as number
+               b = round(#BAB[]/2,0,01)
+               #applybonus[BonComp,hero.child[skAcrobat], b]
+~              debug "👷 Adding compentence bonus of " & b & " to Acrobatics"
+          endif
+
+          ~ Skill Sphere rule:
+          ~ If a character has multiple skill spheres or packages with the
+          ~   same associated skill, they do not gain more ranks than their
+          ~   usual maximum. Instead, they gain a competence bonus on checks
+          ~   with that skill equal to one-half their character level
+          ~   (minimum +1).
+          ~
+          foreach pick in hero from BaseSkill where "fieldval:skExtRanks > 0"
+               var b as number
+               if (eachpick.tagcountstr["SoGAssocSk." & eachpick.idstring] > 1) then
+                    b = round(herofield[tHitDice].value/2,0,01)
+                    #applybonus[BonComp,eachpick, b]
+~                   debug "👷 Adding compentence bonus of " & b & " to " & eachpick.idstring & " found " & eachpick.tagcountstr["SoGAssocSk." & eachpick.idstring] & " talents"
+               endif
+
+               ~ Cover up Leadership and Warleader exceeding HD in skExtRanks
+               b = herofield[tHitDice].value - eachpick.field[skInnate].value - eachpick.field[skUser].value
+               if (eachpick.field[skExtRanks].value > b) then
+~                   debug "👷 Reducing " & eachpick.idstring & " from " & eachpick.field[skExtRanks].value & " skExtRanks to " & b
+                    eachpick.field[skExtRanks].value = b
+               endif
+          nexteach
+
+          doneif (hero.tagis[source.pPF1e_AssocComp] = 0)
+
+          ~ Guild has a variant to not stack with the Might Sphere rule:
+          ~ "If a character has skill spheres or packages with the same
+          ~    associated skill as combat spheres or packages, they do not gain
+          ~    more ranks than their usual maximum. Instead, they gain a
+          ~    competence bonus on checks with that skill equal to one-half
+          ~    their character level (minimum +1). This takes precedence over
+          ~    pure combat spheres using one-half their base attack bonus in
+          ~    such situations."
+          ~
+          foreach pick in hero from BaseSkill where "fieldval:skExtRanks > 0"
+               if (eachpick.tagcountstr["SoGAssocSk." & eachpick.idstring] > 0) then
+                    if (eachpick.tagcountstr["SoMAssocSk." & eachpick.idstring] > 0) then
+                         var b as number
+                         b = round(herofield[tHitDice].value/2,0,01)
+                         #applybonus[BonComp,eachpick, b]
+~                        debug "👷 Adding compentence bonus of " & b & " to " & eachpick.idstring & " found at least 1 of SoGAssocSk and SoMAssocSk"
+                    endif
+               endif
+          nexteach
+     ]]>
+     <after name="Apply free ranks for associated skills SoG"/>
+     </eval>
+    <eval phase="PostLevel" priority="999" name="Save skExtRanks before SoM ran"><![CDATA[~ If we have no Combat Training, get out.
+          doneif (hero.tagis[HasAbility.abSoMCmbTr] = 0)
+
+          ~ Ideally these two (999 & 1001) would be an enhancement to mechSoM, to tract the extra ranks.
+
+          foreach pick in hero from BaseSkill where "SoMAssocSk.?"
+               if (tagis[SoMTlClass.InitTalent] + tagis[SoMTlClass.Package] = 0) then
+                    perform eachpick.assignstr["ExRankValM." & eachpick.field[skExtRanks].value]
+               endif
+          nexteach
+      ]]>
+      <before name="Apply free ranks for associated skills"/>
+      </eval>
+    <eval phase="PostLevel" priority="1001" name="Set skExtRanks after SoM added"><![CDATA[~ If we have no Combat Training, get out.
+          doneif (hero.tagis[HasAbility.abSoMCmbTr] = 0)
+
+          ~ Check if any Sphere of Might associated skills added to skExtRanks
+          foreach pick in hero from BaseSkill where "SoMAssocSk.?"
+               if (tagis[SoMTlClass.InitTalent] + tagis[SoMTlClass.Package] = 0) then
+                    var v as number
+                    ~ v is the difference, if v > 0 SoM assigned some skExtRanks.
+                    v = eachpick.field[skExtRanks].value - eachpick.tagvalue[ExRankValM.?]
+                    if (v > 0) then
+                         ~ Remove any existing value tags.
+                         perform eachpick.delete[ExRankValM.?]
+                         perform eachpick.assignstr["ExRankValM." & v]
+                    endif
+               endif
+         nexteach
+      ]]>
+      <after name="Apply free ranks for associated skills"/>
+      </eval>
+    </thing>
+  <thing id="resSGTraTrad" name="Trade Traditions" compset="Resource" panellink="tbSoGSkSpTl">
+    <fieldval field="resObject" value="Trade Traditions"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    </thing>
+  <thing id="resSGTraTal" name="Trade Talents" compset="Resource" panellink="tbSoGVocation">
+    <fieldval field="resObject" value="Trade Talents"/>
+    </thing>
+  <thing id="resSGUtilTal" name="Utility Talents" compset="Resource" panellink="tbSoGSkSpTl">
+    <fieldval field="resObject" value="Utility Talents"/>
+    </thing>
+  <thing id="resSGExUtilTal" name="Expanded Utility Talents" compset="Resource" description="Description in PF_Spheres_DDS_Guile_Helper_Things.user" panellink="tbSoGSkSpTl">
+    <fieldval field="resObject" value="Expanded Utility Talents"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    </thing>
+  <thing id="resSGTrSkCnt" name="Trade Skill Replacements" compset="Resource" panellink="tbSoGVocation">
+    <fieldval field="resObject" value="Trade Skill Replacements"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    <eval phase="First" priority="1001" name="Count allowed Trade Skill Replacements."><![CDATA[~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      var taln as number
+      taln = 0
+      foreach pick in hero from SoGTalent where "SoGTalDesc.Trade"
+        taln += 1
+      nexteach
+      hero.childfound[resSGTrSkCnt].field[resMax].value = round(taln/2,0,-1)]]></eval>
+    </thing>
+  <thing id="resSGSkLeverage" name="Skill Leverage Unlocked" compset="Resource" panellink="tbSoGSkSpTl">
+    <fieldval field="resObject" value="Unlocks"/>
+    <eval phase="PostLevel" priority="4000" name="Spend Skill Leverage unlocks"><![CDATA[~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      var unlk as number
+      ~ We simply count how many skills have a SkLeverage.? tag, since in nearly all cases
+      ~ duplicates turn into addtional unlocks.
+      foreach pick in hero from BaseSkill where "SkLeverage.?"
+        unlk += 1
+      nexteach
+
+      debug "🏹 Spent " & unlk & " unlocks from Skills"
+      field[resSpent].value += unlk]]></eval>
+    </thing>
+  <thing id="resSGSSGen" name="Skill Sphere Talents" compset="Resource" panellink="tbSoGSkSpTl"></thing>
+  <thing id="SoGOM" name="Operative Modifier" compset="SoGOM" uniqueness="unique"></thing>
+  <thing id="SoGOverlappingSk" name="Overlapping Class Skills" compset="SoGOverlappingSk">
+    <usesource source="pPF1e_Sph_Guile"/>
+    </thing>
+  <thing id="SoGTTTrai" name="Trained" compset="SoGSkTrain">
+    <arrayval field="cTalKnown" index="0" value="0"/>
+    <arrayval field="cTalKnown" index="1" value="0"/>
+    <arrayval field="cTalKnown" index="2" value="0"/>
+    <arrayval field="cTalKnown" index="3" value="1"/>
+    <arrayval field="cTalKnown" index="4" value="1"/>
+    <arrayval field="cTalKnown" index="5" value="1"/>
+    <arrayval field="cTalKnown" index="6" value="1"/>
+    <arrayval field="cTalKnown" index="7" value="2"/>
+    <arrayval field="cTalKnown" index="8" value="2"/>
+    <arrayval field="cTalKnown" index="9" value="2"/>
+    <arrayval field="cTalKnown" index="10" value="2"/>
+    <arrayval field="cTalKnown" index="11" value="3"/>
+    <arrayval field="cTalKnown" index="12" value="3"/>
+    <arrayval field="cTalKnown" index="13" value="3"/>
+    <arrayval field="cTalKnown" index="14" value="3"/>
+    <arrayval field="cTalKnown" index="15" value="4"/>
+    <arrayval field="cTalKnown" index="16" value="4"/>
+    <arrayval field="cTalKnown" index="17" value="4"/>
+    <arrayval field="cTalKnown" index="18" value="4"/>
+    <arrayval field="cTalKnown" index="19" value="5"/>
+    <arrayval field="cUtiKnown" index="0" value="1"/>
+    <arrayval field="cUtiKnown" index="1" value="1"/>
+    <arrayval field="cUtiKnown" index="2" value="2"/>
+    <arrayval field="cUtiKnown" index="3" value="2"/>
+    <arrayval field="cUtiKnown" index="4" value="3"/>
+    <arrayval field="cUtiKnown" index="5" value="3"/>
+    <arrayval field="cUtiKnown" index="6" value="4"/>
+    <arrayval field="cUtiKnown" index="7" value="4"/>
+    <arrayval field="cUtiKnown" index="8" value="5"/>
+    <arrayval field="cUtiKnown" index="9" value="5"/>
+    <arrayval field="cUtiKnown" index="10" value="6"/>
+    <arrayval field="cUtiKnown" index="11" value="6"/>
+    <arrayval field="cUtiKnown" index="12" value="7"/>
+    <arrayval field="cUtiKnown" index="13" value="7"/>
+    <arrayval field="cUtiKnown" index="14" value="8"/>
+    <arrayval field="cUtiKnown" index="15" value="8"/>
+    <arrayval field="cUtiKnown" index="16" value="9"/>
+    <arrayval field="cUtiKnown" index="17" value="9"/>
+    <arrayval field="cUtiKnown" index="18" value="10"/>
+    <arrayval field="cUtiKnown" index="19" value="10"/>
+    <tag group="SoGOLProg" tag="Trained"/>
+    </thing>
+  <thing id="SoGTTJour" name="Journeyman" compset="SoGSkTrain">
+    <arrayval field="cTalKnown" index="0" value="0"/>
+    <arrayval field="cTalKnown" index="1" value="1"/>
+    <arrayval field="cTalKnown" index="2" value="1"/>
+    <arrayval field="cTalKnown" index="3" value="2"/>
+    <arrayval field="cTalKnown" index="4" value="2"/>
+    <arrayval field="cTalKnown" index="5" value="3"/>
+    <arrayval field="cTalKnown" index="6" value="3"/>
+    <arrayval field="cTalKnown" index="7" value="4"/>
+    <arrayval field="cTalKnown" index="8" value="4"/>
+    <arrayval field="cTalKnown" index="9" value="5"/>
+    <arrayval field="cTalKnown" index="10" value="5"/>
+    <arrayval field="cTalKnown" index="11" value="6"/>
+    <arrayval field="cTalKnown" index="12" value="6"/>
+    <arrayval field="cTalKnown" index="13" value="7"/>
+    <arrayval field="cTalKnown" index="14" value="7"/>
+    <arrayval field="cTalKnown" index="15" value="8"/>
+    <arrayval field="cTalKnown" index="16" value="8"/>
+    <arrayval field="cTalKnown" index="17" value="9"/>
+    <arrayval field="cTalKnown" index="18" value="9"/>
+    <arrayval field="cTalKnown" index="19" value="10"/>
+    <arrayval field="cUtiKnown" index="0" value="1"/>
+    <arrayval field="cUtiKnown" index="1" value="1"/>
+    <arrayval field="cUtiKnown" index="2" value="2"/>
+    <arrayval field="cUtiKnown" index="3" value="2"/>
+    <arrayval field="cUtiKnown" index="4" value="3"/>
+    <arrayval field="cUtiKnown" index="5" value="3"/>
+    <arrayval field="cUtiKnown" index="6" value="4"/>
+    <arrayval field="cUtiKnown" index="7" value="4"/>
+    <arrayval field="cUtiKnown" index="8" value="5"/>
+    <arrayval field="cUtiKnown" index="9" value="5"/>
+    <arrayval field="cUtiKnown" index="10" value="6"/>
+    <arrayval field="cUtiKnown" index="11" value="6"/>
+    <arrayval field="cUtiKnown" index="12" value="7"/>
+    <arrayval field="cUtiKnown" index="13" value="7"/>
+    <arrayval field="cUtiKnown" index="14" value="8"/>
+    <arrayval field="cUtiKnown" index="15" value="8"/>
+    <arrayval field="cUtiKnown" index="16" value="9"/>
+    <arrayval field="cUtiKnown" index="17" value="9"/>
+    <arrayval field="cUtiKnown" index="18" value="10"/>
+    <arrayval field="cUtiKnown" index="19" value="10"/>
+    <tag group="SoGOLProg" tag="Journeyman"/>
+    </thing>
+  <thing id="SoGTTVirt" name="Virtuoso" compset="SoGSkTrain">
+    <arrayval field="cTalKnown" index="0" value="1"/>
+    <arrayval field="cTalKnown" index="1" value="2"/>
+    <arrayval field="cTalKnown" index="2" value="3"/>
+    <arrayval field="cTalKnown" index="3" value="3"/>
+    <arrayval field="cTalKnown" index="4" value="4"/>
+    <arrayval field="cTalKnown" index="5" value="5"/>
+    <arrayval field="cTalKnown" index="6" value="6"/>
+    <arrayval field="cTalKnown" index="7" value="6"/>
+    <arrayval field="cTalKnown" index="8" value="7"/>
+    <arrayval field="cTalKnown" index="9" value="8"/>
+    <arrayval field="cTalKnown" index="10" value="9"/>
+    <arrayval field="cTalKnown" index="11" value="9"/>
+    <arrayval field="cTalKnown" index="12" value="10"/>
+    <arrayval field="cTalKnown" index="13" value="11"/>
+    <arrayval field="cTalKnown" index="14" value="12"/>
+    <arrayval field="cTalKnown" index="15" value="12"/>
+    <arrayval field="cTalKnown" index="16" value="13"/>
+    <arrayval field="cTalKnown" index="17" value="14"/>
+    <arrayval field="cTalKnown" index="18" value="14"/>
+    <arrayval field="cTalKnown" index="19" value="15"/>
+    <arrayval field="cUtiKnown" index="0" value="0"/>
+    <arrayval field="cUtiKnown" index="1" value="1"/>
+    <arrayval field="cUtiKnown" index="2" value="1"/>
+    <arrayval field="cUtiKnown" index="3" value="2"/>
+    <arrayval field="cUtiKnown" index="4" value="2"/>
+    <arrayval field="cUtiKnown" index="5" value="3"/>
+    <arrayval field="cUtiKnown" index="6" value="3"/>
+    <arrayval field="cUtiKnown" index="7" value="4"/>
+    <arrayval field="cUtiKnown" index="8" value="4"/>
+    <arrayval field="cUtiKnown" index="9" value="5"/>
+    <arrayval field="cUtiKnown" index="10" value="5"/>
+    <arrayval field="cUtiKnown" index="11" value="6"/>
+    <arrayval field="cUtiKnown" index="12" value="6"/>
+    <arrayval field="cUtiKnown" index="13" value="7"/>
+    <arrayval field="cUtiKnown" index="14" value="7"/>
+    <arrayval field="cUtiKnown" index="15" value="8"/>
+    <arrayval field="cUtiKnown" index="16" value="8"/>
+    <arrayval field="cUtiKnown" index="17" value="9"/>
+    <arrayval field="cUtiKnown" index="18" value="9"/>
+    <arrayval field="cUtiKnown" index="19" value="10"/>
+    <tag group="SoGOLProg" tag="Virtuoso"/>
+    </thing>
+  <thing id="SoGSkillReplace" name="Skill Replacement" compset="SoGSkillReplace" panellink="tbSoGVocation"></thing>
+  <thing id="SoGSKUnlock" name="Skill Leverage Unlock" compset="SGSkLevUnlock" description="Skill Leverage Unlock">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; !SkLeverage.?"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[ ~ Stop if we haven't picked a skill
+      doneif (field[usrChosen1].ischosen <> 1)
+
+      ~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      perform field[usrChosen1].chosen.setfocus
+      doneif (state.isfocus = 0)
+
+      perform assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]
+      perform focus.assign[SkLevPick.Chosen]
+      perform focus.assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <eval phase="Final" priority="2000" name="Pull Helper.ClassSkill tag"><![CDATA[ ~ Stop if we haven't picked a skill
+      doneif (field[usrChosen1].ischosen <> 1)
+
+      perform field[usrChosen1].chosen.setfocus
+      doneif (state.isfocus = 0)
+
+      perform focus.pulltags[Helper.ClassSkill]
+    ]]>
+    <after name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
+    </eval>
+    </thing>
+  <thing id="abSoGSkSp" name="Skills Training" compset="Ability" description="You have talents in one or more skill spheres" uniqueness="unique">
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <bootstrap thing="abSoGSkLeverage"></bootstrap>
+    <eval phase="First" priority="495" name="Enable skill spheres">doneif (tagis[Helper.SpcDisable] = 1)
+      doneif (hero.isminion = 1)
+
+      ~ We are bootstrapped, that makes the character Guile if not already.
+      if (hero.tagis[SphOfGuil.Class] = 0) then
+           perform hero.assign[SphOfGuil.Class]
+      endif</eval>
+    </thing>
+  <thing id="abSoGSkLeverage" name="Skill Leverage" compset="Ability" description="Skill leverage represents your unique insights and lateral thinking. You can spend uses of leverage to use a skill more effectively. You always have a single pool of skill leverage, which you can spend with any skill that you have unlocked skill leverage for. The most common way to unlock skill leverage is from skill spheres.\n\nIf you would unlock skill leverage with a skill you already have it unlocked for, you can unlock skill leverage with another skill of your choice.\n\nIf you have skill leverage, your pool of uses is equal to 1 + one-third your Hit Dice. You regain all uses of your leverage when you get a full 8 hours of rest.\n\nYou can also regain 1 use of skill leverage in any of the following ways:\n\nWhen you thwart a significant encounter with one or more creatures you have not faced before (typically one whose challenge rating is at least your level - 2), generally slaying them, rendering them harmless, or forcing them to abandon a goal for the foreseeable future. You only regain 1 use of leverage for an encounter, even if multiple individuals you defeated would be a significant threat. If an enemy's abilities change or grow, you can gain skill leverage from that foe again.\n\n{indent 50}* When you disable or intentionally avoid a significant trap (again, typically one with a challenge rating greater than your level, equal to your level, or 1 or 2 lower than your level)\n* When you successfully persuade someone to help you who never has before (or trick them into doing so), provided the social encounter was a significant challenge\n* When you make a discovery significant to one of your motivations or that gives you a new path (literal or figurative) to achieving a goal (such as opening a secret door leading somewhere new, learning a secret weakness of a challenging foe, or reaching a significant destination despite there being no known route){indent 0}\n\nIf it is not clear, the GM makes the final decision as to whether you regain your skill leverage. The GM might also allow other methods of regaining skill leverage in circumstances where you can bring a fresh perspective to bear.\n\nSkill leverage can be used in one of the following ways.\n\n{indent 50}* {b}Change Tactics{/b}: After you roll a skill check and see the die, but before the GM says the consequences of the roll, you can spend 1 use of leverage to roll 1d4 and add it to the result.\n\n* {b}Draw on Intuition{/b}: You can spend 1 use of leverage on a skill to get a clue about a creature, obstacle, hazard, or location that skill could be used to identify or interact with. When interacting with a creature, the clue might be something the creature is afraid of, one of its minor motivations, something it wants, or a line of conversation that it is particularly open to or unwilling to entertain. When trying to open a magical vault, the clue might be what the door is made of, the school of magic the vault's magical runes belong to, or where previous users have touched the vault before. This information should generally be of the sort that could be recalled with a Knowledge check with a DC no higher than 15 + twice your ranks in the leveraged skill.\n\n* {b}Seize an Opportunity{/b}: After you roll a skill check and compare the result to the DC, if your total exceeds the DC by enough, you can achieve a better result. If the difference is at least equal to the amount of a penalty or optional DC increase for an improved or greater effect (such as the voluntary penalty to Climb to increase your speed), you can spend 1 use of skill leverage to add the change. You can spend multiple uses of skill leverage to add that many different penalties or DC increases, or apply a stacking penalty repeatedly. If your game uses the Degrees of Success variant (see the Skills chapter), optional penalties and DCs that do not represent significant risk are available at no cost.{indent 0}" uniqueness="unique">
+    <comment>
+Not implemented:
+Variant: Leverage as a Daily Pool = Tag: Usage.Day
+Variant: Leverage for Improvisation</comment>
+    <fieldval field="trkMax" value="1"/>
+    <tag group="User" tag="Tracker"/>
+    <tag group="Helper" tag="ShowSpec" name="Show Spec" abbrev="Show Spec"/>
+    <tag group="ChargeCalc" tag="HitDieDiv3"/>
+    </thing>
+  <thing id="DDSSGTrained" name="Trained" compset="Simple">
+    <tag group="SoGOLProg" tag="Trained"/>
+    </thing>
+  <thing id="DDSSGJourneyman" name="Journeyman" compset="Simple">
+    <tag group="SoGOLProg" tag="Journeyman"/>
+    </thing>
+  <thing id="DDSSGVirtuoso" name="Virtuoso" compset="Simple">
+    <tag group="SoGOLProg" tag="Virtuoso"/>
+    </thing>
+  <thing id="pSoGSkForTraTrd" name="Trade class skills for trade tradition" compset="InPlay" description="When you take your first character level in a class which does not normally select a trade tradition, you may give up your class's usual class skills and in exchange gain a trade tradition. The class's usual number of skill ranks per level determines your trade rank." uniqueness="useronce">
+    <fieldval field="pCandExpr" value="component.Class &amp; !SphOfGuil.Class &amp; Helper.FirstLevel"/>
+    <fieldval field="pCandExpr2" value="component.SoGTraTrad &amp; !Helper.SpcDisable"/>
+    <fieldval field="pUsePicks" value="1"/>
+    <fieldval field="pUsePicks2" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="NoIncr"/>
+    <tag group="OthAdjCat" tag="Class"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <eval phase="First" priority="50" name="Assign Trade Rank based on skill points of class"><![CDATA[
+      ~ Stop if we're not enabled or chosen
+      doneif (field[pIsOn].value <> 1)
+      doneif (field[pChosen].ischosen = 0)
+      doneif (field[pChosen2].ischosen = 0)
+
+      ~ This is the earliest we assign the tag to the hero.
+      perform hero.assign[SphOfGuil.Class]
+
+      ~ Our trade tradition is valid, tag the hero, class and the trade tradition.
+      perform hero.assign[SphOfGuil.Trade]
+      perform field[pChosen].chosen.assign[SphOfGuil.Trade]
+      perform field[pChosen2].chosen.assign[SphOfGuil.Trade]
+
+      debug "☸ Valid trade tradition " & field[pChosen].chosen.field[name].text & " 327"
+
+      ~ When you take your first character level in a class which does not
+      ~ normally select a trade tradition, you may give up your class's usual
+      ~ class skills and in exchange gain a trade tradition. The class's usual
+      ~ number of skill ranks per level determines your trade rank.
+      ~
+      ~ Class Skill Ranks         Trade Rank
+      ~ 4 + Int modifier or fewer Competent
+      ~ 5 + Int modifier or more  Adroit
+
+      if (field[pChosen].chosen.field[cSkills].value >= 6) then
+        perform field[pChosen].chosen.assign[SoGTRank.Adroit]
+        perform field[pChosen2].chosen.assign[SoGTRank.Adroit]
+        perform field[pChosen2].chosen.delete[SoGTRank.Competent]
+      elseif (field[pChosen].chosen.field[cSkills].value >= 4) then
+        if (field[pChosen].chosen.tagis[SoGTRank.Adroit] = 0) then
+          perform field[pChosen].chosen.assign[SoGTRank.Competent]
+          perform field[pChosen2].chosen.assign[SoGTRank.Competent]
+        endif
+      endif
+
+      ~ Allow exact one trade traditions.
+      hero.childfound[resSGTraTrad].field[resMax].value = 1]]></eval>
+    <evalrule phase="Final" priority="999999999" index="1" message="You must select your 1st level for Trade Tradition"><![CDATA[
+          ~ Valid if we're not enabled
+          validif (field[pIsOn].value = 0)
+
+          @valid = 0
+          @message = "You must select a class that is your 1st level."
+
+
+          if (field[pChosen].ischosen = 1) then
+               if (field[pChosen].chosen.tagis[Helper.FirstLevel] <> 0) then
+                    @valid = 1
+                    done
+               endif
+          endif
+          ]]></evalrule>
+    <prereq message="This option must be taken at first class level">
+      <validate>validif (@ispick = 1)
+validif (hero.tagcount[Classes.?] = 1)</validate>
+      </prereq>
+    </thing>
+  <thing id="pSoGCTKnownSp" name="Skill Talents Known (Sphere-specific)" compset="InPlay" description="Select this adjustment to change the number of bonus skill talents for a specific sphere known to a character.">
+    <fieldval field="pCandExpr" value="component.Resource &amp; SoGBonTal.?"/>
+    <usesource source="pDDSSoM" parent="pDropDead" name="Spheres of Might"/>
+    <tag group="Helper" tag="NoPathSoc" name="Not Allowed for Pathfinder Society Characters" abbrev="Not Allowed for Pathfinder Society Characters"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="PostLevel" priority="10000"><![CDATA[      
+      ~ Stop now if we're not activated
+      doneif (field[pIsOn].value = 0)
+
+      ~ Stop if we haven't picked a sphere
+      doneif (field[pChosen].ischosen <> 1)
+
+      ~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      ~ Alter number of skill talents known
+      field[pChosen].chosen.field[resMax].value += field[pAdjust].value]]></eval>
+    </thing>
+  <thing id="pSoGST" name="Skill Talents Known" compset="InPlay" description="Select this adjustment to change the number of bonus skill talents.">
+    <usesource source="pDDSSoM" parent="pDropDead" name="Spheres of Might"/>
+    <tag group="Helper" tag="NoPathSoc" name="Not Allowed for Pathfinder Society Characters" abbrev="Not Allowed for Pathfinder Society Characters"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="PostLevel" priority="10000"><![CDATA[      
+      ~ Stop now if we're not activated
+      doneif (field[pIsOn].value = 0)
+
+      ~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      ~ Alter number of magic talents known
+      hero.childfound[resSGSSGen].field[resMax].value += field[pAdjust].value]]></eval>
+    </thing>
+  </document>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Skills"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="stFindLoop" name="Find a Loophole" compset="SoGSkillUse" description="As a standard action, you point out flaws in a language-dependent spell or effect either placed by a skill check or that allowed a saving throw. You must have understood the words of the effect. The check DC equals the effect’s save DC or opposes the skill check result that caused it. Successfully opposing a skill check ends the effect.\n\nIf you succeed and the effect allowed a saving throw, you and each target who can understand your words within 30 feet can attempt a new save immediately. Success on this saving throw grants the usual effect of a success for that effect while failure does nothing. You cannot use Linguistics to find a loophole in that effect for that creature again for 24 hours. This is a language-dependent effect. At the GM’s discretion, the wording of a particular spell or ability might be especially difficult to talk around, increasing the DC by 5.\n\nA character trained in Linguistics can attempt to set a higher DC for finding a loophole in the effect by attempting their own Linguistics check when casting the spell or using the ability; use the Linguistics result instead of the usual DC (this can make the DC lower if they are unskilled or unlucky)." summary="Counter language-dependent spells or effects." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="User" tag="NoAutoName"/>
+    <eval phase="First" priority="200"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+perform hero.findchild[Resource, "thingid.resTrick"].setfocus
+
+~focus.field[livename].text = "Skill Use1"
+~focus.field[resObject].text = "Skill Use2"
+    ]]></eval>
+    <exprreq message="Trained in Linguistics required."><![CDATA[#skillranks[skLinguist] >= 1]]></exprreq>
+    </thing>
+  <thing id="stAddSkillUse" name="Universal Skill Uses" compset="SoGSkillUse" description="The following special skill uses are available to many or all skills.\n\n{b}Alternative Aid Another{/b}: Some skills can be used with the aid another action to provide a bonus on certain skills other than the same skill (or occasionally, other d20 rolls). If two skills can perform similar tasks (such as Diplomacy and Intimidate to improve attitudes), either can be used to aid the other. In some cases, using an alternative skill changes the DC to aid another.\n\n{b}Assess Proficiency (trained only){/b}: You estimate a creature’s capability with a skill by attempting a check with that skill. Certain skills, most often Knowledge and other skills that can identify creatures, can also be used to assess other attributes. You can use a skill to assess anything it can teach.\n\nYou must observe the creature using the skill or other attribute you wish to evaluate for at least 3 rounds, after which assessing them is a free action. The DC is 20.\n\nYour estimate has some error to it even if you succeed unless you exceed the DC by 5: If your skill check succeeds by 4 or less, the GM secretly rolls 1d3–2 and adds it to the true value to determine your guess (minimum 0 for base attack bonus and caster level, minimum 1 for ability score). For example, if evaluating a creature with base attack bonus +7 the GM would roll 1d3–2+7 to get the estimate: rolling a 3 on the d3 results in a guess of +8. Succeeding by 5 or more gives you the exact value. If you fail by 5 or more, you misestimate by 1d6+2 up or down. If you failed an unopposed check, the GM chooses the direction. An aware opponent can oppose your check without an action. They choose Bluff or Intimidate. A successful Intimidate check makes you overestimate, while a successful Bluff check allows them to make you overestimate or underestimate.\n\nSpellcraft and a few Knowledge skills can be used to assess caster level this way; when you attempt to learn a caster level, the caster can try to fool you with an opposed Spellcraft check rather than Bluff.\n\nSurvival and Knowledge to identify a creature can assess speed; if you succeed, you learn its fastest speed in the movement mode you observed. If you fail by 5 or more, you misestimate by 1d3+1 x 10 feet.\n\n{b}Impressive Display of Skill{/b}: You can attempt to use almost any skill to impress at least some other creatures. You must spend at least a standard action demonstrating the skill in one of its usual uses to one or more creatures who are receptive and able to pay attention to the demonstration. For example, a skill like Diplomacy that requires conversing with the target is only effective with one target that can see and hear within 30 feet, whereas a skill like Acrobatics can be demonstrated to an interested audience in larger numbers up to 120 feet away.\n\nGenerally, you choose a skill and attempt a skill use with a DC high enough to demonstrate your prowess. If both the DC and your result are higher than 20 + observer’s Hit Dice, and the skill is one that they value, they gain the impressed condition toward you. The duration is generally for about as long as you spent on the impressive action, minimum 1 round up to 10 minutes, although the GM might rule a different duration is more sensible. The duration ends immediately for a creature that sees you fail at a check or that begins its turn in combat.\n\nMost characters value skills in which they possess ranks, although individuals often value some other skills that they themselves are not trained in. Of particular note, Acrobatics, Perform, and Sleight of Hand can impress most audiences as part of entertaining, and when entertaining with these skills, you can choose any DC to attempt your skill check against. The DC to impress someone increases by 5 for every d20 roll the target observed you fail in the past day.\n\n{b}Teach (trained only){/b}: You can use any skill you are trained in to teach up to ten other creatures how to perform a certain task with that skill (such as balancing with Acrobatics or lying about a specific person with Bluff). You spend at least 1 hour teaching and attempt a DC 15 skill check. For 24 hours, the student gets a +2 bonus as if from aid another on checks using that skill to perform that task as long as the DC is no higher than your check result. Perform (oratory) and some Artistry and Profession skills can be used for teaching other skills. If a character gains this bonus to multiple skills, they choose one bonus to keep and lose the others.\n\n{b}Uses from Other Skills{/b}: Some skills can be used as other skills in certain circumstances. A skill check using the alternative skill has the same DC calculation as the original skill unless noted otherwise. Apply general bonuses only for the skill you are rolling, not general bonuses to the original skill. Apply situational bonuses for the original skill specific to the task.\n\nFor example, Perception can be used as Survival to find tracks (but not follow them). When finding tracks with Perception, Perception is the skill you are rolling and Survival is the original skill. You use the DC calculation and situational modifiers for Survival (such as for the passage of time or recent rain) but otherwise use Perception (including bonuses to all Perception checks like that from Alertness). You apply bonuses to Survival checks to track, but not a bonus from Skill Focus (Survival) nor a bonus specifically to Perception checks when searching." summary="Spheres of Guile unlocks many new skill uses." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="ShowSpec"/>
+    <eval phase="First" priority="1000" index="2"><![CDATA[
+~ Render 400
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      perform hero.findchild[Resource, "thingid.resTrick"].setfocus
+
+      doneif (state.isfocus = 0)
+
+      ~ Since this is added to all Guile characters, do some setup once.
+      perform hero.assign[StopCalc.resTrick]
+      focus.field[livename].text = "Skill Use/Trick"
+      focus.field[resObject].text = "Skill Uses or Skill Tricks"
+    ]]></eval>
+    </thing>
+  </document>

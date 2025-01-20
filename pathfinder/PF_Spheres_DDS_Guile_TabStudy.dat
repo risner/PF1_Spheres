@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGStudy" style="lblTitle">
+    <label text="Study Sphere"/>
+    </portal>
+  <portal id="pSoGTalStudy" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Study & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Study & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Study"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Study Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEStudy].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwStudy" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Study]]></list>
+      <candidate><![CDATA[SoGSphere.Study & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Study Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Study Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Study Info layout -->
+  <layout id="loSoGStudy">
+    <portalref portal="pSoGStudy" taborder="5"/>
+    <portalref portal="pSoGTalStudy" taborder="10"/>
+    <portalref portal="pSoGDrwStudy" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpStudy"/>
+    <templateref template="tmSoGDCSph" thing="sogSpStudy"/>
+    <templateref template="tmSoGRngSp" thing="sogSpStudy"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGStudy].batchadd
+                portal[pSoGStudy].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalStudy].batchadd[5]
+                portal[pSoGTalStudy].width = autoright
+
+                perform portal[pSoGDrwStudy].batchadd[5]
+                portal[pSoGDrwStudy].width = autoright
+
+                height += portal[pSoGDrwStudy].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGStudy" name="Study" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Study</live>
+    <layoutref layout="loSoGStudy"/>
+    </panel>
+  </document>

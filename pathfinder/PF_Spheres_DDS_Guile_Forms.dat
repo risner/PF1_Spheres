@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <loadonce key="PF_Spheres_DDS_SpheresOfMight - Forms"/>
+  <!-- PORTALS -->
+
+  <!-- Talent Picks -->
+  <template id="tmSoGTalPk" name="Talents" compset="SoGTalent" height="20">
+    <portal id="name" showinvalid="yes" style="lblLeftNormal">
+      <label field="name"></label>
+      </portal>
+    <portal id="mnChoose1" style="menuNormal" width="100">
+      <menu_things field="usrChosen1" component="none" maxvisible="20" usepicksfield="usrSource1" candidatefield="usrCandid1"></menu_things>
+      </portal>
+    <portal id="mnChoose2" style="menuNormal" width="100">
+      <menu_things field="usrChosen2" component="none" maxvisible="20" usepicksfield="usrSource2" candidatefield="usrCandid2"></menu_things>
+      </portal>
+    <portal id="domDomain" style="edit" width="100">
+      <edit field="domDomain"></edit>
+      </portal>
+    <portal id="info" style="actInfo">
+      <action action="info"></action>
+      </portal>
+    <portal id="delete" style="actDelete" tiptext="Click to delete this item">
+      <action action="delete"></action>
+      </portal>
+    <position><![CDATA[
+
+        ~ Note, during sizing portal[name].height sizing assumes a null string.
+        height = portal[name].fontheight + 6
+        if (issizing <> 0) then
+             done
+        endif
+
+        var sections as number
+        var wide as number
+
+        if (tagis[User.NeedDomain] = 0) then
+            portal[domDomain].visible = 0
+            portal[domDomain].width = 0
+        else
+            sections += 1
+        endif
+
+        if (empty(field[usrCandid1].text) <> 0) then
+            portal[mnChoose1].width = 0
+            portal[mnChoose1].visible = 0
+        else
+            sections += 1
+        endif
+
+        if (empty(field[usrCandid2].text) <> 0) then
+            portal[mnChoose2].width = 0
+            portal[mnChoose2].visible = 0
+        else
+            sections += 1
+        endif
+
+        if (sections = 3) then
+             ~ Allow the 3 to take at most 82 each
+             wide = maximum(width - portal[name].width - 50, 2*82) / 3
+        elseif (sections = 2) then
+             ~ Allow the 2 to take at most 100 each
+             wide = maximum(width - portal[name].width - 50, 2*100) / 2
+        elseif (sections = 1) then
+             ~ Allow 1 to take at most a third
+             wide = width / 3
+        endif
+
+       if (portal[domDomain].visible <> 0) then
+            portal[domDomain].width = wide
+       endif
+       if (portal[mnChoose1].visible <> 0) then
+            portal[mnChoose1].width = wide
+       endif
+       if (portal[mnChoose2].visible <> 0) then
+            portal[mnChoose2].width = wide
+       endif
+
+        ~ Position name on the left
+        portal[name].left = 0
+
+        ~ Subtract the width of the other elements
+        portal[name].width = width - portal[mnChoose1].width - portal[mnChoose2].width - portal[domDomain].width - portal[info].width - portal[delete].width - 2*7
+
+        ~ Align to left edge, center, and size to fit
+        perform portal[name].alignedge[left,2]
+        perform portal[name].sizetofit[18]
+        perform portal[name].autoheight
+        perform portal[name].centervert
+        perform portal[name].setstyle[lblLeftNormal]
+
+        ~ Now place the rest
+        perform portal[mnChoose1].alignrel[ltor,name,2]
+        perform portal[mnChoose1].centervert
+        perform portal[mnChoose2].alignrel[ltor,mnChoose1,2]
+        perform portal[mnChoose2].centervert
+        perform portal[domDomain].alignrel[ltor,mnChoose2,2]
+        perform portal[domDomain].centervert
+        perform portal[info].alignrel[ltor,domDomain,2]
+        perform portal[info].centervert
+        perform portal[delete].alignrel[ltor,info,2]
+        perform portal[delete].centervert
+    ]]></position>
+    </template>
+  <!-- Talent Things -->
+  <template id="tmSoGTalTh" name="Talents" compset="SoGTalent" width="300" height="20">
+    <portal id="name" showinvalid="yes" style="lblLeftNormal">
+      <label field="name"></label>
+      </portal>
+    <position><![CDATA[
+        portal[name].width = 300
+        ]]></position>
+    </template>
+  <!-- Trade Tradition Picks -->
+  <template id="tmSoGTTrPk" name="Talents" compset="SoGTraTrad" height="20">
+    <portal id="name" showinvalid="yes" style="lblNormal">
+      <label field="name"></label>
+      </portal>
+    <portal id="mnChoose1" style="menuNormal" width="150">
+      <menu_things field="usrChosen1" component="none" maxvisible="20" usepicksfield="usrSource1" candidatefield="usrCandid1"></menu_things>
+      </portal>
+    <portal id="mnChoose2" style="menuNormal" width="150">
+      <menu_things field="usrChosen2" component="none" maxvisible="20" usepicksfield="usrSource2" candidatefield="usrCandid2"></menu_things>
+      </portal>
+    <portal id="mnChoose3" style="menuNormal" width="150">
+      <menu_things field="usrChosen3" component="none" maxvisible="20" usepicksfield="usrSource3" candidatefield="usrCandid3" namefield="shortname">
+        <candidate></candidate>
+        </menu_things>
+      </portal>
+    <portal id="mnChoose4" style="menuNormal" width="150">
+      <menu_things field="usrChosen4" component="none" maxvisible="20" usepicksfield="usrSource4" candidatefield="usrCandid4" namefield="shortname">
+        <candidate></candidate>
+        </menu_things>
+      </portal>
+    <portal id="info" style="actInfo">
+      <action action="info"></action>
+      </portal>
+    <portal id="delete" style="actDelete" tiptext="Click to delete this item">
+      <action action="delete"></action>
+      </portal>
+    <position><![CDATA[
+	~ Name on the left
+    portal[name].left = 0
+
+	perform portal[mnChoose1].alignrel[ltor,name,10]
+
+	~ Delete button on the far right
+    perform portal[delete].alignedge[right,0]
+
+	perform portal[info].alignrel[rtol,delete,2]
+
+	~ Hide menu select if this talent doesn't need it
+	if (empty(field[usrCandid1].text) <> 0) then
+	  portal[mnChoose1].width = 0
+	  portal[mnChoose1].visible = 0
+	endif
+
+	if (empty(field[usrCandid2].text) <> 0) then
+	  portal[mnChoose2].width = 0
+	  portal[mnChoose2].visible = 0
+	  perform portal[mnChoose2].alignrel[ltor,name,10]
+	else
+	  perform portal[mnChoose2].alignrel[ltor,mnChoose1,10]
+	endif
+
+	if (empty(field[usrCandid3].text) <> 0) then
+	  portal[mnChoose3].width = 0
+	  portal[mnChoose3].visible = 0
+	  perform portal[mnChoose3].alignrel[ltor,name,10]
+	else
+	  perform portal[mnChoose3].alignrel[ltor,mnChoose2,10]
+	endif
+
+	if (empty(field[usrCandid4].text) <> 0) then
+	  portal[mnChoose4].width = 0
+	  portal[mnChoose4].visible = 0
+	  perform portal[mnChoose4].alignrel[ltor,name,10]
+	else
+	  perform portal[mnChoose4].alignrel[ltor,mnChoose3,10]
+	endif
+
+    ]]></position>
+    </template>
+  <!-- Skill Picks -->
+  <template id="tmSoGSkPk" name="Skills" compset="SoGSkillReplace" height="20">
+    <portal id="pName" style="lblLeftNormal">
+      <label text="💥"/>
+      </portal>
+    <portal id="pNew" style="lblNormal">
+      <label text="➡️✅️"/>
+      </portal>
+    <portal id="mnChoose1" style="menuNormal" width="80">
+      <menu_things field="usrChosen1" component="BaseSkill" usepicks="hero">
+        <candidate><![CDATA[component.BaseSkill & TradeSkill.sog?]]></candidate>
+        </menu_things>
+      </portal>
+    <portal id="mnChoose2" style="menuNormal" width="80">
+      <menu_things field="usrChosen2" component="BaseSkill" usepicks="hero">
+        <candidate><![CDATA[component.BaseSkill & !SphOfGuil.TradeDupe]]></candidate>
+        </menu_things>
+      </portal>
+    <portal id="mnRef" style="lblNormal" width="80">
+      <label>
+        <labeltext><![CDATA[
+               @text = tagnames[Reference.?]
+               ]]></labeltext>
+        </label>
+      </portal>
+    <portal id="mnTarg" style="lblNormal" width="80">
+      <label>
+        <labeltext><![CDATA[
+               @text = tagnames[Target.?]
+               ]]></labeltext>
+        </label>
+      </portal>
+    <portal id="delete" style="actDelete" tiptext="Click to delete this skill replacement">
+      <action action="delete"></action>
+      </portal>
+    <position><![CDATA[
+	~ Activation check on the left
+	portal[pName].left = 0
+	perform portal[pName].centervert
+
+	~ Delete button on the far right
+        perform portal[delete].alignedge[right,0]
+	perform portal[delete].centervert
+
+	~ Skill to replace choice just to right of name
+        if (tagis[Reference.?] = 1) then
+	  portal[mnChoose1].visible = 0
+	  portal[mnChoose2].visible = 0
+	  portal[mnRef].visible = 1
+	  portal[mnTarg].visible = 1
+	  perform portal[mnRef].alignrel[ltor,pName,2]
+          perform portal[pNew].alignrel[ltor,mnRef,2]
+	  perform portal[mnTarg].alignrel[ltor,pNew,2]
+	  perform portal[mnRef].centervert
+	  perform portal[mnTarg].centervert
+        else
+	  portal[mnRef].visible = 0
+	  portal[mnTarg].visible = 0
+	  portal[mnChoose1].visible = 1
+	  portal[mnChoose2].visible = 1
+	  perform portal[mnChoose1].alignrel[ltor,pName,2]
+          perform portal[pNew].alignrel[ltor,mnChoose1,2]
+	  perform portal[mnChoose2].alignrel[ltor,pNew,2]
+	  perform portal[mnChoose1].centervert
+	  perform portal[mnChoose2].centervert
+        endif
+	perform portal[pNew].centervert
+    ]]></position>
+    </template>
+  <!-- Skill Leverage Picks -->
+  <template id="tmSoGSkLPk" name="Skill Leverage" compset="SGSkLevUnlock">
+    <portal id="name" showinvalid="yes" style="lblLeftNormal">
+      <label field="name"></label>
+      </portal>
+    <portal id="bar" style="lblLeftNormal">
+      <label>
+        <labeltext><![CDATA[
+           @text = "█"
+           ]]></labeltext>
+        </label>
+      </portal>
+    <portal id="mnChoose1" style="menuNormal" width="150">
+      <menu_things field="usrChosen1" component="Modifiers" maxvisible="20" usepicksfield="usrSource1" candidatefield="usrCandid1"></menu_things>
+      </portal>
+    <portal id="info" style="actInfo">
+      <action action="info"></action>
+      </portal>
+    <portal id="delete" style="actDelete" tiptext="Click to delete this item">
+      <action action="delete"></action>
+      </portal>
+    <position><![CDATA[
+
+        height = 18
+        if (issizing <> 0) then
+             done
+        endif
+
+        var sz as number
+        sz = length(field[name].text)
+        if (sz > 20) then
+          sz = 3
+        elseif (sz > 12) then
+          sz = 2
+        else
+          sz = 1
+        endif
+
+        ~ Leave black for non-class skills, blue for class skills, and green for Might only.
+        if (tagexpr[Helper.ClassSkill] <> 0) then
+             if (sz = 1) then
+                  perform portal[name].setstyle[lblLeftBlue]
+             elseif (sz = 2) then
+                  perform portal[name].setstyle[lblLeftBlueSm]
+             else
+                  perform portal[name].setstyle[lblLeftBlueTi]
+             endif
+        else
+             if (sz = 1) then
+                  perform portal[name].setstyle[lblLeftNormal]
+             elseif (sz = 2) then
+                  perform portal[name].setstyle[lblLeftNormalSm]
+             else
+                  perform portal[name].setstyle[lblLeftNormalTi]
+             endif
+        endif
+
+        ~ Set delete to invisibile and width = 0, if not chosen.
+        if (tagexpr[SkLevPick.Chosen] = 0) then
+             portal[delete].visible = 0
+             portal[delete].width = 0
+        endif
+
+        ~ Position name/bar on the left
+        portal[name].left = 0
+
+	~ Skill to replace choice just to right of name
+        if (tagis[SkLevPick.Chosen] = 1) then
+	  portal[name].visible = 0
+	  portal[name].width = 0
+          if (tagexpr[Helper.ClassSkill] <> 0) then
+               perform portal[bar].setstyle[lblLeftBlue]
+          endif
+          portal[bar].left = 0
+	  portal[bar].visible = 1
+	  portal[bar].width = 6
+	  perform portal[bar].alignedge[left,2]
+	  portal[mnChoose1].visible = 1
+          portal[mnChoose1].width = width - portal[delete].width - portal[info].width - 10
+	  perform portal[mnChoose1].alignrel[ltor,bar,0]
+          perform portal[mnChoose1].autoheight
+          perform portal[mnChoose1].centervert
+          perform portal[name].alignrel[ltor,mnChoose1,-2]
+        else
+	  portal[mnChoose1].visible = 0
+	  portal[mnChoose1].width = 0
+	  portal[bar].visible = 0
+	  portal[bar].width = 0
+          portal[name].width = width - portal[delete].width - portal[info].width - 8
+	  perform portal[name].alignedge[left,2]
+          perform portal[name].autoheight
+          perform portal[name].centervert
+        endif
+
+        ~ Now place the rest
+        perform portal[info].alignrel[ltor,name,2]
+        perform portal[info].autoheight
+        perform portal[info].centervert
+
+        perform portal[delete].alignrel[ltor,info,2]
+        perform portal[delete].autoheight
+        perform portal[delete].centervert
+    ]]></position>
+    </template>
+  <!-- Associated Skills Picks -->
+  <template id="tmSoGSAsSkPk" name="Associated Skills" compset="SGSkLevUnlock">
+    <portal id="name" showinvalid="yes" style="lblLeftNormal">
+      <label field="name"></label>
+      </portal>
+    <portal id="info" style="actInfo">
+      <action action="info"></action>
+      </portal>
+    <position><![CDATA[
+
+        height = 18
+        if (issizing <> 0) then
+             done
+        endif
+
+        var sz as number
+        sz = length(field[name].text)
+        if (sz > 20) then
+          sz = 3
+        elseif (sz > 12) then
+          sz = 2
+        else
+          sz = 1
+        endif
+
+        if (tagexpr[SoMAssocSk.?] <> 0) then
+             if (tagexpr[SoGAssocSk.?] = 0) then
+                  if (sz = 1) then
+                       perform portal[name].setstyle[lblLeftGreen]
+                  elseif (sz = 2) then
+                       perform portal[name].setstyle[lblLeftGreenSm]
+                  else
+                       perform portal[name].setstyle[lblLeftGreenTi]
+                  endif
+             endif
+        endif
+
+        ~ Leave black for non-class skills, blue for class skills, and green for Might only.
+        if (tagexpr[Helper.ClassSkill] <> 0) then
+             if (sz = 1) then
+                  perform portal[name].setstyle[lblLeftBlue]
+             elseif (sz = 2) then
+                  perform portal[name].setstyle[lblLeftBlueSm]
+             else
+                  perform portal[name].setstyle[lblLeftBlueTi]
+             endif
+        else
+             if (sz = 1) then
+                  perform portal[name].setstyle[lblLeftNormal]
+             elseif (sz = 2) then
+                  perform portal[name].setstyle[lblLeftNormalSm]
+             else
+                  perform portal[name].setstyle[lblLeftNormalTi]
+             endif
+        endif
+
+        ~ Position name on the left
+        portal[name].left = 0
+        portal[name].width = width - portal[info].width - 8
+
+        ~ Align to left edge, center, and size to fit
+        perform portal[name].alignedge[left,2]
+        perform portal[name].autoheight
+        perform portal[name].centervert
+
+        ~ Now place the rest
+        perform portal[info].alignrel[ltor,name,2]
+        perform portal[info].autoheight
+        perform portal[info].centervert
+    ]]></position>
+    </template>
+  </document>

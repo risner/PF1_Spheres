@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGNavigation" style="lblTitle">
+    <label text="Navigation Sphere"/>
+    </portal>
+  <portal id="pSoGTalNavigation" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Navigation & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Navigation & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Navigation"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Navigation Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSENavigation].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwNavigation" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Navigation]]></list>
+      <candidate><![CDATA[SoGSphere.Navigation & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Navigation Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Navigation Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Navigation Info layout -->
+  <layout id="loSoGNavigation">
+    <portalref portal="pSoGNavigation" taborder="5"/>
+    <portalref portal="pSoGTalNavigation" taborder="10"/>
+    <portalref portal="pSoGDrwNavigation" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpNavigation"/>
+    <templateref template="tmSoGDCSph" thing="sogSpNavigation"/>
+    <templateref template="tmSoGRngSp" thing="sogSpNavigation"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGNavigation].batchadd
+                portal[pSoGNavigation].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalNavigation].batchadd[5]
+                portal[pSoGTalNavigation].width = autoright
+
+                perform portal[pSoGDrwNavigation].batchadd[5]
+                portal[pSoGDrwNavigation].width = autoright
+
+                height += portal[pSoGDrwNavigation].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGNavigation" name="Navigation" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Navigation</live>
+    <layoutref layout="loSoGNavigation"/>
+    </panel>
+  </document>

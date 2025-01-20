@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGSpellhack" style="lblTitle">
+    <label text="Spellhacking Sphere"/>
+    </portal>
+  <portal id="pSoGTalSpellhack" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Spellhacking & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Spellhacking & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Spellhacking"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Spellhacking Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSESpellhack].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwSpellhack" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Spellhacking]]></list>
+      <candidate><![CDATA[SoGSphere.Spellhacking & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Spellhacking Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Spellhacking Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Spellhacking Info layout -->
+  <layout id="loSoGSpellhack">
+    <portalref portal="pSoGSpellhack" taborder="5"/>
+    <portalref portal="pSoGTalSpellhack" taborder="10"/>
+    <portalref portal="pSoGDrwSpellhack" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpSpellhack"/>
+    <templateref template="tmSoGDCSph" thing="sogSpSpellhack"/>
+    <templateref template="tmSoGRngSp" thing="sogSpSpellhack"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGSpellhack].batchadd
+                portal[pSoGSpellhack].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalSpellhack].batchadd[5]
+                portal[pSoGTalSpellhack].width = autoright
+
+                perform portal[pSoGDrwSpellhack].batchadd[5]
+                portal[pSoGDrwSpellhack].width = autoright
+
+                height += portal[pSoGDrwSpellhack].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGSpellhack" name="Spellhack" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Spellhacking</live>
+    <layoutref layout="loSoGSpellhack"/>
+    </panel>
+  </document>

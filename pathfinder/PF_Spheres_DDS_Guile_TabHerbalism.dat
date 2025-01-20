@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGHerbalism" style="lblTitle">
+    <label text="Herbalism Sphere"/>
+    </portal>
+  <portal id="pSoGTalHerbalism" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Herbalism & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Herbalism & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Herbalism"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Herbalism Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEHerbalism].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwHerbalism" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Herbalism]]></list>
+      <candidate><![CDATA[SoGSphere.Herbalism & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Herbalism Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Herbalism Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGPkgHerbalism" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Herbalism & SoGTlClass.Package]]></list>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Herbalism & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Herbalism Packages"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGPkHerbalism].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Herbalism Info layout -->
+  <layout id="loSoGHerbalism">
+    <portalref portal="pSoGHerbalism" taborder="5"/>
+    <portalref portal="pSoGTalHerbalism" taborder="10"/>
+    <portalref portal="pSoGDrwHerbalism" taborder="15"/>
+    <portalref portal="pSoGPkgHerbalism" taborder="20"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpHerbalism"/>
+    <templateref template="tmSoGDCSph" thing="sogSpHerbalism"/>
+    <templateref template="tmSoGRngSp" thing="sogSpHerbalism"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGHerbalism].batchadd
+                portal[pSoGHerbalism].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalHerbalism].batchadd[5]
+                portal[pSoGTalHerbalism].width = autoright
+
+                perform portal[pSoGDrwHerbalism].batchadd[5]
+                portal[pSoGDrwHerbalism].width = autoright
+
+                perform portal[pSoGPkgHerbalism].batchadd[5]
+                portal[pSoGPkgHerbalism].width = autoright
+
+                height += portal[pSoGPkgHerbalism].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGHerbalism" name="Herbalism" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Herbalism</live>
+    <layoutref layout="loSoGHerbalism"/>
+    </panel>
+  </document>

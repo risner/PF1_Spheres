@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Treasures of the Spheres"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="ioLAPFragDestiny" name="Fragment of Destiny +1" compset="Wondrous" description="Aura faint (+1) or moderate (+2/+3) Fate; CL 3rd (+1), 6th (+2), or 9th (+3)\nSlot any; Price 2,500 gp (+1), 10,000 gp (+2), or 22,500 (+3); Weight 1 lb.\n\nThis crystal has been carefully woven into cloth and is designed to be worn anywhere on the body. While worn, a fragment of destiny provides a +1 to +3 luck bonus to all saving throws.\n\nConstruction Requirements\nForge Charm, Fate sphere, Cost 1,250 gp (+1), 5,000 gp (+2), or 11,250 gp (+3)" summary="Luck bonus to all saving throws.">
+    <fieldval field="gCost" value="2500"/>
+    <fieldval field="gWeight" value="1"/>
+    <fieldval field="iCL" value="3"/>
+    <usesource source="pPF1e_Sph_OTreasure"/>
+    <tag group="Helper" tag="EquipMag"/>
+    <tag group="User" tag="NoActSign"/>
+    <tag group="User" tag="HideActChk"/>
+    <tag group="iSubschool" tag="ItemSchoolFate" name="Fate Sphere" abbrev="SFate"/>
+    <tag group="fShowWhat" tag="ItemSlot"/>
+    <tag group="gType" tag="Wonder"/>
+    <eval phase="PostAttr" priority="10000"><![CDATA[
+      doneif (field[gIsEquip].value = 0)
+
+      ~ If nothing chosen, get out now
+      doneif (field[usrChosen1].ischosen <> 1)
+
+      #applybonus[BonLuck,hero.child[svAll],1]]]></eval>
+    <eval phase="First" priority="10000" index="2"><![CDATA[      ~ If we're not enabled, get out now
+      doneif (field[gIsEquip].value = 0)
+      ~ If nothing chosen, get out now
+      doneif (field[usrChosen1].ischosen <> 1)
+
+      ~ Remove all current equipment slot tags
+      perform this.delete[Hero.Eqp?]
+
+      ~ Pull the ExtraSlot tag to us and rename to Hero
+      perform field[usrChosen1].chosen.pulltags[ExtraSlot.?,Hero]
+      ~ Push all our Equipment Slot tags to the item
+      ~perform this.pushtags[Hero.Eqp?]]]></eval>
+    </thing>
+  <thing id="ioLAPMagToolkit" name="Magical Toolkit +1" compset="Wondrous" description="Aura variable Mind; CL 1st\nSlot none; Price 100 gp (+1); Weight 2 lbs.\n\nMagical toolkits are elaborate toolsets that offer a competence bonus to one skill. Many adventurers buy these toolkits to supplement personal weaknesses, such as poor observation skills, or to enhance their abilities in a particular area. Users must spend 8 hours bonding to magical toolkits with a bonus of +6 or higher (because these toolkits can be for any bonus a charm can provide, not just the common ones priced here), and may only bond to three such toolkits at any given time. New bonds replace the oldest bond first.\n\nConstruction Requirements\nForge Charm, Mind sphere; Cost 50 gp (+1), 200 gp (+2), 1,250 gp (+5), 5,000 gp (+10), or 20,000 gp (+20)\n\nWiki Note: Generally, magical toolkits must be held to be used, since they are literal tools being used to help at a given task. These are not slotless items.">
+    <fieldval field="gCost" value="100"/>
+    <fieldval field="iCL" value="2"/>
+    <fieldval field="gWeight" value="2"/>
+    <usesource source="pPF1e_Sph_OTreasure"/>
+    <tag group="fShowWhat" tag="Skills"/>
+    <tag group="ChooseSrc1" tag="Hero" name="All Picks on Hero" abbrev="All Picks on Hero"/>
+    <tag group="Helper" tag="EquipAvail"/>
+    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
+    <tag group="Helper" tag="EquipMag"/>
+    <eval phase="PreAttr" priority="10000"><![CDATA[
+      doneif (field[usrChosen1].ischosen = 0)
+
+      doneif (field[gIsEquip].value = 0)
+
+      if (field[usrChosen1].ischosen <> 0) then
+        field[usrChosen1].chosen.field[BonComp].value = maximum(field[usrChosen1].chosen.field[BonComp].value,1)
+        endif]]></eval>
+    </thing>
+  <thing id="ioLAPMagToolkit2" name="Magical Toolkit +2" compset="Wondrous" description="Aura variable Mind; CL 2nd\nSlot none; Price 400 gp (+2); Weight 2 lbs.\n\nMagical toolkits are elaborate toolsets that offer a competence bonus to one skill. Many adventurers buy these toolkits to supplement personal weaknesses, such as poor observation skills, or to enhance their abilities in a particular area. Users must spend 8 hours bonding to magical toolkits with a bonus of +6 or higher (because these toolkits can be for any bonus a charm can provide, not just the common ones priced here), and may only bond to three such toolkits at any given time. New bonds replace the oldest bond first.\n\nConstruction Requirements\nForge Charm, Mind sphere; Cost 50 gp (+1), 200 gp (+2), 1,250 gp (+5), 5,000 gp (+10), or 20,000 gp (+20)\n\nWiki Note: Generally, magical toolkits must be held to be used, since they are literal tools being used to help at a given task. These are not slotless items.">
+    <fieldval field="gCost" value="400"/>
+    <fieldval field="iCL" value="2"/>
+    <fieldval field="gWeight" value="2"/>
+    <usesource source="pPF1e_Sph_OTreasure"/>
+    <tag group="fShowWhat" tag="Skills"/>
+    <tag group="ChooseSrc1" tag="Hero" name="All Picks on Hero" abbrev="All Picks on Hero"/>
+    <tag group="Helper" tag="EquipAvail"/>
+    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
+    <tag group="Helper" tag="EquipMag"/>
+    <eval phase="PreAttr" priority="10000"><![CDATA[
+      doneif (field[usrChosen1].ischosen = 0)
+
+      doneif (field[gIsEquip].value = 0)
+
+      if (field[usrChosen1].ischosen <> 0) then
+        field[usrChosen1].chosen.field[BonComp].value = maximum(field[usrChosen1].chosen.field[BonComp].value,2)
+        endif]]></eval>
+    </thing>
+  <thing id="ioLAPMagToolkit5" name="Magical Toolkit +5" compset="Wondrous" description="Aura variable Mind; CL 5th\nSlot none; Price 2500 gp (+5); Weight 2 lbs.\n\nMagical toolkits are elaborate toolsets that offer a competence bonus to one skill. Many adventurers buy these toolkits to supplement personal weaknesses, such as poor observation skills, or to enhance their abilities in a particular area. Users must spend 8 hours bonding to magical toolkits with a bonus of +6 or higher (because these toolkits can be for any bonus a charm can provide, not just the common ones priced here), and may only bond to three such toolkits at any given time. New bonds replace the oldest bond first.\n\nConstruction Requirements\nForge Charm, Mind sphere; Cost 50 gp (+1), 200 gp (+2), 1,250 gp (+5), 5,000 gp (+10), or 20,000 gp (+20)\n\nWiki Note: Generally, magical toolkits must be held to be used, since they are literal tools being used to help at a given task. These are not slotless items.">
+    <fieldval field="gCost" value="2500"/>
+    <fieldval field="iCL" value="5"/>
+    <fieldval field="gWeight" value="2"/>
+    <usesource source="pPF1e_Sph_OTreasure"/>
+    <tag group="fShowWhat" tag="Skills"/>
+    <tag group="ChooseSrc1" tag="Hero" name="All Picks on Hero" abbrev="All Picks on Hero"/>
+    <tag group="Helper" tag="EquipAvail"/>
+    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
+    <tag group="Helper" tag="EquipMag"/>
+    <eval phase="PreAttr" priority="10000"><![CDATA[
+      doneif (field[usrChosen1].ischosen = 0)
+
+      doneif (field[gIsEquip].value = 0)
+
+      if (field[usrChosen1].ischosen <> 0) then
+        field[usrChosen1].chosen.field[BonComp].value = maximum(field[usrChosen1].chosen.field[BonComp].value,5)
+        endif]]></eval>
+    </thing>
+  </document>

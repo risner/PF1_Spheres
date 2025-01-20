@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGArtifice" style="lblTitle">
+    <label text="Artifice Sphere"/>
+    </portal>
+  <portal id="pSoGTalArtifice" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Artifice & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Artifice & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Artifice"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Artifice Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEArtifice].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwArtifice" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Artifice]]></list>
+      <candidate><![CDATA[SoGSphere.Artifice & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Artifice Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Artifice Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Artifice Info layout -->
+  <layout id="loSoGArtifice">
+    <portalref portal="pSoGArtifice" taborder="5"/>
+    <portalref portal="pSoGTalArtifice" taborder="10"/>
+    <portalref portal="pSoGDrwArtifice" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpArtifice"/>
+    <templateref template="tmSoGDCSph" thing="sogSpArtifice"/>
+    <templateref template="tmSoGRngSp" thing="sogSpArtifice"/>
+    <position><![CDATA[
+
+                autogap = 2
+
+                perform portal[pSoGArtifice].batchadd
+                portal[pSoGArtifice].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalArtifice].batchadd[5]
+                portal[pSoGTalArtifice].width = autoright
+
+                perform portal[pSoGDrwArtifice].batchadd[5]
+                portal[pSoGDrwArtifice].width = autoright
+
+                height += portal[pSoGDrwArtifice].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGArtifice" name="Artifice" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Artifice</live>
+    <layoutref layout="loSoGArtifice"/>
+    </panel>
+  </document>

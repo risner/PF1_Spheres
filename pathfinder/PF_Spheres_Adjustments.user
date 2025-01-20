@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres - Adjustments"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="pBlacksmithMaint" name="Blacksmith Maintenance" compset="InPlay" description="Apply the benefits of a Blacksmith maintenance.">
+    <fieldval field="pCandExpr" value="abCategory.SoMBlksmMaint"/>
+    <usesource source="pPF1e_Sph_Might"/>
+    <tag group="Helper" tag="NoIncr" name="NoIncr" abbrev="NoIncr"/>
+    <eval phase="PreLevel" priority="10000" index="2"><![CDATA[~ If we're not enabled, get out now
+      doneif (field[pIsOn].value = 0)
+
+      ~ If nothing chosen, get out now
+      doneif (field[pChosen].ischosen = 0)
+
+      var seek as string
+      seek = field[pChosen].chosen.idstring
+
+      var found as number
+      found = 0
+      ~ Remove all from the Special tab.
+      foreach pick in hero from BaseClSpec where "abCategory.SoMBlksmMaint"
+            if (compare(seek,eachpick.idstring) <> 0) then
+                  ~ Hide unused from specials list
+                  perform eachpick.assign[Hide.Special]
+                  ~ perform eachpick.assign[Helper.SpcDisable]
+            else
+                  var bon as number
+                  bon = eachpick.field[abValue].value
+
+                  ~ Find the first worn armor.
+                  perform hero.findchild[BaseArmor,"EquipType.Armor & fieldval:gIsEquip <> 0"].setfocus
+                  if (state.isfocus = 1) then
+                        focus.field[arArmorChk].value = minimum(focus.field[arArmorChk].value + bon, 0)
+                        focus.field[arAC].value += bon
+                        found = 1
+                  else
+                        field[abText].text = "Failed to find armor " & field[pChosen].chosen.field[livename].text
+                  endif
+            endif
+      nexteach
+      if (found = 0) then
+            field[abText].text &= ": No worn armor found."
+      endif]]></eval>
+    <evalrule phase="PreLevel" priority="10001" message="Blacksmith Maintenance" severity="warning"><![CDATA[validif (empty(field[abText].text) = 1)
+@message = field[abText].text
+@valid = 0]]></evalrule>
+    </thing>
+  </document>

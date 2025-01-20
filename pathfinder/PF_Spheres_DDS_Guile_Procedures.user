@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Procedures"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <procedure id="SoGSetupTl" context="pick"><![CDATA[
+        ~ If this is a package, tag appropriately
+		if (tagis[SoGTlClass.Package] + tagis[SoGSphere.?] = 2) then
+		  perform assignstr["SoGPackage." & replace(tagids[SoGSphere.?],"SoGSphere.","",0)]
+
+		  ~ Push a HasPkg tag to the container for prerequisites to check
+		  perform container.pushtags[SoGIsPkg.?,SoGHasPkg]
+		endif
+
+		~ Forward our descriptor tags to the hero, so that other things can count how many talents of a given descriptor the hero has
+		if (tagis[SoGTlClass.Package] + tagis[SoGTlClass.GainSphere] = 0) then
+		  perform hero.pushtags[SoGTalDesc.?,SoGHasTlDs]
+		endif
+
+	    ~ Mark the hero as having a talent from this sphere (for testing prereqs)
+            ~ Adding NoBnTalent here to count the bonus talents correctly for Guile.
+	    ~     If a base sphere or drawback grants an additional
+	    ~     talent (such as via a package selection or alternate
+	    ~     start), the additional talents do not count as talents
+	    ~     spent for rules that count the number of talents spent
+	    ~     in a sphere. (This most often applies to gaining skill
+	    ~     ranks.)
+	    if (tagis[SoGTlClass.GainSphere] + tagis[SoGTlClass.Package] + tagis[SoGTlClass.InitTalent] + tagis[SphOfGuil.NoBnTalent] = 0) then
+		  if (tagis[SoGSphere.?] <> 0) then
+		    perform hero.assignstr["SoGHasTal." & replace(tagids[SoGSphere.?],"SoGSphere.","",0)]
+		  endif
+	    endif
+
+		perform hero.pushtags[SoGTalent.?]
+
+                ~ Stop if we don't have a sphere associated with this talent (that should only be the case for the "custom" talent, which sets its own name later)
+                ~ This also happenes to support Drawback buyoff.
+                doneif (tagis[SphOfPow.CustTalent] = 1)
+
+		~ Prepend our talent name with the associated sphere name
+		doneif (tagis[SoGSphere.?] = 0)
+
+                perform this.pushtags[SoGTalDesc.?,SoGBanDesc]
+
+		~ Perform specific setups for talents with certain descriptors
+
+		if (countme = 1) then
+		  perform assign[Helper.FirstCopy]
+	        else
+		  perform hero.findchild[Ability, tagids[Ability.?]].setfocus
+		  if (state.isfocus = 1) then
+		    if (focus.tagis[Helper.FirstCopy] = 0) then
+		      perform focus.assign[Helper.FirstCopy]
+		    endif
+		  endif
+		endif
+		if (tagis[Helper.FirstCopy] = 0) then
+		  ~ Hide duplicate packages
+		  if (tagis[SoGTlClass.Package] <> 0) then
+		  	perform assign[Helper.Free]
+		    perform assign[Hide.All]
+			endif
+		  ~ Collapse most non-unique talents in the Specials list (but not if we aren't showing the count too)
+		  if (tagis[SphOfGuil.LnNoCollap] = 0) then
+		    perform delete[Helper.ShowSpec]
+		  endif
+		endif]]></procedure>
+  <procedure id="SoGTalDscr" scripttype="none"><![CDATA[
+          doneif (state.isfocus = 0)
+          var descTxt as string
+          descTxt = ""
+
+          var br as string
+          br = "{br}"
+
+          ~ Sphere, and descriptors if any
+          if (focus.tagis[SoGSphere.?] <> 0) then
+                descTxt &= "{b}Sphere:{/b} " & focus.tagnames[SoGSphere.?]
+          endif
+          if (focus.tagis[SoGTalDesc.?] <> 0) then
+                descTxt &= " (" & focus.tagnames[SoGTalDesc.?, ", "] & ")"
+          endif
+
+          ~ Action cost
+          if (focus.tagis[abAction.?] <> 0) then
+        descTxt &= br & "{b}Action:{/b} " & focus.tagnames[abAction.?]
+          endif
+
+      ~ Range (manual gets preference)
+          If ( empty(focus.field[tRange].text) = 0 ) Then
+                descTxt &= br & "{b}Range:{/b} " & focus.field[tRange].text
+      elseif (focus.tagis[tRange.?] <> 0) Then
+        descTxt &= br & "{b}Range:{/b} " & focus.tagnames[tRange.?]
+      Endif
+
+      ~ Area (manual gets preference)
+          If ( empty(focus.field[tArea].text) = 0 ) Then
+                descTxt &= br & "{b}Area:{/b} " & focus.field[tArea].text
+      elseif (focus.tagis[tArea.?] <> 0) Then
+        descTxt &= br & "{b}Area:{/b} " & focus.tagnames[tArea.?]
+      Endif
+
+      ~ Duration (manual gets preference)
+          if ( empty(focus.field[tDuration].text) = 0 ) Then
+        descTxt &= br & "{b}Duration:{/b} " & focus.field[tDuration].text
+      elseif (focus.tagis[tDuration.?] <> 0) Then
+        descTxt &= br & "{b}Duration:{/b} " & focus.tagnames[tDuration.?]
+      Endif
+
+      ~ Saving Throw (manual gets preference)
+          if ( empty(focus.field[tSave].text) = 0 ) Then
+        descTxt &= br & "{b}Saving Throw:{/b} " & focus.field[tSave].text
+      elseif (focus.tagis[tSave.?] <> 0) Then
+        descTxt &= br & "{b}Saving Throw:{/b} " & focus.tagnames[tSave.?]
+      endif
+
+      ~ Now append the original description
+      descTxt &= br & br & focus.field[descript].text]]></procedure>
+  <procedure id="SoGValTlSp" scripttype="validate"><![CDATA[
+    ~ Figure out if the container (hero or item) has the correct sphere to take this talent
+
+    var ValidTalSp as number
+    var ValidTalTx as string
+
+    if (@ispick = 1) then
+	  ValidTalSp = this.tagcountstr[altpick.tagids[SoGSphere.?]]
+	  if (ValidTalSp < 1) then
+	    if (altpick.isroot = 1) then
+	      ValidTalSp = altpick.root.tagis[component.SoGTraTrad]
+	    endif
+	  endif
+	  ValidTalTx = altpick.tagnames[SoGSphere.?] & " Sphere required"
+	else
+	  ValidTalSp = this.tagcountstr[altthing.tagids[SoGSphere.?]]
+	  ValidTalTx = altthing.tagnames[SoGSphere.?] & " Sphere required"
+	endif
+	ValidTalSp = minimum(ValidTalSp,1)]]></procedure>
+  <procedure id="SoGMinusOne" context="pick"><![CDATA[
+      ~ This subtracts one tag from the focus.
+      ~ TODO - There may be a better way? Maybe uding a Value tag?
+
+      var tagstr as string
+      var x as number
+      var i as number
+
+      x = focus.tagcountstr[tagstr]
+
+      perform focus.deletestr[tagstr]
+      if (x > 1) then
+           for i = 1 to (x - 1)
+                perform focus.assignstr[tagstr]
+           next
+      endif
+  ]]></procedure>
+  </document>

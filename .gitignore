@@ -1,0 +1,3 @@
+pathfinder/*
+!pathfinder/PF_*
+hlexport.prefs

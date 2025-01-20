@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGSubterfuge" style="lblTitle">
+    <label text="Subterfuge Sphere"/>
+    </portal>
+  <portal id="pSoGTalSubterfuge" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Subterfuge & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Subterfuge & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Subterfuge"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Subterfuge Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSESubterfuge].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwSubterfuge" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Subterfuge]]></list>
+      <candidate><![CDATA[SoGSphere.Subterfuge & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Subterfuge Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Subterfuge Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Subterfuge Info layout -->
+  <layout id="loSoGSubterfuge">
+    <portalref portal="pSoGSubterfuge" taborder="5"/>
+    <portalref portal="pSoGTalSubterfuge" taborder="10"/>
+    <portalref portal="pSoGDrwSubterfuge" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpSubterfuge"/>
+    <templateref template="tmSoGDCSph" thing="sogSpSubterfuge"/>
+    <templateref template="tmSoGRngSp" thing="sogSpSubterfuge"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGSubterfuge].batchadd
+                portal[pSoGSubterfuge].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalSubterfuge].batchadd[5]
+                portal[pSoGTalSubterfuge].width = autoright
+
+                perform portal[pSoGDrwSubterfuge].batchadd[5]
+                portal[pSoGDrwSubterfuge].width = autoright
+
+                height += portal[pSoGDrwSubterfuge].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGSubterfuge" name="Subterfuge" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Subterfuge</live>
+    <layoutref layout="loSoGSubterfuge"/>
+    </panel>
+  </document>

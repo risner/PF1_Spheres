@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Might"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arSunderingHand" name="Sundering Hand" compset="ClassVary" description="The Sundering Hand school has old roots in dwarven philosophy. Originally an obscure sect of dwarven ascetics, their philosophy has spread to other peoples, calling for simplicity and internal achievement instead of great works of craft and artifice. Now small schools can be found in many lands, taking in outcasts and seekers and training them in their ways." uniqueness="unique">
+    <comment>Not implemented: Breaking Style</comment>
+    <arrayval field="cvBonFtMod" index="0" value="-1"/>
+    <arrayval field="cvBonFtMod" index="1" value="-2"/>
+    <arrayval field="cvBonFtMod" index="5" value="-3"/>
+    <arrayval field="cvBonFtMod" index="9" value="-4"/>
+    <arrayval field="cvBonFtMod" index="13" value="-5"/>
+    <arrayval field="cvBonFtMod" index="17" value="-6"/>
+    <usesource source="pPF1e_Sph_Might"/>
+    <tag group="fDisable" tag="fWepMnk" name="Monk Weapon Proficiencies" abbrev="Monk Weapon Proficiencies"/>
+    <tag group="AlgnReq" tag="Lawful"/>
+    <tag group="AbReplace" tag="cMnkFlurUn" name="Flurry of Blows (Unchained)" abbrev="Flurry of Blows (Unchained)"/>
+    <tag group="AbReplace" tag="cMnkUnarm" name="Unarmed Strike" abbrev="Unarmed Strike"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="CSCountAs" tag="SoMBlacksmith"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="cfgSmithInsigh"></bootstrap>
+    <bootstrap thing="CSoMBreakStyle">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="13"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="17"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="19"/>
+      </bootstrap>
+    <bootstrap thing="abSoMCmbTr">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="5"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="7"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="9"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <link linkage="varies" thing="cHelpMnk"/>
+    <eval phase="First" name="Sundering Hand assigns Adept">perform linkage[varies].assign[SphOfMigh.Class]
+      perform linkage[varies].assign[SoMPMAttr.aWIS]
+      perform linkage[varies].assign[SoMPLProg.Adept]</eval>
+    <eval phase="Final" priority="99999999"><![CDATA[
+     ~ If our linked class does not exist get out now!
+      doneif (islinkage[varies] = 0)
+
+      var S2_SpecTag as string
+      ~ We need to not wipe out any other archetypes so get that list
+      Call GetSpExpr1
+
+      ~ Give access to Smithing Insights
+      linkage[varies].field[cCstSpExpr].text = "(" & S2_SpecTag & "|SpecSource.cHelpSMBlk) & !Helper.Secondary & !Helper.Tertiary & !Helper.Quaternary & !Helper.Quintenary & !Helper.Obsolete"]]></eval>
+    </thing>
+  <thing id="CSoMBreakStyle" name="Breaking Style" compset="CustomSpec" description="An unchained sundering hand monk may apply his style strike ability to any attack action he makes with a suitable limb." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Might"/>
+    <tag group="SpecSource" tag="arSunderingHand"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="Final" priority="99999999"><![CDATA[
+      ~ Add Breaking Style
+      perform state.thing[cMnkStyStr].amendthing[description,state.thing[cMnkStyStr].field[descript].text & "\n\nAn unchained sundering hand monk may apply his style strike ability to any attack action he makes with a suitable limb."]
+    ]]></eval>
+    </thing>
+  <thing id="cSHAbilRep" name="Ability to Replace" compset="CustomSpec" description="Use this ability to choose which base monk abilities to trade out for Smithing Insight powers. Once the monk has reached the level where he would have gained that ability, this configurable will gain a slot for a Smithing Insight power.">
+    <fieldval field="usrCandid1" value="Helper.FirstCopy &amp; (Ability.cMnkSlow | Ability.cMnkHiJump | Ability.cMnkWhole | Ability.cMnkDiamBd | Ability.cMnkAbund | Ability.cMnkDiamSl | Ability.cMnkQuiver | Ability.cMnkTongue | Ability.cMnkEmpty)"/>
+    <usesource source="pPF1e_Sph_Might"/>
+    <tag group="User" tag="NoAutoName" name="NoAutoName" abbrev="NoAutoName"/>
+    <tag group="AllowRCust" tag="cfgSmithInsigh" name="Sundering Hand Ability Replacements" abbrev="Sundering Hand Ability Replacements"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <eval phase="PostLevel" priority="10000" index="2"><![CDATA[
+      doneif (field[usrChosen1].ischosen = 0)
+
+      if (field[usrChosen1].chosen.root.field[cTotalLev].value >= field[usrChosen1].chosen.tagvalue[ClSpecWhen.?]) then
+        linkage[table].field[cfgMax2].value += 1
+        endif]]></eval>
+    <eval phase="First" priority="450">doneif (field[usrChosen1].ischosen = 0)
+
+      perform field[usrChosen1].chosen.assign[Helper.SpcDisable]
+      perform field[usrChosen1].chosen.assign[Helper.SpcReplace]
+      perform field[usrChosen1].chosen.pulltags[AbReplace.?]
+
+      perform forward[AbReplace.?]
+
+      perform field[usrChosen1].chosen.root.pushtags[AbReplace.?]</eval>
+    </thing>
+  <thing id="cfgSmithInsigh" name="Smithing Insight Powers" compset="Configure" uniqueness="unique">
+    <fieldval field="cfgAllow2" value="SpecSource.cHelpSMBlk"/>
+    <usesource source="pPF1e_Sph_Might"/>
+    <eval phase="PreLevel" priority="10000" index="2"><![CDATA[
+      ~we check the class that's linked to our archetype, and figure out
+      ~how to handle adding Smithing Insights.
+      if (hero.child[arSunderingHand].islinkage[varies] <> 0) then
+        if (hero.child[arSunderingHand].linkage[varies].tagis[thingid.cHelpMnk] <> 0) then
+          ~chained monk
+          perform assign[Helper.Allow1Abil]
+          field[cfgMax1].value = 99
+          field[cfgObject1].text = "Abilities to Replace"
+          field[cfgObject2].text = "Smithing Insight Powers"
+          endif
+      endif]]></eval>
+    </thing>
+  </document>

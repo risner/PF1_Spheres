@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <loadonce key="PF_Spheres_DDS_SpheresOfMight - Editor"/>
+  <!-- Spheres of Guile spheres editthing -->
+  <editthing compset="SoGSphere" description="Spheres of Guile spheres" group="Spheres of Guile" name="Sphere" prefix="sogSp" summary="This lets you define new trade spheres for the Spheres of Guile system">
+    <inputthing helptext="The tag indicating the name of the sphere. Each sphere must have a unique tag." name="Sphere Tag">
+      <it_tagpick group="SoGSphere" tag="?"/>
+      </inputthing>
+    </editthing>
+  <!-- Spheres of Guile talents editthing -->
+  <editthing compset="SoGTalent" description="Spheres of Guile talents" group="Spheres of Guile" name="Talent" prefix="sogTl" summary="This lets you define new skill talents for the Spheres of Guile system">
+    <inputthing helptext="Select the sphere that this talent belongs to." name="Sphere">
+      <it_tagpick group="SoGSphere" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Select 'Basic Talent' for most talents.  Select 'Sphere Access' for talents that grant access to their associated skill sphere.  Select 'Base Sphere Ability' for abilities that are granted for free when a sphere is first taken." name="Talent Class">
+      <it_tagpick group="SoGTlClass" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Select any descriptors that apply to the talent.  These will be displayed in parentheses after the talent name." name="Talent Descriptor(s)">
+      <it_taglist group="SoGTalDesc" tag="?"/>
+      </inputthing>
+    <inputthing helptext="If this talent grants free ranks in one or more skills, select those skills here." name="Associated Skill(s)">
+      <it_taglist group="SoGAssocSk" tag="?"/>
+      </inputthing>
+    <inputthing helptext="If this talent has any associated feats, select those feats here." name="Associated Feat(s)">
+      <it_taglist group="HasFeat" tag="?"/>
+      </inputthing>
+    <inputthing helptext="If this talent can be taken more than once but not more than a certain number of times, enter the number here" name="Max Times Taken">
+      <it_field field="tMaxTaken"/>
+      </inputthing>
+    <inputthing helptext="If this talent has a minimum Base Attack Bonus required, enter it here. Generally, only Legendary Talents have BAB requirements." name="Base Attack Bonus required">
+      <it_field field="reqBAB"/>
+      </inputthing>
+    <!-- PACKAGE INFO -->
+    <inputthing helptext="This section is for information on how this talent interacts with sphere packages" name="Sphere Package Info">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="If this is a package rather than a talent, assign the package tag here" name="Is Package">
+      <it_tagpick group="SoGIsPkg" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Use if this talent requires the hero to have one or more of the checked packages." name="Requires Package">
+      <it_taglist group="SoGReqPkg" tag="?"/>
+      </inputthing>
+    <!-- ACTIVATION -->
+    <inputthing helptext="This section allows you to set up talents as activated abilities" name="Activation">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="Check this box if the Talent is an activated ability" name="Activated ability">
+      <it_tagcheck group="User" tag="Activation"/>
+      </inputthing>
+    <inputthing helptext="This text will appear next to the activation checkbox" name="Activation Name">
+      <it_field field="actName"/>
+      </inputthing>
+    <!-- CASTING TIME -->
+    <inputthing helptext="This section allows you to define the action(s) required to use the sphere ability" name="Action Cost Info">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="Select the action required for this talent, if any" name="Action">
+      <it_tagpick group="tCastTime" tag="?"/>
+      </inputthing>
+    <!-- RANGE -->
+    <inputthing helptext="This section allows you to define range info" name="Range Info">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="Select the range of this talent." name="Range">
+      <it_taglist group="tRange" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Any text entered here will override the Range tag above; use this for unique cases." name="Range Text">
+      <it_field field="tRange"/>
+      </inputthing>
+    <!-- AREA -->
+    <inputthing helptext="This section allows you to define area-of-effect info" name="Area Info">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="Select the area of this talent." name="Area">
+      <it_taglist group="tArea" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Any text entered here will override the Area tag above; use this for unique cases." name="Area Text">
+      <it_field field="tArea"/>
+      </inputthing>
+    <!-- DURATION -->
+    <inputthing helptext="This section allows you to define duration information" name="Duration Info">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="Select the duration of this talent's effect." name="Duration">
+      <it_tagpick group="tDuration" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Any text entered here will override the Duration tag above; use this for unique cases." name="Duration Text">
+      <it_field field="tDuration"/>
+      </inputthing>
+    <!-- SAVING THROWS -->
+    <inputthing helptext="This section allows you to define saving throw information" name="Save Info">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="The type of saving throw used to defend against this talent's effect (if any)." name="Save">
+      <it_taglist group="tSave" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Any text entered here will override the Save tag above; use this for unique cases." name="Save Text">
+      <it_field field="tSave"/>
+      </inputthing>
+    <!--sphere-specific info will go here -->
+	
+	<!-- ABVALUES -->
+    <inputthing helptext="" name="Generic Ability Values">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="" name="Value #1 (abValue)">
+      <it_field field="abValue"/>
+      </inputthing>
+    <!-- LIVENAME -->
+    <inputthing helptext="" name="Automatic livename Generation">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="" name="Section 1 - Name">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="" name="Section 2 - Pre-Parenthesis">
+      <it_taglist group="LvNameApp" tag="?"/>
+      </inputthing>
+    <inputthing helptext="" name="Section 3 - In-Parenthesis">
+      <it_taglist group="LvNamePar" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Most talents that can be taken multiple times will include the number of times they were taken in parentheses in the livename. Check this to prevent that. Darkvision is an example of a talent that would use this. Will be ignored for talents that can only be taken once." name="Do not include talent count in livename">
+      <it_tagcheck group="SphOfGuil" tag="LnNoCount"/>
+      </inputthing>
+    <inputthing helptext="Most talents that can be taken multiple times will only appear once in the Specials list" name="Do not collapse instances in Specials list">
+      <it_tagcheck group="SphOfGuil" tag="LnNoCollap"/>
+      </inputthing>
+    <inputthing helptext="Check here if the talent should not be displayed at all in the Specials list" name="Do not display in Specials list">
+      <it_tagcheck group="Helper" tag="SpecUp"/>
+      </inputthing>
+    <!-- STATBLOCK -->
+    <inputthing helptext="" name="Automatic statblock name Generation">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="" name="Section 1 - Name">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="" name="Section 2 - Pre-Parenthesis">
+      <it_taglist group="SbNameApp" tag="?"/>
+      </inputthing>
+    <inputthing helptext="" name="Section 3 - In-Parenthesis">
+      <it_taglist group="SbNamePar" tag="?"/>
+      </inputthing>
+    <!-- LIVENAME -->
+    <inputthing helptext="" name="Charge Information">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="Talents that provide an expendable resource should check this list" name="Show in Tracked Resources list">
+      <it_tagcheck group="User" tag="Tracker"/>
+      </inputthing>
+    <inputthing helptext="Enter the base number of charges available to the talent, this will be added to any charges calculated in scripts. If no charges are provided, leave this blank." name="Base charges">
+      <it_field field="trkMax"/>
+      </inputthing>
+    <inputthing helptext="If this talent can be used a specific number of times in a given period, select the period here." name="Usage period?">
+      <it_tagpick group="Usage" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Check if the talent's charges should not be restored when the user clicks the Night's Rest button on the In-Play tab." name="Don't reset with a night's rest">
+      <it_tagcheck group="Helper" tag="NoNightRes"/>
+      </inputthing>
+    </editthing>
+  <!-- Spheres of Guile drawbacks editthing -->
+  <editthing compset="SoGDrawbk" description="Spheres of Guile drawbacks" group="Spheres of Guile" name="Drawback" prefix="sogDb" summary="This lets you define new Drawbacks for the Spheres of Guile system">
+    <inputthing helptext="Select the sphere is belongs to." name="Sphere">
+      <it_tagpick group="SoGSphere" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Check this box if the drawback does not grant a bonus talent, or if the talent grants a specific bonus talent (which will be bootstrapped). This applies only to sphere-specific drawbacks." name="No bonus talent / specific bonus talent">
+      <it_tagcheck group="SphOfGuil" tag="NoBnTalent"/>
+      </inputthing>
+    <inputthing helptext="Select the bonus talent(s) this drawback grants" name="Bonus Talent">
+      <it_bootcustom compset="SoGTalent">
+        <match>SoGTlClass.Talent</match>
+        </it_bootcustom>
+      </inputthing>
+    <!-- RESTRICTIONS -->
+    <inputthing helptext="This section allows you to define any restrictions imposed by the drawback" name="Restrictions">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="If this Drawback bans the hero from taking any specific talent(s), select those talents here." name="Ban Talent(s)">
+      <it_taglist group="SoGBanTal" tag="?"/>
+      </inputthing>
+    <inputthing helptext="If this Drawback bans the hero from taking talents with particular descriptors, select those descriptors here." name="Ban Talent Descriptor">
+      <it_taglist group="SoGBanDesc" tag="?"/>
+      </inputthing>
+    <inputthing name="Item Selection">
+      <it_separator/>
+      </inputthing>
+    <inputthing helptext="If you want to specify a custom tag expression for the selection list, enter it here" name="Custom Expression">
+      <it_field field="usrCandid1"/>
+      </inputthing>
+    <inputthing helptext="Check this box if the drawback requires the user to select a talent to be banned." name="Ban user-selected talent">
+      <it_tagcheck group="SphOfGuil" tag="DBBanSelTl"/>
+      </inputthing>
+    <inputthing helptext="Check this box if the drawback not only bans the chosen talent, but all talents with the same descriptor (such as with Limited Necromancy)" name="Ban user-selected talent descriptors">
+      <it_tagcheck group="SphOfGuil" tag="DBBanSelDs"/>
+      </inputthing>
+    <inputthing helptext="Check this box if the drawback allows the user a select a talent that is exempted from the ban (such as with Shape Focus)" name="Exempt selected talent from ban">
+      <it_tagcheck group="SphOfGuil" tag="DBBanSelEx"/>
+      </inputthing>
+    <inputthing name="Other">
+      <it_separator/>
+      </inputthing>
+    </editthing>
+  <!-- Spheres of Guile Trade Tradition editthing -->
+  <editthing compset="SoGTraTrad" description="Spheres of Guile trade traditions" group="Spheres of Guile" name="Trade Tradition" prefix="sogTT" summary="This lets you define new Trade Traditions for the Spheres of Guile system">
+    <inputthing helptext="It is generally recommended that Trade Traditions add at least two Vocation talents." name="Vocation Talent(s)">
+      <it_bootcustom compset="SoGTalent">
+        <match><![CDATA[SoGTlClass.Talent & SoGSphere.Vocation]]></match>
+        </it_bootcustom>
+      </inputthing>
+    <inputthing helptext="Add any specific base sphere(s) granted by this Trade Tradition. Every Trade Tradition should either grant at least one base sphere or a choice between two base spheres (handled in Variable Talents below). Also select any packages the tradition adds, if the player is not given a choice of package." name="Base Sphere(s)">
+      <it_bootcustom compset="SoGTalent">
+        <match><![CDATA[SoGTlClass.GainSphere | SoGTlClass.Package]]></match>
+        </it_bootcustom>
+      </inputthing>
+    <inputthing helptext="Add any other non-variable spheres or talents granted by this Trade Tradition. " name="Other Talent(s)">
+      <it_bootcustom compset="SoGTalent">
+        <match><![CDATA[SoGTlClass.Talent & !SoGSphere.Vocation]]></match>
+        </it_bootcustom>
+      </inputthing>
+    <inputthing helptext="If this tradition grants a choice between variable talents, select the talents here" name="Variable Talent 1 Choices">
+      <it_taglist group="SoGVarTal1" tag="?"/>
+      </inputthing>
+    <inputthing helptext="If this tradition grants a choice between variable talents, select the talents here" name="Variable Talent 2 Choices">
+      <it_taglist group="SoGVarTal2" tag="?"/>
+      </inputthing>
+    <inputthing helptext="Add any bonus feats granted by this Trade Tradition. " name="Bonus Feat(s)">
+      <it_bootcustom compset="Feat">
+        <match><![CDATA[!Helper.Obsolete]]></match>
+        </it_bootcustom>
+      </inputthing>
+    </editthing>
+  </document>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGPerformanc" style="lblTitle">
+    <label text="Performance Sphere"/>
+    </portal>
+  <portal id="pSoGTalPerformanc" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Performance & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Performance & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Performance"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Performance Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEPerformanc].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwPerformanc" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Performance]]></list>
+      <candidate><![CDATA[SoGSphere.Performance & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Performance Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Performance Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Performance Info layout -->
+  <layout id="loSoGPerformanc">
+    <portalref portal="pSoGPerformanc" taborder="5"/>
+    <portalref portal="pSoGTalPerformanc" taborder="10"/>
+    <portalref portal="pSoGDrwPerformanc" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpPerformanc"/>
+    <templateref template="tmSoGDCSph" thing="sogSpPerformanc"/>
+    <templateref template="tmSoGRngSp" thing="sogSpPerformanc"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGPerformanc].batchadd
+                portal[pSoGPerformanc].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalPerformanc].batchadd[5]
+                portal[pSoGTalPerformanc].width = autoright
+
+                perform portal[pSoGDrwPerformanc].batchadd[5]
+                portal[pSoGDrwPerformanc].width = autoright
+
+                height += portal[pSoGDrwPerformanc].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGPerformanc" name="Performanc" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Performance</live>
+    <layoutref layout="loSoGPerformanc"/>
+    </panel>
+  </document>

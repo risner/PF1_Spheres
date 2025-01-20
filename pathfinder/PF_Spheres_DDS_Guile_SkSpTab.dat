@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <loadonce key="PF_Spheres_DDS_SpheresOfGuile - SkSpTab"/>
+  <!-- PORTALS -->
+  <portal id="pSoGSphBas" style="lblTitle">
+    <label text="Sphere Abilities"></label>
+    </portal>
+  <portal id="pSoGOAM" style="lblTitle">
+    <label text="Operative Ability"></label>
+    </portal>
+  <!-- Trade Traditions -->
+  <portal id="pSoGTraTrad" style="table">
+    <table_dynamic component="SoGTraTrad" showtemplate="tmSoGTTrPk" choosetemplate="tmSoGTalTh" alwaysupdate="yes">
+      <list><![CDATA[component.SoGTraTrad & !Hide.All & !Helper.Helper & !Helper.Obsolete]]></list>
+      <!-- Use our <list> as our <candidate -->
+      <description/>
+      <headertitle><![CDATA[
+                        @text = "Trade Traditions: " & hero.childfound[resSGTraTrad].field[resSummary].text
+                ]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGTraTrad].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Skill Sphere Talent Pool -->
+  <portal id="pSoGTalCnt" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes">
+      <list><![CDATA[component.SoGTalent & SoGTlClass.Any & !Hide.All & !SoGTalent.sogTlSpVocation & !SoGTlClass.InitTalent & !SphOfMigh.HideTables & !thingid.sogTlUtilStart]]></list>
+      <candidate><![CDATA[(SoGTlClass.Talent | SoGTlClass.GainSphere) & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !Helper.Obsolete & !thingid.sogTlUtilStart]]></candidate>
+      <autotag group="SoGTlClass" tag="Any"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Skill Sphere Talents: " & hero.childfound[resSGSSGen].field[resSummary].text]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSSGen].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Utility Talent Pool -->
+  <portal id="pSoGUtilTalCnt" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes">
+      <list><![CDATA[component.SoGTalent & SoGTlClass.Utility & !Hide.All & !SoGTlClass.InitTalent & !SphOfMigh.HideTables]]></list>
+      <candidate><![CDATA[(SoGTalDesc.Utility | SoGTlClass.UtilStart) & (SoGTlClass.Talent | SoGTlClass.GainSphere) & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !Helper.Obsolete]]></candidate>
+      <autotag group="SoGTlClass" tag="Utility"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Utility Talents: " & hero.childfound[resSGUtilTal].field[resSummary].text]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGUtilTal].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Expanded Utility Talent Pool -->
+  <portal id="pExpUtilTalCnt" style="table">
+    <table_dynamic component="DDSTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" descwidth="350" alwaysupdate="yes">
+      <list><![CDATA[SoGTlClass.Expanded & !Hide.All & !SphOfMigh.HideTables]]></list>
+      <candidate><![CDATA[TalentDesc.Utility & !SoGTalDesc.Trade & !Helper.Obsolete]]></candidate>
+      <autotag group="SoGTlClass" tag="Expanded"/>
+      <description/>
+      <headertitle><![CDATA[@text = "{ref LotSExpUtil}Expanded Utility Talents{ref}: " & hero.childfound[resSGExUtilTal].field[resSummary].text]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGExUtilTal].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGSphAssoSk" style="table">
+    <table_fixed component="BaseSkill" showtemplate="tmSoGSAsSkPk" alwaysupdate="yes" columns="2">
+      <list><![CDATA[component.BaseSkill & (SoGAssocSk.? | SoMAssocSk.?)]]></list>
+      <headertitle><![CDATA[@text = "Associated Skills"]]></headertitle>
+      </table_fixed>
+    </portal>
+  <portal id="pSoGSphSkLev" style="table">
+    <table_dynamic component="Modifiers" showtemplate="tmSoGSkLPk" choosetemplate="fThing" choosepicks="thing" alwaysupdate="yes" columns="2">
+      <list><![CDATA[component.BaseSkill & SkLeverage.? & !SkLevPick.Chosen]]></list>
+      <candidate><![CDATA[thingid.SoGSKUnlock]]></candidate>
+      <autotag group="SkLevPick" tag="Chosen"/>
+      <headertitle><![CDATA[@text = "Skill Leverage"
+                     perform hero.childfound[abSoGSkLeverage].setfocus
+                     if (state.isfocus <> 0) then
+                          @text &= " (" & focus.field[trkLeft].text & " of " & focus.field[trkMax].text & " left)"
+                     endif]]></headertitle>
+      <additem><![CDATA[@text = "childfound[resSGSkLeverage] failed"
+                     perform hero.childfound[resSGSkLeverage].setfocus
+                     if (state.isfocus <> 0) then
+                          @text = focus.field[resAddItem].text
+                          if (focus.field[resLeft].value <> 0) then
+                          @text &= " " & focus.field[resFract].text
+                          endif
+                     endif
+                ]]></additem>
+      </table_dynamic>
+    </portal>
+  <template id="tmSoGOM" name="Operative Ability" compset="SoGOM">
+    <portal id="pSoGOMLb" style="lblNormal">
+      <label text="Operative Ability:"/>
+      </portal>
+    <portal id="pSoGOMSel" style="menuNormal">
+      <menu_things field="usrChosen1" component="BaseAttr" maxvisible="20" usepicks="hero"></menu_things>
+      </portal>
+    <!-- Operative Ability Modifier -->
+    <portal id="pSoGOMLab" style="lblNormal">
+      <label text="Operative Ability Modifier:">
+        <labeltext><![CDATA[
+			@text = "Operative Ability Modifier: "
+			perform hero.childfound[SoGOM].setfocus
+			if (state.isfocus = 0) then
+				@text &= "-"
+				done
+			endif
+
+			if (empty(focus.field[OMAttAbbr].text) = 0) then
+				@text &= signed(focus.field[OM].value)
+			else
+				@text &= "-"
+			endif
+			]]></labeltext>
+        </label>
+      </portal>
+    <position><![CDATA[
+                ~ Width of "Operative Ability:" 120
+		portal[pSoGOMLb].width = 120
+                perform portal[pSoGOMSel].alignrel[ltor,pSoGOMLb,5]
+                perform portal[pSoGOMSel].centeron[vert,pSoGOMLb]
+
+                perform portal[pSoGOMLab].alignrel[ttob,pSoGOMLb,5]
+                perform portal[pSoGOMLab].alignrel[ltol,pSoGOMLb,4]
+
+                portal[pSoGOMSel].width = 80
+                height = portal[pSoGOMLab].bottom
+	]]></position>
+    </template>
+  <template id="tmSoGSATrade" name="Trade Training" compset="Resource">
+    <portal id="poSoGTradeTal" style="lblNormal">
+      <label text="Trade Talents:">
+        <labeltext><![CDATA[
+			@text = "Trade Talents: " & field[resSummary].text
+			]]></labeltext>
+        </label>
+      </portal>
+    <position><![CDATA[
+		height = portal[poSoGTradeTal].bottom
+	]]></position>
+    </template>
+  <template id="tmSoGSAUtil" name="Utility Training" compset="Resource">
+    <portal id="poSoGUtilTal" style="lblNormal">
+      <label text="Utility Talents:">
+        <labeltext><![CDATA[
+			@text = "Utility Talents: " & field[resSummary].text
+			]]></labeltext>
+        </label>
+      </portal>
+    <position><![CDATA[
+		height = portal[poSoGUtilTal].bottom
+	]]></position>
+    </template>
+  <template id="tmSoGAsRnSph" name="Sphere SL" compset="SoGSphere">
+    <portal id="poSoGSpAsRn" style="lblNormal">
+      <label text="Associated Ranks">
+        <labeltext><![CDATA[
+                        ~ We don't have a copy of the field[SphereCPLv] on the Sphere, but
+                        perform hero.findchild[SoGTalent, tagids[SoGSphere.?] & " & SoGTlClass.GainSphere"].setfocus
+                        if (state.isfocus = 1) then
+                             if (focus.tagcount[SoGTopAsSk.?] <> 0) then
+                                  var ar as number
+                                  ar = field[SphereCPLv].value
+
+                                  if (ar <> 0) then
+                                       @text = tagnames[SoGSphere.?] & " Associated Ranks: " & ar & " " & focus.tagnames[SoGTopAsSk.?]
+                                       done
+                                  endif
+                                  @text = tagnames[SoGSphere.?] & " Associated Ranks: No Ranks"
+                                  done
+                             endif
+                             @text = "No Associated Skill"
+                        endif
+                        ]]></labeltext>
+        </label>
+      </portal>
+    <position><![CDATA[
+                height = portal[poSoGSpAsRn].height
+                ]]></position>
+    </template>
+  <!-- Reusable sphere-specific save DC label -->
+  <template id="tmSoGDCSph" name="Sphere Save DC" compset="SoGSphere">
+    <portal id="poSoGSpDC" style="lblNormal">
+      <label text="Save DC:">
+        <labeltext><![CDATA[
+			var dcTxt as string
+			dcTxt = "-"
+                        ~ Some times the data is not updated, to counteract it we
+                        ~ findchild[] ourself and pull our DC.
+			perform hero.findchild[SoGSphere,"thingid." & replace(tagids[thingid.?],"thingid.","",1)].setfocus
+			if (state.isfocus = 1) then
+			  dcTxt = focus.field[abDC].value
+                        else
+                          ~ This should not happen, so add " est".
+			  dcTxt = field[abDC].value & " est"
+			endif
+			@text = tagnames[SoGSphere.?] & " Save DC: " & dcTxt
+			]]></labeltext>
+        </label>
+      </portal>
+    <position><![CDATA[
+                height = portal[poSoGSpDC].height
+                ]]></position>
+    </template>
+  <template id="tmSoGRngSp" name="Skill Ranges" compset="SoGSphere">
+    <portal id="lblGSphRng" style="lblNormal">
+      <label text="Range:">
+        <labeltext><![CDATA[
+                        var rngC as string
+                        var rngM as string
+                        var rngL as string
+                        ~ This weirdness is to counteract it not having current data in fields[].
+                        ~ So this in effect says findchild[] my own thingid.
+			perform hero.findchild[SoGSphere,"thingid." & replace(tagids[thingid.?],"thingid.","",1)].setfocus
+                        if (state.isfocus = 1) then
+                          rngC = focus.field[SpRnClsTx].text
+                          rngM = focus.field[SpRnMedTx].text
+                          rngL = focus.field[SpRnLngTx].text
+                        else
+                          rngC = "-" & " wrong " & field[SpRnClsTx].text
+                          rngM = "-"
+                          rngL = "-"
+                        endif
+                        @text = "Range: Close " & rngC & "; Medium " & rngM & "; Long " & rngL
+			]]></labeltext>
+        </label>
+      </portal>
+    <position><![CDATA[
+                height = portal[lblGSphRng].height
+	]]></position>
+    </template>
+  <!-- LAYOUTS -->
+
+  <!-- Trade & Utility layout -->
+  <layout id="loSoGSABLa">
+    <portalref portal="pSoGSphBas" taborder="10"/>
+    <templateref template="tmSoGSATrade" thing="resSGTraTal"/>
+    <templateref template="tmSoGSAUtil" thing="resSGUtilTal"/>
+    <position><![CDATA[
+                autogap = 2
+
+                ~ Set our width to full amount.
+                portal[pSoGSphBas].width = autoright
+                template[tmSoGSATrade].width = autoright
+                template[tmSoGSAUtil].width = autoright
+
+                ~ Sphere Abilities column
+                perform portal[pSoGSphBas].batchadd
+
+                ~ Trade talents spent
+                perform template[tmSoGSATrade].batchadd
+
+                ~ Utility talents spent
+                perform template[tmSoGSAUtil].batchadd
+
+                perform batchplace
+
+                ~ autotop seems odd, it is the minimum height of this layout.
+                height = autotop + 5
+	]]></position>
+    </layout>
+  <!-- Associated Skills layout -->
+  <layout id="loSoGSABLb">
+    <portalref portal="pSoGSphAssoSk" taborder="10"/>
+    <position><![CDATA[
+                autogap = 2
+
+                if (hero.tagis[ExtRanks.?] <> 0) then
+                     ~ Set our width to full amount.
+                     portal[pSoGSphAssoSk].width = autoright
+
+                     ~ Limit the Associated Skills to 12 and scroll if needed.
+                     portal[pSoGSphAssoSk].maxrows = 6
+
+                     ~ Associated Skills
+                     perform portal[pSoGSphAssoSk].batchadd[8]
+
+                     perform batchplace
+                else
+                     portal[pSoGSphAssoSk].visible = 0
+                endif
+
+                ~ autotop seems odd, it is the minimum height of this layout.
+                height = autotop + 5
+	]]></position>
+    </layout>
+  <!-- Operator Modifier layout -->
+  <layout id="loSoGSABRa">
+    <portalref portal="pSoGOAM" taborder="10"/>
+    <templateref template="tmSoGOM" thing="SoGOM" taborder="10"/>
+    <position><![CDATA[
+                autogap = 2
+
+                ~ Set our width to full amount.
+                portal[pSoGOAM].width = autoright
+                template[tmSoGOM].width = autoright
+
+                perform portal[pSoGOAM].batchadd
+                perform template[tmSoGOM].batchadd
+
+                perform batchplace
+
+                ~ autotop seems odd, it is the minimum height of this layout.
+                height = autotop + 5
+	]]></position>
+    </layout>
+  <!-- Skill Leverage layout -->
+  <layout id="loSoGSABRb">
+    <portalref portal="pSoGSphSkLev" taborder="10"/>
+    <position><![CDATA[
+                autogap = 2
+
+                ~ Set our width to full amount.
+                portal[pSoGSphSkLev].width = autoright
+
+                ~ Limit the Skill Leverage to 10 and scroll if needed.
+                portal[pSoGSphSkLev].maxrows = 5
+
+                perform portal[pSoGSphSkLev].batchadd[8]
+
+                perform batchplace
+
+                ~ autotop seems odd, it is the minimum height of this layout.
+                height = autotop + 5
+	]]></position>
+    </layout>
+  <!-- Skill Sphere layout -->
+  <layout id="loSoGSkSpTl">
+    <portalref portal="pSoGTraTrad" taborder="5"/>
+    <portalref portal="pSoGTalCnt" taborder="10"/>
+    <portalref portal="pSoGUtilTalCnt" taborder="15"/>
+    <portalref portal="pExpUtilTalCnt" taborder="20"/>
+    <position><![CDATA[
+                autogap = 8
+
+                ~ Trade Tradition
+                perform portal[pSoGTraTrad].batchadd
+		portal[pSoGTraTrad].width = autoright
+
+		~ Talent Count
+                perform portal[pSoGTalCnt].batchadd
+		portal[pSoGTalCnt].width = autoright
+
+		~ Utility Talent Count
+		perform portal[pSoGUtilTalCnt].batchadd
+		portal[pSoGUtilTalCnt].width = autoright
+
+                if (hero.tagis[source.pPF1e_ExpUtil] = 1) then
+                     ~ Expanded Talents
+		     perform portal[pExpUtilTalCnt].batchadd
+		     portal[pExpUtilTalCnt].width = autoright
+                else
+		     portal[pExpUtilTalCnt].visible = 0
+                endif
+
+                perform batchplace
+    ]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGSkSpTl" name="Skill Sphere Abilities" order="150" marginhorz="5" marginvert="5">
+    <live>SphOfGuil.Class</live>
+    <layoutref layout="loSoGSABLa"/>
+    <layoutref layout="loSoGSABLb"/>
+    <layoutref layout="loSoGSABRa"/>
+    <layoutref layout="loSoGSABRb"/>
+    <layoutref layout="loSoGSkSpTl"/>
+    <position><![CDATA[
+        var val as number
+        val = width/2
+        layout[loSoGSABLa].width = val
+        layout[loSoGSABLb].width = val
+        layout[loSoGSABRa].width = val
+        layout[loSoGSABRb].width = val
+        layout[loSoGSABRa].left = val
+        layout[loSoGSABRb].left = val
+
+        ~ Ask these to minimum so they do not demand the whole height.
+        perform layout[loSoGSABLa].render
+        perform layout[loSoGSABRa].render
+
+        ~ Set out top to the lowest bottom of the two layouts above.
+        val = maximum(layout[loSoGSABLa].height,layout[loSoGSABRa].height) + 5
+        layout[loSoGSABLb].top = val
+        layout[loSoGSABRb].top = val
+        perform layout[loSoGSABLb].render
+        perform layout[loSoGSABRb].render
+
+        ~ Set out top to the lowest bottom of the two layouts above.
+        layout[loSoGSkSpTl].top = maximum(layout[loSoGSABLb].bottom,layout[loSoGSABRb].bottom) + 5
+        ~layout[loSoGSkSpTl].height = height - layout[loSoGSkSpTl].top
+	]]></position>
+    </panel>
+  </document>

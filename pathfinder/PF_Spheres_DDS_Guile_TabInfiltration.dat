@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGInfiltration" style="lblTitle">
+    <label text="Infiltration Sphere"/>
+    </portal>
+  <portal id="pSoGTalInfiltration" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Infiltration & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Infiltration & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Infiltration"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Infiltration Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEInfiltrati].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwInfiltration" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Infiltration]]></list>
+      <candidate><![CDATA[SoGSphere.Infiltration & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Infiltration Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Infiltration Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Infiltration Info layout -->
+  <layout id="loSoGInfiltration">
+    <portalref portal="pSoGInfiltration" taborder="5"/>
+    <portalref portal="pSoGTalInfiltration" taborder="10"/>
+    <portalref portal="pSoGDrwInfiltration" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpInfiltration"/>
+    <templateref template="tmSoGDCSph" thing="sogSpInfiltration"/>
+    <templateref template="tmSoGRngSp" thing="sogSpInfiltration"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGInfiltration].batchadd
+                portal[pSoGInfiltration].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalInfiltration].batchadd[5]
+                portal[pSoGTalInfiltration].width = autoright
+
+                perform portal[pSoGDrwInfiltration].batchadd[5]
+                portal[pSoGDrwInfiltration].width = autoright
+
+                height += portal[pSoGDrwInfiltration].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGInfiltration" name="Infiltration" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Infiltration</live>
+    <layoutref layout="loSoGInfiltration"/>
+    </panel>
+  </document>

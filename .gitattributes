@@ -1,0 +1,9 @@
+*.aug linguist-language=XML
+*.dat linguist-language=XML
+*.user linguist-language=XML
+*.1st linguist-language=XML
+*.str linguist-language=XML
+Permission/Email.eml linguist-documentation
+*md linguist-documentation
+Docs/* linguist-documentation
+PF1_Spheres.hl linguist-generated

@@ -1,0 +1,699 @@
+  <group
+    id="Helper"
+    width="7"
+    visible="no"
+    stage="capsule">
+
+    <value id="StartingLanguage"/>
+    <value id="HasMinion"/>
+
+    <!-- General Tags -->
+    <value id="NoPrereq"/>    <!-- Pre-defined prereqs are not added to this thing. -->
+    <value id="Shadow"/>      <!-- This pick should be shadowed onto the hero when added to a child gizmo. -->
+    <value id="NoShadow"/>    <!-- Don't shadow the pick, even if it says you should! -->
+    <value id="Displace"/>    <!-- This pick should be displaced onto the hero. -->
+    <value id="TrackCharg" name="Tracker with ChargeUse bootstraps"/>  <!-- Normally, there are several components that, if they're the root of something that's a tracker, won't set up all the ChargeUse and other linkages.  This tag overrides that, and makes them work more like a staff -->
+    <value id="Bootstrap"/>   <!-- Identifies a thing that should be bootstrapped to all actors -->
+    <value id="NotFree"/>     <!-- Normally, this pick would be free because it's bootstrapped, but not in this case -->
+    <value id="Deprecated"/>  <!-- No longer the proper version of a thing, but kept around so that old portfolios won't have problems -->
+    <value id="Unique"/>      <!-- The thing selecting this can't be set as unique, but it needs to act unique under certain circumstances.  So, this is used in a restriction expression -->
+    <value id="DefLang"/>     <!-- The thing is a Default Language that should not be shown in the candidate expression -->
+    <value id="DefSpell"/>    <!-- The thing is a Default Spell which exists in a starting spellbook -->
+    <value id="Obsolete"/>    <!-- The thing is obsolete and replaced, it will still show if previously selected, but only the newer version will be available for selection in the future. -->
+    <value id="Retired"/>     <!-- The thing has been retired as a valid option - if present on a character, it's valid (we have to trust the user to not add it), but it should always be invalid as a thing -->
+    <value id="Former"/>      <!-- The thing has been retired as a valid option - if present on a character, it's valid (we have to trust the user to not add it), but it should always be invalid as a thing - same as Helper.Retired, but with different text -->
+    <value id="InfoOnly" ispublic="yes"/>    <!-- The thing is not available for purchase/addition, and is only present to provide information to the user -->
+
+    <value id="PrimSenCas"/>    <!-- In the statblock, the displayed name of primary custom abilities should be Sentance case -->
+    <value id="SecSenCas"/>     <!-- In the statblock, the displayed name of secondary custom abilities should be Sentance case -->
+    <value id="TertSenCas"/>    <!-- In the statblock, the displayed name of tertiary custom abilities should be Sentance case -->
+    <value id="QuatSenCas"/>    <!-- In the statblock, the displayed name of quaternary custom abilities should be Sentance case -->
+    <value id="QuinSenCas"/>    <!-- In the statblock, the displayed name of quintenary custom abilities should be Sentance case -->
+
+    <!-- Character Creation Method Tags -->
+    <value id="CreationMethod" name="Activated Character Creation Method"/>
+
+    <!-- Type Tags -->
+    <value id="TypeSet"/>  <!-- A type has been assigned to this hero -->
+
+    <!-- Some templates replace the type for the purposes of display, but not
+      for the purposes of effects - this tag mark that state -->
+    <value id="UserSubtyp" name="User Added Subtype"/>  <!-- This subtype is available for selection by the user -->
+    <value id="NoTypeAbil" name="No Type Abilities"/>  <!-- If a race wishes to add the type, but not add all of the abilities, add this, and then add each ability manually -->
+    <value id="NoTypeLang" name="No Type Languages"/>  <!-- If a race wishges to add the type, but not add the default languges, add this, and then add each language manually -->
+    <value id="CustomType" name="Custom Race Type"/>
+    <value id="CustomSubT" name="Custom Race Subtype"/>
+
+    <!-- Saving Throw Tags -->
+    <value id="AllSaves"/>
+    <value id="IsGoodSave"/>
+
+    <!-- Polymorph Helper Tags -->
+    <value id="ChkFormAbi"/>  <!-- A new form ability with this tag will show a checkbox to allow it to be selected by the user. -->
+    <value id="PolyIgnoreSpLim"/>  <!-- When applied to Change Shape Universal ability, allows FormLimit to break the normal type limits of the spell
+                                        effect. For example, a change shape that mimics alter self normally requires the selected race to be a small
+                                        or medium humanoid. If FormLimit tags override the choices to something which is not a humanoid, normally
+                                        there would be errors because no PolymorphAllow tags would be applied. If this tag is applied in conjunction, it
+                                        skips over the normal type check and applies the PolymorphAllow tags for Alter self normally. -->
+
+    <!-- Class Helper Tags -->
+    <value id="SecSplZero"/> <!-- This class gets 0-level secondary spells (Class helper). -->
+    <value id="TerSplZero"/> <!-- This class gets 0-level tertiary spells (Class helper). -->
+    <value id="NoMultiAdv"/> <!-- You can't take levels in this class if you've taken any other class after it (like Monks and Paladins) (Class helper). -->
+    <value id="NoMoreCls"/>  <!-- You can't take any more levels in this class, because you can't multiclass out of and then back into it (Class helper). -->
+    <value id="ClSpecSel"/>  <!-- Added to the class helper by any class specials that still require something to be selected
+                                               This means that if the class specials are hidden inside a button, the button can change to a warning text if any of its specials need selections. -->
+    <value id="SpellOver"/>  <!-- You've learned too many spells (Class helper). -->
+    <value id="SpellUnder"/> <!-- You need to learn more spells (Class helper). -->
+    <value id="SecSpOver"/>  <!-- You've learned too many secondary spells (Class helper). -->
+    <value id="SecSpUnder"/> <!-- You need to learn more secondary spells (Class helper). -->
+    <value id="TerSpOver"/>  <!-- You've learned too many tertiary spells (Class helper). -->
+    <value id="TerSpUnder"/> <!-- You need to learn more tertiary spells (Class helper). -->
+    <value id="ClShowTurn"/> <!-- This class always needs to show its channel energy choice -->
+    <value id="ShifterClw"/>  <!-- Designates a shifter's claw attacks or attack that gets the shifter claw damage -->
+    <value id="ShfNoClaw"/>  <!-- For shifter archetypes that replace the base claw attack with a different attack. -->
+    <value id="ShfNoMinor"/>  <!-- Aspects no longer grants minor form abilities. Used in some archetypes (see leafshaper for example) -->
+    <value id="ShfNoMajor"/>  <!-- Aspects no longer grants major form abilities. Used in some archetypes (see feral striker for example) -->
+    <value id="EidolonAbSc"/>  <!-- This is an ability score of the fused eidolon, not the hero -->
+    <value id="ItemAbSc"/>  <!-- This is an ability score of an item, not the hero -->
+
+    <!-- Class Helper Feat Table tags -->
+
+    <value id="BonFtCompl"/> <!-- The bonus feat tag expressions for this class are too complicated, and an error should be reported. (Class helper). -->
+
+    <!-- Class Helper Class Special Table tags -->
+    <value id="HasClsAbil" ispublic="yes"/> <!-- Added to any class that has one or more class abilities added to a table at any level (Class helper). -->
+    <value id="OptClsAbil"/> <!-- This class's Class abilities are optional - you don't need to pick them (Class helper). -->
+
+    <value id="HasExtraMg" ispublic="yes"/> <!-- Added to any class that has one or more extra magic / power levels at any level (Class helper). -->
+    <value id="TwoExtraMg" ispublic="yes"/> <!-- For a class that gets extra magic levels, this class can assign two extra levels per level (Class helper). -->
+
+    <!-- Class Helper Secondary Spells Table tags -->
+    <value id="SecSpFreez" name="Secondary Spells are Frozen"/>      <!-- this is used for the Shaman's Spirit Magic spells, the table that shows them should be frozen Spirit Magic Spells are bootstrapped and shown in that table, not added by the user. -->
+    <value id="SecSpSpont" name="Secondary Spells are Spontaneous"/>               <!-- this is used for the Shaman's Spirit Magic spells -->
+    <value id="SecUseGen"  name="Secondary Spells use General Spontaneous Pool"/>  <!-- this is used for the Shaman's Spirit Magic spells -->
+
+    <!-- Class Helper Tertiary Spells Table tags -->
+    <value id="TerSpFreez" name="Tertiary Spells are Frozen"/>
+    <value id="TerSpSpont" name="Tertiary Spells are Spontaneous"/>
+    <value id="TerUseGen"  name="Tertiary Spells use General Spontaneous Pool"/>
+
+    <value id="Crafted"/>
+
+    <value id="HasSpecial"/> <!-- The class bootstraps at least one special ability. (Class helper). -->
+    <value id="HasSLA"/>     <!-- The class is the source for at least one spell-like ability. (Class helper). -->
+    <value id="FavorClass" name="Favored Class"/>  <!-- This class is favored -->
+    <value id="KeyClass" name="Key Class"/>  <!-- This class is key for monster CR advancement -->
+
+    <value id="HasSplExp" ispublic="yes"/>  <!-- The class shows a list for the user to expand the spell list. (Class helper). -->
+    <value id="SplExpBook" ispublic="yes"/> <!-- Spells added to the expansion spells are limited to those added to the spellbook. -->
+    <value id="SplExpKnow"/> <!-- Spells added to the expansion spells list are automatically made into spells known. (Class Helper). -->
+    <value id="HalfCaster"/> <!-- The class has a caster level = 1/2 cMagicLev (Class Helper) -->
+    <value id="FullCaster" name="Full caster level after delayed spellcasting"/>  <!-- If the class does not gain a caster level until after first level, but has a caster level = magic level at that point, this tag overrides the normal behaviour (which is that cl = 1 at the first level you can cast spells) -->
+
+    <!-- Archetype Helper Tags -->
+    <value id="NoCompList" name="Delete CompanionList.?"/>  <!-- Added to a Class Variant, it will remove all CompanionList.? tags (before forwarding the variant's own, so they can be changed -->
+
+    <value id="CompFavor" name="Share Favored Enemy/Terrain with Companion"/>  <!-- When added to a favored terrain or enemy it will share the bonues with your animal companion -->
+
+
+    <value id="NoDomSpell" name="No Domain Spells"/>  <!-- Created for the inquisitor, removes domain spells -->
+
+    <value id="Playtest"/>    <!-- This is playtest content -->
+
+    <!-- Class Level Tags -->
+    <value id="TooFewHP"/> <!-- This class level would have too few HP (< 1) if the full penalty was applied (Class levels). -->
+    <value id="FixedHP" ispublic="yes"/> <!-- This level has fixed hit points (Class level). -->
+    <value id="NotTwoFav" name="This level does not get two favored class options"/>  <!-- This tag works along with Hero.TwoFavor - that tag enables it for all favored classes, and this one turns it OFF for specific class levels -->
+    <value id="ClassPlan" name="This class level is on the class planning/staggered advancement table"/>
+
+    <!-- Archetype Tags -->
+    <value id="DiminSpell" name="Diminished Spellcasting"/>
+    <value id="OverCustS1"/> <!-- This archetype should clear the candidate expression for primary custom abilities and only look for those with OptSetSource tags matching it's own. -->
+    <value id="OverCustS2"/> <!-- This archetype should clear the candidate expression for Secondary custom abilities and only look for those with OptSetSource tags matching it's own. -->
+
+    <!-- Template Tags -->
+    <value id="MythBonHP" name="Mythic Bonus HP"/>  <!-- This template grants Mythic Bonus HP -->
+    <value id="NoHPOK"/>  <!-- No validation error if the user specifies 0 hp for this template -->
+
+
+    <value id="StartSpellbook" name="Starter Spellbook"/> <!-- This is a starter spellbook which comes with a certain set of cantrips pre-loaded based on the class -->
+
+    <!-- Feat Tags -->
+    <value id="ProfGroup"/> <!-- This feat is a proficiency for a group of weapons or armor, like Light Armor Proficiency (Feat). -->
+    <value id="FtDisable"/> <!-- This feat has been disabled, probably by the Skeleton or Zombie template (Feat). -->
+    <value id="FtHide"/>  <!-- This feat should be treated as if it was never added to the hero -->
+    <value id="GenPurpose" name="Animal Handling General Purpose Training"/>  <!-- Used only on Animal Tricks - this is training for a general purpose -->
+    <value id="RaceFeat" name="Feat Pre-selected by the race"/>  <!-- This feat was bootstrapped by the race, and is pre-selected for the user -->
+    <value id="AnimCompOK"/>  <!-- This feat is alright for animal companions to take. -->
+    <value id="MeditFeat" name="Meditation Feat"/>  <!-- I don't know why Paizo didn't use a feat category for these, but they didn't.  These never skip prereqs -->
+
+    <value id="AddSpiAnim" name="Add Spirit Animal Ability"/> <!-- Only needs to be added when spirits added to a non-shaman class. -->
+    <value id="AddSpiMag" name="Add Spirit Magic Ability"/>   <!-- Only needs to be added when spirits added to a non-shaman class. -->
+    <value id="SpiNoPower" name="No Sprit Animal Power"/>  <!-- Tag is used when a shaman's spirit animal does not gain abilites from the shaman's chosen spirit. -->
+
+    <!-- Weapon Tags -->
+    <value id="Proficient"/> <!-- The hero is proficient with this weapon or armor. (Weapon) -->
+    <value id="NoSpecProf"/> <!-- This specific weapon does not gain proficiency from WepProf tags on the hero -->
+    <value id="HalfProfRn"/> <!-- The hero is "half" proficient with this weapon, they can use it ranged without nonproficiency penalty. (Weapon) -->
+    <value id="HalfProfMe"/> <!-- The hero is "half" proficient with this weapon, they can use it in melee without nonproficiency penalty. (Weapon) -->
+    <value id="HasMagSpec"/> <!-- This custom item has one or more special abilities, so it must be at least +1 (Weapon / Armor). -->
+    <value id="NoDblStr"/>   <!-- Weapon doesn't get 1.5x strength bonus for being held in both hands (Weapon). -->
+    <value id="NoHalfStr"/>  <!-- Weapon doesn't get .5x strength penalty for being used in the off hand (Weapon). -->
+    <value id="NoStr"/>      <!-- Weapon never gets a strength modifier (used for blowguns) -->
+    <value id="Always2H"/>   <!-- Must always be wielded in both hands (Weapon). -->
+    <value id="ThrowStr15"/> <!-- This is a thrown weapon that may be wielded in 2 hands for 1.5x damage -->
+    <value id="Finesse"/>    <!-- This weapon is applicable for Weapon Finesse, even though it's not Light (Weapon). -->
+    <value id="ExtraHigh"/>  <!-- This weapon gets (tag count) extra attacks at its highest attack bonus (Weapon). -->
+    <value id="Extra2nd"/>   <!-- This weapon gets (tag count) extra attacks at its 2nd highest attack bonus (Weapon). -->
+    <value id="Extra3rd"/>   <!-- This weapon gets (tag count) extra attacks at its 3rd highest attack bonus (Weapon). -->
+    <value id="Extra4th"/>   <!-- This weapon gets (tag count) extra attacks at its 4th highest attack bonus (Weapon). -->
+    <value id="Extra5th"/>   <!-- This weapon gets (tag count) extra attacks at its 5th highest attack bonus (Weapon). -->
+    <value id="Extra6th"/>   <!-- This weapon gets (tag count) extra attacks at its 6th highest attack bonus (Weapon). -->
+    <value id="Extra7th"/>   <!-- This weapon gets (tag count) extra attacks at its 7th highest attack bonus (Weapon). -->
+    <value id="Extra8th"/>   <!-- This weapon gets (tag count) extra attacks at its 8th highest attack bonus (Weapon). -->
+    <value id="Extra9th"/>   <!-- This weapon gets (tag count) extra attacks at its 9th highest attack bonus (Weapon). -->
+    <value id="ExtraRanHi"/> <!-- This weapon gets (tag count) extra Ranged attacks at its highest attack bonus (Weapon). -->
+    <value id="ExtraMelHi"/> <!-- This weapon gets (tag count) extra Melee attacks at its highest attack bonus (Weapon). -->
+    <value id="ExtraIter" name="Extra Iterative Attack"/>  <!-- The weapon gets (tag count) extra iterative attacks, each at -5 from the previous attack -->
+    <value id="Keen"/>       <!-- This weapon is Keen (Weapon). -->
+    <value id="2ndHeadNot"/> <!-- The off-end of this double weapon has no magic abilities, and has 1 worse bonus than the primary end (Weapon). -->
+    <value id="MastCstInc"/> <!-- Masterwork cost included already (Weapon). -->
+    <value id="MagicOnly"/>  <!-- This weapon can only be used as part of a magic weapon, for example arrows that come in different quantities for magic and normal weapons (Weapon). -->
+    <value id="NormalOnly"/> <!-- This weapon can only be used as part of a normal weapon (Weapon). -->
+    <value id="FakeTwoWep"/> <!-- This weapon (like certain magic items) 'fakes' the two-weapon fighting feat (Weapon). -->
+    <value id="TwoWpLight"/> <!-- This weapon 'fakes' being light for the purposes of two-weapon fighting, but not for other purposes (like Weapon Finesse). Used for the updated Sawtooth Sabre from ISWG. (Weapon). -->
+    <value id="DamageUp"/>   <!-- For each tag like this attached to a weapon, increase damage by 1 step (Weapon). -->
+    <value id="DamageDown"/> <!-- For each tag like this attached to a weapon, decrease damage by 1 step (Weapon). -->
+    <value id="BracArcBow"/> <!-- This counts as a bow for the purposes of 'bracers of archery' (Weapon). -->
+    <value id="BucklerOK"/>  <!-- You can use this weapon with a buckler with no penalty. -->
+    <value id="FixedSize"/>  <!-- This weapon's size is fixed, and shouldn't be changed (Weapon). -->
+    <value id="PowTwoHand"/> <!-- This manufactured weapon is treated as a two-handed one for the purpose of power attack - i.e. you get 1.5x your power attack bonus (Weapon). -->
+    <value id="ShowAmmDmg"/>  <!-- If this tag is on ammunition it will show its damage on the weapons tab -->
+    <value id="MagicAmmo"/>  <!-- This is ammunition used to create custom magical items (Weapon). -->
+    <value id="NoSelect"/>   <!-- This weapon can't be selected in the lists of weapons for weapon focus, weapon proficiencies, etc. (Weapon) -->
+    <value id="Easy2H"/>     <!-- This weapon is one proficiency class easier to use when wielded 2-handed. (Weapon) -->
+    <value id="Easy1HSm"/>   <!-- This weapon is one proficiency class easier to use when wielded 1-handed if it's one size smaller than you. (Weapon) -->
+    <value id="FixSizeDmg"/> <!-- This weapon always does the same damage, regardless of size. (Weapon) -->
+    <value id="CompNoSize"/> <!-- For weapons on an animal companion - unlike most natural attacks, this one will not increase in size when the animal does -->
+    <value id="NoSelChild"/> <!-- For magic weapon gizmos, this means that the weapon can never be selected. Typically used when you bootstrap a fixed weapon on for the user to configure. (Weapon) -->
+    <value id="NoMIExtra" name="No Magic Item Extras"/>  <!-- For magic weapon gizmos, this means that there is no material selection, no intelligence, and no curses. Used on the Custom Amulet of Mighty Fists. (Weapon) -->
+    <value id="NoFixCostP" name="No Fixed Power Costs"/>  <!-- For magic weapon gizmos, this means that you can't add any magic powers with a fixed gp cost (rather than +1 or whatever). Previously NoMiExtra served this purpose, but now there are several other customizable items that want to hide the portals, but do allow fixed GP cost powers, so this was split off into it's own tag. Used on the Custom Amulet of Mighty Fists/Bracers of Armor. (Weapon) -->
+    <value id="RaceSize"/>   <!-- This weapon is always the base size of the race. (Doesn't need to be used for natural weapons - probably not useful any more.) (Weapon) -->
+    <value id="ExoticProf"/> <!-- The hero has Exotic Weapon Proficiency for this weapon. (Weapon) -->
+
+    <!-- Natural Weapon tags -->
+    <value id="NatPrimary"/> <!-- This is a primary natural attack for a creature (attack is at highest attack bonus) (Weapon). -->
+    <value id="NatSecond"/>  <!-- This is a secondary natural attack for a creature (attack is at -5 to hit) (Weapon). -->
+    <value id="NatOverSec"/> <!-- Though this natural attack is normally primary, in this case it is secondary -->
+    <value id="NatIgnWeap"/> <!-- This natural attack ignores the effects of weapon equipping, that is it will remain primary even when the hero equips a weapon. Used for the Xill. -->
+    <value id="NatTwoHand"/> <!-- This natural attack is treated as a two-handed one - i.e. you get 1.5x your strength bonus (Weapon). -->
+    <value id="NatHalfStr"/> <!-- Weapon always gets .5x strength penalty for being secondary -->
+    <value id="NatHasIter"/> <!-- This natural attack has iterative attacks like a manufactured weapon (Weapon). -->
+    <value id="NatSizeDmg"/> <!-- This natural weapon damage changes with size (used with lycanthrope weapons). (Weapon) -->
+    <value id="AnimCExtra"/> <!-- The weapon has an extra attack at -5 from being an animal companion natural attack. (Weapon) -->
+    <value id="RaceHands"/>  <!-- The natural weapon has one attack per hand the race has. If the race has no hands, e.g. a Wolf, it shouldn't appear. (Weapon) -->
+    <value id="RaceLegs"/>   <!-- The natural weapon has one attack per leg the race has. (Weapon) -->
+    <value id="RaceHeads"/>  <!-- The natural weapon has one attack per head the race has. (Weapon) -->
+    <value id="NoHands"/>    <!-- The natural weapon requires the race to have hands before it appears in the weapons list. (Weapon) -->
+    <value id="Powerful"/>   <!-- A Powerful attack uses x2 damage -->
+    <value id="GrPowerAtk"/>   <!-- The greater power attack feat sets power attack's multiplier to x2 for two-handed weapons -->
+    <value id="NatAttSpec"/> <!-- This natural attack is actually a special whose damage we want to report.  It should not be counted for the purpose of determining how many natural attacks we have, when determining whether to grant primary or two-handed to the natural attacks -->
+    <value id="NatNoBones"/> <!-- This natural attack does not have any bones, and therefore should be hidden when the Skeleton template is applied. -->
+    <value id="ManWpEquip"/> <!-- This natural attack has been downgraded to secondary because a manufactured weapon has been equipped. -->
+
+    <value id="GunTrain" name="Gun Training: Misfire only increases by 2 while broken"/>
+    <value id="Improvised"/> <!-- This is a improvised weapon. -->
+    <value id="EvolDamage"/> <!-- This attack has benefitted from the Improved Damage evolution. -->
+    <value id="FakeGunsm"/> <!-- This hero can buy guns and ammo even though they lack the Gunsmithing feat. -->
+    <value id="NoHandWeap"/> <!-- This weapon is wielded with something other than the hands (such as a helmet, a tail attachment, or a knife strapped to your feet). -->
+    <value id="ShowFlurry" ispublic="yes"/>  <!-- Show the flurry of blows attacks for this weapon -->
+    <value id="UnchFlurry"/>  <!-- This is a flurry of the unchained monk, it does not take the -2 penalty for twf -->
+    <value id="Adaptive"/> <!-- This weapon is a composite bow which adjusts Str modifier to the hero's strength. -->
+    <value id="SwitchForm"/> <!-- This weapon changes forms -->
+    <value id="PlusPoison"/> <!-- Weapon damage adds poison -->
+    <value id="Integrated"/> <!-- Weapon is integrated and thus acts like a nautral attack -->
+
+
+    <value id="CustMonAtk" name="User-Added Natural Attack on a Custom Monster" ispublic="yes"/>
+    <value id="NoOffEnh"/> <!-- This weapon doesn't add its enhancement bonus to the off-hand attack -->
+    <value id="SwashWep" name="Swashbuckler Weapon"/> <!-- This weapon qualifies as swashbuckler weapon -->
+    <value id="CritExpan" name="Crit Range Expansion"/>
+    <value id="FalseDoubl" name="Falses Double"/> <!-- Although this weapon isn't a double weapon, it can be wielded as one.-->
+
+    <value id="ParAttach"/> <!-- This weapon is always attached to its parent armor, and can only be equipped when that is equipped. (Weapon) -->
+    <value id="ParEquip"/> <!-- The parent armor of this weapon (e.g. the armor that attached the armor spikes) is equipped. (Weapon) -->
+    <value id="NeverEquip"/> <!-- This weapon can never be equipped. (Weapon) -->
+    <value id="NoEquip"/> <!-- This weapon can't be equipped (Weapon). -->
+
+    <!-- Magic Item Power Tags -->
+    <value id="NotMagicPw"/> <!-- This item power doesn't require the item to be magical (e.g. armor spikes). -->
+    <value id="SilentPw"/>   <!-- This item power doesn't report itself as being on the parent, although it still costs points etc. -->
+
+    <!-- Custom Magic Item Tags -->
+    <value id="CustHasSpl"/>  <!-- Added by the spells to their item, for the purpose of counting -->
+    <value id="WandLevReq"/>  <!-- Added to the entity containing a custom wand, it triggers a prereq requiring that the spell be no higher level than herofield[actMaxWandSpell].value -->
+    <value id="PotLevReq"/>   <!-- Added to the entity containing a custom potion, it triggers a prereq requiring that the spell be no higher level than herofield[actMaxPotionSpell].value -->
+    <value id="PersSpOnly"/>  <!-- Added to the entity containing a custom potion, it triggers a prereq requiring that the spell be touch range -->
+    <value id="FixEnhance" ispublic="yes"/>  <!-- This item has a fixed Enhancement bonus. -->
+    <value id="NoPowers"/>    <!-- This Item can't choose magic powers. -->
+    <value id="NoMaterial"/>  <!-- This Item can't choose a material. -->
+    <value id="IntSklRks"/>   <!-- Magic item allows user to assign skill ranks -->
+
+    <!-- Material Tags -->
+    <value id="MatWeapon1"/> <!-- This is the material for the first head of a weapon (Material). -->
+    <value id="MatWeapon2"/> <!-- 2nd end of a double weapon (Material). -->
+    <value id="MatArmor"/> <!-- This material is assigned to Armor (Material). -->
+    <value id="MatShield"/> <!-- This material is assigned to a Shield (Material). -->
+    <value id="MatRqWood" name="Requires Wood"/> <!-- This material requires a wooden item (Material). -->
+    <value id="MatRqMetal" name="Requires Metal"/> <!-- This material requires a metal item (Material). -->
+    <value id="MatRqLeath" name="Requires Leather"/> <!-- This material requires a Leather item (Material). -->
+    <value id="MatRqCloth" name="Requires Cloth"/>  <!-- This material requires a cloth item (Material)-->
+    <value id="MatRqHide" name="Requires Hide"/>  <!-- This material requires a cloth item (Material)-->
+    <value id="MatRqClLea" name="Requires Leather or Cloth"/> <!-- This material requires a leather or cloth item (Material). -->
+    <value id="MatForceMs"/> <!-- This material must always be masterwork (Material). -->
+    <value id="MatOnce"/> <!-- Only grant the bonus for this material once (Armor Piece Material). -->
+    <value id="MatMithril"/> <!-- This is a mithril item (Armor Piece Material). -->
+    <value id="MatAdamant"/> <!-- This is an adamantine item (Armor Piece Material). -->
+    <value id="MatDragon"/> <!-- This is a dragonhide item (Armor Piece Material). -->
+
+    <!-- Spell School Tags -->
+    <value id="Duplicate"/> <!-- Used on e.g. Spell Focus. Add this tag to the pick so you can validate it if you take Spell Focus for the same school twice (Spell school). -->
+    <value id="SpellPen"/> <!-- This school has been Spell Penetration (Spell school). -->
+
+    <value id="OnMutagen"/> <!-- This spell is on a custom magic item (a scroll, potion, or wand) (Spell). -->
+    <value id="CustItMutagen"/> <!-- This spell is on a scroll (Spell). -->
+
+    <!-- Spell Tags -->
+
+    <!-- Special / Charge Tags -->
+    <value id="TempDisabled"/> <!-- This feat is disabled temporarily, so it should show in the summary/printout/etc even though it is disabled. For example, many Armor Mastery feats require you to be in their chosen armor and disable themselves if you aren't, but should still show in the summary tab/printout. -->
+    <value id="ShowCharge"/> <!-- Pick shown in 'charges' list (Charge). -->
+    <value id="Disabled" ispublic="yes"/> <!-- If in 'special' list, shown as disabled (Special / Charge). -->
+    <value id="Unavailable" ispublic="yes"/> <!-- This pick is currently not usable -->
+    <value id="UserAttention" name="Badge this to bring it to the user's attention" ispublic="yes"/>
+    <value id="SpecUp"/> <!-- Upgrades another special pick - only show on class tab, not in the list on the specials tab (Class Special). -->
+    <value id="CustomSpec" ispublic="yes"/> <!-- This special ability must be customized -->
+    <value id="Primary"/> <!-- This pick subtracts from primary special abilities (Special). -->
+    <value id="Secondary"/> <!-- This pick subtracts from secondary special abilities (Special). -->
+    <value id="Tertiary"/>  <!-- The pick subtracts from tertiary special abilities (Special). -->
+    <value id="Quaternary"/>  <!-- The pick subtracts from quaternary special abilities (Special). -->
+    <value id="Quintenary"/>  <!-- The pick subtracts from quintenary special abilities (Special). -->
+    <value id="Senary"/>  <!-- The pick subtracts from senary special abilities (Special). -->
+    <value id="Septenary"/>  <!-- The pick subtracts from septenary special abilities (Special). -->
+    <value id="Octonary"/>  <!-- The pick subtracts from octonary special abilities (Special). -->
+    <value id="Novenary"/>  <!-- The pick subtracts from novenary special abilities (Special). -->
+    <value id="SourceEqp"/> <!-- If our bootstrap source is equipped, this should appear in the charge list (Charge). -->
+    <value id="Exceeded"/> <!-- This charge item has used too many charges (Charge). -->
+    <value id="SecondInc"/> <!-- This charge assigns exhausted / exceeded tags based on the contents of the second incrementer, not the first (Charge). -->
+    <value id="CustCharge"/> <!-- This charge allows entry of custom text (Charge). -->
+    <value id="CustSpText"/> <!-- This special ability has custom text that must be entered (Special). -->
+    <value id="RgrStyle"/> <!-- This special ability is a Ranger combat style (Special). -->
+    <value id="ChkDisable"/> <!-- The checkbox defined by the cfControlLabel1 field is fixed, and should not be changed -->
+    <value id="NoSpecUI"/> <!-- This ability shouldn't be shown in the UI, only on the printout (Special). -->
+    <value id="Replaced" ispublic="yes"/>  <!-- This special has been replaced.  This tag is used for a prereq, to make sure that more than one archetype doesn't try to replace the same special.  The actual work is done by pairing this tag with Disabled -->
+    <value id="Modified"/>   <!-- This special has been modified.  This tag is used along with SpcRepalce in the prereq that keeps multiple archetypes from replacing the same thing -->
+    <value id="NotWorn"/>  <!-- This special is disabled because it is only available while equipped, and the item is not equipped -->
+    <value id="FirstCopy"/>  <!-- Marks the special that is the first copy of a class special -->
+    <value id="OnlyCopy"/>
+    <value id="MultiCopy"/>  <!-- Each copy of this special is independant of the others, don't run any of the checks for which is the first, or get any totals -->
+    <value id="ChannelPos" name="Channel Positive Energy"/>
+    <value id="ChannelNeg" name="Channel Negative Energy"/>
+    <value id="NoChanType" name="No Channel Type"/>
+    <value id="ShadowFuse" name="Shadow if on a Fused Eidolon"/>
+    <value id="GizmoError"/>
+    <value id="ActivMenu"/>  <!-- This ability needs to show a menu when presented in the "activated abilities" section of the in-play tab -->
+    <value id="BootRacCst" name="Bootstrapped racial custom ability."/>
+    <value id="FromVigTal" name="This ability is gained because of a Vigilante Talent"/>
+
+    <!-- For Vigilante Dual Identity -->
+    <value id="AlgnSingle" name="Dual Identity limited to single axis"/> <!-- Add this tag if our dual identity is limited to 1 step on a single alignment axis. This is used for archetypes like the Bellflower harvister where we need to be 1 step within CG -->
+    <value id="AlgnSame" name="Dual Identity alignments must be the same"/>
+
+    <!-- Class Special Ability Tags -->
+    <value id="Subdomain"/> <!-- This ability is a Cleric subdomain, and not allowed to Inquisitors -->
+    <value id="DomAllDei" name="This Domain is allowed for all deities"/>
+    <value id="MythNoMons" name="Mythic ability not gained by mythic monsters"/>  <!-- This is one of the class specials added to all mythic characters.  This one is turned off if the character is a mythic monster, rather than a mythic character -->
+    <value id="DomSpAbil"/> <!-- This Spell Like class ability is bootstrapped by a domain, and should show in a different part of the statblock. -->
+    <value id="RacSpAbil"/> <!-- This Spell Like ability is bootstrapped by a pc race and should show in a different part of the statblock. -->
+    <value id="BlastForm" name="Blast has a form infusion applied"/>
+    <value id="BlastSub" name="Blast has a substance infusion applied"/>
+
+    <!-- Arcana Tags -->
+    <value id="ArcaneSlot"/> <!-- This Arcana takes up an Arcane slot (Arcana). -->
+    <value id="DivineSlot"/> <!-- This Arcana takes up a Divine slot (Arcana). -->
+
+    <!-- Configurable Tags -->
+    <value id="PwCountLev"/> <!-- This configurable should count the number of spell levels added. -->
+    <value id="SpCountLev"/> <!-- This configurable should count the number of spell levels added. -->
+    <value id="CustomSLA" name="Custom SLA"/>   <!-- Tag to let picks know we are a custom SLA -->
+    <value id="NoSLACnt"/>  <!-- This tag hides our trkMaximum incrementer -->
+    <value id="SLADefault"/> <!-- Added to a spell that is a default SLA -->
+    <value id="SLA1st"/>  <!-- Spell table 1 is for SLAs -->
+    <value id="SLA2nd"/>  <!-- Spell table 2 is for SLAs -->
+    <value id="SLA3rd"/>  <!-- Spell table 3 is for SLAs -->
+
+    <!-- Grouping of Spell-Like Abilities -->
+    <!--
+      These tags specify if we group our spells for display on the Spells tab.
+      If we do not have one of these tags we will be shown on the normal Spell-Like Abilities table
+    -->
+    <!--
+      Note, only one thing can use each of these tag groups on a particular hero. This is a stopgap until a better solution is developed.
+    -->
+    <value id="SplGrp1"/>
+    <value id="SplGrp2"/>
+    <value id="SplGrp3"/>
+
+    <!-- These tags are applied to class helpers and used by the component script
+      which calculates weapon training bonuses. By default, the bonus = the number
+      of picks in the primary table, but applying these tags sets the bonus to the
+      number of picks in another table -->
+    <value id="CntTable2"/>
+    <value id="CntTable3"/>
+    <value id="CntTable4"/>
+    <value id="CntTable5"/>
+
+    <!-- Loremaster Secret Tags -->
+    <value id="SecSkill"/> <!-- This Secret needs to choose a skill (Loremaster Secret). -->
+    <value id="SecCaster"/> <!-- This Secret needs to choose a caster class (Loremaster Secret). -->
+
+    <!-- Magic Level Tags -->
+    <value id="2MagicLevs"/> <!-- This pick needs to select 2 magic levels (Bonus Magic Level). -->
+
+    <!-- Language Tags -->
+    <value id="ItemLang"/>    <!-- This language is being assigned to a custom magic item (Language). -->
+    <value id="HasLanguage"/>   <!-- Language added after character creation, via Speak Languages skill (Language). -->
+    <value id="RaceLang"/>    <!-- Language added as part of the generation of a Custom Race, it is free and doesn't cost a slot even though it it user added. (Language). -->
+    <value id="SecretLang"/>  <!-- This language is secret! Not every hero can learn it as a starting language. (Language). -->
+    <value id="LangHide"/>    <!-- This language has been hidden by the customize button. (Language). -->
+    <value id="ModernLang"/>  <!-- This language is a modern one, and should be available to all PFS characters. (Language). -->
+    <value id="HumanLang"/>   <!-- This language is a human language that can be traded for common, as per the rules on page 193 of Inner Sea Races-->
+
+
+    <!-- Alignment Tags -->
+    <value id="ItemAlign"/> <!-- This alignment is being assigned to a custom magic item (Alignment). -->
+
+
+    <!-- Attribute Tags -->
+    <value id="AbScNoScore" ispublic="yes"/>    <!-- This attribute score doesn't apply, and gives a +0 bonus (Attribute). -->
+    <value id="AbScCustRace"/> <!-- This attribute score has been chosen by one of the attribute selections of a Custom Race. If it has 2+ then it throws a warning. (Attribute). -->
+    <value id="NoAddCMD"/>   <!-- Used for the Incorporeal racial special. This attribute score should add no attribute modifiers to CMD. -->
+
+
+    <!-- Race Tags -->
+    <value id="NotClass"/> <!-- This race shouldn't be shown in the class list (Race). -->
+    <value id="Quadruped"/> <!-- This race is a quadruped, increasing carrying capacities and getting +4 vs. trip (Race). -->
+    <value id="ManyLegs" name="More than 4 Legs"/> <!-- This race is a quadruped, increasing carrying capacities and getting +8 vs. trip (Race). -->
+    <value id="Snaky" name="Snaky Body"/> <!-- This race has a snaky body, so it's immune to trip (Race). -->
+    <value id="NotHum"/> <!-- This race is not humanoid, so its armor costs more (Race). -->
+    <value id="RaceSecSpl"/>  <!-- This spellcasting race gets secondary spells -->
+    <value id="Undersized" name="Undersized Weapons"/>  <!-- This race uses weapons that are a size smaller than it is -->
+    <value id="Ethnicity"/>  <!-- This racial custom special ability is an ethnicity, and should be appended to the race name -->
+    <value id="RaceFused" name="Fused Eidolon Race"/>
+    <value id="UnEidoBase" name="Base Form for Unchained Eidolon"/> <!-- Race is a base form for an unchained eidolon -->
+    <value id="ColSizPlus" name="Larger than Colossal"/> <!-- For mythic abilities that treat a creature larger than colossal. The number of these tags on the hero lets HL know how many "size categories" lager than colossal we are. Typically should just be 1 or 2. -->
+    <value id="PolymorphRace" name="This is the race within a polymorph gizmo"/>
+    <value id="PolymorphActive" name="The polymorph for this race is active"/>
+
+    <!-- Metamagic Power Tags -->
+    <value id="CustomMeta"/> <!-- This metamagic power uses a variable number of levels, controlled by the user (Metamagic). -->
+    <value id="MetaImpDC" name="Metamagic Improves DC"/>
+    <value id="ComboSpell" ispublic="yes"/>  <!-- This custom spell needs to pick a second spell. -->
+    <value id="ComboSpl3" ispublic="yes"/> <!-- This custom spell needs to pick a third spell. -->
+    <value id="ComboScSpl"/>  <!-- This Spell has been selected as the 2nd spell in the combination. -->
+    <value id="ComboTrSpl"/>  <!-- This Spell has been selected as the 3rd spell in the combination. -->
+
+    <!-- Adjustment Tags -->
+    <value id="NoIncr"/>                         <!-- This adjustment doesn't display an incrementer (Adjustment). -->
+    <value id="AdjMount"/>                       <!-- This combat state adjustment should show a list of heroes this hero could be mounted on -->
+    <value id="AdjCond" name="Condition"/>                      <!-- This adjustment is a condition that is always present. (Adjustment). -->
+    <value id="AdjHAFear" name="Fear Condition"/>               <!-- This adjustment is a fear condition. (Adjustment). -->
+    <value id="AdjFearSom" name="Sometimes Fear Condition"/>    <!-- This adjustment appears in the fear table when the epanded fear rules are in effect -->
+    <value id="AdjState" name="Combat State"/>                  <!-- This adjustment is a combat state that is always present. (Adjustment). -->
+    <value id="AdjPerm" name="Permanent Adjustment"/>           <!-- This adjustment was added as a permanent adjustment (Adjustment). -->
+    <value id="AdjTemp" name="Temporary Adjustment"/>           <!-- This adjustment was added as a temporary adjustment (Adjustment). -->
+    <value id="AdjConfer" name="Granted Adjustment"/> <!-- This adjustment was added as a conferred adjustment (Adjustment). -->
+    <value id="AdjSpell" name="Spell Adjustment"/>              <!-- This adjustment was added as a spell adjustment (Adjustment). -->
+    <value id="AdjAffliction" name="Affliction"/>               <!-- This adjustment was added as an affliction (Adjustment). -->
+    <value id="CondActive"/>                     <!-- This condition is active (Adjustment). -->
+    <value id="AdjNoPlus"/>
+    <value id="AdjPolymor" ispublic="yes"/>                      <!-- This adjustment is a polymorph adjustment, it needs a hammer and
+                                                                  wrench to open a form and choose a race -->
+
+    <!-- These tags are not intended for use by data file authors. -->
+    <value id="Helper"/> <!-- Helper thing, not to be seen in thing lists (any pick). For example, the "Unarmed Strike" weapon. -->
+    <value id="Static"/> <!-- Static thing, not to be seen in thing lists or tables (any pick). For example, the "No Primary Weapon" weapon. -->
+    <value id="Forward"/> <!-- Forward your tags to the parent (any pick). -->
+    <value id="CustomItem" ispublic="yes"/> <!-- This is a custom, editable item (any pick). -->
+
+    <value id="NoPick"/> <!-- This is the 'none' pick, e.g. for selection in a chooser to indicate you don't want any of the choices. -->
+
+    <!-- Background -->
+    <value id="NoBackText" name="User entered no background text"/>
+
+    <!-- Deities -->
+    <value id="SpecDeity" name="Specify Deity Information"/>  <!-- The deity chosen requires the user to fill in deity information -->
+    <value id="BoonsSimpl" name="Simplified Boons"/>   <!-- Deity grants all three kinds of boons (least, greater, superior) but all three obedience classes (exalted, evangelist, and sentinel) get the same ones. -->
+    <value id="BoonsNone" name="No Boons"/> <!-- Deity does not grant any obediences or boons. This is used to generate a warning message on the obedience feats as well as shut down the obedience configurables. -->
+    <value id="FiendBoons"/>  <!-- Deity grants fiendish boons from Book of the Damned. Paizo recommends higher entry requirements to the evangelist, sentinel and exalted classes are higher for a deity that grants these boons. -->
+
+    <!-- Multiple/Singular Companions -->
+    <value id="SplitStat" name="Companion Splits Statistics"/>  <!-- This companion does not get abilities based on the master's level, instead it forwards several tags to the companion to stop it from calculating things like skill points/feats, and allows the user to assign them at will. -->
+
+    <!-- Incrementers on class/race specials -->
+    <value id="Increment" name="Incrementer"/>
+    <value id="Minimum0" name="Incrementer Minimum of 0"/>
+
+    <!-- Factions -->
+    <value id="Reputation" name="Reputation"/> <!-- This 'faction' is part of the Reputation and Fame subsystem. It doesn't offer magic items for sale. -->
+    <value id="PFSFamePur" name="Uses the PFS Fame and Item Purchases Table instead of the faction guide&apos;s table"/>
+    <value id="FacNoPurch" name="This faction doesn't offer item purchases"/>
+
+    <!-- Other -->
+    <value id="PyroGnome" name="Pyromaniac Gnome"/>
+    <value id="WeaponFam" name="Weapon Familiarity"/>
+    <value id="BrdPerform" name="Bardic Performance"/>
+    <value id="SorBloodAr" name="Bloodline Arcana"/>
+    <value id="Inquisitio" name="Inquisition"/>
+    <value id="NoCureInf" name="No Cure/Inflict Spells"/>
+    <value id="FusedEidLv" name="Effective Fused Eidolon Level"/>
+    <value id="FavorPlane" name="Favored Plane"/>
+    <value id="CurrTactic" name="Current Tactic"/> <!-- This tactic is currently selected, and should apply it's effects to the armies OM, DV, and Damage. -->
+    <value id="AbValSign" name="Signed Ability Value"/> <!-- Ability value displays as +X, rather than X -->
+
+    <value id="NoNmPreTou"/>  <!-- Don't prepend the "touch" text to our livename/sbName fields -->
+    <value id="NoNmPreInc"/>  <!-- Don't prepend the "incorporeal" text to our livename/sbName fields -->
+    <value id="NoNmPreInt"/>  <!-- Don't prepend the "integrated" text to our livename/sbName fields -->
+    <value id="NoBrdSbGrp" name="Do not include in bardic performance list on statblock"/>    <!-- prevents thing from being listed in the raBrdPerfo ability grouping -->
+    <value id="TargetCrit"/>   <!-- When present on thing that calls the targextdam proceedure it places in the extra text in the critical section, not the damage section of a weapon/ability -->
+    <value id="TargNoText"/>  <!-- prevents the targextdam procedure from adding text to the targeted weapon. -->
+    <value id="ReqShlProf"/> <!-- SelectHelp thing requires shield proficiency -->
+    <value id="ReqTowProf"/> <!-- SelectHelp thing requires tower shield proficiency -->
+
+    <!-- Configurables -->
+    <value id="OnConfig"/>  <!-- This Favored Enemy/Terrain has been added to a configurable -->
+
+    <value id="BoonComp"/>    <!-- Boon Companion Feat has selected this animal companion -->
+
+    <value id="Free"/>        <!-- Identifies a thing that is free. Currently this has been implemented for the feats, languages and custom special abilities, and may be expanded further later. -->
+    <value id="FreeTactic"/>  <!-- Identifies a tactic that is free -->
+
+    <value id="Mythic"/>      <!-- This ability is mythic, and shouldn't show in the places normal things show. -->
+    <value id="MajorMyth"/>   <!-- Ability is considered a major mythic ability and costs two mythic ability slots. Make sure appropiate CustomCost tag is assigned as well when using this. -->
+    <value id="SimDivCast"/>  <!-- This spell like ability is from the Simple Divine Casting mythic racial ability. The tag marks it so that the appropriate resource can count and tally the number of spell levels taken. -->
+    <value id="SimArcCast"/>  <!-- This spell like ability is from the Simple Arcane Casting mythic racial ability. The tag marks it so that the appropriate resource can count and tally the number of spell levels taken. -->
+    <value id="Godling"/>     <!-- This ability is a godling ability out of Mythic Origins. -->
+    <value id="ActMythSpl"/>  <!-- For spells, once they are added to the Mythic tab this tag is applied to trigger the behaviors which stop mythic text from being greyed out and also add the Helper.Mythic tag to all matching spells. -->
+    <value id="UseMythicV"/> <!-- This is used to activate mythic effects or deactivate normal effects of a feat when they are encoded in the normal version of the feat. The mythic version of the feat should add this to the mundane version early. -->
+    <value id="RealmMySpl"/> <!-- This is used to designate a spell or SLA that is mythic when we are in our realm of power. It also needs to be added to creatures that have realm spells. -->
+    <value id="RealmDepen"/> <!-- Add this to helper abilities that determine if a hero is in their realm of power or not. For example of how this is used see the xArchdevil ability. -->
+
+
+    <value id="BlaShowRng"/>   <!-- This special ability is a blast, but unlike most blasts, should show on the ranged line of the statblock.
+                                 This may be combined with StatblockHide.KinWildTal -->
+
+    <value id="NoteOverwr"/>  <!-- This special should use the notes instead of the normal description. -->
+
+    <value id="Housed"/>     <!-- This organization is housed in a building you own, so it gets full earnings. -->
+
+    <value id="AuraRange"/>  <!-- This ability is an aura, when constructing the statblock name needs to look at two fields to determine range. -->
+    <value id="DrawAsAmmo"/> <!-- This thrown weapon is drawn as ammo, so it is not limited to a single attack without Quick Draw (currently only Shuriken) -->
+    <value id="RelDw2Step"/> <!-- This weapon's reload is quickened 2 steps by the Rapid Reload feat (only heavy crossbow so far) -->
+
+    <value id="OptDomain"/>  <!-- This subdomain is "optional" and therefore needs some warning text appended to it's description. -->
+    <value id="NoDomainSp" name="No Domain Spells"/>  <!-- This domain doesn't grant spells -->
+
+    <value id="Grit"/>      <!-- The Grit/Panache Pool includes Grit -->
+    <value id="GritUseCHA"/><!-- The Grit is based on Charisma -->
+    <value id="GritUseINT"/><!-- The Grit is based on Intelligence -->
+    <value id="Luck"/>      <!-- The Grit/Panache Pool includes Luck -->
+    <value id="LuckUseINT"/><!-- The Luck is based on Intelligence -->
+    <value id="LuckUseWIS"/><!-- The Luck is based on Wisdom -->
+    <value id="Panache"/>   <!-- The Grit/Panache Pool includes Panache -->
+    <value id="PanaUseINT"/><!-- The Panache is based on Intelligence -->
+    <value id="PanaUseWIS"/><!-- The Panache is based on Wisdom -->
+    <value id="Damnation"/> <!-- For tracking how many damnation feats the character has, see Champions of Corruption -->
+    <value id="SacredWep"/>  <!-- Weapon counts as a warpriest's sacred weapon -->
+
+    <value id="CombScPrLs"/><!-- When generating the Custom special lists for
+                              this class, combine the secondary tables abilities
+                              with the primary table's abilities. Used for the
+                              alchemist, which combines Grand Discoveries with
+                              Discoveries in the statblock. -->
+    <value id="NoCustGrp"/> <!-- The custom special abilities are not grouped
+                              together for this class. Currently used for cavalier
+                              orders -->
+
+    <value id="HostedSpir"/>
+    <value id="PickType"/>
+    <value id="StLocCombo"/> <!-- This equip set is a combination of ranged and melee, so the user needs to select what statblock line it should appear on. -->
+    <value id="StLocRange"/> <!-- This equip set is only ranged so it will appear on that statblock line. -->
+    <value id="StLocMelee"/> <!-- This equip set is only melee so it will appear on that statblock line. -->
+    <value id="MastLevel"/>  <!-- This scaling item depends on the master's level -->
+    <value id="ConsLiar"/>   <!-- This feat can ignore a requirement of Int 13 due to the consummate liar ability -->
+
+    <value id="BookDefSpl"/> <!-- This spell is in a pre-built book, it should
+          both be shadowed, and have the "Some other bloke wrote this into the
+          spellbook" field set to 1 -->
+    <value id="MutNoArmor" name="Mutagen Grants no armor"/> <!-- Used for the Ectoplasm Master archetype. As well as Multiple Mutagen mythic ability. -->
+    <value id="NoStackSnk"/> <!-- If on raSneakAtt it will not add its dice to any class versions of sneak attack -->
+
+    <!-- Used for the automatic bonus progression optional rule -->
+    <value id="ABPForbid" name="Forbidden in the Automatic Bonus Progression Rule"/>  <!-- This item is forbidden by the rule, because it only applies a bonus to AC, saves, or attributes -->
+
+    <!-- Used for the innate item bonuses optional rule -->
+    <value id="InnaForbid" name="Forbidden in the Innate Item Bonuses Rule"/>  <!-- This item is forbidden by the rule, because it only applies a bonus to AC, saves, or attributes -->
+
+    <!-- Used for the simplified spellcasting optional rule -->
+    <value id="PoolBon2nd"/>  <!-- Our secondary spells qualify to increase our spell pool uses -->
+    <value id="PoolBon3rd"/>  <!-- Our secondary spells qualify to increase our spell pool uses -->
+    <value id="PoolSpell"/>   <!-- This spell should draw on the spell pool -->
+
+    <value id="SummonTemp"/>  <!-- This template has been applied to a summoned creature.  -->
+
+    <!-- Automatic Bonus Progression Helper tags -->
+    <value id="WepAttune"/>   <!-- This attunment should select between weapons and add it's incrementer value to the resource for that -->
+    <value id="ArmAttune"/>   <!-- This attunment should select between armor and add it's incrementer value to the resource for that -->
+    <value id="AttrMenAtt"/>   <!-- This attunment should select between attributes and add it's incrementer value to the resource for that -->
+    <value id="AttrPhyAtt"/>   <!-- This attunment should select between attributes and add it's incrementer value to the resource for that -->
+
+    <value id="NoLdCohort"/>   <!-- If on a Leadership feat it will not calcuate cohort level -->
+    <value id="NoLdFollow"/>   <!-- If on a Leadership feat it will not calcuate number of followers -->
+
+    <!-- Used by Occult Adventures -->
+    <value id="NoEleFoc"/>  <!-- This item would normally requre an elemental focus, but bypasses it.-->
+    <value id="Ritual" name="Ritual"/>
+    <value id="Chakra"/>
+
+    <value id="SLAPrimary"/> <!-- This version of the spell is the primary one, which should be used for Spell like abilities -->
+    <value id="ShowSpSrc"/>
+    <value id="DirtFight"/>
+    <value id="SubSbName"/>  <!-- This natural attack should show it's statblock name in the statblock output, instead of its thingname, for example the "Other Melee attack" weapon -->
+
+    <!-- Troop Tags -->
+    <value id="NoAltTroop"/>  <!-- If present, troop subtype will not add the ability to select alternate troop traits. Used on troops that have those traits already built into them, or otherwise should not be further modified. -->
+
+    <!-- Class Spellbook helper tags -->
+    <value id="SecSplBook" ispublic="yes"/>  <!-- This class' secondary spells should use the spellbook limited table (this is present by default if the primary casting is spellbook, but can be deleted in the case where different kinds of casting is required for different spell lists). -->
+    <value id="TerSplBook" ispublic="yes"/>  <!-- This class' tertiary spells should use the spellbook limited table (this is present by default if the primary casting is spellbook, but can be deleted in the case where different kinds of casting is required for different spell lists). -->
+
+    <!-- For options taken as "any option" -->
+    <value id="AnyOption"  name="Any Option"/>
+    <value id="AgilePowOK"/>  <!-- Even though we don't have weapon finesse, we qualify for the effects of the Agile feat because this weapon is treated as having the feat. -->
+
+    <value id="TierPower"  name="Tiered Item Power"/>
+    <value id="ClonSpSel2"  name="Cloned Spell based off of 2nd selector"/>
+
+    <!-- Added as part of the spellbook system -->
+    <value id="NoSplName"/>     <!-- Spells contained within our gizmo should not forward their name to the parent item (us). -->
+    <value id="SplBkError"/>    <!-- This spell has been added to a table whose class spell list does not include it. -->
+    <value id="SplBkMisma"/>    <!-- This spell has been added to a table whose class spell list does not include it, but it isn't marked as being deciphered so it shouldn't error (just show itself as disabled). -->
+    <value id="SplBkSplSp"/>    <!-- This spell must decide individually which spellcasting classes it belongs to. -->
+    <value id="ManifNoRem" name="This gift/stain may not be given up, even if the vile corruption or useful corruption rules are used"/>
+
+    <!-- Added for Configurables -->
+    <!-- This configurable does not forward any class skills which end up on it.
+
+      Several kinds of custom specials include ClassSkill tags on themselves,
+      and the default behavior when they are added to classes is to have the
+      class forward those tags to the hero to grant a class skill. When Mathias
+      was working with configurables for UI, he noticed that when added to
+      Configurables the same was not happening. This inconsistent behaviour might
+      confuse users, so he altered things so no matter where the custom specials
+      were added the class skill tags would be forwarded.
+
+      However, several configurables add custom specials not for themselves, but
+      for the carryalong info associated with the custom special. For example,
+      Eldritch Heritage adds Sorcerer Bloodline Custom Specials so that the
+      Class Specials bootstrapped by them can be acted upon, while the Herecite
+      race has a configurable which adds Cleric Domains to read the Secondary
+      Spells Allowed tags on them for making SLAs of them. Neither actually wants
+      any effects from the custom special itself, so this tag is added to prevent
+      them from granting class skills when they shouldn't. -->
+    <value id="CfgNoSkill"/>
+
+
+    <!-- Spell Ability focus
+      Spell-like abilities are a valid target for the Ability Focus feat, but
+      spells are not always what they seem. Cloned spells fill in for certain
+      spells, bootstrapped by feats like Quickened Spell Like Ability. Ability
+      Focus normally looks for something with a thingid matching the Target tag
+      it is bootstrapped with, which means it fails to find cloned spells. The
+      presence of this tag causes it to look for a matching KnownSpell tag
+      instead. The existing example of this is Mordiggian, and Quickened Slay
+      Living.
+      -->
+    <value id="SpAbiFocus" name="Spell Ability Focus"/>
+
+    <value id="SpBkExpand" name="Added to the Spellbook Expansion table"/>
+    <value id="SpLsExpand" name="Added to the Spell List Expansion table"/>
+
+    <value id="BondAbil" name="Bond Ability"/>
+
+    <!-- As of Villain Codex, ARTs need to note their source for display in the
+      statblock, but they are not considered important enough for the sourcebook
+      they originate from to be displayed in section 1. Therefore, the component
+      has this Helper assigned as an autotag. I could have just excluded the
+      component as a whole, but this way we can employ the same tag if we further
+      expand the list of compsets which should have SourceFull components, or if
+      there comes along an ART which is important enough to warrent being shown
+      in section 1, it can specifically delete the tag from itself. -->
+    <value id="NoSourceInfo" name="Not added to Sourcebook Info"/>
+
+    <!-- This tag is used to mark a custom built weapon/armor as magical in its
+      base state, before any outside effect applies an enhancement bonus to it.
+      This is important when deciding whether or not to italicise the item's
+      entry in the statblock. -->
+    <value id="MagicItem" name="Magical Weapon/Armor"/>
+
+    <!-- Used for the unarmed strike and all natural weapons.
+      The "Rule" on whether unarmed strikes sbNames should show a prepend of an
+      enhancement bonus is unclear, as in NPC codex the trend appears to be yes,
+      while in later books like the VC it seems not.
+
+      For natural weapons, it appears that in general they should not be shown
+      (barring a few counter-examples in Monster Codex, and the Almiraj from
+      bestiary 4), so this tag is applied to the component.
+      -->
+    <value id="SbNoEnhPre" name="Statblock does not prepend enhancement bonus"/>
+
+    <!-- Used for the Bifurcated Magic
+      Classes which do not start with spellcasting, but could gain it through archetypes
+      -->
+    <value id="PotSplCast" name="Potential Spellcasting Class"/>
+
+    <value id="TargRank10" name="Target Treated as having 10 ranks"/> <!-- Used by Skill Focus -->
+    <value id="PermanentSizeIncr" name="Permanant Size Increase"/>
+
+    <!-- Used for the Legendary Items
+      Once meet the pre-requisites this is assigned into the gizmo to trigger bootstrap conditions.
+      -->
+    <value id="ItemAttuned" name="Item Attuned"/>
+
+    <!-- Used for Tannaris, which breaks the rules of the Defending item power
+      -->
+    <value id="DefendingNoAttPen" name="Defending imposes no attack penalty"/>
+
+    <value id="MinionCantBeLive"  name="This Minion Cannot be made Live" ispublic="yes"/>
+    </group>

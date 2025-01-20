@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - The Warden"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arValiantCham" name="Valiant Champion" compset="ClassVary" description=" Most paladins fight with strict codes of unwavering honesty and honour, and whereas these tenants prove to be difficult yet worthy of following, some find these tenants to be excessively strict. These paladins try to hold their own ideals--or their god's ideals--to heart, and tend towards aiding their allies instead of slaying evil, at least to a certain extent.\n\nTODO: Only implemented to 3rd level. Still need to add Insightful Strike (Su) and Focusing Grasp.\n\nAlignment and Code of Conduct\n\nA valiant champion may be of any good alignment, and loses all class features except proficiencies if she ever willingly commits an evil act. In addition, she must act with honesty, and must stay within her deity's edicts. The valiant champion has no restrictions on the tools she may bring to defeat her foes, and does not lose any of her class abilities when using tools such as deceit or poison, as long as she acts for the greater good." uniqueness="unique">
+    <arrayval field="cvCustTot" index="2" value="-1"/>
+    <arrayval field="cvCustTot" index="3" value="-1"/>
+    <arrayval field="cvCustTot" index="4" value="-1"/>
+    <arrayval field="cvCustTot" index="5" value="-1"/>
+    <arrayval field="cvCustTot" index="6" value="-1"/>
+    <arrayval field="cvCustTot" index="7" value="-1"/>
+    <arrayval field="cvCustTot" index="8" value="-1"/>
+    <arrayval field="cvCustTot" index="9" value="-1"/>
+    <arrayval field="cvCustTot" index="10" value="-1"/>
+    <arrayval field="cvCustTot" index="11" value="-1"/>
+    <arrayval field="cvCustTot" index="12" value="-1"/>
+    <arrayval field="cvCustTot" index="13" value="-1"/>
+    <arrayval field="cvCustTot" index="14" value="-1"/>
+    <arrayval field="cvCustTot" index="15" value="-1"/>
+    <arrayval field="cvCustTot" index="16" value="-1"/>
+    <arrayval field="cvCustTot" index="17" value="-1"/>
+    <arrayval field="cvCustTot" index="18" value="-1"/>
+    <arrayval field="cvCustTot" index="19" value="-1"/>
+    <usesource source="pPF1e_Sph_OWarden"/>
+    <tag group="AbReplace" tag="cPalDtEvil"/>
+    <tag group="Helper" tag="RemoveCast" name="Remove Spellcasting" abbrev="Remove Spellcasting"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="AlgnForbid" tag="Evil"/>
+    <tag group="AlgnForbid" tag="NeutNeut"/>
+    <tag group="AlgnForbid" tag="NeutralGE"/>
+    <tag group="AbReplace" tag="cPalAuJust"/>
+    <tag group="AbReplace" tag="cPalHolyCh"/>
+    <tag group="Helper" tag="NoAlignRes"/>
+    <tag group="AbModify" tag="cPalDivBod"/>
+    <bootstrap thing="cSoMBlendTrVaCh">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoMBlendTrVaCh">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="fArmBuckl"></bootstrap>
+    <bootstrap thing="cSoMBlendTrVaCh">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="tHelpValChamp"></bootstrap>
+    <bootstrap thing="fSimple"></bootstrap>
+    <bootstrap thing="cCastingValChamp">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cValChFocusingGra">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cValChInsightStri">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cValChAuraVital">
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="cValChHolyGuardia">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="fArmLight"></bootstrap>
+    <link linkage="varies" thing="cHelpPal"/>
+    <eval phase="First">~ Mark the base class as a spherecasting class
+      perform linkage[varies].assign[SphOfPow.Class]
+      perform linkage[varies].assign[SphOfMigh.Class]
+      perform linkage[varies].assign[SoMPMAttr.aCHA]
+      perform hero.childfound[abSoPCast].delete[SoPCAMAttr.?]
+      perform hero.childfound[abSoPCast].assign[SoPCAMAttr.aCHA]
+
+      ~perform hero.assign[SoPSphTab.Divin]
+      ~perform hero.assign[SoPAltDiv.Fate]</eval>
+    </thing>
+  <thing id="cSoMBlendTrVaCh" name="Blended Training" compset="ClSpecial" description="A valiant champion gains a combat or magic talent every time she gains a class level. A valiant champion uses her casting ability modifier as her practitioner ability modifier.\n\nThe valiant champion is considered a Low-Caster. This counts as the casting class feature. (Note: All casters gain 2 bonus talents and a casting tradition the first time they gain the casting class feature.)" summary="Gain a magic or combat talent">
+    <arrayval field="usrArray" index="0" value="Combat Talent"/>
+    <arrayval field="usrArray" index="1" value="Magic Talent"/>
+    <tag group="Hide" tag="ClSpecList" name="Class Special List" abbrev="Class Special List"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="HasAbility" tag="abSoMCmbTr" name="Combat Training" abbrev="Combat Training"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="SpecSource" tag="arValiantCham"/>
+    <bootstrap thing="abSoPCast"></bootstrap>
+    <bootstrap thing="abSoMCmbTr"></bootstrap>
+    <eval phase="PostLevel" priority="5000">doneif (tagis[Helper.ShowSpec] = 0)
+if (field[usrIndex].value = 0) then
+        hero.childfound[resSMCTGen].field[resMax].value += 1
+      elseif (field[usrIndex].value = 1) then
+        hero.childfound[resSPMTGenDMY].field[resMax].value += 1
+      endif</eval>
+    </thing>
+  <thing id="cValChInsightStri" name="Insightful Strike" compset="ClSpecial" description="At 1st level, whenever the valiant champion would successfully damage a creature, she may, as an immediate action, determine if the creature is evil, as the Divine Alignment alternate Divination. She uses her class level as her effective caster level. This stacks normally with caster levels gained from other sources. If the creature is evil, she may expend her martial focus to immediately smite the creature as a free action that can be taken even when it is not her turn, applying the benefits of her smite evil ability to the creature as normal for the attack.">
+    <tag group="Helper" tag="ClExLose"/>
+    <tag group="abAction" tag="Immediate"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <tag group="SpecSource" tag="arValiantCham"/>
+    <bootstrap thing="sopTlExDiv">
+      <autotag group="SoPTlClass" tag="InitTalent"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="sopTlDvDA">
+      <autotag group="SpecSource" tag="cHelpPal"/>
+      <autotag group="SpecSource" tag="arValiantCham"/>
+      <assignval field="CL" value="1"/>
+      <assignval field="DescAppend" value="+1 CL for Insightful Strikes"/>
+      </bootstrap>
+    <bootstrap thing="sopSpDivin"></bootstrap>
+    </thing>
+  <thing id="cValChFocusingGra" name="Focusing Grasp" compset="ClSpecial" description="You may use lay on hands ability on yourself as a move action to regain her martial focus, in addition to healing normally.">
+    <tag group="Helper" tag="ClExLose"/>
+    <tag group="abAction" tag="Move"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <tag group="SpecSource" tag="arValiantCham"/>
+    </thing>
+  <thing id="cValChHolyGuardia" name="Holy Guardian" compset="ClSpecial" description="At 20th level, the valiant champion becomes a bastion of good for her allies. Her damage reduction increases to 10/evil. Allies within 30 feet of the valiant champion gain DR 5/evil. Additionally, whenever an ally within 30 feet that she can see would be reduced to 0 hit points or fewer, as an immediate action, the valiant champion may choose to divert any amount of the damage taken to herself instead of the damaged ally.\n\nFinally, whenever the valiant champion would fall unconscious, her soul rises from her body, appearing as a spectral version of her physical form until the end of her next turn. While within this form, the valiant champion may move in any direction (even up or down, albeit at half her normal speed), and may move through solid objects and living creatures, essentially being considered as an ethereal creature, except that she may still cast harmless spells and sphere effects upon her allies. At the end of her next turn, her soul returns to her body, remaining unconscious as normal.">
+    <tag group="Helper" tag="ClExLose"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <tag group="SpecSource" tag="arValiantCham"/>
+    </thing>
+  <thing id="cValChAuraVital" name="Aura of Vitality" compset="ClSpecial" description="Whenever the valiant champion would use her channel energy ability, allies within 10 feet of her heal the maximum possible amount. Additionally, whenever the valiant champion would use her lay on hands ability, she may expend 2 uses of lay on hands to heal the touched creature the maximum possible amount.">
+    <tag group="Helper" tag="ClExLose"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <tag group="SpecSource" tag="arValiantCham"/>
+    </thing>
+  <thing id="cCastingValChamp" name="Casting" compset="ClSpecial" description="At 1st level, the valiant champion may combine spheres and talents to create magical effects. The valiant champion is considered a Low-Caster. (Note: All casters gain 2 bonus talents and a casting tradition the first time they gain the casting class feature.)\n\nThis replaces the spells class features." summary="You can cast sphere effects">
+    <usesource source="pPF1e_Sph_OWarden"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="SphOfPow" tag="Casting" name="Spherecasting" abbrev="Spherecasting"/>
+    <tag group="Helper" tag="ClExLose"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <bootstrap thing="abSoPCast"></bootstrap>
+    </thing>
+  <thing id="tHelpValChamp" name="Valiant Champion Talents" compset="SoPSetupMg" uniqueness="unique">
+    <usesource source="pPF1e_Sph_OWarden"/>
+    <tag group="SoPCLProg" tag="CasterLow" name="Low Caster" abbrev="Low Caster"/>
+    <link linkage="sopClass" thing="cHelpPal"/>
+    </thing>
+  <thing id="cPalImplement" name="Divine Bond (Implement)" compset="CustomSpec" description="Instead of forming a divine bond with her weapon or mount, a valiant champion may form a bond with her implement. As a standard action, a valiant champion may enhance an object by calling upon the aid of a celestial spirit. This bond lasts for 1 minute per paladin level.\n\nWhen called, the spirit causes the object to become an implement, shedding light like a torch. At 5th level, the spirit grants the implement a +1 enhancement bonus. For every three levels beyond 5th, the implement gains an additional +1 enhancement bonus, to a maximum of +6 at 20th level. These bonuses can be added to the implement, stacking with existing implement bonuses to a maximum of +5, or they can be used to add any of the following implement special abilities: aiming, attendant, capacitance, erudite, exacting, magic talent, extra sphere.\n\nAdding these special abilities consumes an amount of bonus equal to the special abilities' cost. These bonuses are added to any special abilities the implement already has, but duplicate abilities do not stack. The bonus and special abilities granted by the spirit are determined when the spirit is called and cannot be changed until the spirit is called again. The celestial spirit imparts no bonuses if the implement is wielded by anyone other than the valiant champion, but resumes giving bonuses if she wields the implement again. A valiant champion can use this ability once per day at 5th level, and one additional time per day for every four levels beyond 5th, to a total of four times per day at 17th level.\n\nIf an implement with a celestial spirit is destroyed, the valiant champion loses the use of this ability for 30 days, or until she gains a level, whichever comes first. During this 30-day period, the valiant champion takes a -1 penalty to her caster level." summary="Weapon shines with light and gains enhancement bonuses or chosen properties." uniqueness="unique">
+    <fieldval field="shortname" value="Implement"/>
+    <tag group="Helper" tag="BondAbil" name="Bond Ability" abbrev="Bond Ability"/>
+    <tag group="Helper" tag="ClExLose" name="ClExLose" abbrev="ClExLose"/>
+    <tag group="Helper" tag="DuraAbbrev" name="Use duration tag abbreviations" abbrev="Use duration tag abbreviations"/>
+    <tag group="Helper" tag="Secondary" name="Secondary" abbrev="Secondary"/>
+    <tag group="SbNameApp" tag="IncUses" name="Include Usage details" abbrev="Include Usage details"/>
+    <tag group="SbNameApp" tag="SignAppVal" name="Sign appended value" abbrev="Sign appended value"/>
+    <tag group="SbNameBase" tag="CaseLower" name="Lower Case for name" abbrev="Lower Case for name"/>
+    <tag group="SbNameBase" tag="FieldShort" name="Use &quot;field[shortname].text&quot; for name" abbrev="Use &quot;field[shortname].text&quot; for name"/>
+    <tag group="Usage" tag="Day" name="/day" abbrev="/day"/>
+    <tag group="User" tag="Tracker" name="Modern Action Points" abbrev="Modern Action Points"/>
+    <tag group="abAction" tag="Standard" name="Standard" abbrev="std"/>
+    <tag group="abCategory" tag="PalDivBond" name="Paladin Divine Bond" abbrev="Paladin Divine Bond"/>
+    <tag group="abDuration" tag="Minute" name="Minute" abbrev="min"/>
+    <tag group="abRange" tag="Touch" name="Touch" abbrev="tch"/>
+    <tag group="AbilType" tag="SpellLike" name="Spell-Like Ability" abbrev="Sp"/>
+    <tag group="SpecSource" tag="arValiantCham"/>
+    <eval phase="Render" priority="10000" index="2"><![CDATA[
+      var nme as string
+      var sbNme as string
+      nme = "Divine Bond (Implement"
+      sbNme = "implement"
+      if (tagis[LGMyClass.?] <> 0) then
+        nme &= " [Mythic]"
+        sbNme &= "{super}M{/super}"
+        endif
+
+      field[livename].text = nme & " " & signed(field[abValue].value) & ", " & field[abDuraText].text & ")"
+      field[sbName].text = sbNme & " " & signed(field[abValue].value) & ", " & field[trkMax].value & tagnames[Usage.?]]]></eval>
+    <eval phase="PostLevel" priority="10000"><![CDATA[
+      var effLev as number
+
+      if (tagis[LGMyClass.?] = 0) then
+        effLev = field[xTotalLev].value
+      else
+        effLev = field[xTotalLev].value + #tiereffect[]
+        endif
+
+      var bonus as number
+      bonus = effLev - 2
+      field[abValue].value += round(bonus/3,0,-1)
+
+      if (effLev >= 17) then
+        field[trkMax].value += 4
+      elseif (effLev >= 13) then
+        field[trkMax].value += 3
+      elseif (effLev >= 9) then
+        field[trkMax].value += 2
+      else
+        field[trkMax].value += 1
+        endif
+
+      field[abDuration].value += effLev]]></eval>
+    </thing>
+  </document>

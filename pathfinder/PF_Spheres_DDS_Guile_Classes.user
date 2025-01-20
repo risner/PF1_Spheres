@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS_Guile - Classes"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arVigInformant" name="Informant" compset="ClassVary" description="An informant is something of a private investigator, piecing together seemingly disparate pieces of information to discover the true culprit (and then hunt them down)." summary="An informant is something of a private investigator." uniqueness="unique">
+    <comment>TODO: Sleuth and the Informant Talents are not implemented</comment>
+    <arrayval field="cvCustSTot" index="4" value="-1"/>
+    <arrayval field="cvCustSTot" index="10" value="-1"/>
+    <arrayval field="cvCustSTot" index="16" value="-1"/>
+    <arrayval field="cvCustTTot" index="1" value="-1"/>
+    <arrayval field="cvCustTTot" index="7" value="-1"/>
+    <arrayval field="cvCustTTot" index="13" value="-1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="AbReplace" tag="cVigUnshak"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <link linkage="varies" thing="cHelpVig"/>
+    <eval phase="First" priority="50">perform linkage[varies].assign[SphOfGuil.Class]
+      perform linkage[varies].assign[SoGOLProg.Journeyman]
+      perform linkage[varies].assign[SoGTRank.Adroit]</eval>
+    </thing>
+  <thing id="cTradeTradition" name="Trade Tradition" compset="ClSpecial" description="Like your character’s class or race, you choose their trade tradition at character creation. A trade tradition represents the character’s background, practice, and training at a variety of tasks. Trade traditions allow you to exchange the usual class skills of a class for a more limited and specialized set of class skills and one or two other skill talents.">
+    <fieldval field="usrChkText" value="Chosen"/>
+    <fieldval field="usrCandid1" value="component.SoGTraTrad"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Hide" tag="ClSpecList"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <eval phase="First" priority="75" name="Link class helper to trade tradition"><![CDATA[~ If disabled, get out.
+         doneif (tagis[Helper.SpcDisable] <> 0)
+
+         ~ This is optional, so without the checkmark we are disabled.
+         if (field[usrIsCheck].value = 0) then
+              ~ It will be greyed out and post "(Requirements not met)"
+              perform assign[Helper.SpcDisable]
+              done
+         endif
+
+         ~ Post a validation error if the root is invalid. Coding error?
+         doneif (root.valid = 0)
+
+         ~ Find what bootstrapped this.
+         if (root.tagis[component.BaseClHelp] <> 0) then
+
+              ~ We have a root, it is linked to a class, so set focus.
+              perform root.setfocus
+
+         elseif (root.islinkage[varies] <> 0) then
+              if (root.linkage[varies].valid <> 0) then
+
+                   ~ We have a root, it is linked to an archetype, so set focus.
+                   perform root.linkage[varies].setfocus
+
+              endif
+         endif
+
+         ~ Post a validation error if the linkage is invalid. Coding error?
+         doneif (state.isfocus = 0)
+
+         ~ Helper.FirstLevel is assigned on Levels/9000, but we need sooner.
+         if (focus.field[c1stIndex].value <> 0) then
+
+              ~ If not the FirstLevel, hide/disable us and get out.
+              perform assign[Hide.All]
+              perform assign[Hide.Statblock]
+              perform assign[Helper.SpcDisable]
+              done
+         endif
+
+         ~ We have been checkmarked, but nothing is chosen. "You must choose an option"
+         doneif (field[usrChosen1].ischosen = 0)
+
+         ~ Copy the SoGTRank from the class helper to the trade tradition.
+         if (focus.tagis[SoGTRank.Adroit] <> 0) then
+              perform field[usrChosen1].chosen.assign[SoGTRank.Adroit]
+              perform field[usrChosen1].chosen.delete[SoGTRank.Competent]
+         elseif (focus.tagis[SoGTRank.Competent] <> 0) then
+              if (field[usrChosen1].chosen.tagis[SoGTRank.Adroit] = 0) then
+                   perform field[usrChosen1].chosen.assign[SoGTRank.Competent]
+              endif
+         endif
+
+         ~ We are valid gained on the first level of a an archetype or class.
+         debug "☸ Valid trade tradition for " & focus.field[name].text & " 212"
+
+         ~ Our trade tradition is valid, tag the hero, class and the trade tradition.
+         perform hero.assign[SphOfGuil.Trade]
+         perform focus.assign[SphOfGuil.Trade]
+         perform field[usrChosen1].chosen.assign[SphOfGuil.Trade]
+         ]]>
+         <before name="Add additional free trade talents"/>
+         </eval>
+    </thing>
+  <thing id="sogTTBlank" name="Trade Tradition: Blank" compset="SoGTraTrad" description="Blank Trade Tradition\n\nGrants you 2 (trade) talents and 1 generic skill talent or double this amount for Adroit." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <eval phase="First" priority="1000"><![CDATA[~ If we have no rank, get out.
+         doneif (tagis[SoGTRank.?] = 0)
+
+         if (tagis[SoGTRank.Adroit] <> 0) then
+             hero.childfound[resSGSSGen].field[resMax].value += 2
+             hero.childfound[resSGTraTal].field[resMax].value += 4
+        elseif (tagis[SoGTRank.Competent] <> 0) then
+             hero.childfound[resSGSSGen].field[resMax].value += 1
+             hero.childfound[resSGTraTal].field[resMax].value += 2
+        endif]]>
+        <after name="Handle Adroit"/>
+        <after name="Assign Trade Rank based on skill points of class"/>
+        <after name="Link class helper to trade tradition"/>
+        </eval>
+    </thing>
+  <thing id="sogTTAerialist" name="Aerialist" compset="SoGTraTrad" description="{b}Automatic Trade Talents{/b}: Duelist, Falconer\n\n{i}Trade Talent Class Skills{/i}: Bluff, Climbᴿ, Fly, Handle Animal*, Intimidate, Knowledge (nature), Linguistics, and Sense Motive.\n\n{b}Automatic Skill Sphere{/b}: Body Control sphere\n\n{b}Adroit Trade Talents{/b}: Roughrider, Sky Pilot\n\n{i}Trade Talent Class Skills{/i}: Acrobatics, Knowledge (geography), Ride, Survival, and Swim;\n\nᴿ Heal in place of redundant Climb, * increased class skill bonus to Handle Animal checks.\n\n{b}Adroit Bonus Skill Talent{/b}: Bluster sphere or the Body Control (Breath Control) talent." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGVarTal1" tag="sogTlSpBluster"/>
+    <tag group="SoGVarTal1" tag="sogTlBreathContr"/>
+    <tag group="SoGVarTals" tag="Adroit"/>
+    <bootstrap thing="SoGSkillReplace">
+      <autotag group="Reference" tag="skClimb"/>
+      <autotag group="Target" tag="skHeal"/>
+      </bootstrap>
+    <bootstrap thing="sogTlDuelist"></bootstrap>
+    <bootstrap thing="sogTlFalconer"></bootstrap>
+    <bootstrap thing="sogTlSpBodyCont"></bootstrap>
+    <bootstrap thing="sogTlRoughrider">
+      <containerreq phase="First" priority="102">SoGTRank.Adroit</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlSkyPilot">
+      <containerreq phase="First" priority="102">SoGTRank.Adroit</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlSpVocation">
+      <autotag group="SphOfGuil" tag="NoBnTalent"/>
+      </bootstrap>
+    </thing>
+  <thing id="pSoGFeattTalProg" name="Feat to Talent Progression Conversion" compset="InPlay" description="While any class can buy some facility with the skill spheres by taking the Extra Skill Talent feat or a trade tradition, some characters may want to delve deeper into the system. A character can gain a skill talent progression by trading out some or all of their standard feat progression as described in {b}Table: Feat to Talent Progression Conversion{/b}.">
+    <fieldval field="pCandExpr" value="component.Simple &amp; (thingid.DDSSGTrained | thingid.DDSSGJourneyman)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <tag group="Helper" tag="NoIncr"/>
+    <bootstrap thing="DDSSGTrained"></bootstrap>
+    <bootstrap thing="DDSSGJourneyman"></bootstrap>
+    <bootstrap thing="abSoGSkSp">
+      <containerreq phase="First" priority="297">fieldval:pIsOn = 1</containerreq>
+      </bootstrap>
+    <eval phase="PostAttr" priority="1000" index="2"><![CDATA[
+      doneif (field[pIsOn].value = 0)
+      doneif (tagis[SoGOLProg.?] = 0)
+
+      var n as number
+      foreach pick in hero from BaseClHelp where "!SphOfGuil.Class"
+          n = eachpick.field[cTotalLev].value
+          field[abValue].value += n
+      nexteach]]></eval>
+    <eval phase="PostAttr" priority="1100" name="Calculate talents gained"><![CDATA[doneif (tagis[SoGOLProg.?] = 0)
+      doneif (field[pIsOn].value = 0)
+
+      perform hero.findchild[SoGSkTrain,tagids[SoGOLProg.?]].setfocus
+      doneif (state.isfocus = 0)
+      var tals as number
+      var utils as number
+
+      utils = focus.field[cUtiKnown].arrayvalue[field[abValue].value - 1]
+      tals = focus.field[cTalKnown].arrayvalue[field[abValue].value - 1]
+
+      if (tals > 0) then
+          hero.findchild[Resource, "thingid.resSGSSGen"].field[resMax].value += tals
+      endif
+      if (utils > 0) then
+          hero.findchild[Resource, "thingid.resSGUtilTal"].field[resMax].value += utils
+      endif]]></eval>
+    <eval phase="First" name="Get tag from selected progression">doneif (field[pChosen].ischosen = 0)
+      doneif (field[pIsOn].value = 0)
+      perform field[pChosen].chosen.pulltags[SoGOLProg.?]</eval>
+    <eval phase="PostAttr" priority="2000" name="Calculate lost feats"><![CDATA[ 
+      doneif (field[pIsOn].value = 0)
+      doneif (tagis[SoGOLProg.?] = 0)
+
+      var lostFeats as number
+      var lv as number
+      lv = herofield[tHitDice].value
+      if (lv >= 1) then
+        lostFeats += 1
+      endif
+      if (tagis[SoGOLProg.Trained] = 1) then
+        if (lv >= 5) then
+          lostFeats += 1
+        endif
+        if (lv >= 9) then
+          lostFeats += 1
+        endif
+        if (lv >= 13) then
+          lostFeats += 1
+        endif
+        if (lv >= 17) then
+          lostFeats += 1
+        endif
+      elseif (tagis[SoGOLProg.Journeyman] = 1) then
+        if (lv >= 3) then
+          lostFeats += 1
+        endif
+        if (lv >= 5) then
+          lostFeats += 1
+        endif
+        if (lv >= 9) then
+          lostFeats += 1
+        endif
+        if (lv >= 11) then
+          lostFeats += 1
+        endif
+        if (lv >= 13) then
+          lostFeats += 1
+        endif
+        if (lv >= 17) then
+          lostFeats += 1
+        endif
+        if (lv >= 19) then
+          lostFeats += 1
+        endif
+      endif
+
+      hero.child[resFeat].field[resMax].value -= lostFeats]]></eval>
+    </thing>
+  </document>

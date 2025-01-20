@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <!--
+   (C) James Risner, 2023-2025
+   BSD-2-Clause license</info_author>
+  -->
+  <portal id="pSoGBluster" style="lblTitle">
+    <label text="Bluster Sphere"/>
+    </portal>
+  <portal id="pSoGTalBluster" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Bluster & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Bluster & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <autotag group="SoGBonTal" tag="Bluster"/>
+      <description/>
+      <headertitle><![CDATA[@text = "Bluster Talents"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGSEBluster].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+  <portal id="pSoGDrwBluster" style="table">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+      <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Bluster]]></list>
+      <candidate><![CDATA[SoGSphere.Bluster & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Bluster Drawbacks"]]></headertitle>
+      <additem><![CDATA[@text = "Add Bluster Drawback"]]></additem>
+      </table_dynamic>
+    </portal>
+  <!-- Bluster Info layout -->
+  <layout id="loSoGBluster">
+    <portalref portal="pSoGBluster" taborder="5"/>
+    <portalref portal="pSoGTalBluster" taborder="10"/>
+    <portalref portal="pSoGDrwBluster" taborder="15"/>
+    <templateref template="tmSoGAsRnSph" thing="sogSpBluster"/>
+    <templateref template="tmSoGDCSph" thing="sogSpBluster"/>
+    <templateref template="tmSoGRngSp" thing="sogSpBluster"/>
+    <position><![CDATA[
+                autogap = 2
+
+                perform portal[pSoGBluster].batchadd
+                portal[pSoGBluster].width = autoright
+
+                ~ Associated Skill label
+                perform template[tmSoGAsRnSph].batchadd
+
+                ~ Save DC label
+                perform template[tmSoGDCSph].batchadd
+
+                ~ Ranges
+                perform template[tmSoGRngSp].batchadd
+
+                perform portal[pSoGTalBluster].batchadd[5]
+                portal[pSoGTalBluster].width = autoright
+
+                perform portal[pSoGDrwBluster].batchadd[5]
+                portal[pSoGDrwBluster].width = autoright
+
+                height += portal[pSoGDrwBluster].bottom
+                perform batchplace
+	]]></position>
+    </layout>
+  <!-- PANELS -->
+  <panel id="tbSoGBluster" name="Bluster" order="160" marginhorz="5" marginvert="5">
+    <live>SoGSphTab.Bluster</live>
+    <layoutref layout="loSoGBluster"/>
+    </panel>
+  </document>
