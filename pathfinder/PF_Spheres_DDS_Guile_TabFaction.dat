@@ -8,9 +8,9 @@
     <label text="Faction Sphere"/>
     </portal>
   <portal id="pSoGTalFaction" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpFaction">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Faction & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Faction & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Faction & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Faction"/>
       <description/>
       <headertitle><![CDATA[@text = "Faction Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwFaction" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpFaction">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Faction]]></list>
       <candidate><![CDATA[SoGSphere.Faction & !Helper.Obsolete]]></candidate>
       <description/>
@@ -26,11 +26,22 @@
       <additem><![CDATA[@text = "Add Faction Drawback"]]></additem>
       </table_dynamic>
     </portal>
+  <portal id="pSoGPkgFaction" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpFaction">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Faction & SoGTlClass.Package]]></list>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Faction & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Faction Packages"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGPkFaction].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
+
   <!-- Faction Info layout -->
   <layout id="loSoGFaction">
     <portalref portal="pSoGFaction" taborder="5"/>
-    <portalref portal="pSoGDrwFaction" taborder="10"/>
-    <portalref portal="pSoGTalFaction" taborder="15"/>
+    <portalref portal="pSoGTalFaction" taborder="10"/>
+    <portalref portal="pSoGDrwFaction" taborder="15"/>
+    <portalref portal="pSoGPkgFaction" taborder="20"/>
     <templateref template="tmSoGAsRnSph" thing="sogSpFaction"/>
     <templateref template="tmSoGDCSph" thing="sogSpFaction"/>
     <templateref template="tmSoGRngSp" thing="sogSpFaction"/>
@@ -55,7 +66,10 @@
                 perform portal[pSoGDrwFaction].batchadd[5]
                 portal[pSoGDrwFaction].width = autoright
 
-                height += portal[pSoGDrwFaction].bottom
+                perform portal[pSoGPkgFaction].batchadd[5]
+                portal[pSoGPkgFaction].width = autoright
+
+                height += portal[pSoGPkgFaction].bottom
                 perform batchplace
 	]]></position>
     </layout>

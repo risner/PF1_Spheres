@@ -8,9 +8,9 @@
     <label text="Subterfuge Sphere"/>
     </portal>
   <portal id="pSoGTalSubterfuge" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpSubterfuge">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Subterfuge & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Subterfuge & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Subterfuge & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Subterfuge"/>
       <description/>
       <headertitle><![CDATA[@text = "Subterfuge Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwSubterfuge" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpSubterfuge">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Subterfuge]]></list>
       <candidate><![CDATA[SoGSphere.Subterfuge & !Helper.Obsolete]]></candidate>
       <description/>

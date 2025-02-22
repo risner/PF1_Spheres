@@ -8,9 +8,9 @@
     <label text="Performance Sphere"/>
     </portal>
   <portal id="pSoGTalPerformanc" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpPerformanc">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Performance & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Performance & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Performance & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Performance"/>
       <description/>
       <headertitle><![CDATA[@text = "Performance Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwPerformanc" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpPerformanc">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Performance]]></list>
       <candidate><![CDATA[SoGSphere.Performance & !Helper.Obsolete]]></candidate>
       <description/>
@@ -26,11 +26,21 @@
       <additem><![CDATA[@text = "Add Performance Drawback"]]></additem>
       </table_dynamic>
     </portal>
+  <portal id="pSoGPkgPerformanc" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpPerformanc">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Performance & SoGTlClass.Package]]></list>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Performance & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Performance Packages"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGPkPerformanc].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
   <!-- Performance Info layout -->
   <layout id="loSoGPerformanc">
     <portalref portal="pSoGPerformanc" taborder="5"/>
     <portalref portal="pSoGTalPerformanc" taborder="10"/>
     <portalref portal="pSoGDrwPerformanc" taborder="15"/>
+    <portalref portal="pSoGPkgPerformanc" taborder="20"/>
     <templateref template="tmSoGAsRnSph" thing="sogSpPerformanc"/>
     <templateref template="tmSoGDCSph" thing="sogSpPerformanc"/>
     <templateref template="tmSoGRngSp" thing="sogSpPerformanc"/>
@@ -55,7 +65,10 @@
                 perform portal[pSoGDrwPerformanc].batchadd[5]
                 portal[pSoGDrwPerformanc].width = autoright
 
-                height += portal[pSoGDrwPerformanc].bottom
+                perform portal[pSoGPkgPerformanc].batchadd[5]
+                portal[pSoGPkgPerformanc].width = autoright
+
+                height += portal[pSoGPkgPerformanc].bottom
                 perform batchplace
 	]]></position>
     </layout>

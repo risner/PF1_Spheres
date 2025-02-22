@@ -11,11 +11,11 @@ BSD-2-Clause license</info_author>
     <fieldval field="iCL" value="3"/>
     <usesource source="pPF1e_Sph_OTreasure"/>
     <tag group="Helper" tag="EquipMag"/>
-    <tag group="User" tag="NoActSign"/>
     <tag group="User" tag="HideActChk"/>
-    <tag group="iSubschool" tag="ItemSchoolFate" name="Fate Sphere" abbrev="SFate"/>
+    <tag group="User" tag="NoActSign"/>
     <tag group="fShowWhat" tag="ItemSlot"/>
     <tag group="gType" tag="Wonder"/>
+    <tag group="iSubschool" tag="ItemSchoolFate" name="Fate Sphere" abbrev="SFate"/>
     <eval phase="PostAttr" priority="10000"><![CDATA[
       doneif (field[gIsEquip].value = 0)
 
@@ -38,14 +38,14 @@ BSD-2-Clause license</info_author>
     </thing>
   <thing id="ioLAPMagToolkit" name="Magical Toolkit +1" compset="Wondrous" description="Aura variable Mind; CL 1st\nSlot none; Price 100 gp (+1); Weight 2 lbs.\n\nMagical toolkits are elaborate toolsets that offer a competence bonus to one skill. Many adventurers buy these toolkits to supplement personal weaknesses, such as poor observation skills, or to enhance their abilities in a particular area. Users must spend 8 hours bonding to magical toolkits with a bonus of +6 or higher (because these toolkits can be for any bonus a charm can provide, not just the common ones priced here), and may only bond to three such toolkits at any given time. New bonds replace the oldest bond first.\n\nConstruction Requirements\nForge Charm, Mind sphere; Cost 50 gp (+1), 200 gp (+2), 1,250 gp (+5), 5,000 gp (+10), or 20,000 gp (+20)\n\nWiki Note: Generally, magical toolkits must be held to be used, since they are literal tools being used to help at a given task. These are not slotless items.">
     <fieldval field="gCost" value="100"/>
-    <fieldval field="iCL" value="2"/>
     <fieldval field="gWeight" value="2"/>
+    <fieldval field="iCL" value="2"/>
     <usesource source="pPF1e_Sph_OTreasure"/>
-    <tag group="fShowWhat" tag="Skills"/>
     <tag group="ChooseSrc1" tag="Hero" name="All Picks on Hero" abbrev="All Picks on Hero"/>
     <tag group="Helper" tag="EquipAvail"/>
-    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
     <tag group="Helper" tag="EquipMag"/>
+    <tag group="fShowWhat" tag="Skills"/>
+    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
     <eval phase="PreAttr" priority="10000"><![CDATA[
       doneif (field[usrChosen1].ischosen = 0)
 
@@ -57,14 +57,14 @@ BSD-2-Clause license</info_author>
     </thing>
   <thing id="ioLAPMagToolkit2" name="Magical Toolkit +2" compset="Wondrous" description="Aura variable Mind; CL 2nd\nSlot none; Price 400 gp (+2); Weight 2 lbs.\n\nMagical toolkits are elaborate toolsets that offer a competence bonus to one skill. Many adventurers buy these toolkits to supplement personal weaknesses, such as poor observation skills, or to enhance their abilities in a particular area. Users must spend 8 hours bonding to magical toolkits with a bonus of +6 or higher (because these toolkits can be for any bonus a charm can provide, not just the common ones priced here), and may only bond to three such toolkits at any given time. New bonds replace the oldest bond first.\n\nConstruction Requirements\nForge Charm, Mind sphere; Cost 50 gp (+1), 200 gp (+2), 1,250 gp (+5), 5,000 gp (+10), or 20,000 gp (+20)\n\nWiki Note: Generally, magical toolkits must be held to be used, since they are literal tools being used to help at a given task. These are not slotless items.">
     <fieldval field="gCost" value="400"/>
-    <fieldval field="iCL" value="2"/>
     <fieldval field="gWeight" value="2"/>
+    <fieldval field="iCL" value="2"/>
     <usesource source="pPF1e_Sph_OTreasure"/>
-    <tag group="fShowWhat" tag="Skills"/>
     <tag group="ChooseSrc1" tag="Hero" name="All Picks on Hero" abbrev="All Picks on Hero"/>
     <tag group="Helper" tag="EquipAvail"/>
-    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
     <tag group="Helper" tag="EquipMag"/>
+    <tag group="fShowWhat" tag="Skills"/>
+    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
     <eval phase="PreAttr" priority="10000"><![CDATA[
       doneif (field[usrChosen1].ischosen = 0)
 
@@ -76,14 +76,14 @@ BSD-2-Clause license</info_author>
     </thing>
   <thing id="ioLAPMagToolkit5" name="Magical Toolkit +5" compset="Wondrous" description="Aura variable Mind; CL 5th\nSlot none; Price 2500 gp (+5); Weight 2 lbs.\n\nMagical toolkits are elaborate toolsets that offer a competence bonus to one skill. Many adventurers buy these toolkits to supplement personal weaknesses, such as poor observation skills, or to enhance their abilities in a particular area. Users must spend 8 hours bonding to magical toolkits with a bonus of +6 or higher (because these toolkits can be for any bonus a charm can provide, not just the common ones priced here), and may only bond to three such toolkits at any given time. New bonds replace the oldest bond first.\n\nConstruction Requirements\nForge Charm, Mind sphere; Cost 50 gp (+1), 200 gp (+2), 1,250 gp (+5), 5,000 gp (+10), or 20,000 gp (+20)\n\nWiki Note: Generally, magical toolkits must be held to be used, since they are literal tools being used to help at a given task. These are not slotless items.">
     <fieldval field="gCost" value="2500"/>
-    <fieldval field="iCL" value="5"/>
     <fieldval field="gWeight" value="2"/>
+    <fieldval field="iCL" value="5"/>
     <usesource source="pPF1e_Sph_OTreasure"/>
-    <tag group="fShowWhat" tag="Skills"/>
     <tag group="ChooseSrc1" tag="Hero" name="All Picks on Hero" abbrev="All Picks on Hero"/>
     <tag group="Helper" tag="EquipAvail"/>
-    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
     <tag group="Helper" tag="EquipMag"/>
+    <tag group="fShowWhat" tag="Skills"/>
+    <tag group="gType" tag="Wonder" name="Wondrous Item" abbrev="Wonder"/>
     <eval phase="PreAttr" priority="10000"><![CDATA[
       doneif (field[usrChosen1].ischosen = 0)
 

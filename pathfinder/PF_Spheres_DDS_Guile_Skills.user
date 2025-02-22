@@ -5,21 +5,37 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
+  <thing id="stDeniPhrase" name="Deniably phrased" compset="SoGSkillUse" description="Deniably phrase a Bluff or Intimidate check so that the target treats a failed check as a harmless joke or hypothetical (avoiding consequences), original check fails if this fails by 5 or more" summary="Joke off a failed Bluff or Intimidate." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="User" tag="NoAutoName"/>
+    <eval phase="Final" priority="25000"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      var desc as string
+      desc = "Treat failure as a harmless joke (Opposed Linguistics or Sense Motive)"
+      var src as string
+      src = "Deniably phrased Skill Use"
+      #situational[hero.childfound[skBluff],desc,src]
+      #situational[hero.childfound[skIntim],desc,src]
+    ]]></eval>
+    <exprreq message="Trained in Linguistics required."><![CDATA[#skillranks[skLinguist] >= 1]]></exprreq>
+    </thing>
   <thing id="stFindLoop" name="Find a Loophole" compset="SoGSkillUse" description="As a standard action, you point out flaws in a language-dependent spell or effect either placed by a skill check or that allowed a saving throw. You must have understood the words of the effect. The check DC equals the effect’s save DC or opposes the skill check result that caused it. Successfully opposing a skill check ends the effect.\n\nIf you succeed and the effect allowed a saving throw, you and each target who can understand your words within 30 feet can attempt a new save immediately. Success on this saving throw grants the usual effect of a success for that effect while failure does nothing. You cannot use Linguistics to find a loophole in that effect for that creature again for 24 hours. This is a language-dependent effect. At the GM’s discretion, the wording of a particular spell or ability might be especially difficult to talk around, increasing the DC by 5.\n\nA character trained in Linguistics can attempt to set a higher DC for finding a loophole in the effect by attempting their own Linguistics check when casting the spell or using the ability; use the Linguistics result instead of the usual DC (this can make the DC lower if they are unskilled or unlucky)." summary="Counter language-dependent spells or effects." uniqueness="unique">
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="AbilType" tag="Extra"/>
     <tag group="Helper" tag="SpecUp"/>
     <tag group="User" tag="NoAutoName"/>
-    <eval phase="First" priority="200"><![CDATA[
-      ~ If we're disabled, do nothing
-      doneif (tagis[Helper.SpcDisable] <> 0)
-
-perform hero.findchild[Resource, "thingid.resTrick"].setfocus
-
-~focus.field[livename].text = "Skill Use1"
-~focus.field[resObject].text = "Skill Use2"
-    ]]></eval>
     <exprreq message="Trained in Linguistics required."><![CDATA[#skillranks[skLinguist] >= 1]]></exprreq>
+    </thing>
+  <thing id="stPantomime" name="Pantomime" compset="SoGSkillUse" description="{b}Linguistics{/b} [background] or {b}Perform (act){/b}\n   DC 20 (may be used untrained)\n      Pantomime simple concept in 1 round to a creature that knows a language without sharing one.\n   DC 25 (trained only)\n      Pantomime message of up to 25 words in 1 minute to a creature that knows a language without sharing one.\n\nSense Motive\n   DC 25 – pantomiming creature’s Linguistics modifier\n      Understand simple pantomimed message\n   DC 30 – pantomiming creature’s Linguistics modifier\n      Understand complex pantomimed message\n\n{b}Understand Pantomimed Message{/b}: You can sense the approximate meaning of a pantomimed message with a successful Sense Motive check. This takes an action at least as long as the pantomiming creature took. The DC is reduced by the Linguistics modifier of the pantomiming creature, but starts at 25 for simple messages or 30 for complex messages. If your result exceeds the DC by at least 10, you understand the exact intended meaning.\n\n{b}Author note{/b}: The intention was that either the pantomiming creature or the audience could get the message across on a success. Basically, if the sender fails the audience also gets to try if they devote their action to intently observing." summary="Send messages with pantomimes." uniqueness="unique">
+    <comment>Author Note:
+https://discord.com/channels/533773201549819925/533774611415040010/1338944004561047573</comment>
+    <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     </thing>
   <thing id="stAddSkillUse" name="Universal Skill Uses" compset="SoGSkillUse" description="The following special skill uses are available to many or all skills.\n\n{b}Alternative Aid Another{/b}: Some skills can be used with the aid another action to provide a bonus on certain skills other than the same skill (or occasionally, other d20 rolls). If two skills can perform similar tasks (such as Diplomacy and Intimidate to improve attitudes), either can be used to aid the other. In some cases, using an alternative skill changes the DC to aid another.\n\n{b}Assess Proficiency (trained only){/b}: You estimate a creature’s capability with a skill by attempting a check with that skill. Certain skills, most often Knowledge and other skills that can identify creatures, can also be used to assess other attributes. You can use a skill to assess anything it can teach.\n\nYou must observe the creature using the skill or other attribute you wish to evaluate for at least 3 rounds, after which assessing them is a free action. The DC is 20.\n\nYour estimate has some error to it even if you succeed unless you exceed the DC by 5: If your skill check succeeds by 4 or less, the GM secretly rolls 1d3–2 and adds it to the true value to determine your guess (minimum 0 for base attack bonus and caster level, minimum 1 for ability score). For example, if evaluating a creature with base attack bonus +7 the GM would roll 1d3–2+7 to get the estimate: rolling a 3 on the d3 results in a guess of +8. Succeeding by 5 or more gives you the exact value. If you fail by 5 or more, you misestimate by 1d6+2 up or down. If you failed an unopposed check, the GM chooses the direction. An aware opponent can oppose your check without an action. They choose Bluff or Intimidate. A successful Intimidate check makes you overestimate, while a successful Bluff check allows them to make you overestimate or underestimate.\n\nSpellcraft and a few Knowledge skills can be used to assess caster level this way; when you attempt to learn a caster level, the caster can try to fool you with an opposed Spellcraft check rather than Bluff.\n\nSurvival and Knowledge to identify a creature can assess speed; if you succeed, you learn its fastest speed in the movement mode you observed. If you fail by 5 or more, you misestimate by 1d3+1 x 10 feet.\n\n{b}Impressive Display of Skill{/b}: You can attempt to use almost any skill to impress at least some other creatures. You must spend at least a standard action demonstrating the skill in one of its usual uses to one or more creatures who are receptive and able to pay attention to the demonstration. For example, a skill like Diplomacy that requires conversing with the target is only effective with one target that can see and hear within 30 feet, whereas a skill like Acrobatics can be demonstrated to an interested audience in larger numbers up to 120 feet away.\n\nGenerally, you choose a skill and attempt a skill use with a DC high enough to demonstrate your prowess. If both the DC and your result are higher than 20 + observer’s Hit Dice, and the skill is one that they value, they gain the impressed condition toward you. The duration is generally for about as long as you spent on the impressive action, minimum 1 round up to 10 minutes, although the GM might rule a different duration is more sensible. The duration ends immediately for a creature that sees you fail at a check or that begins its turn in combat.\n\nMost characters value skills in which they possess ranks, although individuals often value some other skills that they themselves are not trained in. Of particular note, Acrobatics, Perform, and Sleight of Hand can impress most audiences as part of entertaining, and when entertaining with these skills, you can choose any DC to attempt your skill check against. The DC to impress someone increases by 5 for every d20 roll the target observed you fail in the past day.\n\n{b}Teach (trained only){/b}: You can use any skill you are trained in to teach up to ten other creatures how to perform a certain task with that skill (such as balancing with Acrobatics or lying about a specific person with Bluff). You spend at least 1 hour teaching and attempt a DC 15 skill check. For 24 hours, the student gets a +2 bonus as if from aid another on checks using that skill to perform that task as long as the DC is no higher than your check result. Perform (oratory) and some Artistry and Profession skills can be used for teaching other skills. If a character gains this bonus to multiple skills, they choose one bonus to keep and lose the others.\n\n{b}Uses from Other Skills{/b}: Some skills can be used as other skills in certain circumstances. A skill check using the alternative skill has the same DC calculation as the original skill unless noted otherwise. Apply general bonuses only for the skill you are rolling, not general bonuses to the original skill. Apply situational bonuses for the original skill specific to the task.\n\nFor example, Perception can be used as Survival to find tracks (but not follow them). When finding tracks with Perception, Perception is the skill you are rolling and Survival is the original skill. You use the DC calculation and situational modifiers for Survival (such as for the passage of time or recent rain) but otherwise use Perception (including bonuses to all Perception checks like that from Alertness). You apply bonuses to Survival checks to track, but not a bonus from Skill Focus (Survival) nor a bonus specifically to Perception checks when searching." summary="Spheres of Guile unlocks many new skill uses." uniqueness="unique">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -38,5 +54,78 @@ perform hero.findchild[Resource, "thingid.resTrick"].setfocus
       focus.field[livename].text = "Skill Use/Trick"
       focus.field[resObject].text = "Skill Uses or Skill Tricks"
     ]]></eval>
+    </thing>
+  <thing id="skCrafRTaxidermy" name="Craft (taxidermy)" compset="Skill" description="You are skilled in the creation of a specific group of items, such as armor or weapons. Like Knowledge, Perform, and Profession, Craft is actually a number of separate skills. You could have several Craft skills, each with its own ranks. The most common Craft skills are alchemy, armor, baskets, books, bows, calligraphy, carpentry, cloth, clothing, glass, jewelry, leather, locks, paintings, pottery, sculptures, ships, shoes, stonemasonry, traps, and weapons.\n\nA Craft skill is specifically focused on creating something. If nothing is created by the endeavor, it probably falls under the heading of a Profession skill.\n\n{b}Check{/b}: You can practice your trade and make a decent living, earning half your check result in gold pieces per week of dedicated work. You know how to use the tools of your trade, how to perform the craft's daily tasks, how to supervise untrained helpers, and how to handle common problems. (Untrained laborers and assistants earn an average of 1 silver piece per day.)\n\nContinued - Core Rulebook, pg. 91." summary="You are skilled in the creation of a specific group of items, such as armor or weapons." uniqueness="unique">
+    <fieldval field="skToolTerm" value="Jewelrycrafting"/>
+    <arrayval field="skUnlocks" index="4" value="When determining your weekly progress, double the result of your Craft check before multiplying the result by the item’s DC."/>
+    <arrayval field="skUnlocks" index="9" value="You do not ruin any of your raw materials unless you fail a check by 10 or more."/>
+    <arrayval field="skUnlocks" index="14" value="When you determine your progress, the result of your check is how much work you complete each day in silver pieces."/>
+    <arrayval field="skUnlocks" index="19" value="You can craft magic armor, magic weapons, magic rings, and wondrous items that fall under your category of Craft using the normal Craft rules."/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ClassSkill" tag="Craft" name="All Craft Skills" abbrev="All Craft Skills"/>
+    <tag group="Helper" tag="BackSkill" name="Background Skill" abbrev="Background Skill"/>
+    <tag group="Helper" tag="ConsBack" name="Hidden with Consolidated Skills, unless Background skills are turned on" abbrev="Hidden with Consolidated Skills, unless Background skills are turned on"/>
+    <tag group="Helper" tag="ExtraSkill" name="ExtraSkill" abbrev="ExtraSkill"/>
+    <tag group="Helper" tag="SkCatCraft" name="Craft Skill" abbrev="Craft Skill"/>
+    <tag group="Helper" tag="ToolsNeed" name="Skill Requires Tools" abbrev="Skill Requires Tools"/>
+    <link linkage="skillattr" thing="aINT"/>
+    </thing>
+  <thing id="skProfRDungeoneer" name="Profession (dungeoneer)" compset="Skill" description="You are skilled at a specific job. Like Craft, Knowledge, and Perform, Profession is actually a number of separate skills. You could have several Profession skills, each with its own ranks. While a Craft skill represents ability in creating an item, a Profession skill represents an aptitude in a vocation requiring a broader range of less specific knowledge. The most common Profession skills are architect, baker, barrister, brewer, butcher, clerk, cook, courtesan, driver, engineer, farmer, fisherman, gambler, gardener, herbalist, innkeeper, librarian, merchant, midwife, miller, miner, porter, sailor, scribe, shepherd, stable master, soldier, tanner, trapper, and woodcutter.\n\n{b}Check{/b}: You can earn half your Profession check result in gold pieces per week of dedicated work. You know how to use the tools of your trade, how to perform the profession's daily tasks, how to supervise helpers, and how to handle common problems. You can also answer questions about your Profession. Basic questions are DC 10, while more complex questions are DC 15 or higher.\n\n{b}Action{/b}: Not applicable. A single check generally represents a week of work." uniqueness="useronce">
+    <arrayval field="skUnlocks" index="4" value="When using Profession checks to earn income, you earn gold pieces equal to the result of your check each week."/>
+    <arrayval field="skUnlocks" index="9" value="When attempting Profession checks, you can roll twice and take the better result. When answering questions about your Profession, you can always take 10."/>
+    <arrayval field="skUnlocks" index="14" value="You can attempt checks to earn income once per day instead of once per week."/>
+    <arrayval field="skUnlocks" index="19" value="When attempting Profession checks, you can choose to roll once instead of twice. If you do and the result of the roll is less than 10, replace it with 10. When answering questions about your Profession, you can always take 20."/>
+    <tag group="ClassSkill" tag="Profession" name="All Profession Skills" abbrev="All Profession Skills"/>
+    <tag group="Helper" tag="BackSkill" name="Background Skill" abbrev="Background Skill"/>
+    <tag group="Helper" tag="ConsBack" name="Hidden with Consolidated Skills, unless Background skills are turned on" abbrev="Hidden with Consolidated Skills, unless Background skills are turned on"/>
+    <tag group="Helper" tag="ExtraSkill" name="ExtraSkill" abbrev="ExtraSkill"/>
+    <tag group="Helper" tag="SkCatProf" name="Profession Skill" abbrev="Profession Skill"/>
+    <tag group="Helper" tag="TrainOnly" name="TrainOnly" abbrev="TrainOnly"/>
+    <link linkage="skillattr" thing="aWIS"/>
+    </thing>
+  <thing id="skProfRGuide" name="Profession (guide)" compset="Skill" description="You are skilled at a specific job. Like Craft, Knowledge, and Perform, Profession is actually a number of separate skills. You could have several Profession skills, each with its own ranks. While a Craft skill represents ability in creating an item, a Profession skill represents an aptitude in a vocation requiring a broader range of less specific knowledge. The most common Profession skills are architect, baker, barrister, brewer, butcher, clerk, cook, courtesan, driver, engineer, farmer, fisherman, gambler, gardener, herbalist, innkeeper, librarian, merchant, midwife, miller, miner, porter, sailor, scribe, shepherd, stable master, soldier, tanner, trapper, and woodcutter.\n\n{b}Check{/b}: You can earn half your Profession check result in gold pieces per week of dedicated work. You know how to use the tools of your trade, how to perform the profession's daily tasks, how to supervise helpers, and how to handle common problems. You can also answer questions about your Profession. Basic questions are DC 10, while more complex questions are DC 15 or higher.\n\n{b}Action{/b}: Not applicable. A single check generally represents a week of work.{br}{br}Continued - Core Rulebook, pg. 103" uniqueness="useronce">
+    <fieldval field="skAbbrev" value="guide"/>
+    <fieldval field="skShortNm" value="Prof (guide)"/>
+    <arrayval field="skUnlocks" index="4" value="When using Profession checks to earn income, you earn gold pieces equal to the result of your check each week."/>
+    <arrayval field="skUnlocks" index="9" value="When attempting Profession checks, you can roll twice and take the better result. When answering questions about your Profession, you can always take 10."/>
+    <arrayval field="skUnlocks" index="14" value="You can attempt checks to earn income once per day instead of once per week."/>
+    <arrayval field="skUnlocks" index="19" value="When attempting Profession checks, you can choose to roll once instead of twice. If you do and the result of the roll is less than 10, replace it with 10. When answering questions about your Profession, you can always take 20."/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ClassSkill" tag="Profession" name="All Profession Skills" abbrev="All Profession Skills"/>
+    <tag group="Helper" tag="BackSkill" name="Background Skill" abbrev="Background Skill"/>
+    <tag group="Helper" tag="ConsBack" name="Hidden with Consolidated Skills, unless Background skills are turned on" abbrev="Hidden with Consolidated Skills, unless Background skills are turned on"/>
+    <tag group="Helper" tag="ExtraSkill" name="ExtraSkill" abbrev="ExtraSkill"/>
+    <tag group="Helper" tag="SkCatProf" name="Profession Skill" abbrev="Profession Skill"/>
+    <tag group="Helper" tag="TrainOnly" name="TrainOnly" abbrev="TrainOnly"/>
+    <link linkage="skillattr" thing="aWIS"/>
+    </thing>
+  <thing id="skProfRMonsSlay" name="Profession (monster slayer)" compset="Skill" description="You are skilled at a specific job. Like Craft, Knowledge, and Perform, Profession is actually a number of separate skills. You could have several Profession skills, each with its own ranks. While a Craft skill represents ability in creating an item, a Profession skill represents an aptitude in a vocation requiring a broader range of less specific knowledge. The most common Profession skills are architect, baker, barrister, brewer, butcher, clerk, cook, courtesan, driver, engineer, farmer, fisherman, gambler, gardener, herbalist, innkeeper, librarian, merchant, midwife, miller, miner, porter, sailor, scribe, shepherd, stable master, soldier, tanner, trapper, and woodcutter.\n\n{b}Check{/b}: You can earn half your Profession check result in gold pieces per week of dedicated work. You know how to use the tools of your trade, how to perform the profession's daily tasks, how to supervise helpers, and how to handle common problems. You can also answer questions about your Profession. Basic questions are DC 10, while more complex questions are DC 15 or higher.\n\n{b}Action{/b}: Not applicable. A single check generally represents a week of work." uniqueness="useronce">
+    <arrayval field="skUnlocks" index="4" value="When using Profession checks to earn income, you earn gold pieces equal to the result of your check each week."/>
+    <arrayval field="skUnlocks" index="9" value="When attempting Profession checks, you can roll twice and take the better result. When answering questions about your Profession, you can always take 10."/>
+    <arrayval field="skUnlocks" index="14" value="You can attempt checks to earn income once per day instead of once per week."/>
+    <arrayval field="skUnlocks" index="19" value="When attempting Profession checks, you can choose to roll once instead of twice. If you do and the result of the roll is less than 10, replace it with 10. When answering questions about your Profession, you can always take 20."/>
+    <tag group="ClassSkill" tag="Profession" name="All Profession Skills" abbrev="All Profession Skills"/>
+    <tag group="Helper" tag="BackSkill" name="Background Skill" abbrev="Background Skill"/>
+    <tag group="Helper" tag="ConsBack" name="Hidden with Consolidated Skills, unless Background skills are turned on" abbrev="Hidden with Consolidated Skills, unless Background skills are turned on"/>
+    <tag group="Helper" tag="ExtraSkill" name="ExtraSkill" abbrev="ExtraSkill"/>
+    <tag group="Helper" tag="SkCatProf" name="Profession Skill" abbrev="Profession Skill"/>
+    <tag group="Helper" tag="TrainOnly" name="TrainOnly" abbrev="TrainOnly"/>
+    <link linkage="skillattr" thing="aWIS"/>
+    </thing>
+  <thing id="skProfRPilot" name="Profession (pilot)" compset="Skill" description="You are skilled at a specific job. Like Craft, Knowledge, and Perform, Profession is actually a number of separate skills. You could have several Profession skills, each with its own ranks. While a Craft skill represents ability in creating an item, a Profession skill represents an aptitude in a vocation requiring a broader range of less specific knowledge. The most common Profession skills are architect, baker, barrister, brewer, butcher, clerk, cook, courtesan, driver, engineer, farmer, fisherman, gambler, gardener, herbalist, innkeeper, librarian, merchant, midwife, miller, miner, porter, sailor, scribe, shepherd, stable master, soldier, tanner, trapper, and woodcutter.\n\n{b}Check{/b}: You can earn half your Profession check result in gold pieces per week of dedicated work. You know how to use the tools of your trade, how to perform the profession's daily tasks, how to supervise helpers, and how to handle common problems. You can also answer questions about your Profession. Basic questions are DC 10, while more complex questions are DC 15 or higher.\n\n{b}Action{/b}: Not applicable. A single check generally represents a week of work.{br}{br}Continued - Core Rulebook, pg. 103" uniqueness="useronce">
+    <fieldval field="skAbbrev" value="pilot"/>
+    <fieldval field="skShortNm" value="Prof (pilot)"/>
+    <arrayval field="skUnlocks" index="4" value="When using Profession checks to earn income, you earn gold pieces equal to the result of your check each week."/>
+    <arrayval field="skUnlocks" index="9" value="When attempting Profession checks, you can roll twice and take the better result. When answering questions about your Profession, you can always take 10."/>
+    <arrayval field="skUnlocks" index="14" value="You can attempt checks to earn income once per day instead of once per week."/>
+    <arrayval field="skUnlocks" index="19" value="When attempting Profession checks, you can choose to roll once instead of twice. If you do and the result of the roll is less than 10, replace it with 10. When answering questions about your Profession, you can always take 20."/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ClassSkill" tag="Profession" name="All Profession Skills" abbrev="All Profession Skills"/>
+    <tag group="Helper" tag="BackSkill" name="Background Skill" abbrev="Background Skill"/>
+    <tag group="Helper" tag="ConsBack" name="Hidden with Consolidated Skills, unless Background skills are turned on" abbrev="Hidden with Consolidated Skills, unless Background skills are turned on"/>
+    <tag group="Helper" tag="ExtraSkill" name="ExtraSkill" abbrev="ExtraSkill"/>
+    <tag group="Helper" tag="SkCatProf" name="Profession Skill" abbrev="Profession Skill"/>
+    <tag group="Helper" tag="TrainOnly" name="TrainOnly" abbrev="TrainOnly"/>
+    <link linkage="skillattr" thing="aWIS"/>
     </thing>
   </document>

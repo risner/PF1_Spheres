@@ -8,9 +8,9 @@
     <label text="Communication Sphere"/>
     </portal>
   <portal id="pSoGTalCommunication" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpCommunicat">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Communication & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Communication & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Communication & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Communication"/>
       <description/>
       <headertitle><![CDATA[@text = "Communication Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwCommunication" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpCommunicat">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Communication]]></list>
       <candidate><![CDATA[SoGSphere.Communication & !Helper.Obsolete]]></candidate>
       <description/>

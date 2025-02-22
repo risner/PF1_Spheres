@@ -8,9 +8,9 @@
     <label text="Navigation Sphere"/>
     </portal>
   <portal id="pSoGTalNavigation" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpNavigation">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Navigation & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Navigation & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Navigation & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Navigation"/>
       <description/>
       <headertitle><![CDATA[@text = "Navigation Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwNavigation" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpNavigation">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Navigation]]></list>
       <candidate><![CDATA[SoGSphere.Navigation & !Helper.Obsolete]]></candidate>
       <description/>
@@ -26,11 +26,21 @@
       <additem><![CDATA[@text = "Add Navigation Drawback"]]></additem>
       </table_dynamic>
     </portal>
+  <portal id="pSoGPkgNavigation" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpNavigation">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Navigation & SoGTlClass.Package]]></list>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Navigation & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Navigation Packages"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGPkNavigation].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
   <!-- Navigation Info layout -->
   <layout id="loSoGNavigation">
     <portalref portal="pSoGNavigation" taborder="5"/>
     <portalref portal="pSoGTalNavigation" taborder="10"/>
     <portalref portal="pSoGDrwNavigation" taborder="15"/>
+    <portalref portal="pSoGPkgNavigation" taborder="20"/>
     <templateref template="tmSoGAsRnSph" thing="sogSpNavigation"/>
     <templateref template="tmSoGDCSph" thing="sogSpNavigation"/>
     <templateref template="tmSoGRngSp" thing="sogSpNavigation"/>
@@ -55,7 +65,10 @@
                 perform portal[pSoGDrwNavigation].batchadd[5]
                 portal[pSoGDrwNavigation].width = autoright
 
-                height += portal[pSoGDrwNavigation].bottom
+                perform portal[pSoGPkgNavigation].batchadd[5]
+                portal[pSoGPkgNavigation].width = autoright
+
+                height += portal[pSoGPkgNavigation].bottom
                 perform batchplace
 	]]></position>
     </layout>

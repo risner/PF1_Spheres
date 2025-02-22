@@ -9,11 +9,11 @@ BSD-2-Clause license</info_author>
     <comment>Not fully implemented</comment>
     <arrayval field="cvCustTTot" index="1" value="-1"/>
     <usesource source="pPF1e_Sph_Power"/>
-    <tag group="ClVaryName" tag="AppParen"/>
     <tag group="AbReplace" tag="cVigFriApp"/>
     <tag group="AbReplace" tag="cVigStarAp"/>
     <tag group="AbReplace" tag="cVigStunAp"/>
     <tag group="AbReplace" tag="cVigUnshak"/>
+    <tag group="ClVaryName" tag="AppParen"/>
     <link linkage="varies" thing="cHelpVig"/>
     </thing>
   </document>

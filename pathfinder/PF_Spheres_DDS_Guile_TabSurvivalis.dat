@@ -8,9 +8,9 @@
     <label text="Survivalism Sphere"/>
     </portal>
   <portal id="pSoGTalSurvivalis" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpSurvivalis">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Survivalism & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Survivalism & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Survivalism & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Survivalism"/>
       <description/>
       <headertitle><![CDATA[@text = "Survivalism Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwSurvivalis" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpSurvivalis">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Survivalism]]></list>
       <candidate><![CDATA[SoGSphere.Survivalism & !Helper.Obsolete]]></candidate>
       <description/>
@@ -26,11 +26,21 @@
       <additem><![CDATA[@text = "Add Survivalism Drawback"]]></additem>
       </table_dynamic>
     </portal>
+  <portal id="pSoGPkgSurvivalis" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpSurvivalis">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Survivalism & SoGTlClass.Package]]></list>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Survivalism & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Survivalism Packages"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGPkSurvivalis].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
   <!-- Survivalism Info layout -->
   <layout id="loSoGSurvivalis">
     <portalref portal="pSoGSurvivalis" taborder="5"/>
     <portalref portal="pSoGTalSurvivalis" taborder="10"/>
     <portalref portal="pSoGDrwSurvivalis" taborder="15"/>
+    <portalref portal="pSoGPkgSurvivalis" taborder="20"/>
     <templateref template="tmSoGAsRnSph" thing="sogSpSurvivalis"/>
     <templateref template="tmSoGDCSph" thing="sogSpSurvivalis"/>
     <templateref template="tmSoGRngSp" thing="sogSpSurvivalis"/>
@@ -55,7 +65,10 @@
                 perform portal[pSoGDrwSurvivalis].batchadd[5]
                 portal[pSoGDrwSurvivalis].width = autoright
 
-                height += portal[pSoGDrwSurvivalis].bottom
+                perform portal[pSoGPkgSurvivalis].batchadd[5]
+                portal[pSoGPkgSurvivalis].width = autoright
+
+                height += portal[pSoGPkgSurvivalis].bottom
                 perform batchplace
 	]]></position>
     </layout>

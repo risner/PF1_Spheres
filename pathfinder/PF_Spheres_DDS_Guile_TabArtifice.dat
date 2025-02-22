@@ -8,9 +8,9 @@
     <label text="Artifice Sphere"/>
     </portal>
   <portal id="pSoGTalArtifice" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpArtifice">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Artifice & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Artifice & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Artifice & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Artifice"/>
       <description/>
       <headertitle><![CDATA[@text = "Artifice Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwArtifice" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpArtifice">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Artifice]]></list>
       <candidate><![CDATA[SoGSphere.Artifice & !Helper.Obsolete]]></candidate>
       <description/>
@@ -26,11 +26,21 @@
       <additem><![CDATA[@text = "Add Artifice Drawback"]]></additem>
       </table_dynamic>
     </portal>
+  <portal id="pSoGPkgArtifice" style="table">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpArtifice">
+      <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Artifice & SoGTlClass.Package]]></list>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Artifice & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
+      <description/>
+      <headertitle><![CDATA[@text = "Artifice Packages"]]></headertitle>
+      <additem><![CDATA[@text = hero.childfound[resSGPkArtifice].field[resAddICnt].text]]></additem>
+      </table_dynamic>
+    </portal>
   <!-- Artifice Info layout -->
   <layout id="loSoGArtifice">
     <portalref portal="pSoGArtifice" taborder="5"/>
     <portalref portal="pSoGTalArtifice" taborder="10"/>
     <portalref portal="pSoGDrwArtifice" taborder="15"/>
+    <portalref portal="pSoGPkgArtifice" taborder="20"/>
     <templateref template="tmSoGAsRnSph" thing="sogSpArtifice"/>
     <templateref template="tmSoGDCSph" thing="sogSpArtifice"/>
     <templateref template="tmSoGRngSp" thing="sogSpArtifice"/>
@@ -56,7 +66,10 @@
                 perform portal[pSoGDrwArtifice].batchadd[5]
                 portal[pSoGDrwArtifice].width = autoright
 
-                height += portal[pSoGDrwArtifice].bottom
+                perform portal[pSoGPkgArtifice].batchadd[5]
+                portal[pSoGPkgArtifice].width = autoright
+
+                height += portal[pSoGPkgArtifice].bottom
                 perform batchplace
 	]]></position>
     </layout>

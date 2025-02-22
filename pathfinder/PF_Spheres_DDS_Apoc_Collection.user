@@ -5,77 +5,6 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
-  <thing id="arCollector" name="Collector" compset="ClassVary" description="The grand majority of armorists focus their time and effort on summoning weapons and armor from scratch, allowing them to prepare the perfect arsenal at a moment's notice. However, there are a few armorists whose study of equipment focuses more on bringing out the latent perfection of mundane objects. Calling themselves whitesmiths due to the way their art adds finishing touches to the works of others, they are a boon to any adventuring party in need of an excellent quartermaster." uniqueness="unique">
-    <fieldval field="srcPageNum" value="8"/>
-    <usesource source="pPF1e_Sph_OApocColle"/>
-    <tag group="AbReplace" tag="cSoPInfArs" name="Infinite Arsenal" abbrev="Infinite Arsenal"/>
-    <tag group="AbReplace" tag="cSoPQkSumm" name="Quick Summons" abbrev="Quick Summons"/>
-    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="AbReplace" tag="cSoPArmBoostEq" name="Boost Equipment" abbrev="Boost Equipment"/>
-    <tag group="AbReplace" tag="cSoPBndEqp" name="Bound Equipment" abbrev="Bound Equipment"/>
-    <tag group="cFort" tag="Poor"/>
-    <tag group="cRef" tag="Good"/>
-    <tag group="AbReplace" tag="cSoPSumEqp"/>
-    <bootstrap thing="cSoPCoDiPo">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <bootstrap thing="cCollectorPrize">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <bootstrap thing="arCollectorLaunch">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <link linkage="varies" thing="cHelpSPArm"/>
-    </thing>
-  <thing id="cSoPCoDiPo" name="Dimensional Power" compset="ClSpecial" description="The collector gains the Warp sphere as a bonus sphere at 1st level and uses her collector level as her caster level for all (space) talents. This stacks normally with caster levels gained from other sources. However, she also gains the Bender drawback, which can be bought off as normal, and must choose the Extradimensional Storage talent as the bonus talent granted by this drawback.">
-    <usesource source="pPF1e_Sph_OApocColle"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="SpecSource" tag="cHelpSPArm"/>
-    <tag group="AbilType" tag="Super"/>
-    <tag group="Helper" tag="SpecUp"/>
-    <tag group="SpecSource" tag="arCollector"/>
-    <bootstrap thing="sopTlWarp">
-      <containerreq phase="First" priority="96">Assist.AddBinder</containerreq>
-      <autotag group="SphOfPow" tag="FreeTalent"/>
-      </bootstrap>
-    <bootstrap thing="sopDbBendr">
-      <containerreq phase="First" priority="96">Assist.AddBinder</containerreq>
-      <autotag group="SphOfPow" tag="NoBnTalent"/>
-      </bootstrap>
-    <bootstrap thing="sopTlWpXdS">
-      <autotag group="SoPBonTal" tag="Warp"/>
-      <autotag group="SphOfPow" tag="FreeTalent"/>
-      </bootstrap>
-    <eval phase="First" priority="95"><![CDATA[~ If we already have Warp sphere, tag us so we just bootstrap
-~ Extradimensional storage without Bender nor base Warp sphere.
-
-foreach pick in hero where "SoPTlClass.GainSphere & SoPSphere.Warp & SphOfPow.Talent"
-     if (eachpick.isroot = 1) then
-          perform eachpick.root.pulltags[Ability.?]
-     endif
-nexteach
-
-if (tagunique[Ability.?] = 1) then
-     ~ Signal to do the bootstrap of the base and drawback.
-     perform hero.assign[Assist.AddBinder]
-     done
-endif]]></eval>
-    </thing>
-  <thing id="cCollectorPrize" name="Prize" compset="ClSpecial" description="The collector may spend 8 hours bonding with a piece of equipment to claim it as her prize. A collector's prize must be stored in her extradimensional storage. The collector may claim up to 50 pieces of ammunition as a single prize. Withdrawing or donning a prize from her extradimensional storage is always a swift action.\n\nThe collector always knows the direction and distance to each of her prizes as long as they are on the same plane. The collector may return any number of her prizes within long range to her extradimensional storage as swift action. If a prize is in the possession of a hostile creature, that creature gets a Will save (10 + 1/2 her collector level + practitioner modifier) to resist her recall. On a successful save, she fails in recalling her prize and cannot attempt to recall it this way for 1 minute.\n\nAfter 1 minute per class level, withdrawn prizes automatically return to the collector's extradimensional storage as long as they are on the same plane. If a prize is in the possession of another creature at the end of this duration, the collector has 1 day per class level to retrieve it and return it to her extradimensional storage. If the prize is not returned in this time, the collector forfeits ownership of the item and it loses all benefits of the prize ability.\n\nPrizes gain a +1 enhancement bonus for every 3 collector levels to a maximum of +6 at 18th level. These bonuses may be traded for special abilities according to Table: Bound Equipment. Prize bonuses stack with existing bonuses or special abilities the item previously possessed up to a total maximum bonus of +1 for every 3 collector levels. Items with existing bonuses and abilities totaling greater than or equal to what the collector can currently bestow can still be claimed as prizes, and are treated as such for arsenal tricks and class abilities, but do not gain additional enhancement bonuses or special abilities per the prize ability.\n\nOnce set, a prize's enhancement bonuses and special abilities may be changed by bonding with the item for 8 hours. Prizes are treated as summoned equipment for all other purposes and limitations, but do not cost a spell point to withdraw. Prizes wielded by anyone other than the collector lose any enhancement bonuses and special abilities granted by this ability.\n\nYou cannot select implements as prizes. An item does not need to be a masterwork item to be claimed as a prize." summary="Store prized items in an extradimensional space.">
-    <usesource source="pPF1e_Sph_OApocColle"/>
-    <tag group="AbilType" tag="Super"/>
-    <tag group="abAction" tag="Swift"/>
-    <tag group="SpecSource" tag="arCollector"/>
-    <tag group="SpecSource" tag="cHelpSPArm"/>
-    </thing>
-  <thing id="arCollectorLaunch" name="Launch" compset="ClSpecial" description="The collector may, as an attack action, fire her prizes from her extradimensional storage from her own space as if they were ammunition. Prizes used this way must be weapons and are treated as being thrown for the purposes of feats and abilities that modify attacks, but the collector adds her casting ability modifier to the damage roll instead of Strength. The collector takes no penalties for using melee weapons this way. If arrows or bolts are fired this way, they are treated as if they were daggers and deal 1d4 damage.\n\nWhen used this way, the extradimensional storage itself is treated as a ranged weapon with a range increment of close (25 feet + 5 feet per 2 collector levels, maximum range of 4 increments) and may be modified and affected by abilities or feats as normal.\n\nNote: Oversized weapons incur attack penalties as normal. The collector cannot fire weapons more than 1 size larger than herself.\n\nSpecial: If the collector possesses the Telekinesis sphere, she may launch prizes up to her Telekinesis size limit without penalty." summary="Throw prizes at targets.">
-    <usesource source="pPF1e_Sph_OApocColle"/>
-    <tag group="AbilType" tag="Super"/>
-    <tag group="abAction" tag="Attack"/>
-    <tag group="SpecSource" tag="arCollector"/>
-    <tag group="SpecSource" tag="cHelpSPArm"/>
-    </thing>
   <thing id="arCharmFencer" name="Charming Fencer" compset="ClassVary" description="Source: Spheres Apocrypha: Swashbucklers\n\nhttp://spheresofpower.wikidot.com/charming-fencer\n\nTODO: Remove link and add more descriptions." uniqueness="unique">
     <arrayval field="cvBonFtMod" index="4" value="-1"/>
     <arrayval field="cvBonFtMod" index="8" value="-2"/>
@@ -83,12 +12,12 @@ endif]]></eval>
     <arrayval field="cvBonFtMod" index="16" value="-4"/>
     <arrayval field="cvBonFtMod" index="19" value="-5"/>
     <usesource source="pPF1e_Sph_OApocSwash"/>
-    <tag group="AbReplace" tag="cSwsNimble"/>
     <tag group="AbReplace" tag="cSwsCharm"/>
+    <tag group="AbReplace" tag="cSwsFiness"/>
+    <tag group="AbReplace" tag="cSwsNimble"/>
     <tag group="ClVaryName" tag="AppParen"/>
     <tag group="ProductId" tag="DropDead"/>
     <tag group="fDisable" tag="fMartial"/>
-    <tag group="AbReplace" tag="cSwsFiness"/>
     <bootstrap thing="abSoMCmbTr">
       <autotag group="ClSpecWhen" tag="1"/>
       </bootstrap>
@@ -108,46 +37,103 @@ endif]]></eval>
       <autotag group="Helper" tag="Free"/>
       </bootstrap>
     </thing>
-  <thing id="somTlUnfettArm" name="Unfettering Armor" compset="SoMTalent" description="You may move at your normal speed while wearing medium armor. At +7 base attack bonus you may move your normal speed while wearing heavy armor." summary="Move fast in Medium and Heavy armor" uniqueness="useronce">
-    <usesource source="pPF1e_Sph_OApocArTa"/>
-    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
-    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
-    <tag group="SoMSphere" tag="Equipment" name="Equipment" abbrev="Equipment"/>
-    <eval phase="PostLevel" priority="3000"><![CDATA[      foreach pick in hero from BaseArmor where "ArmorCateg.Slows & !thingid.mNatural"
-           ~ If we're level 7+, remove the slowing effect of heavy armor.
-           ~ Heavy has two ArmorCateg.Slows tags, so remove both one at a time.
-           if (#BAB[] >= 7) then
-                if (eachpick.tagis[ArmorClass.Heavy] <> 0) then
-                     perform eachpick.delete[ArmorCateg.Slows?]
-                     ~perform eachpick.delete[ArmorCateg.SlowsEx]
-                     ~perform eachpick.delete[ArmorCateg.SlowsEx]
-                     endif
-                endif
+  <thing id="arCollector" name="Collector" compset="ClassVary" description="The grand majority of armorists focus their time and effort on summoning weapons and armor from scratch, allowing them to prepare the perfect arsenal at a moment's notice. However, there are a few armorists whose study of equipment focuses more on bringing out the latent perfection of mundane objects. Calling themselves whitesmiths due to the way their art adds finishing touches to the works of others, they are a boon to any adventuring party in need of an excellent quartermaster." uniqueness="unique">
+    <fieldval field="srcPageNum" value="8"/>
+    <usesource source="pPF1e_Sph_OApocColle"/>
+    <tag group="AbReplace" tag="cSoPArmBoostEq" name="Boost Equipment" abbrev="Boost Equipment"/>
+    <tag group="AbReplace" tag="cSoPBndEqp" name="Bound Equipment" abbrev="Bound Equipment"/>
+    <tag group="AbReplace" tag="cSoPInfArs" name="Infinite Arsenal" abbrev="Infinite Arsenal"/>
+    <tag group="AbReplace" tag="cSoPQkSumm" name="Quick Summons" abbrev="Quick Summons"/>
+    <tag group="AbReplace" tag="cSoPSumEqp"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="cFort" tag="Poor"/>
+    <tag group="cRef" tag="Good"/>
+    <bootstrap thing="arCollectorLaunch">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cCollectorPrize">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoPCoDiPo">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <link linkage="varies" thing="cHelpSPArm"/>
+    </thing>
+  <thing id="cSoPCoDiPo" name="Dimensional Power" compset="ClSpecial" description="The collector gains the Warp sphere as a bonus sphere at 1st level and uses her collector level as her caster level for all (space) talents. This stacks normally with caster levels gained from other sources. However, she also gains the Bender drawback, which can be bought off as normal, and must choose the Extradimensional Storage talent as the bonus talent granted by this drawback.\n\nIf she already possesses the Warp sphere, she gains the Extradimensional Storage talent without the Bender drawback. She may only use her class level as her caster level where this drawback would apply.">
+    <usesource source="pPF1e_Sph_OApocColle"/>
+    <tag group="SpecSource" tag="arCollector"/>
+    <tag group="SpecSource" tag="cHelpSPArm"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="sopDbBendr">
+      <containerreq phase="First" priority="97">!HasAbility.sopTlWarp</containerreq>
+      <autotag group="SphOfPow" tag="NoBnTalent"/>
+      </bootstrap>
+    <bootstrap thing="sopTlWarp">
+      <autotag group="SphOfPow" tag="FreeTalent"/>
+      </bootstrap>
+    <bootstrap thing="sopTlWpXdS">
+      <autotag group="SoPBonTal" tag="Warp"/>
+      <autotag group="SphOfPow" tag="FreeTalent"/>
+      </bootstrap>
+    <eval phase="First" priority="95"><![CDATA[~ Stop now if we've been replaced
+  doneif (hero.tagis[AbReplace.cSoPCoDiPo] <> 0)
 
-           ~ remove the slowing effects of medium (and light) armor. Light armor
-           ~ was added because it is possible for a user to define a light armor
-           ~ that slows the wearer - this ability ought to remove that, too
-           if (eachpick.tagis[ArmorClass.Medium] + eachpick.tagis[ArmorClass.Light] <> 0) then
-                perform eachpick.delete[ArmorCateg.Slows]
-                perform eachpick.delete[ArmorCateg.SlowsEx]
-                endif
+~ Count the number of times Warp sphere has been taken.
+  var c as number
+  foreach pick in hero where "SoPTlClass.GainSphere & SoPSphere.Warp & SphOfPow.Talent"
+    c += 1
+  nexteach
 
-           ~If we have certain armor which counts as medium currently, that
-           ~should also be affected. This is for the Agile Maiden feat.
-           if (eachpick.tagexpr[ArmorClass.Heavy & hero#Hero.OptMedArm] <> 0) then
-                perform eachpick.delete[ArmorCateg.Slows]
-                perform eachpick.delete[ArmorCateg.SlowsEx]
-                endif
+  ~ If >1 Warp Sphere, don't bootstrap Binder
+  if (c > 1) then
+    ~ Tell Binder we have Warp sphere, so don't bootstrap.
+    perform hero.assign[HasAbility.sopTlWarp]
+  endif]]></eval>
+    <eval phase="PostAttr" priority="5250" index="2"><![CDATA[  ~ Look up class level for Collector
+  var CL as number
+  var classLev as number
+  perform root.linkage[varies].setfocus
+  classLev = focus.field[cTotalLev].value
 
-           nexteach
+  ~ Add the amount needed to reach High Caster for (space) talents.
+  if (focus.tagis[SoPCLProg.CasterHigh] + focus.intersect[SoPHiCast,SoPSphere] > 0) then
+    ~ Do not add, somehow we are already High Caster.
+    CL += classLev
+  elseif (focus.tagis[SoPCLProg.CasterMid] <> 0) then
+    CL += round(classLev * 0.75,0,-1)
+  elseif (focus.tagis[SoPCLProg.CasterLow] <> 0) then
+    CL += round(classLev * 0.5,0,-1)
+  endif
 
-     ~ If we move full speed in heavy armor, then we can run at full speed too.
-     if (#BAB[] >= 7) then
-        perform hero.assign[Hero.RunHeavy]
-        endif]]>
-        <before name="Add arBonus to arAC"/>
-        <before name="Apply Armor Check/Arcane Failure"/>
-        </eval>
+  ~ No change needed
+  doneif (classLev = CL)
+  doneif (CL = 0)
+
+  if (classLev > 1) then
+    foreach pick in hero from SoPTalent where "SoPSphere.Warp & SoPTalDesc.WrpSpace"
+      eachpick.field[Bonus].value += classLev - CL
+    nexteach
+  endif]]>
+<before name="Field CL: Calculate (Caster Level)"/>
+<after name="Field tCLBon: Calculate (Caster Level Bonus)"/>
+</eval>
+    </thing>
+  <thing id="cCollectorPrize" name="Prize" compset="ClSpecial" description="The collector may spend 8 hours bonding with a piece of equipment to claim it as her prize. A collector's prize must be stored in her extradimensional storage. The collector may claim up to 50 pieces of ammunition as a single prize. Withdrawing or donning a prize from her extradimensional storage is always a swift action.\n\nThe collector always knows the direction and distance to each of her prizes as long as they are on the same plane. The collector may return any number of her prizes within long range to her extradimensional storage as swift action. If a prize is in the possession of a hostile creature, that creature gets a Will save (10 + 1/2 her collector level + practitioner modifier) to resist her recall. On a successful save, she fails in recalling her prize and cannot attempt to recall it this way for 1 minute.\n\nAfter 1 minute per class level, withdrawn prizes automatically return to the collector's extradimensional storage as long as they are on the same plane. If a prize is in the possession of another creature at the end of this duration, the collector has 1 day per class level to retrieve it and return it to her extradimensional storage. If the prize is not returned in this time, the collector forfeits ownership of the item and it loses all benefits of the prize ability.\n\nPrizes gain a +1 enhancement bonus for every 3 collector levels to a maximum of +6 at 18th level. These bonuses may be traded for special abilities according to Table: Bound Equipment. Prize bonuses stack with existing bonuses or special abilities the item previously possessed up to a total maximum bonus of +1 for every 3 collector levels. Items with existing bonuses and abilities totaling greater than or equal to what the collector can currently bestow can still be claimed as prizes, and are treated as such for arsenal tricks and class abilities, but do not gain additional enhancement bonuses or special abilities per the prize ability.\n\nOnce set, a prize's enhancement bonuses and special abilities may be changed by bonding with the item for 8 hours. Prizes are treated as summoned equipment for all other purposes and limitations, but do not cost a spell point to withdraw. Prizes wielded by anyone other than the collector lose any enhancement bonuses and special abilities granted by this ability.\n\nYou cannot select implements as prizes. An item does not need to be a masterwork item to be claimed as a prize." summary="Store prized items in an extradimensional space.">
+    <usesource source="pPF1e_Sph_OApocColle"/>
+    <tag group="SpecSource" tag="arCollector"/>
+    <tag group="SpecSource" tag="cHelpSPArm"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="abAction" tag="Swift"/>
+    </thing>
+  <thing id="arCollectorLaunch" name="Launch" compset="ClSpecial" description="The collector may, as an attack action, fire her prizes from her extradimensional storage from her own space as if they were ammunition. Prizes used this way must be weapons and are treated as being thrown for the purposes of feats and abilities that modify attacks, but the collector adds her casting ability modifier to the damage roll instead of Strength. The collector takes no penalties for using melee weapons this way. If arrows or bolts are fired this way, they are treated as if they were daggers and deal 1d4 damage.\n\nWhen used this way, the extradimensional storage itself is treated as a ranged weapon with a range increment of close (25 feet + 5 feet per 2 collector levels, maximum range of 4 increments) and may be modified and affected by abilities or feats as normal.\n\nNote: Oversized weapons incur attack penalties as normal. The collector cannot fire weapons more than 1 size larger than herself.\n\nSpecial: If the collector possesses the Telekinesis sphere, she may launch prizes up to her Telekinesis size limit without penalty." summary="Throw prizes at targets.">
+    <usesource source="pPF1e_Sph_OApocColle"/>
+    <tag group="SpecSource" tag="arCollector"/>
+    <tag group="SpecSource" tag="cHelpSPArm"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="abAction" tag="Attack"/>
     </thing>
   <thing id="somTlArmDeflec" name="Armored Deflection" compset="SoMTalent" description="You may add 1/2 of your armor bonus from your worn armor (rounded down) as a circumstance bonus to your touch AC; the bonus from this talent may not exceed 1/3 your base attack bonus (minimum +1)." uniqueness="useronce">
     <usesource source="pPF1e_Sph_OApocArTa2"/>
@@ -241,16 +227,16 @@ endif]]></eval>
     <fieldval field="abValue" value="1"/>
     <usesource source="pDDSSoM"/>
     <usesource source="pPF1e_Sph_OApocSwash"/>
+    <tag group="SoMSphere" tag="Equipment"/>
     <tag group="SoMTlClass" tag="Talent"/>
     <tag group="SoMTalDesc" tag="EquipDisc"/>
-    <tag group="SoMSphere" tag="Equipment"/>
+    <tag group="Helper" tag="SpecUp"/>
     <tag group="WepProf" tag="wButterf"/>
     <tag group="WepProf" tag="wLongsword"/>
     <tag group="WepProf" tag="wRapier"/>
     <tag group="WepProf" tag="wScimitar"/>
     <tag group="WepProf" tag="wSpiralRap"/>
     <tag group="WepProf" tag="wSwordCane"/>
-    <tag group="Helper" tag="SpecUp"/>
     <eval phase="PostAttr" priority="6500"><![CDATA[
       if (field[tEffBAB].value >= 10) then
         field[abValue].value += 1
@@ -259,10 +245,51 @@ endif]]></eval>
         #situational[eachpick,"damaged targets suffer " & signed(field[abValue].value) & " to disarm or sunder CMD",field[thingname].text]
       nexteach]]></eval>
     </thing>
+  <thing id="somTlUnfettArm" name="Unfettering Armor" compset="SoMTalent" description="You may move at your normal speed while wearing medium armor. At +7 base attack bonus you may move your normal speed while wearing heavy armor." summary="Move fast in Medium and Heavy armor" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_OApocArTa"/>
+    <tag group="SoMSphere" tag="Equipment" name="Equipment" abbrev="Equipment"/>
+    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <eval phase="PostLevel" priority="3000"><![CDATA[      foreach pick in hero from BaseArmor where "ArmorCateg.Slows & !thingid.mNatural"
+           ~ If we're level 7+, remove the slowing effect of heavy armor.
+           ~ Heavy has two ArmorCateg.Slows tags, so remove both one at a time.
+           if (#BAB[] >= 7) then
+                if (eachpick.tagis[ArmorClass.Heavy] <> 0) then
+                     perform eachpick.delete[ArmorCateg.Slows?]
+                     ~perform eachpick.delete[ArmorCateg.SlowsEx]
+                     ~perform eachpick.delete[ArmorCateg.SlowsEx]
+                     endif
+                endif
+
+           ~ remove the slowing effects of medium (and light) armor. Light armor
+           ~ was added because it is possible for a user to define a light armor
+           ~ that slows the wearer - this ability ought to remove that, too
+           if (eachpick.tagis[ArmorClass.Medium] + eachpick.tagis[ArmorClass.Light] <> 0) then
+                perform eachpick.delete[ArmorCateg.Slows]
+                perform eachpick.delete[ArmorCateg.SlowsEx]
+                endif
+
+           ~If we have certain armor which counts as medium currently, that
+           ~should also be affected. This is for the Agile Maiden feat.
+           if (eachpick.tagexpr[ArmorClass.Heavy & hero#Hero.OptMedArm] <> 0) then
+                perform eachpick.delete[ArmorCateg.Slows]
+                perform eachpick.delete[ArmorCateg.SlowsEx]
+                endif
+
+           nexteach
+
+     ~ If we move full speed in heavy armor, then we can run at full speed too.
+     if (#BAB[] >= 7) then
+        perform hero.assign[Hero.RunHeavy]
+        endif]]>
+        <before name="Add arBonus to arAC"/>
+        <before name="Apply Armor Check/Arcane Failure"/>
+        </eval>
+    </thing>
   <thing id="somDbVirtuous" name="Virtuous" compset="SoMDrawbk" description="You do not gain any ranks in Bluff from the base sphere. You gain Read Foe with this drawback." uniqueness="useronce">
     <usesource source="pPF1e_Sph_OApocSwash"/>
-    <tag group="SoMSphere" tag="Fencing" name="Fencing" abbrev="Fencing"/>
     <tag group="SphOfMigh" tag="NoBnTalent" name="Drawback does not grant a bonus talent" abbrev="Drawback does not grant a bonus talent"/>
+    <tag group="SoMSphere" tag="Fencing" name="Fencing" abbrev="Fencing"/>
     <bootstrap thing="somTlReadFoe"></bootstrap>
     <eval phase="First">perform hero.childfound[somTlSpFencing].delete[SoMAssocSk.skBluff]</eval>
     </thing>
@@ -270,9 +297,6 @@ endif]]></eval>
     <usesource source="pPF1e_Sph_OApocCasTr"/>
     <eval phase="PostAttr" priority="10000" index="2">~ DC = 20 + 1/2 caster level
       field[abDC].value += 20 + round(hero.childfound[SoPCstLev].field[CastLevTot].value/2,0,-1)</eval>
-    </thing>
-  <thing id="sopDbVulnSpell" name="Vulnerable Spellcaster" compset="SoPDrawbk" description="Your magical capabilities are directly linked to your physical state. When suffering from a condition or effect that bestows an attack penalty (or penalty, ability damage or ability drain to any physical ability score), you apply the largest penalty (counting ability damage or drain as a penalty) to your caster level. These penalties stack if you have multiple conditions, although they may not reduce your caster level below 1. Other penalties to your caster level may reduce your caster level to below 1, in which case any attempt to cast a sphere effect automatically fails, and the spell points are wasted. Additionally, you may not utilize magic while suffering from the frightened or panicked conditions.\n\nIf your caster level is brought below the requirement needed to cast certain advanced magic, rituals, incantations or to qualify for certain feats, you cannot make use of them while your caster level is reduced under the amount needed to cast the sphere effect or qualify for the feat.\n\nNote: Under the GM's discretion, other effects that would penalize the caster in a physical way may apply a similar penalty to their caster level." summary="You must wield a martial/exotic metal weapon to use your magic" uniqueness="unique">
-    <usesource source="pPF1e_Sph_ManaHB"/>
     </thing>
   <thing id="sopDbInnateCurse" name="Innate Curse" compset="SoPDrawbk" description="Your magic comes from a source that curses you, or your cursed condition is a side effect of your casting ability. You suffer the hindrance of a singular oracle curse, and do not get its benefit, nor the benefits that come with increased level. Use your magic skill bonus as your oracle level to determine any penalties from its hindrance. This curse is permanent and cannot be removed.\n\nNot all curses are appropriate for this drawback, and the GM is the ultimate arbiter of which oracle curse you suffer from.\n\nSpecial: If you already possess an oracle's curse (or gain one later), then you retain this curse in addition to the other curse, but each curse must be a different type of curse and provide different kinds of benefits (even if you don't possess the curse mastery feat)." summary="You suffer the hindrance of a singular oracle curse." uniqueness="unique">
     <fieldval field="usrCandid1" value="component.BaseCustSp &amp; abCategory.OraCurse"/>

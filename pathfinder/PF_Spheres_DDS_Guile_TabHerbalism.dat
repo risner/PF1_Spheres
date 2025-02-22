@@ -8,9 +8,9 @@
     <label text="Herbalism Sphere"/>
     </portal>
   <portal id="pSoGTalHerbalism" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpHerbalism">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Herbalism & !SoGTlClass.Package & !SphOfGuil.HideTables]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Herbalism & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Herbalism & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Herbalism"/>
       <description/>
       <headertitle><![CDATA[@text = "Herbalism Talents"]]></headertitle>
@@ -18,7 +18,7 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGDrwHerbalism" style="table">
-    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGDrawbk" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpHerbalism">
       <list><![CDATA[component.SoGDrawbk & !Hide.All & SoGSphere.Herbalism]]></list>
       <candidate><![CDATA[SoGSphere.Herbalism & !Helper.Obsolete]]></candidate>
       <description/>
@@ -27,9 +27,9 @@
       </table_dynamic>
     </portal>
   <portal id="pSoGPkgHerbalism" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" linkage="sogTlSpHerbalism">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Herbalism & SoGTlClass.Package]]></list>
-      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Herbalism & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !Helper.Obsolete]]></candidate>
+      <candidate><![CDATA[SoGTlClass.Package & SoGSphere.Herbalism & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
       <description/>
       <headertitle><![CDATA[@text = "Herbalism Packages"]]></headertitle>
       <additem><![CDATA[@text = hero.childfound[resSGPkHerbalism].field[resAddICnt].text]]></additem>

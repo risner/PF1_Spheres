@@ -80,44 +80,180 @@ BSD-2-Clause license</info_author>
                 descTxt &= "{b}Sphere:{/b} " & focus.tagnames[SoGSphere.?]
           endif
           if (focus.tagis[SoGTalDesc.?] <> 0) then
-                descTxt &= " (" & focus.tagnames[SoGTalDesc.?, ", "] & ")"
+                descTxt &= " (" & focus.tagabbrevs[SoGTalDesc.?, ", "] & ")"
           endif
 
           ~ Action cost
           if (focus.tagis[abAction.?] <> 0) then
-        descTxt &= br & "{b}Action:{/b} " & focus.tagnames[abAction.?]
+            descTxt &= br & "{b}Action:{/b} " & focus.tagnames[abAction.?]
           endif
 
-      ~ Range (manual gets preference)
-          If ( empty(focus.field[tRange].text) = 0 ) Then
-                descTxt &= br & "{b}Range:{/b} " & focus.field[tRange].text
-      elseif (focus.tagis[tRange.?] <> 0) Then
-        descTxt &= br & "{b}Range:{/b} " & focus.tagnames[tRange.?]
-      Endif
+          ~ Range
+          if (empty(focus.field[tRange].text) = 0) then
+            descTxt &= br & "{b}Range:{/b} " & focus.field[tRange].text
+          elseif (focus.tagis[tRange.?] <> 0) then
+            descTxt &= br & "{b}Range:{/b} " & focus.tagnames[tRange.?]
+          endif
 
-      ~ Area (manual gets preference)
-          If ( empty(focus.field[tArea].text) = 0 ) Then
-                descTxt &= br & "{b}Area:{/b} " & focus.field[tArea].text
-      elseif (focus.tagis[tArea.?] <> 0) Then
-        descTxt &= br & "{b}Area:{/b} " & focus.tagnames[tArea.?]
-      Endif
+          ~ Area
+          if (empty(focus.field[tArea].text) = 0) then
+            descTxt &= br & "{b}Area:{/b} " & focus.field[tArea].text
+          elseif (focus.tagis[tArea.?] <> 0) then
+            descTxt &= br & "{b}Area:{/b} " & focus.tagnames[tArea.?]
+          endif
 
-      ~ Duration (manual gets preference)
-          if ( empty(focus.field[tDuration].text) = 0 ) Then
-        descTxt &= br & "{b}Duration:{/b} " & focus.field[tDuration].text
-      elseif (focus.tagis[tDuration.?] <> 0) Then
-        descTxt &= br & "{b}Duration:{/b} " & focus.tagnames[tDuration.?]
-      Endif
+          ~ Duration
+          if (empty(focus.field[tDuration].text) = 0) then
+            descTxt &= br & "{b}Duration:{/b} " & focus.field[tDuration].text
+          elseif (focus.tagis[tDuration.?] <> 0) then
+            descTxt &= br & "{b}Duration:{/b} " & focus.tagnames[tDuration.?]
+          endif
 
-      ~ Saving Throw (manual gets preference)
-          if ( empty(focus.field[tSave].text) = 0 ) Then
-        descTxt &= br & "{b}Saving Throw:{/b} " & focus.field[tSave].text
-      elseif (focus.tagis[tSave.?] <> 0) Then
-        descTxt &= br & "{b}Saving Throw:{/b} " & focus.tagnames[tSave.?]
+          ~ Saving Throw (manual gets preference)
+          if (empty(focus.field[tSave].text) = 0) then
+            descTxt &= br & "{b}Saving Throw:{/b} " & focus.field[tSave].text
+          elseif (focus.tagis[tSave.?] <> 0) then
+            descTxt &= br & "{b}Saving Throw:{/b} " & focus.tagnames[tSave.?]
+          endif
+
+          ~ Now append the original description
+          descTxt &= br & br & focus.field[descript].text]]></procedure>
+  <procedure id="SoGTlAbvAd" context="pick"><![CDATA[
+    ~ This procedure handles additions to abValue fields based on skill ranks of the talent and/or the hero's operative modifier.
+    ~ abIdx indicates which abValue field is the recipient of the increase.
+    var abIdx as number
+    var val as number
+    var div as number
+    var incAmt as number
+    var neg as number
+    var rank as number
+    var tagid as string
+    var cv as number
+    var cs as string
+    ~ Determine which tag group we're looking for
+    ~ Only one for now, to limit cpu use. More will be added as needed.
+    if (abIdx = 1) then
+      tagid = tagids[SoGAbV1Sc.?]
+    elseif (abIdx = 2) then
+      tagid = tagids[SoGAbV2Sc.?]
+    elseif (abIdx = 3) then
+      tagid = tagids[SoGAbV3Sc.?]
+    endif
+    tagid = replace(tagid,"SoGAbV" & abIdx & "Sc.","",0)
+
+    if (empty(tagid) = 0) then
+      rank = field[tAssocRanks].value
+
+      ~ If the tag id starts with Neg, we're subtracting from the field value
+      ~ instead of adding to it
+      if (pos(tagid,"Neg") <> -1) then
+        neg = 1
+      endif
+      tagid = replace(tagid,"Neg","",1)
+      ~ Determine increment amount from cs="1_", 1=49
+      cs = left(tagid,2)
+      cv = asc(cs)
+      if (cv = 49) then
+        incAmt = 1
+      elseif (cv = 50) then
+        incAmt = 2
+      elseif (cv = 51) then
+        incAmt = 3
+      elseif (cv = 52) then
+        incAmt = 4
+      elseif (cv = 53) then
+        incAmt = 5
+      elseif (cv = 54) then
+        incAmt = 6
+      elseif (cv = 55) then
+        incAmt = 7
+      elseif (cv = 56) then
+        incAmt = 8
+      elseif (cv = 57) then
+        incAmt = 9
+      elseif (cv = 48) then
+        incAmt = 10
+      else
+        incAmt = 1
       endif
 
-      ~ Now append the original description
-      descTxt &= br & br & focus.field[descript].text]]></procedure>
+      ~ Determine at which skill levels we receive an increment
+      ~ from cs="1A", 1=49
+      cs = mid(tagid,2,2)
+      cv = asc(cs)
+      if (cv = 49) then
+        div = 1
+      elseif (cv = 50) then
+        div = 2
+      elseif (cv = 51) then
+        div = 3
+      elseif (cv = 52) then
+        div = 4
+      elseif (cv = 53) then
+        div = 5
+      elseif (cv = 54) then
+        div = 6
+      elseif (cv = 55) then
+        div = 7
+      elseif (cv = 56) then
+        div = 8
+      elseif (cv = 57) then
+        div = 9
+      elseif (cv = 50) then
+        div = 10
+      elseif (cv = 79) then
+        div = 2
+        rank -= 1
+      endif
+    endif
+    if (div > 0) then
+      val += incAmt * round(rank/div,0,-1)
+    endif
+    ~ If we're negative, then substract instead of add
+    if (neg = 1) then
+            val = 0 - val
+    endif
+
+    ~ Add/subtract OM, if necessary
+    var oamStr as string
+    oamStr = "SoGAbV" & abIdx & "OM."
+    if (tagcountstr[oamStr & "Value"] <> 0) then
+      val += field[tOM].value
+    elseif (tagcountstr[oamStr & "Positive"] <> 0) then
+      val += maximum(0,field[tOM].value)
+    elseif (tagcountstr[oamStr & "Min1"] <> 0) then
+      val += maximum(1,field[tOM].value)
+    elseif (tagcountstr[oamStr & "Min2"] <> 0) then
+      val += maximum(2,field[tOM].value)
+    elseif (tagcountstr[oamStr & "SbValue"] <> 0) then
+      val -= field[tOM].value
+    elseif (tagcountstr[oamStr & "SbPositive"] <> 0) then
+      val -= maximum(0,field[tOM].value)
+    elseif (tagcountstr[oamStr & "SbMin1"] <> 0) then
+      val -= maximum(1,field[tOM].value)
+    elseif (tagcountstr[oamStr & "SbMin2"] <> 0) then
+      val -= maximum(2,field[tOM].value)
+    endif
+
+    ~ If our final add is zero, nothing more to do
+    if (val <> 0) then
+      ~ Add to appropriate field value
+      if (abIdx = 1) then
+        field[abValue].value += val
+      elseif (abIdx = 2) then
+        field[abValue2].value += val
+      elseif (abIdx = 3) then
+        field[abValue3].value += val
+      endif
+    endif
+
+    ~ Reset variables so they don't interfere with future iterations on same talent
+    val = 0
+    div = 0
+    cs = ""
+    tagid = ""
+    cv = 0
+    incAmt = 0]]></procedure>
   <procedure id="SoGValTlSp" scripttype="validate"><![CDATA[
     ~ Figure out if the container (hero or item) has the correct sphere to take this talent
 

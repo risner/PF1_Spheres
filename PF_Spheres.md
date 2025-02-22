@@ -121,7 +121,7 @@ This tag is assigned to GainSphere talents \(e.g. sogTlSpInvestigat\) for each u
 
 #### Helper.FirstLevel
 
-I have avoided using this tag as this is assigned to the first class level at Levels/9000. The code needed to know this much earlier, so the code uses the field value *c1stIndex* in the class *BaseClHelp*.
+I have avoided using this tag as this is assigned to the first class level at Level/9000. The code needed to know this much earlier, so the code uses the field value *c1stIndex* in the class *BaseClHelp*.
 
 #### Drawbacks
 - Should you need to exempt a talent from a ban, it can be accomplished by assigning **SphOfGuil.DBBanSelEx**.
@@ -133,18 +133,10 @@ I have avoided using this tag as this is assigned to the first class level at Le
 
 - arBanshee, arMercenary, arVigInformant, cSoGBravo, cHelpSGTheor, arLivingBanner, arValiantCham all have unimplemented class features.
 - sogTlSpInfiltrati needs Startle created
-- sogTlSpBodyCont needs Slip Past created
-- SoG Packages are implemented only in the Herbalism sphere, use this as an example to implement other spheres.
-- sogTlSpBluster, sogTlSpFaction, sogTlSpNavigation, sogTlSpPerformance, sogSpTlSpellhack are all just base sphere.
-- sogTlSpStudy has very limited support.
-- There may be talents with required choices with no panellink=“” assigned.
 - Validations should be posted if multiple **SoGTRank.?** are assigned to the trade tradition.
 
 ### Bugs
 
-- Trade Tradition Aerialist may need support for SoGVarTal1.
-- The Artifice has hardcoded settings because packages are not yet implemented.
-- Dilettante does not implement the validation (one to be a background and they are all be unique).
 - Unorthodox Methods has issues and the code is less than ideal.
 - Valiant Champion: Divine Alignment may need a custom version just for Insightful Strike.
 - Might: Mass Challenge is "one additional creature, + 1 additional creature
@@ -158,13 +150,10 @@ I have avoided using this tag as this is assigned to the first class level at Le
 #### High Priority
 
 #### Low Priority
+- [[If a DEX skill becomes non-DEX it no longer applies ACP]]](https://paizo.com/paizo/faq/v5748nruor1fm#v5748eaic9tga)]. Relevant for these talents: Divergent Aptitude, Engineer, Entertainer, False Mage, Guarded Twist, and Synchronized Rhythm.
+- Make use of amendthing to change Banshee archetype's Wraith Form in to Banshee form instead of text replace().
 - Charming Actor & Outlander trade tradition need special coding for 3 to 5 choices.
-- Many things do not have usesource lines.
-- Implement SoM's "Auto-increment abValue fields" instead bespoke e.g. Theory Bonus?
-- Physiological Focus may delete all SkLeverage.skEscape, use "call SoGMinusOne"?
-- Bolstering Rapport needs "add 1 for every 6 ranks to name"
 - Have Skill Leverage or Associated Skills use Abbreviated skill names?
-- PF_Spheres_DDS_Guile_Editor.dat is not yet ready for user editing, need to add SoG specific things that don't exist in other spheres (Might / Power). Then update the editor.dat to be the new formatting (clean) style.
 - Unorthodox Methods has issues. Use SoGTalDesc.Unorthodox tag instead of compare() code?
 - Teach "Handle competence bonus on associated skill dup" about ExRankValM & ExRankValG
 - Utilitarian tradition may need editor changes to support like DDSUniTrad.
@@ -191,7 +180,19 @@ I have avoided using this tag as this is assigned to the first class level at Le
 - For class features that improve with levels, check out Bravo’s Whim: classcheck = "Bravo"; call LevPreReqs - currently WiP.
 - Should probably use this procedure more: ~set our focus to the selected pick; call fTargetFoc; doneif (state.isfocus = 0).
 - The *Helper Tags.txt* in the *Docs* folder is provided by [[Daniel](https://discord.com/channels/1152447010595667980/1154846188542111774/1330424781740310539).
+- Adding assign[SoPHiCast.Warp] on a class marks it as high caster level for the sphere.
+- Helper.SkCatKnow not Helper.skCatKnow
+- Helper.SkCatCraft not Helper.SkCatCraf or Helper.skCatCraf
+- Helper.SkCatPerf not Helper.skCatPerf
+- Helper.SkCatProf not Helper.skCatProf
+- Helper.SkCatArt not Helper.skCatArt
+- Helper.SkCatLore not Helper.skCatLore
 
+## Editor Notes
+- You can add options to a editor pick by using <extratag>:
+  <it_tagpick group="SoGSphere" tag="?">
+    <extratag group="Helper" tag="AlwaysAvl"/>
+  </it_tagpick>
 
 # Contributors
 

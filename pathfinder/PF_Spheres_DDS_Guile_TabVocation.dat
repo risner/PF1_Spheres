@@ -23,9 +23,9 @@
 	May need !SoGTalDesc.Trade to force Trade talents elsewhere.
   -->
   <portal id="pSoGTalVocation" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" linkage="sogTlSpVocation">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Vocation & !SoGTlClass.Package & !SphOfGuil.HideTables & !SoGTalDesc.Trade]]></list>
-      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Vocation & !SoGTalDesc.Trade & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.ExcepTalent | SoGTlClass.Talent | SoGTlClass.GainSphere) & SoGSphere.Vocation & !SoGTalDesc.Trade & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGBonTal" tag="Vocation"/>
       <description/>
       <headertitle><![CDATA[@text = "Vocation Talents: " & hero.childfound[resSGSEVocation].field[resSummary].text]]></headertitle>
@@ -34,9 +34,9 @@
     </portal>
   <!-- Trade Talent Pool -->
   <portal id="pSoGTradTalCnt" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes" linkage="sogTlSpVocation">
       <list><![CDATA[component.SoGTalent & !Hide.All & SoGSphere.Vocation & SoGTalDesc.Trade & !SoGTlClass.Package & !SphOfMigh.HideTables]]></list>
-      <candidate><![CDATA[SoGTalDesc.Trade & SoGSphere.Vocation & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
+      <candidate><![CDATA[SoGTalDesc.Trade & SoGSphere.Vocation & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !SoGTlClass.Package & !Helper.Obsolete & !thingid.sogTlHd?]]></candidate>
       <autotag group="SoGTlClass" tag="Trade"/>
       <description/>
       <headertitle><![CDATA[@text = "Trade Talents: " & hero.childfound[resSGTraTal].field[resSummary].text]]></headertitle>
@@ -68,7 +68,7 @@
       </label>
     </portal>
   <portal id="pSoGSkillReplace" style="table">
-    <table_auto component="SoGSkillReplace" showtemplate="tmSoGSkPk" autothing="SoGSkillReplace" columns="2">
+    <table_auto component="SoGSkillReplace" showtemplate="tmSoGSkPk" autothing="SoGSkillReplace" linkage="sogTlSpVocation" columns="2">
       <headertitle><![CDATA[@text = "{ref TraSkilRep}Trade Skill Replacements{ref}"]]></headertitle>
       <additem><![CDATA[@text = hero.childfound[resSGTrSkCnt].field[resAddICnt].text
         if (pos(@text,"Add New") <> -1) then

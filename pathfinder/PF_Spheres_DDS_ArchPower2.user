@@ -5,22 +5,29 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
-  <thing id="arSoWeBanshee" name="Banshee" compset="ClassVary" description="Whereas most soul weavers delve into influencing the physical forms of others, the banshee is focused on manipulating the mental state of others around her. Although not completely a banshee, these soul weavers take on many properties of these sorrowful wraiths, known to fill the air with her sorrowful dirges and screams of the departed.\n\nTODO: Missing abilities below\nSorrow (2nd level)\nHear Heartbeat (4th level)\nParanoia (6th level)\nDoomed Soul (8th level)\nTerrorize (10th level)\nWail (14th level)\nSpawn of Sorrow (16th level)" uniqueness="unique">
-    <comment>~ Channel Energy description append, also make it count as the Versatile Channeler feat</comment>
+  <thing id="arSoWeBanshee" name="Banshee" compset="ClassVary" description="Whereas most soul weavers delve into influencing the physical forms of others, the banshee is focused on manipulating the mental state of others around her. Although not completely a banshee, these soul weavers take on many properties of these sorrowful wraiths, known to fill the air with her sorrowful dirges and screams of the departed." uniqueness="unique">
     <fieldval field="srcBookInf" value="Archetypes of Power 2"/>
     <usesource source="pPF1e_Sph_AoP2"/>
-    <tag group="AbReplace" tag="cSoPMstLifeDeath" name="Master of Life and Death" abbrev="Master of Life and Death"/>
     <tag group="AbModify" tag="cSoPSlWChE" name="Channel Energy" abbrev="Channel Energy"/>
     <tag group="AbReplace" tag="cSoPAidDed" name="Aid the Dead" abbrev="Aid the Dead"/>
-    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
     <tag group="AbReplace" tag="cSoPBless" name="Blessing" abbrev="Blessing"/>
-    <tag group="NotClassSk" tag="skHeal"/>
-    <tag group="ClassSkill" tag="skBluff"/>
-    <tag group="AbReplace" tag="cSoPTmpRes" name="Temporary Resurrection" abbrev="Temporary Resurrection"/>
-    <tag group="AbReplace" tag="cSoPLovlor" name="Lovelorn Soul" abbrev="Lovelorn Soul"/>
-    <tag group="AbReplace" tag="cSoPCurSpr" name="Curious Spirit" abbrev="Curious Spirit"/>
     <tag group="AbReplace" tag="cSoPBlight" name="Blight" abbrev="Blight"/>
+    <tag group="AbReplace" tag="cSoPBlsSol" name="Blessed Soul" abbrev="Blessed Soul"/>
+    <tag group="AbReplace" tag="cSoPConsum"/>
+    <tag group="AbReplace" tag="cSoPCurSpr" name="Curious Spirit" abbrev="Curious Spirit"/>
+    <tag group="AbReplace" tag="cSoPDeton"/>
+    <tag group="AbReplace" tag="cSoPLesion"/>
+    <tag group="AbReplace" tag="cSoPLovlor" name="Lovelorn Soul" abbrev="Lovelorn Soul"/>
+    <tag group="AbReplace" tag="cSoPMndBlt"/>
+    <tag group="AbReplace" tag="cSoPMstLifeDeath" name="Master of Life and Death" abbrev="Master of Life and Death"/>
+    <tag group="AbReplace" tag="cSoPTmpRes" name="Temporary Resurrection" abbrev="Temporary Resurrection"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ClassSkill" tag="skBluff"/>
+    <tag group="NotClassSk" tag="skHeal"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="cSoGBanshMasOfM">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
     <bootstrap thing="cSoPWraithFormW">
       <autotag group="ClSpecWhen" tag="1"/>
       <autotag group="abCategory" tag="SoPSlWBnNx"/>
@@ -32,14 +39,44 @@ BSD-2-Clause license</info_author>
       <assignval field="CustDesc" value="{b}Modification from Banshee Form{/b}: The banshee may expend a soul to become slightly ethereal, gaining the benefits of the wraith form ability as a wraith of her level a number of rounds equal to her casting ability modifier (minimum 1). The banshee may end this effect as a free action.{br}{br} * The wraith takes half damage from non-magic weapons.{br} * The wraith cannot make weapon or natural weapon attacks while in wraith form unless he uses a weapon with the ghost touch special ability.{br} * Effects originating from corporeal sources that do not deal damage have a 20% chance to fail against the wraith instead of the normal 50%. Force effect are not subject to this failure chance.{br} * The wraith retains all worn equipment not exceeding his maximum load as well as the benefits from any magic items that grant a continuous effect, but gains no benefit from physical armor or shields.{br} * The wraith uses normal movement speeds (treat moving through solid objects as ground movement).{br} * When not on or in a solid or liquid, the wraith falls slowly and may glide, moving with a speed of 30 feet with maneuverability (perfect), but falling 1 foot for every 5 feet traveled (unless possessing a fly speed).{br}{br}Activating this ability is a move action and ending it is a free action. He may not activate this ability if carrying a load greater than his maximum load. Should the wraith become corporeal while in a solid object, he is immediately shunted to the nearest empty space, taking 1d6 untyped damage per 5 feet traveled."/>
       <assignval field="abDuration" value="rounds"/>
       </bootstrap>
-    <bootstrap thing="sopSpMind">
-      <autotag group="ClSpecWhen" tag="1"/>
-      <autotag group="Helper" tag="Free"/>
-      <autotag group="SoPDupBon" tag="Mind"/>
+    <bootstrap thing="cSoGBanshSorrow">
+      <autotag group="ClSpecWhen" tag="2"/>
       </bootstrap>
+    <bootstrap thing="cSoGBanshHeHear">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBanshParano">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBanshDoSoul">
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBanshTerror">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBanshWail">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBanshSpOfSo">
+      <autotag group="ClSpecWhen" tag="16"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBanshReWail">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <!--<bootstrap thing="cSweetbloodChan">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoPBanChE">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap> -->
     <link linkage="varies" thing="cHelpSPSlW"/>
-    <eval phase="Render" priority="100001" index="4"><![CDATA[~ foreach bootstrap in focus from BaseSpell
-~ better way ^
+    <eval phase="PreLevel" priority="10001"><![CDATA[~ Alignment sets channel at PreLevel/10000, set us back to player choice.
+      linkage[varies].field[cClrTurn].value = 0]]></eval>
+    <eval phase="Render" priority="1000" index="2"><![CDATA[
+      ~ Channel Energy description append
+      #appenddesc[cSoPSlWChE,"{b}Modification from " & field[thingname].text & ":{/b} she cannot choose to target undead."]]]></eval>
+    <eval phase="Render" priority="100001" index="5"><![CDATA[~ foreach bootstrap in focus from BaseSpell
+~ better way ^ ?
       var s as string
       var t as string
 
@@ -60,12 +97,63 @@ BSD-2-Clause license</info_author>
       focus.field[livename].text  = replace(focus.field[livename].text, t, s, 0)
       focus.field[actName].text  = replace(focus.field[actName].text, t, s, 0)
       focus.field[shortname].text  = replace(focus.field[shortname].text, t, s, 0)]]></eval>
-    <eval phase="PostAttr" priority="10000" index="3"><![CDATA[      var v as number
+    <eval phase="PostAttr" priority="10000" index="6"><![CDATA[      var v as number
 
       ~ CAM rounds
       v = hero.childfound[SoPCAM].field[CAM].value
       hero.childfound[cSoPWraithFormW].field[abValue].value = v
       hero.childfound[cSoPWraithFormW].field[abText].text = v & " rounds"]]></eval>
     <evalrule phase="Validation" priority="5000" message="Must channel negative energy" summary="Must channel negative energy">validif (hero.tagis[Hero.ChanPos] = 0)</evalrule>
+    </thing>
+  <thing id="cSoGBanshMasOfM" name="Master of Manipulation" compset="ClSpecial" description="At 1st level, the banshee gains the Mind sphere as a bonus sphere at 1st level.">
+    <fieldval field="sbName" value="master of manipulation"/>
+    <fieldval field="shortname" value="Master of Manipulation"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <bootstrap thing="sopTlMind">
+      <autotag group="SphOfPow" tag="FreeTalent"/>
+      </bootstrap>
+    </thing>
+  <thing id="cSoGBanshSorrow" name="Sorrow" compset="ClSpecial" description="At 2nd level, the banshee may touch a target and expend a use of channel energy to place a sorrow within them. The target is allowed a Will save (DC 10 + 1/2 soul weaver level + her casting ability modifier), and on a failure, is instilled with sadness and apathy, becoming pale and sluggish. Sorrow is considered a magical curse and is permanent until removed by magic.\n\nA creature with sorrow suffers a -2 penalty to all saves against mind-affecting, emotion and fear effects, bound nexus powers, or sorrow abilities. A banshee may concentrate at any time to discover what creatures within close range are afflicted by her sorrow.">
+    <fieldval field="sbName" value="sorrow"/>
+    <fieldval field="shortname" value="Sorrow"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    <eval phase="PostAttr" priority="10000"><![CDATA[
+      perform hero.childfound[SoPCAM].pulltags[StandardDC.?]]]></eval>
+    </thing>
+  <thing id="cSoGBanshHeHear" name="Hear Heartbeat" compset="ClSpecial" description="At 4th level, the banshee can expend a soul to gain the ability to sense the beating hearts of living creatures within 60 feet for 1 minute, as if she had the lifesense ability.">
+    <fieldval field="sbName" value="hear heartbeat"/>
+    <fieldval field="shortname" value="Hear Heartbeat"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    </thing>
+  <thing id="cSoGBanshParano" name="Sorror: Paranoia" compset="ClSpecial" description="At 6th level, a banshee may target a creature within close range already suffering from sorrow and spend a use of channel energy to cause the fear to spread, causing intense paranoia and fear. The target must succeed a Will save or immediately become shaken and treat all creatures as enemies and only itself as an ally for the purposes of being willing for spells and abilities (meaning that previous allies must make melee touch attacks to affect the banshee, and she is treated as unwilling against all spells except her own). This ability lasts for 1 round per caster level. Using paranoia consumes and removes their sorrow.">
+    <fieldval field="sbName" value="paranoia"/>
+    <fieldval field="shortname" value="Paranoia"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    </thing>
+  <thing id="cSoGBanshDoSoul" name="Doomed Soul" compset="ClSpecial" description="At 8th level, whenever an enemy within 30 feet would attempt a saving throw against a fear or curse effect, the banshee can expend a soul to force the enemy to roll the saving throw twice and take the least favourable result.">
+    <fieldval field="sbName" value="doomed soul"/>
+    <fieldval field="shortname" value="Doomed Soul"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    </thing>
+  <thing id="cSoGBanshTerror" name="Sorrow: Terrorize" compset="ClSpecial" description="At 10th level, the banshee can intensify paranoia into thoughtless despair. The target must succeed a Will save or suffer 1d6 points of Wisdom and Charisma damage, and become frightened for 1 round per caster level. If the target succeeds the saving throw, the target is instead shaken for 1 round per caster level. Using terrorize consumes and removes their sorrow.">
+    <fieldval field="sbName" value="terrorize"/>
+    <fieldval field="shortname" value="Terrorize"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    </thing>
+  <thing id="cSoGBanshWail" name="Sorrow: Wail" compset="ClSpecial" description="At 14th level, as a full-round action, the banshee lets out a piercing wail inside the minds of those she has instilled paranoia within. All creatures of the banshee’s choice that are currently affected by her sorrow ability must succeed a Will saving throw or suffer 10 points of sonic damage per class level she possesses. On a success, the target is instead sickened for 1d6 rounds. This is a sonic-based death effect. Using wail consumes and removes the sorrow from all affected creatures.">
+    <fieldval field="sbName" value="wail"/>
+    <fieldval field="shortname" value="Wail"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    </thing>
+  <thing id="cSoGBanshSpOfSo" name="Spawn of Sorrow" compset="ClSpecial" description="This ability functions as the temporary resurrection bound nexus power, except that the resurrected creature gains the ability to wail with the sorrow of banshees. The resurrected creature may release a wail as a standard action, dealing sonic damage equal to 5 times her class level to all creatures in a 30-foot radius (Fortitude halves). A creature who wails ends this ability’s duration immediately, causing the creature to slump over as a lifeless corpse.">
+    <fieldval field="sbName" value="spawn of sorrow"/>
+    <fieldval field="shortname" value="Spawn of Sorrow"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
+    </thing>
+  <thing id="cSoGBanshReWail" name="Sorror: Resonant Wail" compset="ClSpecial" description="At 18th level, when using her wail ability, her piercing screech resonates to other creatures around the target, dealing 1d6 sonic damage per 2 class levels to all creatures within 10 feet of each affected target (Fortitude halves).">
+    <fieldval field="sbName" value="resonant wail"/>
+    <fieldval field="shortname" value="Resonant Wail"/>
+    <usesource source="pPF1e_Sph_AoP2"/>
     </thing>
   </document>

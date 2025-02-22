@@ -14,16 +14,36 @@ BSD-2-Clause license</info_author>
     <arrayval field="cvBonFtMod" index="13" value="-5"/>
     <arrayval field="cvBonFtMod" index="17" value="-6"/>
     <usesource source="pPF1e_Sph_Might"/>
-    <tag group="fDisable" tag="fWepMnk" name="Monk Weapon Proficiencies" abbrev="Monk Weapon Proficiencies"/>
-    <tag group="AlgnReq" tag="Lawful"/>
     <tag group="AbReplace" tag="cMnkFlurUn" name="Flurry of Blows (Unchained)" abbrev="Flurry of Blows (Unchained)"/>
     <tag group="AbReplace" tag="cMnkUnarm" name="Unarmed Strike" abbrev="Unarmed Strike"/>
-    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="AlgnReq" tag="Lawful"/>
     <tag group="CSCountAs" tag="SoMBlacksmith"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
     <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <bootstrap thing="cfgSmithInsigh"></bootstrap>
+    <tag group="fDisable" tag="fWepMnk" name="Monk Weapon Proficiencies" abbrev="Monk Weapon Proficiencies"/>
     <bootstrap thing="CSoMBreakStyle">
       <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="abSoMCmbTr">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="5"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="7"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="9"/>
+      </bootstrap>
+    <bootstrap thing="cSoMThunderBlows">
+      <autotag group="ClSpecWhen" tag="11"/>
       </bootstrap>
     <bootstrap thing="cSoMThunderBlows">
       <autotag group="ClSpecWhen" tag="13"/>
@@ -37,27 +57,7 @@ BSD-2-Clause license</info_author>
     <bootstrap thing="cSoMThunderBlows">
       <autotag group="ClSpecWhen" tag="19"/>
       </bootstrap>
-    <bootstrap thing="abSoMCmbTr">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <bootstrap thing="cSoMThunderBlows">
-      <autotag group="ClSpecWhen" tag="3"/>
-      </bootstrap>
-    <bootstrap thing="cSoMThunderBlows">
-      <autotag group="ClSpecWhen" tag="5"/>
-      </bootstrap>
-    <bootstrap thing="cSoMThunderBlows">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <bootstrap thing="cSoMThunderBlows">
-      <autotag group="ClSpecWhen" tag="7"/>
-      </bootstrap>
-    <bootstrap thing="cSoMThunderBlows">
-      <autotag group="ClSpecWhen" tag="9"/>
-      </bootstrap>
-    <bootstrap thing="cSoMThunderBlows">
-      <autotag group="ClSpecWhen" tag="11"/>
-      </bootstrap>
+    <bootstrap thing="cfgSmithInsigh"></bootstrap>
     <link linkage="varies" thing="cHelpMnk"/>
     <eval phase="First" name="Sundering Hand assigns Adept">perform linkage[varies].assign[SphOfMigh.Class]
       perform linkage[varies].assign[SoMPMAttr.aWIS]
@@ -85,9 +85,9 @@ BSD-2-Clause license</info_author>
   <thing id="cSHAbilRep" name="Ability to Replace" compset="CustomSpec" description="Use this ability to choose which base monk abilities to trade out for Smithing Insight powers. Once the monk has reached the level where he would have gained that ability, this configurable will gain a slot for a Smithing Insight power.">
     <fieldval field="usrCandid1" value="Helper.FirstCopy &amp; (Ability.cMnkSlow | Ability.cMnkHiJump | Ability.cMnkWhole | Ability.cMnkDiamBd | Ability.cMnkAbund | Ability.cMnkDiamSl | Ability.cMnkQuiver | Ability.cMnkTongue | Ability.cMnkEmpty)"/>
     <usesource source="pPF1e_Sph_Might"/>
-    <tag group="User" tag="NoAutoName" name="NoAutoName" abbrev="NoAutoName"/>
     <tag group="AllowRCust" tag="cfgSmithInsigh" name="Sundering Hand Ability Replacements" abbrev="Sundering Hand Ability Replacements"/>
     <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="User" tag="NoAutoName" name="NoAutoName" abbrev="NoAutoName"/>
     <eval phase="PostLevel" priority="10000" index="2"><![CDATA[
       doneif (field[usrChosen1].ischosen = 0)
 

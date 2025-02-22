@@ -7,10 +7,10 @@ BSD-2-Clause license</info_author>
     </fileinfo>
   <thing id="arMercenary" name="Mercenary" compset="ClassVary" description=" Mercenaries are products of their time. Lethal blades, efficient warriors. Hunters. Trackers. If there are coins to be paid, they have the time. Mercenaries can be found anywhere there is conflict from adventuring parties looking for a skilled pair of hands, armies looking for extra manpower, and even in the service of evil, should the price pay right.\n\nTODO: Not implemented past 1st level yet. Also need to create Manhunter (Ex) and the bootstrap conditions instead of directly bootstrapping Scout sphere." uniqueness="unique">
     <usesource source="pPF1e_Sph_OConqHB"/>
-    <tag group="ClVaryName" tag="AppParen"/>
-    <tag group="fDisable" tag="fWepMart"/>
-    <tag group="fDisable" tag="fArmMedium"/>
     <tag group="AbReplace" tag="cRgrTrack"/>
+    <tag group="ClVaryName" tag="AppParen"/>
+    <tag group="fDisable" tag="fArmMedium"/>
+    <tag group="fDisable" tag="fWepMart"/>
     <bootstrap thing="abSoMCmbTr">
       <autotag group="ClSpecWhen" tag="1"/>
       </bootstrap>
@@ -31,7 +31,7 @@ BSD-2-Clause license</info_author>
   <thing id="cSoMSIRuneCharge" name="Rune-Charged Maintenance" compset="CustomSpec" description="The blacksmith gains the ability to inscribe divine runewords and symbols onto equipment when performing maintenance, bestowing power to equipment. He learns two runes from the forgemasterARG cleric's runeforger ability, treating his blacksmith level as his cleric level when determining the effects of runes, and may choose to apply one rune as a maintenance. The duration of a rune applied as a maintenance is the same as a regular maintenance, lasting 24 hours or until their next 8 hour or longer rest, whichever comes first. The blacksmith must still meet any level prerequisites to apply a rune with maintenance. Unlike other maintenance options, runes are supernatural and are suppressed by antimagic fields or other similar effects, and may be removed by an erase spell or other similar effect. Equipment inscribed with runes by the blacksmith bear symbols of the blacksmith's faith or ideology. At 8th level, the blacksmith can apply two runes as part of the same maintenance.\n\nThe blacksmith may take this insight multiple times, each time learning two new runes." summary="Take two Runc-Charged Maintenances." uniqueness="unique">
     <fieldval field="abValue" value="2"/>
     <usesource source="pPF1e_Sph_OConqHB"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
     <tag group="SpecSource" tag="cHelpSMBlk" name="Blacksmith" abbrev="Blacksmith"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
     </thing>
   </document>

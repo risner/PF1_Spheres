@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Diabolist's HB"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arDreamtwister" name="Dreamtwister" compset="ClassVary" description="Dreamtwisters harness the power of dreams and delusions to trap foes in false realities. " uniqueness="unique">
+    <fieldval field="srcPageNum" value="7"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="SphOfGuil" tag="Class"/>
+    <tag group="AbReplace" tag="cSoPCrReal"/>
+    <tag group="AbReplace" tag="cSoPFeyMag"/>
+    <tag group="AbReplace" tag="cSoPFeytch"/>
+    <tag group="AbReplace" tag="cSoPHiPS"/>
+    <tag group="AbReplace" tag="cSoPMstIll"/>
+    <tag group="AbReplace" tag="cSoPPermIl"/>
+    <tag group="AbReplace" tag="cSoPTrusit"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="cSoGDrTwDelus">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGDrTwFreuSlip">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGDrTwDreamReal">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGDrTwCosDreamk">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGDrTwBeOfDream">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cSoGDrTwUnrelNght">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <link linkage="varies" thing="cHelpSPFey"/>
+    </thing>
+  <thing id="cSoGDrTwDelus" name="Delusionist" compset="ClSpecial" description="At 1st level, the dreamtwister gains the Mind sphere as a bonus magic talent with the Empath drawback, selecting the Vision talent with this drawback. In addition, the dreamtwister gains Mass Charm as a bonus talent, treating their caster level as 4 levels higher for the purpose of determining how many creatures they may target with charms.">
+    <fieldval field="sbName" value="delusionist"/>
+    <fieldval field="shortname" value="Delusionist"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <bootstrap thing="sopDbEmpth">
+      <autotag group="SphOfPow" tag="NoBnTalent"/>
+      </bootstrap>
+    <bootstrap thing="sopTlMind">
+      <autotag group="SphOfPow" tag="FreeTalent"/>
+      </bootstrap>
+    <bootstrap thing="sopTlMndGC">
+      <autotag group="SphOfPow" tag="FreeTalent"/>
+      <autotag group="SoPDupBon" tag="Mind"/>
+      </bootstrap>
+    <bootstrap thing="sopTlMndVs">
+      <autotag group="SphOfPow" tag="FreeTalent"/>
+      <autotag group="SoPDupBon" tag="Mind"/>
+      </bootstrap>
+    <eval phase="PostLevel" priority="1000"><![CDATA[
+      doneif (tagis[Helper.SpcDisable] <> 0)
+      perform hero.childfound[sopTlMndGC].setfocus
+      doneif (state.isfocus = 0)
+      focus.field[CL].value += 4]]></eval>
+    </thing>
+  <thing id="cSoGDrTwFreuSlip" name="Freudian Slip" compset="ClSpecial" description="At 4th level, the dreamtwister may force a creature within range of their Mind sphere abilities to reroll a Will save they have just attempted as an immediate action. The dreamtwister may use this ability once per day at 4th level and an additional time per day every 4 levels thereafter.">
+    <fieldval field="sbName" value="freudian slip"/>
+    <fieldval field="shortname" value="Freudian Slip"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="AbilType" tag="Super" name="Supernatural Ability" abbrev="Su"/>
+    </thing>
+  <thing id="cSoGDrTwDreamReal" name="Dreams into Reality" compset="ClSpecial" description="Rather than illusions, the dreamtwister’s instances of created reality are potent phantasms that enter the minds of their targets. Starting at 6th level, when using a Vision greater or powerful charm, the dreamtwister may spend a shadow point + 1 shadow point per spell point that would be required by the mimicked effect in question to create a companion, destructive blast, glamer, nature, object, or weather which lasts for the maximum possible duration of the vision. These creations can only affect and be observed by those you targeted with vision. Creatures that succeed at their saving throw against the charm are considered to have disbelieved the creation, but targeted creatures are not allowed additional saving throws to disbelieve the effect beyond the Will save they make each round against the Vision charm (they are still allowed saving throws against other aspects of the created effect as normal).\n\nThe effects created by this skill otherwise have the same limits as Create Reality (such as what types of destructive blasts can be made, etc.).">
+    <fieldval field="sbName" value="freudian slip"/>
+    <fieldval field="shortname" value="Freudian Slip"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="AbilType" tag="Super" name="Supernatural Ability" abbrev="Su"/>
+    <eval phase="PostLevel" priority="1000" index="2"><![CDATA[
+      doneif (tagis[Helper.SpcDisable] <> 0)
+      foreach thing in BaseClSpec where "thingid.cSoPCreRCo | thingid.cSoPCrRDB|  thingid.cSoPCreRDs | thingid.cSoPCrRNat | thingid.cSoPCreROb | thingid.cSoPCrRWth"
+        var sName as string
+        sName = replace(eachthing.field[name].text, "Create", "Dreams into", 1)
+        perform eachthing.amendthing[name,sName]
+      nexteach]]></eval>
+    </thing>
+  <thing id="cSoGDrTwCosDreamk" name="Cosmic Dreamkeeper" compset="ClSpecial" description="At 10th level, for the purpose of Mind sphere effects, the dreamtwister ignores any immunities to mind-affecting effects that a creature under the effects of their shadowmark possesses.">
+    <fieldval field="sbName" value="cosmic dreamkeeper"/>
+    <fieldval field="shortname" value="Cosmic Dreamkeeper"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="AbilType" tag="Super" name="Supernatural Ability" abbrev="Su"/>
+    </thing>
+  <thing id="cSoGDrTwBeOfDream" name="Being of Dreams" compset="ClSpecial" description="At 20th level, the dreamtwister’s type changes to outsider (native). They also gain DR/10 bypassed by either good, lawful, evil, or chaotic (choosing one that opposes their alignment. A true neutral dreamtwister’s damage reduction is bypassed by any aligned weapon). The dreamtwister also gains a +10 resistance bonus on saving throws vs. mind-affecting effects.">
+    <fieldval field="sbName" value="being of dreams"/>
+    <fieldval field="shortname" value="Being of Dreams"/>
+    <arrayval field="usrArray" index="0" value="Good"/>
+    <arrayval field="usrArray" index="1" value="Lawful"/>
+    <arrayval field="usrArray" index="2" value="Evil"/>
+    <arrayval field="usrArray" index="3" value="Chaotic"/>
+    <arrayval field="usrArray" index="4" value="Aligned Weapon"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <bootstrap thing="abDamRdAli">
+      <containerreq phase="First" priority="500"><![CDATA[count:Classes.SoPFeyAdp >= 20 & fieldval:usrIndex = 4]]></containerreq>
+      <assignval field="abValue" value="10"/>
+      </bootstrap>
+    <bootstrap thing="xDamRdChao">
+      <containerreq phase="First" priority="500"><![CDATA[count:Classes.SoPFeyAdp >= 20 & fieldval:usrIndex = 3]]></containerreq>
+      <assignval field="abValue" value="10"/>
+      </bootstrap>
+    <bootstrap thing="xDamRdEvil">
+      <containerreq phase="First" priority="500"><![CDATA[count:Classes.SoPFeyAdp >= 20 & fieldval:usrIndex = 2]]></containerreq>
+      <assignval field="abValue" value="10"/>
+      </bootstrap>
+    <bootstrap thing="xDamRdGood">
+      <containerreq phase="First" priority="500"><![CDATA[count:Classes.SoPFeyAdp >= 20 & fieldval:usrIndex = 0]]></containerreq>
+      <assignval field="abValue" value="10"/>
+      </bootstrap>
+    <bootstrap thing="xDamRdLaw">
+      <containerreq phase="First" priority="500"><![CDATA[count:Classes.SoPFeyAdp >= 20 & fieldval:usrIndex = 1]]></containerreq>
+      <assignval field="abValue" value="10"/>
+      </bootstrap>
+    <eval phase="Render" priority="100"><![CDATA[      ~ If we're not shown, just get out now
+      doneif (tagis[Helper.ShowSpec] = 0)
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      perform hero.childfound[xDamRdIron].assign[Hide.All]
+
+      ~ Add luck bonus to saves
+      perform hero.child[svAll].setfocus
+      var b as number
+      b = 10 - focus.field[svResist].value
+      if (b > 0) then
+        #situational[focus, signed(b) & " vs. mind-affecting effects", "Being of Dreams"]
+      endif]]></eval>
+    <evalrule phase="Final" priority="10000" message="You must choose an alignment that opposes your alignment"><![CDATA[~ If less than 20 levels, get out.
+      validif (hero.tagcount[Classes.SoPFeyAdp] < 20)
+
+      if (hero.tagcount[Alignment.Neutral?] = 2) then
+        @message = "You must choose aligned for True Neutral"
+        validif (field[usrIndex].value = 4)
+      elseif (field[usrIndex].value = 0) then
+        validif (hero.tagis[Alignment.Good] = 0)
+      elseif (field[usrIndex].value = 1) then
+        validif (hero.tagis[Alignment.Lawful] = 0)
+      elseif (field[usrIndex].value = 2) then
+        validif (hero.tagis[Alignment.Evil] = 0)
+      elseif (field[usrIndex].value = 3) then
+        validif (hero.tagis[Alignment.Chaotic] = 0)
+      endif]]></evalrule>
+    </thing>
+  <thing id="cSoGDrTwUnrelNght" name="Unrelenting Nightmare" compset="ClSpecial" description="At 20th level, the dreamtwister may make one instance of their Vision charm permanent. Only one such charm may be made permanent in this way at one time. If another charm is designated as permanent, the previous permanent charm ends.">
+    <fieldval field="sbName" value="unrelenting nightmare"/>
+    <fieldval field="shortname" value="Unrelenting Nightmare"/>
+    <usesource source="pPF1e_Sph_ODiabHB"/>
+    <tag group="AbilType" tag="Super" name="Supernatural Ability" abbrev="Su"/>
+    </thing>
+  </document>

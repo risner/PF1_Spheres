@@ -10,8 +10,8 @@ BSD-2-Clause license</info_author>
     <usesource source="pPF1e_Sph_OHighHB"/>
     <tag group="SoMSphere" tag="Equipment" name="Equipment" abbrev="Equipment"/>
     <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
-    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <tag group="HasFeat" tag="fArmorFoc"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <eval phase="PostLevel" priority="1000"><![CDATA[~ Was using field[tEffBAB].value, assigned at Post-attributes/5500.
       ~ However, we need this done by Post-level/1000 to display in skills
       ~ correctly, so I've replaced with the #BAB[] macro.

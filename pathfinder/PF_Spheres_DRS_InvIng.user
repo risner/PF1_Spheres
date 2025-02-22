@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DRS - Diamond Spheres: Invention &amp; Ingenuity"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arSphWitToil" name="Toilbrook" compset="ClassVary" uniqueness="unique">
+    <comment>TODO Need to do this:
+Toilbrooks use their operative ability modifier as their practitioner ability modifier.</comment>
+    <arrayval field="cvCustTot" index="1" value="-1"/>
+    <arrayval field="cvCustTot" index="2" value="-1"/>
+    <arrayval field="cvCustTot" index="3" value="-1"/>
+    <arrayval field="cvCustTot" index="4" value="-1"/>
+    <arrayval field="cvCustTot" index="5" value="-2"/>
+    <arrayval field="cvCustTot" index="6" value="-2"/>
+    <arrayval field="cvCustTot" index="7" value="-2"/>
+    <arrayval field="cvCustTot" index="8" value="-2"/>
+    <arrayval field="cvCustTot" index="9" value="-3"/>
+    <arrayval field="cvCustTot" index="10" value="-3"/>
+    <arrayval field="cvCustTot" index="11" value="-3"/>
+    <arrayval field="cvCustTot" index="12" value="-3"/>
+    <arrayval field="cvCustTot" index="13" value="-4"/>
+    <arrayval field="cvCustTot" index="14" value="-4"/>
+    <arrayval field="cvCustTot" index="15" value="-4"/>
+    <arrayval field="cvCustTot" index="16" value="-4"/>
+    <arrayval field="cvCustTot" index="17" value="-5"/>
+    <arrayval field="cvCustTot" index="18" value="-5"/>
+    <arrayval field="cvCustTot" index="19" value="-5"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="AbReplace" tag="cArcFShare"/>
+    <tag group="AbReplace" tag="cArcFTouch"/>
+    <tag group="ClVaryName" tag="Replace"/>
+    <tag group="Helper" tag="RemoveSec"/>
+    <bootstrap thing="cDSIIShaBio">
+      <containerreq phase="First" priority="95">!AbReplace.cDSIIShaBio</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGToilApothec">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGToilApothec</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGToilBondCaul">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGToilBondCaul</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cDSIIShaBio">
+      <containerreq phase="First" priority="95">!AbReplace.cDSIIShaBio</containerreq>
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGToilApothecC">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGToilApothec</containerreq>
+      <autotag group="ClSpecWhen" tag="5"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGToilApothecC">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGToilApothec</containerreq>
+      <autotag group="ClSpecWhen" tag="9"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGToilApothecC">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGToilApothec</containerreq>
+      <autotag group="ClSpecWhen" tag="13"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="16"/>
+      </bootstrap>
+    <bootstrap thing="cSoGToilApothecC">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGToilApothec</containerreq>
+      <autotag group="ClSpecWhen" tag="17"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrToil">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <link linkage="varies" thing="cHelpWit"/>
+    <eval phase="First" priority="50">perform linkage[varies].assign[SphOfGuil.Class]
+      perform linkage[varies].assign[SphOfMigh.Class]
+      perform linkage[varies].assign[SoGTRank.Adroit]</eval>
+    </thing>
+  <thing id="cDSIIShaBio" name="Shared Biology" compset="ClSpecial" description="The toilbrook cannot use her familiar to share spells or deliver touch spells for her. Instead, whenever the toilbrook consumes a food or drink (or is otherwise subject to similar effects reliant on the body, such as being inhaled or applied through the skin, up to GMs discretion) and the familiar is within the toilbrook’s natural reach, she can choose to have her familiar also be affected by the effect or have her familiar be subject to its effects instead. This also applies to magical and alchemical consumables, such as Alchemy formulae and Herbalism concoctions.\n\nAt 3rd level, whenever the toilbrook’s familiar is subject to such an effect delivered this way, it can decide to harmlessly store it within itself–if the effect required a saving throw (such as if it were a poison), the familiar must have succeeded its most recent saving throw against the effect to store it. The familiar can only store one such effect at a time. The familiar can deliver the stored effect as a standard action, requiring a successful melee touch attack if the creature is unwilling." summary="Your familiar is an extension of yourself, symbiotically.">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="Final"><![CDATA[
+      perform hero.findchild[CompClHelp,"VaryComp.cArcFClass"].setfocus
+      doneif (state.isfocus = 0)
+
+      ~Disable familiar ablities
+      perform focus.minion[ArcFamil].child[cArcFShaSp].assign[Hide.All]
+      perform focus.minion[ArcFamil].child[cArcFShaSp].assign[Helper.SpcDisable]
+      perform focus.minion[ArcFamil].child[cArcFDelTo].assign[Hide.All]
+      perform focus.minion[ArcFamil].child[cArcFDelTo].assign[Helper.SpcDisable]]]></eval>
+    </thing>
+  <thing id="cSoGBlendTrToil" name="Blended Training" compset="ClSpecial" description="The toilbrook gains 1/2 of a combat or skill talent every time she gains a class level. Toilbrooks use their operative ability modifier as their practitioner ability modifier." summary="Gain a combat or skill talent">
+    <arrayval field="usrArray" index="0" value="Combat Talent"/>
+    <arrayval field="usrArray" index="1" value="Skill Talent"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abCSBlendTrain"></bootstrap>
+    <eval phase="PostLevel" priority="5000">doneif (tagis[Helper.ShowSpec] = 0)
+      if (field[usrIndex].value = 0) then
+        hero.child[resSMCTGen].field[resMax].value += 1
+        debug "🛠 Adding one Combat talent from Toilbrook Blended Training."
+      elseif (field[usrIndex].value = 1) then
+        hero.child[resSGSSGen].field[resMax].value += 1
+        debug "🛠 Adding one Skill talent from Toilbrook Blended Training."
+      endif</eval>
+    </thing>
+  <thing id="cSoGToilApothec" name="Apothecary" compset="ClSpecial" description="At 1st level, the toilbrook gains the Alchemy and Herbalism spheres as bonus spheres. At 5th level and every four witch levels thereafter, the toilbrook gains a bonus talent from either sphere of her choice.">
+    <comment>abSoMCmbTr
+abSoGSkSp</comment>
+    <fieldval field="sbName" value="apothecary"/>
+    <fieldval field="shortname" value="Apothecary"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <bootstrap thing="sogTlSpHerbalism">
+      <autotag group="SoGDupBon" tag="Herbalism"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <bootstrap thing="somTlAlche">
+      <autotag group="SoMDupBon" tag="Alchemy"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    </thing>
+  <thing id="cSoGToilApothecC" name="Apothecary" compset="ClSpecial" description="At 1st level, the toilbrook gains the Alchemy and Herbalism spheres as bonus spheres. At 5th level and every four witch levels thereafter, the toilbrook gains a bonus talent from either sphere of her choice." summary="Gain an Alchemy or Herbalism talent">
+    <arrayval field="usrArray" index="0" value="Alchemy Talent"/>
+    <arrayval field="usrArray" index="1" value="Herbalism Talent"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <eval phase="PostLevel" priority="5000">doneif (tagis[Helper.ShowSpec] = 0)
+      if (field[usrIndex].value = 0) then
+        hero.child[resSMCTAlc].field[resMax].value += 1
+        debug "🛠 Adding one Alchemy talent from Toilbrook Apothecary."
+      elseif (field[usrIndex].value = 1) then
+        hero.child[resSGSEHerbalism].field[resMax].value += 1
+        debug "🛠 Adding one Herbalism talent from Toilbrook Apothecary."
+      endif</eval>
+    </thing>
+  <thing id="cSoGToilBondCaul" name="Bonded Cauldron" compset="ClSpecial" description="At 1st level, the toilbrook gains the cauldron hex and begins play with a cauldron at no cost, referred to as her “bonded cauldron”. This functions as a bonded object (as a wizard of equivalent level), excluding the normal benefits of such an object. Instead, a bonded cauldron functions as an alchemy lab, and can be changed to the size of a small talisman, necklace, or similar object by touching it as a swift action (and vice versa).\n\nOnce per day, the toilbrook can spend 1 minute with her bonded cauldron experimenting with her reagents to change any number of talents gained from her apothecary ability to a different Alchemy or Herbalism sphere talent of her choice.\n\nAt 4th level, the toilbrook’s bonded cauldron functions as a cauldron of brewing (Ultimate Equipment). The bonus granted by the cauldron of brewing applies to any checks made for the Alchemy or Herbalism spheres, and stacks with the bonus the bonded cauldron grants as an alchemy lab.\n\nAt 11th level, the toilbrook’s bonded cauldron functions as a cauldron of plenty (Ultimate Equipment).\n\n{b}Note{/b}: You must buy the cauldron for free.">
+    <fieldval field="sbName" value="bonded cauldron"/>
+    <fieldval field="shortname" value="Bonded Cauldron"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="cWitCauldr">
+      <containerreq phase="First" priority="97">!AbReplace.cSoGToilBondCaul</containerreq>
+      <autotag group="abCategory" tag="WitHex"/>
+      <autotag group="CustSpPick" tag="Primary"/>
+      <autotag group="CustTaken" tag="cHelpWit"/>
+      </bootstrap>
+    </thing>
+  <thing id="somTlExpHerbPkg" name="Expanded Herbalist" compset="SoGTalent" description="You gain one Herbalism sphere package which you do not already possess. You unlock skill leverage with the package’s associated skill (in addition to the other benefits associated with gaining a new package)" summary="Gain a Herbalism package" uniqueness="useronce">
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Herbalism"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <eval phase="PostAttr" priority="30000">hero.childfound[resSGPkHerbalism].field[resMax].value += 1</eval>
+    </thing>
+  </document>

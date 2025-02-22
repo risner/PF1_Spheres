@@ -31,54 +31,71 @@ BSD-2-Clause license</info_author>
     </info_todo>
     </fileinfo>
   <thing id="cHelpSGBravo" name="Bravo" compset="Class" uniqueness="unique">
-    <fieldval field="cHDSides" value="10"/>
     <fieldval field="cAbbr" value="Brv"/>
+    <fieldval field="cHDSides" value="10"/>
     <fieldval field="cSkills" value="4"/>
-    <fieldval field="srcPageNum" value="8"/>
-    <fieldval field="cSpecSing" value="Whim"/>
     <fieldval field="cSpecName" value="Whims"/>
+    <fieldval field="cSpecSing" value="Whim"/>
+    <fieldval field="srcPageNum" value="8"/>
     <arrayval field="cCustTot" index="0" value="1"/>
     <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="cAttack" tag="Good"/>
-    <tag group="ClassSkill" tag="skAcrobat"/>
+    <tag group="SphOfGuil" tag="Class"/>
+    <tag group="SoGTRank" tag="Adroit"/>
+    <tag group="ClassRole" tag="Combat"/>
     <tag group="ClassSkill" tag="Artistry"/>
+    <tag group="ClassSkill" tag="Craft"/>
+    <tag group="ClassSkill" tag="Perform"/>
+    <tag group="ClassSkill" tag="Profession"/>
+    <tag group="ClassSkill" tag="skAcrobat"/>
     <tag group="ClassSkill" tag="skBluff"/>
     <tag group="ClassSkill" tag="skClimb"/>
-    <tag group="ClassSkill" tag="Craft"/>
     <tag group="ClassSkill" tag="skDiplo"/>
     <tag group="ClassSkill" tag="skEscape"/>
     <tag group="ClassSkill" tag="skIntim"/>
     <tag group="ClassSkill" tag="skKnowLoc"/>
     <tag group="ClassSkill" tag="skKnowNobl"/>
     <tag group="ClassSkill" tag="skPercep"/>
-    <tag group="ClassSkill" tag="Perform"/>
-    <tag group="ClassSkill" tag="Profession"/>
     <tag group="ClassSkill" tag="skRide"/>
     <tag group="ClassSkill" tag="skSenseMot"/>
     <tag group="ClassSkill" tag="skSleight"/>
     <tag group="ClassSkill" tag="skSwim"/>
-    <tag group="ProductId" tag="DropDead"/>
-    <tag group="ClassRole" tag="Combat"/>
-    <tag group="SoGTRank" tag="Adroit"/>
-    <tag group="SphOfGuil" tag="Class"/>
     <tag group="Classes" tag="Bravo" name="Bravo"/>
-    <tag group="ProductId" tag="DropDead"/>
     <tag group="LGClTable2" tag="BrvWhim" name="Whim" abbrev="Whim"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <tag group="cAttack" tag="Good"/>
+    <tag group="cFort" tag="Poor"/>
     <tag group="cRef" tag="Good"/>
     <tag group="cWill" tag="Good"/>
-    <tag group="cFort" tag="Poor"/>
-    <bootstrap thing="cTradeTradition"></bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGConfoundStr">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGMoxie">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBrav">
+      <autotag group="ClSpecWhen" tag="2"/>
       </bootstrap>
     <bootstrap thing="cSoGBlendTrBravU">
       <autotag group="ClSpecWhen" tag="2"/>
       </bootstrap>
-    <bootstrap thing="cSoGBlendTrBrav">
+    <bootstrap thing="cSoGCunningCele">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGSteadfast">
       <autotag group="ClSpecWhen" tag="2"/>
       </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGMoxie">
+      <autotag group="ClSpecWhen" tag="4"/>
       </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="5"/>
@@ -86,8 +103,17 @@ BSD-2-Clause license</info_author>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="6"/>
       </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="7"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGMoxie">
+      <autotag group="ClSpecWhen" tag="8"/>
       </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="9"/>
@@ -95,8 +121,17 @@ BSD-2-Clause license</info_author>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="10"/>
       </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGMoxie">
+      <autotag group="ClSpecWhen" tag="12"/>
       </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="13"/>
@@ -104,8 +139,17 @@ BSD-2-Clause license</info_author>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="14"/>
       </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="16"/>
+      </bootstrap>
+    <bootstrap thing="cSoGMoxie">
+      <autotag group="ClSpecWhen" tag="16"/>
       </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="17"/>
@@ -113,44 +157,27 @@ BSD-2-Clause license</info_author>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="18"/>
       </bootstrap>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
     <bootstrap thing="cSoGBlendTrBrav">
       <autotag group="ClSpecWhen" tag="19"/>
       </bootstrap>
-    <bootstrap thing="cSoGMoxie">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <bootstrap thing="cSoGSteadfast">
-      <autotag group="ClSpecWhen" tag="2"/>
-      </bootstrap>
-    <bootstrap thing="cSoGMoxie">
-      <autotag group="ClSpecWhen" tag="4"/>
-      </bootstrap>
-    <bootstrap thing="cSoGMoxie">
-      <autotag group="ClSpecWhen" tag="8"/>
-      </bootstrap>
-    <bootstrap thing="cSoGMoxie">
-      <autotag group="ClSpecWhen" tag="12"/>
-      </bootstrap>
-    <bootstrap thing="cSoGMoxie">
-      <autotag group="ClSpecWhen" tag="16"/>
+    <bootstrap thing="cSoGBlendTrBravU">
+      <autotag group="ClSpecWhen" tag="20"/>
       </bootstrap>
     <bootstrap thing="cSoGMoxie">
       <autotag group="ClSpecWhen" tag="20"/>
       </bootstrap>
-    <bootstrap thing="cSoGCunningCele">
-      <autotag group="ClSpecWhen" tag="2"/>
-      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
     <bootstrap thing="fArmBuckl"></bootstrap>
     <bootstrap thing="fArmLight"></bootstrap>
     <bootstrap thing="fSimple"></bootstrap>
-    <bootstrap thing="cSoGConfoundStr">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
     </thing>
   <thing id="cSoGBravo" name="Bravo" compset="ClassLevel" description="Although most combatants with a blade have a level of bravado about them, the bravo blends these two styles into a deadly dervish of weapon and wit. This confidence is not a thin veneer either (which many mistake and swiftly learn otherwise), but a perfect strategy to always keep their foes guessing; a bravo confident in their tomfoolery is a dangerous bravo in battle.\n\n{b}Role:{/b} A bravo perfectly combines skill and martial prowess, allowing them to surprise their opponents and subsequently take advantage of that surprise at a moment's notice. They are also incredibly difficult to reach and strike, as they are able to move with incredible agility and dash away when things get a bit too out of hand.\n\n{b}Alignment:{/b} Any.\n\nTODO - Only fully implemented to 2nd level, and Whim is very sparsely implemented." maxlimit="20">
     <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
     <tag group="ClassType" tag="Normal"/>
+    <tag group="ProductId" tag="DropDead"/>
     <bootstrap thing="cHelpSGBravo"></bootstrap>
     <link linkage="helper" thing="cHelpSGBravo"/>
     </thing>
@@ -159,90 +186,39 @@ BSD-2-Clause license</info_author>
 
 TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Universal Axiom (Ex)
 </comment>
+    <fieldval field="cAbbr" value="THE"/>
     <fieldval field="cHDSides" value="6"/>
     <fieldval field="cSkills" value="6"/>
     <fieldval field="srcPageNum" value="33"/>
-    <fieldval field="cAbbr" value="THE"/>
     <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="SphOfGuil" tag="Class"/>
+    <tag group="SphOfPow" tag="Class" name="Casting Class" abbrev="Casting Class"/>
+    <tag group="SoGTRank" tag="Adroit"/>
     <tag group="ClassRole" tag="Skill"/>
     <tag group="ClassRole" tag="Spell" name="Spell" abbrev="Spell"/>
-    <tag group="ClassSkill" tag="skAppraise"/>
     <tag group="ClassSkill" tag="Artistry"/>
     <tag group="ClassSkill" tag="Craft"/>
-    <tag group="ClassSkill" tag="skDiplo"/>
-    <tag group="ClassSkill" tag="skHeal"/>
     <tag group="ClassSkill" tag="Knowledge"/>
-    <tag group="ClassSkill" tag="skLinguist"/>
     <tag group="ClassSkill" tag="Lore"/>
-    <tag group="ClassSkill" tag="skPercep"/>
     <tag group="ClassSkill" tag="Perform"/>
     <tag group="ClassSkill" tag="Profession"/>
+    <tag group="ClassSkill" tag="skAppraise"/>
+    <tag group="ClassSkill" tag="skDiplo"/>
+    <tag group="ClassSkill" tag="skHeal"/>
+    <tag group="ClassSkill" tag="skLinguist"/>
+    <tag group="ClassSkill" tag="skPercep"/>
     <tag group="ClassSkill" tag="skSenseMot"/>
     <tag group="ClassSkill" tag="skSpellcr"/>
     <tag group="ClassSkill" tag="skUseMagic"/>
     <tag group="Classes" tag="Theorist" name="Theorist" abbrev="Theorist"/>
     <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="SoGTRank" tag="Adroit"/>
-    <tag group="SphOfGuil" tag="Class"/>
-    <tag group="SphOfPow" tag="Class" name="Casting Class" abbrev="Casting Class"/>
     <tag group="cAttack" tag="Poor"/>
     <tag group="cFort" tag="Poor"/>
     <tag group="cRef" tag="Poor"/>
     <tag group="cWill" tag="Good" name="Fast" abbrev="Fast"/>
-    <bootstrap thing="cTradeTradition"></bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="1"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheoU">
-      <autotag group="ClSpecWhen" tag="2"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="2"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="3"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="5"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="6"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="7"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="9"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="10"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="11"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="13"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="14"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="15"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="17"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="18"/>
-      </bootstrap>
-    <bootstrap thing="cSoGBlendTrTheo">
-      <autotag group="ClSpecWhen" tag="19"/>
-      </bootstrap>
-    <bootstrap thing="fSimple"></bootstrap>
     <bootstrap thing="cChSpCstTheo">
       <autotag group="ClSpecWhen" tag="1"/>
       </bootstrap>
-    <bootstrap thing="tHelpCTSTheorist"></bootstrap>
     <bootstrap thing="cLotSHypoDice">
       <autotag group="ClSpecWhen" tag="1"/>
       </bootstrap>
@@ -255,6 +231,84 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
     <bootstrap thing="cLotSTheoryBon">
       <autotag group="ClSpecWhen" tag="1"/>
       </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="5"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="7"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="9"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="13"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="16"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="17"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheo">
+      <autotag group="ClSpecWhen" tag="19"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrTheoU">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <bootstrap thing="fSimple"></bootstrap>
+    <bootstrap thing="tHelpCTSTheorist"></bootstrap>
     </thing>
   <thing id="cSGTheorist" name="Theorist" compset="ClassLevel" description="The theorist explores the fundamental patterns of magic and how these secrets are reflected in the world around them. Their understanding allows them to leverage magical forces in a variety of subtle and unorthodox ways, experimenting with hypothetical connections to gain an edge in unexpected situations.\n\nRole: In combat, a theorist primarily relies upon their powerful spellcasting abilities to support allies and alter the battlefield, augmenting their offensive and defensive abilities with their hypothesis dice, magical underpinnings, and postulates. Outside of fights, the theorist employs magical and skill talents alike in solving problems while utilizing their hypothesis dice to gain an extra edge against various challenges." maxlimit="20">
     <tag group="ClassType" tag="Normal"/>
@@ -265,23 +319,165 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
     <tag group="SoPCLProg" tag="CasterHigh"/>
     <link linkage="sopClass" thing="cHelpSGTheor"/>
     </thing>
-  <thing id="arLotSTheorist" name="Theorist" compset="ClassVary" uniqueness="unique" isshowonly="yes">
-    <comment>Header archetype</comment>
-    <link linkage="varies" thing="cHelpSGTheor"/>
+  <thing id="arAuteur" name="Auteur" compset="ClassVary" description="Illusion magic is a particularly fanciful art, and auteurs understand how this art can guide not only perceptions but ideologies." uniqueness="unique">
+    <fieldval field="cvSkillPts" value="6"/>
+    <fieldval field="srcPageNum" value="49"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="SphOfGuil" tag="Class"/>
+    <tag group="AbReplace" tag="abSoPShadowmark"/>
+    <tag group="AbReplace" tag="cSoPCstFey"/>
+    <tag group="AbReplace" tag="cSoPDarkvi" name="Darkvision" abbrev="Darkvision"/>
+    <tag group="AbReplace" tag="cSoPFeytch"/>
+    <tag group="AbReplace" tag="cSoPMstIll"/>
+    <tag group="AbReplace" tag="cSoPSeeDrk" name="See in Darkness" abbrev="See in Darkness"/>
+    <tag group="AbReplace" tag="cSoPShdMrk"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="cSoGAutPropagan">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGAutViewPlea">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="5"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="7"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="9"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="13"/>
+      </bootstrap>
+    <bootstrap thing="cSoGAutSutAtt">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="16"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="17"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="19"/>
+      </bootstrap>
+    <bootstrap thing="cSoGAutSutAtt">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrAute">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <link linkage="varies" thing="cHelpSPFey"/>
+    <eval phase="First" priority="50">perform linkage[varies].assign[SphOfGuil.Class]
+      perform linkage[varies].assign[SoPCLProg.CasterHigh]
+      perform linkage[varies].assign[SoGTRank.Adroit]
+      ~ Need this to stop it from showing in Special tab when replaced.
+      perform hero.childfound[abSoPShadowmark].delete[Helper.ShowSpec]
+    </eval>
+    </thing>
+  <thing id="cSoGBlendTrAute" name="Blended Training" compset="ClSpecial" description="Whenever an auteur would gain a magic talent from his class levels, he may instead choose to gain a skill talent." summary="Gain a magic or skill talent">
+    <arrayval field="usrArray" index="0" value="Magic Talent"/>
+    <arrayval field="usrArray" index="1" value="Skill Talent"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abMSBlendTrain"></bootstrap>
+    <eval phase="PostLevel" priority="5000"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
+      if (field[usrIndex].value = 0) then
+        hero.child[resSPMTGen].field[resMax].value += 1
+        debug "🛠 Adding one Magic talent from Auteur Blended Training."
+      elseif (field[usrIndex].value = 1) then
+        hero.child[resSGSSGen].field[resMax].value += 1
+        debug "🛠 Adding one Skill talent from Auteur Blended Training."
+      endif]]></eval>
+    </thing>
+  <thing id="cSoGAutPropagan" name="Propagandist" compset="ClSpecial" description="At 1st level, the auteur may extend the casting time of an illusion sphere effect by one step to invoke a minor or major motivation as part of the casting. The illusion effect created must represent something which would advance the creature’s motivation (for example, you might invoke a motivation of wealth by creating an illusory pile of gold or invoke a motivation of fame by creating the illusion of an adoring follower).\n\nCreatures with the invoked motivation must roll twice on Perception checks and Will saves against the illusion, taking the lower result. If the auteur invokes a major motivation, the target also takes a -2 penalty on their saving throws or Perception checks. This penalty increases to -3 at 13th level and -4 at 19th level.">
+    <fieldval field="sbName" value="propagandist"/>
+    <fieldval field="shortname" value="Propagandist"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    </thing>
+  <thing id="cSoGAutViewPlea" name="Viewing Pleasure" compset="ClSpecial" description="At 2nd level, the auteur gains the Masques talent as a bonus talent or buys off a sphere-specific drawback which would prevent him from selecting the Masques talent. If they already possess this talent, they may select a different Illusion sphere talent. When the auteur succeeds at a roll which is currently improved by Masques, he is treated as having spent skill leverage to Seize an Opportunity on that roll.">
+    <fieldval field="sbName" value="viewing pleasure"/>
+    <fieldval field="shortname" value="Viewing Pleasure"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="sopTlMasques">
+      <containerreq phase="First" priority="94">!AbReplace.cSoGAutViewPlea</containerreq>
+      <autotag group="Helper" tag="Free"/>
+      <autotag group="SoPDupBon" tag="Illus"/>
+      </bootstrap>
+    </thing>
+  <thing id="cSoGAutSutAtt" name="Suture Attention" compset="ClSpecial" description="At 14th level, the auteur learns to deliberately impose engagement upon his audiences. As part of creating an illusion effect or attempting a skill check, the auteur may name a specific motivation (such as wealth, justice, or uncertainty). All creatures targeted by the effect or who observe the illusion are treated as having the named motivation as a minor motivation for one minute per auteur level unless they succeed at a Will save (DC 10 + 1/2 your auteur level + your casting ability modifier). A creature who successfully saves against this ability is immune to this ability for 24 hours. This is a mind-affecting charm effect.">
+    <fieldval field="sbName" value="suture attention"/>
+    <fieldval field="shortname" value="Suture Attention"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="AbilType" tag="Super" name="Supernatural Ability" abbrev=" (Su)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="StandardDC" tag="aWIS" name="Wisdom" abbrev="Wisdom"/>
+    <eval phase="PostLevel" priority="3000"><![CDATA[~ If we're not shown, just get out now
+      doneif (tagis[Helper.ShowSpec] = 0)
+
+      doneif (tagis[Helper.SpcDisable] <> 0)
+
+      if (field[xTotalLev].value >= 20) then
+        field[CustDesc].text = field[descript].text & "\n\nAt 20th level, creatures which fail their saving throw against suture treat the named motivation as a major motivation for 1 hour per fey adept level, or as a minor motivation for 1 round on a successful saving throw."
+      endif
+    ]]></eval>
     </thing>
   <thing id="arSophist" name="Sophist" compset="ClassVary" uniqueness="unique">
+    <tag group="AbReplace" tag="cLotSTheoryBon"/>
     <!-- TODO Add Manipulator’s Postulates: Foundational Flaw, Nonsensical Origin, and Reaching Words -->
     <tag group="ClVaryName" tag="Replace"/>
-    <tag group="AbReplace" tag="cLotSTheoryBon"/>
     <bootstrap thing="cLotSSophistryPen">
       <autotag group="ClSpecWhen" tag="1"/>
       </bootstrap>
     <link linkage="varies" thing="cHelpSGTheor"/>
     </thing>
   <thing id="cLotSSophistryPen" name="Sophistry" compset="ClSpecial" description="Through covert fallacies, irrational appeals, and instilled biases, a sophist can hamper a foe’s reasoning to a dangerous degree. Whenever a creature within close range of the sophist and which the sophist can understand makes a die roll associated with one of the sophist’s models, the sophist may expend hypothesis dice assigned to that model to apply a penalty on the roll. The penalty is equal to the bonus which would be granted by a normal theorist’s theory bonus if the same number of assigned dice were expended. This penalty cannot exceed the bonus which a theorist of equal level to the sophist could grant with their theory bonus. This is a language-dependent mindaffecting effect." summary="Spend a hypothesis die to apply a penalty to a die roll in that model's role.">
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="AbilType" tag="Super"/>
     <tag group="LvNamePar" tag="AppText"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
     <eval phase="Render" priority="400"><![CDATA[
       ~ If we're disabled, do nothing
       doneif (tagis[Helper.SpcDisable] <> 0)
@@ -289,39 +485,17 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
       field[abValue].value += 2 + round(field[xTotalLev].value/4,0,-1)
       field[abText].text = signed(0 - field[abValue].value)]]></eval>
     </thing>
-  <thing id="cSoGBlendTrBravU" name="Bravo Utility Training" compset="ClSpecial" description="The bravo gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
-    <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
-    <tag group="Helper" tag="SpecUp"/>
-    <bootstrap thing="abSoGSkSp"></bootstrap>
-    <eval phase="PostLevel" priority="5000" name="Add a Bravo Utility Talent"><![CDATA[doneif (tagis[Helper.SpcDisable] <> 0)
-        var ut as number
-        ut = round(hero.childfound[cHelpSGBravo].field[cTotalLev].value/2,0,-1)
-
-        ~ Done if we have zero
-        doneif (ut = 0)
-
-        ~ Add to generic [Utility] talent count.
-        perform container.findchild[Resource, "thingid.resSGUtilTal"].setfocus
-        debug "🛠 Adding " & ut & " [utility] talent(s) from Bravo Blended Training."
-        focus.field[resMax].value += ut
-
-        ~ Done if not enabled
-        doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
-
-        ~ Also add here.
-        perform container.findchild[Resource, "thingid.resSGExUtilTal"].setfocus
-        debug "🛠 Adding (also) " & ut & " Expanded [utility] talent(s) from Bravo Blended Training."
-        focus.field[resMax].value += ut]]></eval>
+  <thing id="arLotSTheorist" name="Theorist" compset="ClassVary" uniqueness="unique" isshowonly="yes">
+    <comment>Header archetype</comment>
+    <link linkage="varies" thing="cHelpSGTheor"/>
     </thing>
   <thing id="cSoGBlendTrBrav" name="Blended Training" compset="ClSpecial" description="The bravo gains a combat or skill talent at 1st, 2nd, and 3rd level, and 3/4ths of a talent thereafter, according to {b}Table: Bravo{/b}. In addition, they gain a utility talent at every even level. A bravo uses his operative modifier as his practitioner modifier." summary="Gain a combat or skill talent">
     <arrayval field="usrArray" index="0" value="Combat Talent"/>
     <arrayval field="usrArray" index="1" value="Skill Talent"/>
     <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
     <tag group="Helper" tag="SpecUp"/>
-    <bootstrap thing="abSoMCmbTr"></bootstrap>
-    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abCSBlendTrain"></bootstrap>
     <eval phase="PostLevel" priority="5000"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
       if (field[usrIndex].value = 0) then
         hero.child[resSMCTGen].field[resMax].value += 1
@@ -331,50 +505,87 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
         debug "🛠 Adding one Skill talent from Bravo Blended Training."
       endif]]></eval>
     </thing>
+  <thing id="cSoGBlendTrTheo" name="Blended Training" compset="ClSpecial" description="The theorist gains a magic or skill talent at 1st, 2nd, and 3rd level, and 3/4ths of a talent thereafter, according to Table: Theorist. In addition, they gain a utility talent at every even level. A theorist’s casting ability modifier determines their operative modifier." summary="Gain a magic or skill talent">
+    <arrayval field="usrArray" index="0" value="Magic Talent"/>
+    <arrayval field="usrArray" index="1" value="Skill Talent"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abMSBlendTrain"></bootstrap>
+    <eval phase="PostLevel" priority="5000"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
+      if (field[usrIndex].value = 0) then
+        hero.child[resSPMTGen].field[resMax].value += 1
+        debug "🛠 Adding one Magic talent from Theorist Blended Training."
+      elseif (field[usrIndex].value = 1) then
+        hero.child[resSGSSGen].field[resMax].value += 1
+        debug "🛠 Adding one Skill talent from Theorist Blended Training."
+      endif]]></eval>
+    </thing>
+  <thing id="cSoGBlendTrBravU" name="Bravo Utility Training" compset="ClSpecial" description="The bravo gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <eval phase="PostLevel" priority="5000" name="Add a Bravo Utility Talent"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
+
+        ~ Add to generic [Utility] talent count.
+        perform container.findchild[Resource, "thingid.resSGUtilTal"].setfocus
+        debug "🛠 Adding a [utility] talent(s) from Bravo Blended Training."
+        focus.field[resMax].value += 1
+
+        ~ Done if not enabled
+        doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
+
+        ~ Also add here.
+        perform container.findchild[Resource, "thingid.resSGExUtilTal"].setfocus
+        debug "🛠 Adding (also) add an Expanded [utility] talent(s) from Bravo Blended Training."
+        focus.field[resMax].value += 1]]></eval>
+    </thing>
+  <thing id="cChSpCstTheo" name="Casting" compset="ClSpecial" description="At 1st level, the theorist may combine spheres and talents to create magical effects. The theorist is considered a High-Caster. (Note: All casters gain 2 bonus talents and a casting tradition the first time they gain the casting class feature.)" summary="You can cast sphere effects">
+    <tag group="SphOfPow" tag="Casting" name="Spherecasting" abbrev="Spherecasting"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="abSoPCast"></bootstrap>
+    </thing>
   <thing id="cSoGConfoundStr" name="Confounding Strike" compset="ClSpecial" description="The bravo is capable of instilling brief--yet powerful--moments of uncertainty and doubt in those that he wishes to catch off guard. At 1st level, as long as the bravo has martial focus, he can spend a swift or immediate action whenever he succeeds an attack roll or combat maneuver as long as the creature is within close range. The creature must succeed at a Will saving throw against the sphere DC for the bravo's chosen whim or become uncertain for 1 round plus 1 round per 4 bravo levels he possesses. This is a mind-affecting, emotion, and disorientation effect." summary="Gain the ability to make Confounding Strikes">
     <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="AbilType" tag="Extra"/>
     <tag group="ProductId" tag="DropDead"/>
-    <tag group="AbilType" tag="Extra"/>
     </thing>
-  <thing id="cSoGSteadfast" name="Steadfast" compset="ClSpecial" description="At 2nd level, the bravo gains either Combat Reflexes or Muscular Reflexes as a bonus feat.">
-    <fieldval field="usrCandid1" value="Ability.fComRef | Ability.fSoMMuscReflexes"/>
+  <thing id="cSoGCunningCele" name="Cunning Celerity" compset="ClSpecial" description="The bravo has an unnatural knack for getting himself out of danger, especially when he is on the move. At 2nd level, the bravo gains a dodge pool equal to 50%, plus 15% for every bravo level he attains after 2nd.\n\nThe bravo can expend an attack of opportunity and reduce his dodge pool in increments of 5% to gain an equivalent amount of miss chance (maximum 20%) against an attack that he is aware of. This miss chance stacks with other miss chances, although the combined miss chances cannot exceed the maximum miss chance he could apply using this ability. If an attack affected by this ability still hits the bravo, his dodge pool replenishes half the expended amount from the attack.\n\nThe bravo loses access to his dodge pool if he is fatigued, exhausted, or has lost his Dexterity bonus to AC.\n\nIf the bravo moves at least 10 feet on his turn, the maximum miss chance he can grant himself using his dodge pool increases to 50%. This dodge pool replenishes after 1 hour of rest." summary="Gain a miss chance pool.">
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cLotSHypoDice" name="Hypothesis Dice" compset="ClSpecial" description="The theorist’s knowledge of magic allows them to procure a variety of minor advantages after evaluating their environment.\n\nAfter the theorist rolls initiative, regains skill leverage, or begins a theory using the Study sphere, they may spend a spell point as a free action (which can be taken outside the theorist’s turn) to roll a number of hypothesis dice based on their theorist level (2d6 plus an additional 2d6 at every odd level thereafter). The theorist may also roll these dice by spending a spell point as a full-round action.\n\nIf these dice follow any patterns corresponding to the theorist’s model or models, the theorist may assign those dice to that specific model, allowing these hypothesis dice to be used with their theory bonus class feature at a later time.\n\nThese dice last until they are used or until the next time the theorist rolls their hypothesis dice, whichever comes first. When a die is assigned to a model, it cannot be assigned to any other model.\n\nIf the theorist has any unexpended hypothesis dice (including dice which are not assigned to any model), the theorist may choose to instead reroll any number of these dice whenever they take an action which would allow them to roll their hypothesis dice. When re-rolling only unassigned hypothesis dice, the theorist does not need to spend a spell point.\n\nThe theorist may gain additional methods to roll hypothesis dice through the research method class feature. Hypothesis dice cannot be altered or affected by any other effects which allow dice rolls to be rerolled or modified. A theorist may only roll their hypothesis dice up to once per round.\n\nWhen assignment of hypothesis dice is in some way based on matched sets (such as the mathematical, narrative, or social models), the theorist cannot assign a die to a model if they assign the only die it matches to another model." summary="Spend spell point to roll hypothesis dice.">
+    <tag group="LvNamePar" tag="AppText"/>
     <tag group="AbilType" tag="Extra"/>
-    <tag group="ChooseSrc1" tag="Thing"/>
-    <tag group="Helper" tag="SpecUp"/>
-    <bootstrap thing="fComRef">
-      <containerreq phase="First" priority="600"><![CDATA[fieldval:abValue = 1 & !AbReplace.cSoGSteadfast]]></containerreq>
-      <autotag group="thing" tag="skipprereq"/>
-      </bootstrap>
-    <bootstrap thing="fSoMMuscReflexes">
-      <containerreq phase="First" priority="600"><![CDATA[fieldval:abValue = 2 & !AbReplace.cSoGSteadfast]]></containerreq>
-      <autotag group="thing" tag="skipprereq"/>
-      </bootstrap>
-    <eval phase="First" priority="500"><![CDATA[
-      ~ Don't do anything if we are too low level.
-      call foctoclass
-
-      doneif (state.isfocus = 0)
-
-      doneif (focus.field[cTotalLev].value < tagvalue[ClSpecWhen.?])
-
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="Render" priority="400"><![CDATA[
       ~ If we're disabled, do nothing
       doneif (tagis[Helper.SpcDisable] <> 0)
 
-      doneif (field[usrChosen1].ischosen = 0)
+      ~ 2d6 + 2d6 every odd level
+      var bonus as number
+      bonus = (field[xTotalLev].value - 1)/2
+      field[abValue].value += 2 + 2 * round(bonus,0,-1)
+      field[abText].text =  field[abValue].value & "d6 dice"]]></eval>
+    </thing>
+  <thing id="cLotSModels" name="Models" compset="ClSpecial" description="At 1st level, the theorist develops two models of magic which enables them to utilize their hypothesis dice in some way. Each model grants a distinct use for the theorist’s theory bonus as well as a magical underpinning. Magical underpinnings may be applied to any magic sphere effect that the theorist creates. A theorist may apply multiple underpinnings to the same sphere effect.\n\nThe theorist develops an additional model at 5th level and every 5 levels thereafter. Whenever any hypothesis dice rolled by the theorist follow a pattern indicated in a model, the theorist may assign those dice to that specific model, allowing them to be expended to use the theory bonus class feature." summary="Gain models of magic to use your hypothesis dice.">
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="Render" priority="400"><![CDATA[
+      ~ If we're disabled, do nothing
+      doneif (tagis[Helper.SpcDisable] <> 0)
 
-      perform field[usrChosen1].chosen.pulltags[fInclude.?]
-
-      if (field[usrChosen1].chosen.tagis[Ability.fComRef] <> 0) then
-        field[abValue].value = 1
-      elseif (field[usrChosen1].chosen.tagis[Ability.fSoMMuscReflexes] <> 0) then
-        field[abValue].value = 2
-        endif]]></eval>
+      field[abValue].value += 2 + round(field[xTotalLev].value/5,0,-1)
+      field[abText].text = field[abValue].value & " models"]]></eval>
     </thing>
   <thing id="cSoGMoxie" name="Moxie" compset="ClSpecial" description="At 1st level, whenever a creature attempts a skill check against the bravo that would use his Intelligence or Wisdom modifier (or his ranks in an Intelligence- or Wisdom-based skill) to determine the DC (such as a feint, demoralize, or perplex attempt), he can instead use his Charisma modifier when determining the DC.\n\nAdditionally, the DC to affect him with skill checks is increased by 1, plus 1 for every 4 bravo levels thereafter he possesses.\n\nLastly, the bravo can use his Charisma score in place of Intelligence when determining if he meets the prerequisites for combat feats." summary="Gain greater defenses versus feint, demoralize, perplex, or similar.">
     <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
     <tag group="AbilType" tag="Extra"/>
     <tag group="ChargeCalc" tag="CountActiv"/>
+    <tag group="ProductId" tag="DropDead"/>
     <eval phase="PostAttr" priority="1000"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
       var mycha as number
       var myint as number
@@ -411,40 +622,39 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
         field[livename].text &= "+" & i & " Perplex/Int Mod)"
       endif]]></eval>
     </thing>
-  <thing id="cSoGCunningCele" name="Cunning Celerity" compset="ClSpecial" description="The bravo has an unnatural knack for getting himself out of danger, especially when he is on the move. At 2nd level, the bravo gains a dodge pool equal to 50%, plus 15% for every bravo level he attains after 2nd.\n\nThe bravo can expend an attack of opportunity and reduce his dodge pool in increments of 5% to gain an equivalent amount of miss chance (maximum 20%) against an attack that he is aware of. This miss chance stacks with other miss chances, although the combined miss chances cannot exceed the maximum miss chance he could apply using this ability. If an attack affected by this ability still hits the bravo, his dodge pool replenishes half the expended amount from the attack.\n\nThe bravo loses access to his dodge pool if he is fatigued, exhausted, or has lost his Dexterity bonus to AC.\n\nIf the bravo moves at least 10 feet on his turn, the maximum miss chance he can grant himself using his dodge pool increases to 50%. This dodge pool replenishes after 1 hour of rest." summary="Gain a miss chance pool.">
-    <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
-    </thing>
-  <thing id="cChSpCstTheo" name="Casting" compset="ClSpecial" description="At 1st level, the theorist may combine spheres and talents to create magical effects. The theorist is considered a High-Caster. (Note: All casters gain 2 bonus talents and a casting tradition the first time they gain the casting class feature.)" summary="You can cast sphere effects">
-    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="SphOfPow" tag="Casting" name="Spherecasting" abbrev="Spherecasting"/>
-    <bootstrap thing="abSoPCast"></bootstrap>
-    </thing>
-  <thing id="cLotSHypoDice" name="Hypothesis Dice" compset="ClSpecial" description="The theorist’s knowledge of magic allows them to procure a variety of minor advantages after evaluating their environment.\n\nAfter the theorist rolls initiative, regains skill leverage, or begins a theory using the Study sphere, they may spend a spell point as a free action (which can be taken outside the theorist’s turn) to roll a number of hypothesis dice based on their theorist level (2d6 plus an additional 2d6 at every odd level thereafter). The theorist may also roll these dice by spending a spell point as a full-round action.\n\nIf these dice follow any patterns corresponding to the theorist’s model or models, the theorist may assign those dice to that specific model, allowing these hypothesis dice to be used with their theory bonus class feature at a later time.\n\nThese dice last until they are used or until the next time the theorist rolls their hypothesis dice, whichever comes first. When a die is assigned to a model, it cannot be assigned to any other model.\n\nIf the theorist has any unexpended hypothesis dice (including dice which are not assigned to any model), the theorist may choose to instead reroll any number of these dice whenever they take an action which would allow them to roll their hypothesis dice. When re-rolling only unassigned hypothesis dice, the theorist does not need to spend a spell point.\n\nThe theorist may gain additional methods to roll hypothesis dice through the research method class feature. Hypothesis dice cannot be altered or affected by any other effects which allow dice rolls to be rerolled or modified. A theorist may only roll their hypothesis dice up to once per round.\n\nWhen assignment of hypothesis dice is in some way based on matched sets (such as the mathematical, narrative, or social models), the theorist cannot assign a die to a model if they assign the only die it matches to another model." summary="Spend spell point to roll hypothesis dice.">
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+  <thing id="cSoGSteadfast" name="Steadfast" compset="ClSpecial" description="At 2nd level, the bravo gains either Combat Reflexes or Muscular Reflexes as a bonus feat.">
+    <fieldval field="usrCandid1" value="Ability.fComRef | Ability.fSoMMuscReflexes"/>
+    <tag group="ChooseSrc1" tag="Thing"/>
     <tag group="AbilType" tag="Extra"/>
-    <tag group="LvNamePar" tag="AppText"/>
-    <eval phase="Render" priority="400"><![CDATA[
+    <tag group="Helper" tag="SpecUp"/>
+    <bootstrap thing="fComRef">
+      <containerreq phase="First" priority="600"><![CDATA[fieldval:abValue = 1 & !AbReplace.cSoGSteadfast]]></containerreq>
+      <autotag group="thing" tag="skipprereq"/>
+      </bootstrap>
+    <bootstrap thing="fSoMMuscReflexes">
+      <containerreq phase="First" priority="600"><![CDATA[fieldval:abValue = 2 & !AbReplace.cSoGSteadfast]]></containerreq>
+      <autotag group="thing" tag="skipprereq"/>
+      </bootstrap>
+    <eval phase="First" priority="500"><![CDATA[
+      ~ Don't do anything if we are too low level.
+      call foctoclass
+
+      doneif (state.isfocus = 0)
+
+      doneif (focus.field[cTotalLev].value < tagvalue[ClSpecWhen.?])
+
       ~ If we're disabled, do nothing
       doneif (tagis[Helper.SpcDisable] <> 0)
 
-      ~ 2d6 + 2d6 every odd level
-      var bonus as number
-      bonus = (field[xTotalLev].value - 1)/2
-      field[abValue].value += 2 + 2 * round(bonus,0,-1)
-      field[abText].text =  field[abValue].value & "d6 dice"]]></eval>
-    </thing>
-  <thing id="cLotSModels" name="Models" compset="ClSpecial" description="At 1st level, the theorist develops two models of magic which enables them to utilize their hypothesis dice in some way. Each model grants a distinct use for the theorist’s theory bonus as well as a magical underpinning. Magical underpinnings may be applied to any magic sphere effect that the theorist creates. A theorist may apply multiple underpinnings to the same sphere effect.\n\nThe theorist develops an additional model at 5th level and every 5 levels thereafter. Whenever any hypothesis dice rolled by the theorist follow a pattern indicated in a model, the theorist may assign those dice to that specific model, allowing them to be expended to use the theory bonus class feature." summary="Gain models of magic to use your hypothesis dice.">
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="AbilType" tag="Super"/>
-    <tag group="LvNamePar" tag="AppText"/>
-    <eval phase="Render" priority="400"><![CDATA[
-      ~ If we're disabled, do nothing
-      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[usrChosen1].ischosen = 0)
 
-      field[abValue].value += 2 + round(field[xTotalLev].value/5,0,-1)
-      field[abText].text = field[abValue].value & " models"]]></eval>
+      perform field[usrChosen1].chosen.pulltags[fInclude.?]
+
+      if (field[usrChosen1].chosen.tagis[Ability.fComRef] <> 0) then
+        field[abValue].value = 1
+      elseif (field[usrChosen1].chosen.tagis[Ability.fSoMMuscReflexes] <> 0) then
+        field[abValue].value = 2
+        endif]]></eval>
     </thing>
   <thing id="cLotSStudCosmos" name="Student of the Cosmos" compset="ClSpecial" description="At 1st level, the theorist gains the Study sphere as a bonus sphere. Whenever the theorist would spend a notion, they may choose to instead expend hypothesis dice assigned to one of their models, to a maximum number of hypothesis dice equal their theory bonus for any one effect." summary="Gain Study as a bonus sphere, use hypothesis dice with notions.">
     <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
@@ -455,10 +665,30 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
       <autotag group="SoGDupBon" tag="Study"/>
       </bootstrap>
     </thing>
+  <thing id="cSoGBlendTrTheoU" name="Theorist Utility Training" compset="ClSpecial" description="The bravo gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <eval phase="PostLevel" priority="5000" name="Add a Theorist Utility Talent"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
+
+        ~ Add to generic [Utility] talent count.
+        perform container.findchild[Resource, "thingid.resSGUtilTal"].setfocus
+        debug "🛠 Adding a [utility] talent(s) from Theorist Blended Training."
+        focus.field[resMax].value += 1
+
+        ~ Done if not enabled
+        doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
+
+        ~ Also add here.
+        perform container.findchild[Resource, "thingid.resSGExUtilTal"].setfocus
+        debug "🛠 Adding (also) add an Expanded [utility] talent(s) from Theorist Blended Training."
+        focus.field[resMax].value += 1]]></eval>
+    </thing>
   <thing id="cLotSTheoryBon" name="Theory Bonus" compset="ClSpecial" description="When the theorist has hypothesis dice assigned to a model and makes a die roll associated with that model, the theorist may expend one of the hypothesis dice assigned to that model to gain a +2 bonus to the roll.\n\nThis bonus increases by 1 at 4th level and every 4 levels thereafter. The hypothesis dice must be expended before the result of the d20 roll is revealed." summary="Spend a hypothesis die to gain the bonus on that model's role.">
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <tag group="AbilType" tag="Super"/>
     <tag group="LvNamePar" tag="AppText"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
     <eval phase="Render" priority="400"><![CDATA[
       ~ If we're disabled, do nothing
       doneif (tagis[Helper.SpcDisable] <> 0)
@@ -466,56 +696,14 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
       field[abValue].value += 2 + round(field[xTotalLev].value/4,0,-1)
       field[abText].text = signed(field[abValue].value)]]></eval>
     </thing>
-  <thing id="cSoGBlendTrTheoU" name="Theorist Utility Training" compset="ClSpecial" description="The bravo gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
-    <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
-    <tag group="Helper" tag="SpecUp"/>
-    <bootstrap thing="abSoGSkSp"></bootstrap>
-    <eval phase="PostLevel" priority="5000" name="Add a Theorist Utility Talent"><![CDATA[doneif (tagis[Helper.SpcDisable] <> 0)
-        var ut as number
-        ut = round(hero.childfound[cHelpSGTheor].field[cTotalLev].value/2,0,-1)
-
-        ~ Done if we have zero
-        doneif (ut = 0)
-
-        ~ Add to generic [Utility] talent count.
-        perform container.findchild[Resource, "thingid.resSGUtilTal"].setfocus
-        debug "🛠 Adding " & ut & " [utility] talent(s) from Theorist Blended Training."
-        focus.field[resMax].value += ut
-
-        ~ Done if not enabled
-        doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
-
-        ~ Also add here.
-        perform container.findchild[Resource, "thingid.resSGExUtilTal"].setfocus
-        debug "🛠 Adding (also) " & ut & " Expanded [utility] talent(s) from Theorist Blended Training."
-        focus.field[resMax].value += ut]]></eval>
-    </thing>
-  <thing id="cSoGBlendTrTheo" name="Blended Training" compset="ClSpecial" description="The theorist gains a magic or skill talent at 1st, 2nd, and 3rd level, and 3/4ths of a talent thereafter, according to Table: Theorist. In addition, they gain a utility talent at every even level. A theorist’s casting ability modifier determines their operative modifier." summary="Gain a magic or skill talent">
-    <arrayval field="usrArray" index="0" value="Magic Talent"/>
-    <arrayval field="usrArray" index="1" value="Skill Talent"/>
-    <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="ProductId" tag="DropDead"/>
-    <tag group="Helper" tag="SpecUp"/>
-    <bootstrap thing="abSoPCast"></bootstrap>
-    <bootstrap thing="abSoGSkSp"></bootstrap>
-    <eval phase="PostLevel" priority="5000"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
-      if (field[usrIndex].value = 0) then
-        hero.child[resSPMTGen].field[resMax].value += 1
-        debug "🛠 Adding one Magic talent from Theorist Blended Training."
-      elseif (field[usrIndex].value = 1) then
-        hero.child[resSGSSGen].field[resMax].value += 1
-        debug "🛠 Adding one Skill talent from Theorist Blended Training."
-      endif]]></eval>
-    </thing>
   <thing id="cBrvAudacity" name="Audacity" compset="CustomSpec" description="Use your words to cut your opponents down.\n\nWhim Spheres: Athletics and Bluster.\n\nFreestyle Antics (Ex): At 2nd level, whenever the bravo uses his confounding strike ability, the creature becomes battered for the duration on a failed save. Additionally, the bravo takes no penalty when moving full speed when he uses Acrobatics to attempt to move through a threatened area or an enemy's space.\n\nExploit Uncertainty: Too Slow (Ex): At 5th level, the bravo's exploit uncertainty bonus also applies as a dodge bonus against the outwitted creature's attacks.\n\nIncredible Stunt: Flow State (Ex): At 10th level, the bravo can use this incredible stunt as part of a move action to move to enter a state of pure flow with his movements. The bravo gains a 10-foot enhancement bonus to all movement modes he possesses. Whenever the bravo rolls a skill check associated with his current movement mode, any natural roll of a 14 or lower is treated as a 15.\nAdditionally, the bravo ignores all difficult terrain when he moves, and may charge or run through squares that contain allies (and enemies if he succeeds an Acrobatics check to move through their square) without impeding his movement.\nOverwhelming Antics (Ex): At 15th level, whenever the bravo successfully avoids provoking an attack of opportunity using Acrobatics (or another skill check), he can perform a quip against the creature as a swift or immediate action.\nIn addition, whenever the bravo inflicts the battered condition, the penalty to CMD increases by an amount equal to his practitioner modifier (minimum 1).\n\nPerfect Flow (Ex): At 20th level, the maximum miss chance he can gain from his cunning celerity ability increases to 75%, or 100% if the bravo moves at least 10 feet on his turn. Additionally, when the bravo uses his flow state incredible stunt, he treats skill checks associated with his current movement mode as if he had rolled a 20." uniqueness="unique">
     <fieldval field="sbName" value="audacity"/>
     <fieldval field="shortname" value="Audacity"/>
     <usesource source="pPF1e_Sph_LotSpheres"/>
-    <tag group="abCategory" tag="BrvWhim" name="Whim" abbrev="Bravo"/>
-    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <tag group="SpecSource" tag="cHelpSGBravo" name="Bravo" abbrev="Bravo"/>
     <tag group="CustomCost" tag="1"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="abCategory" tag="BrvWhim" name="Whim" abbrev="Bravo"/>
     <eval phase="First" priority="1000"><![CDATA[
       var classcheck as string
       var levels as number

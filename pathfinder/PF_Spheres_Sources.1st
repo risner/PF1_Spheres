@@ -36,20 +36,10 @@
     <value id="AllSpheres" name="Hero considered to have access to all spheres"/>
     <value id="TradeDupe" name="TradeSkill duplicated"/>
     <value id="CustTalent" name="Custom Talent"/>
+    <value id="Helper" name="Helper"/>
     </group>
   <!-- Operative Modifier attributes -->
   <group id="SoGOMAttr" name="Operative Attrib." inherit="UseAttr"/>
-  <!-- Operative level progression -->
-  <group id="SoGOLProg" name="Operative Level">
-    <value id="Virtuoso" name="Virtuoso"/>
-    <value id="Journeyman" name="Journeyman"/>
-    <value id="Trained" name="Trained"/>
-    </group>
-  <!-- Operative Trade Rank for classes -->
-  <group id="SoGTRank" name="Trade Rank">
-    <value id="Adroit" name="Adroit"/>
-    <value id="Competent" name="Competent"/>
-    </group>
   <!-- Skills associated with a sphere -->
   <group id="SoGAssocSk" name="Associated Skill" inherit="ClassSkill"></group>
   <group id="SoGTopAsSk" name="Top Associated Skill" inherit="ClassSkill"></group>
@@ -61,6 +51,169 @@
   <group id="SkLeverage" name="Skill Leverage" inherit="ClassSkill"></group>
   <group id="SkLevPick" name="Chosen Skills">
     <value id="Chosen" name="Chosen SkLeverage"/>
+    <value id="Hero" name="Hero has Skill Leverage"/>
+    </group>
+  <!---->
+  <!-- abValue field scaling with Associated Rank -->
+  <group id="SoGAbV1Sc" name="abValue scaling" sequence="explicit">
+    <value id="1_OA" name="+1 per odd Associated Skill Rank (not inc. 1st)" order="1"/>
+    <value id="1_1A" name="+1 per Associated Skill Rank" order="2"/>
+    <value id="1_2A" name="+1 per 2 Associated Skill Rank" order="3"/>
+    <value id="1_3A" name="+1 per 3 Associated Skill Rank" order="4"/>
+    <value id="1_4A" name="+1 per 4 Associated Skill Rank" order="5"/>
+    <value id="1_5A" name="+1 per 5 Associated Skill Rank" order="6"/>
+    <value id="1_6A" name="+1 per 6 Associated Skill Rank" order="7"/>
+    <value id="1_7A" name="+1 per 7 Associated Skill Rank" order="8"/>
+    <value id="1_8A" name="+1 per 8 Associated Skill Rank" order="9"/>
+    <value id="1_9A" name="+1 per 9 Associated Skill Rank" order="10"/>
+    <value id="1_0A" name="+1 per 10 Associated Skill Rank" order="11"/>
+    <value id="2_OA" name="+2 per odd Associated Skill Rank (not inc. 1st)" order="12"/>
+    <value id="2_1A" name="+2 per Associated Skill Rank" order="13"/>
+    <value id="2_2A" name="+2 per 2 Associated Skill Rank" order="14"/>
+    <value id="2_3A" name="+2 per 3 Associated Skill Rank" order="15"/>
+    <value id="2_4A" name="+2 per 4 Associated Skill Rank" order="16"/>
+    <value id="2_5A" name="+2 per 5 Associated Skill Rank" order="17"/>
+    <value id="2_6A" name="+2 per 6 Associated Skill Rank" order="18"/>
+    <value id="2_7A" name="+2 per 7 Associated Skill Rank" order="19"/>
+    <value id="2_8A" name="+2 per 8 Associated Skill Rank" order="20"/>
+    <value id="2_9A" name="+2 per 9 Associated Skill Rank" order="21"/>
+    <value id="2_0A" name="+2 per 10 Associated Skill Rank" order="22"/>
+    <value id="3_OA" name="+3 per odd Associated Skill Rank (not inc. 1st)" order="23"/>
+    <value id="3_1A" name="+3 per Associated Skill Rank" order="24"/>
+    <value id="3_2A" name="+3 per 2 Associated Skill Rank" order="25"/>
+    <value id="3_3A" name="+3 per 3 Associated Skill Rank" order="26"/>
+    <value id="3_4A" name="+3 per 4 Associated Skill Rank" order="27"/>
+    <value id="3_5A" name="+3 per 5 Associated Skill Rank" order="28"/>
+    <value id="3_6A" name="+3 per 6 Associated Skill Rank" order="29"/>
+    <value id="3_7A" name="+3 per 7 Associated Skill Rank" order="30"/>
+    <value id="3_8A" name="+3 per 8 Associated Skill Rank" order="31"/>
+    <value id="3_9A" name="+3 per 9 Associated Skill Rank" order="32"/>
+    <value id="3_0A" name="+3 per 10 Associated Skill Rank" order="33"/>
+    <value id="4_OA" name="+4 per odd Associated Skill Rank (not inc. 1st)" order="34"/>
+    <value id="4_1A" name="+4 per Associated Skill Rank" order="35"/>
+    <value id="4_2A" name="+4 per 2 Associated Skill Rank" order="36"/>
+    <value id="4_3A" name="+4 per 3 Associated Skill Rank" order="37"/>
+    <value id="4_4A" name="+4 per 4 Associated Skill Rank" order="38"/>
+    <value id="4_5A" name="+4 per 5 Associated Skill Rank" order="39"/>
+    <value id="4_6A" name="+4 per 6 Associated Skill Rank" order="40"/>
+    <value id="4_7A" name="+4 per 7 Associated Skill Rank" order="41"/>
+    <value id="4_8A" name="+4 per 8 Associated Skill Rank" order="42"/>
+    <value id="4_9A" name="+4 per 9 Associated Skill Rank" order="43"/>
+    <value id="4_0A" name="+4 per 10 Associated Skill Rank" order="44"/>
+    <value id="5_OA" name="+5 per odd Associated Skill Rank (not inc. 1st)" order="45"/>
+    <value id="5_1A" name="+5 per Associated Skill Rank" order="46"/>
+    <value id="5_2A" name="+5 per 2 Associated Skill Rank" order="47"/>
+    <value id="5_3A" name="+5 per 3 Associated Skill Rank" order="48"/>
+    <value id="5_4A" name="+5 per 4 Associated Skill Rank" order="49"/>
+    <value id="5_5A" name="+5 per 5 Associated Skill Rank" order="50"/>
+    <value id="5_6A" name="+5 per 6 Associated Skill Rank" order="51"/>
+    <value id="5_7A" name="+5 per 7 Associated Skill Rank" order="52"/>
+    <value id="5_8A" name="+5 per 8 Associated Skill Rank" order="53"/>
+    <value id="5_9A" name="+5 per 9 Associated Skill Rank" order="54"/>
+    <value id="5_0A" name="+5 per 10 Associated Skill Rank" order="55"/>
+    <value id="0_OA" name="+10 per odd Associated Skill Rank (not inc. 1st)" order="56"/>
+    <value id="0_1A" name="+10 per Associated Skill Rank" order="57"/>
+    <value id="0_2A" name="+10 per 2 Associated Skill Rank" order="58"/>
+    <value id="0_3A" name="+10 per 3 Associated Skill Rank" order="59"/>
+    <value id="0_4A" name="+10 per 4 Associated Skill Rank" order="60"/>
+    <value id="0_5A" name="+10 per 5 Associated Skill Rank" order="61"/>
+    <value id="0_6A" name="+10 per 6 Associated Skill Rank" order="62"/>
+    <value id="0_7A" name="+10 per 7 Associated Skill Rank" order="63"/>
+    <value id="0_8A" name="+10 per 8 Associated Skill Rank" order="64"/>
+    <value id="0_9A" name="+10 per 9 Associated Skill Rank" order="65"/>
+    <value id="0_0A" name="+10 per 10 Associated Skill Rank" order="66"/>
+    <!---->
+    <value id="Neg1_OA" name="-1 per odd Associated Skill Rank (not inc. 1st)" order="67"/>
+    <value id="Neg1_1A" name="-1 per Associated Skill Rank" order="68"/>
+    <value id="Neg1_2A" name="-1 per 2 Associated Skill Rank" order="69"/>
+    <value id="Neg1_3A" name="-1 per 3 Associated Skill Rank" order="70"/>
+    <value id="Neg1_4A" name="-1 per 4 Associated Skill Rank" order="71"/>
+    <value id="Neg1_5A" name="-1 per 5 Associated Skill Rank" order="72"/>
+    <value id="Neg1_6A" name="-1 per 6 Associated Skill Rank" order="73"/>
+    <value id="Neg1_7A" name="-1 per 7 Associated Skill Rank" order="74"/>
+    <value id="Neg1_8A" name="-1 per 8 Associated Skill Rank" order="75"/>
+    <value id="Neg1_9A" name="-1 per 9 Associated Skill Rank" order="76"/>
+    <value id="Neg1_0A" name="-1 per 10 Associated Skill Rank" order="77"/>
+    <value id="Neg2_OA" name="-2 per odd Associated Skill Rank (not inc. 1st)" order="78"/>
+    <value id="Neg2_1A" name="-2 per Associated Skill Rank" order="79"/>
+    <value id="Neg2_2A" name="-2 per 2 Associated Skill Rank" order="80"/>
+    <value id="Neg2_3A" name="-2 per 3 Associated Skill Rank" order="81"/>
+    <value id="Neg2_4A" name="-2 per 4 Associated Skill Rank" order="82"/>
+    <value id="Neg2_5A" name="-2 per 5 Associated Skill Rank" order="83"/>
+    <value id="Neg2_6A" name="-2 per 6 Associated Skill Rank" order="84"/>
+    <value id="Neg2_7A" name="-2 per 7 Associated Skill Rank" order="85"/>
+    <value id="Neg2_8A" name="-2 per 8 Associated Skill Rank" order="86"/>
+    <value id="Neg2_9A" name="-2 per 9 Associated Skill Rank" order="87"/>
+    <value id="Neg2_0A" name="-2 per 10 Associated Skill Rank" order="88"/>
+    <value id="Neg3_OA" name="-3 per odd Associated Skill Rank (not inc. 1st)" order="89"/>
+    <value id="Neg3_1A" name="-3 per Associated Skill Rank" order="90"/>
+    <value id="Neg3_2A" name="-3 per 2 Associated Skill Rank" order="91"/>
+    <value id="Neg3_3A" name="-3 per 3 Associated Skill Rank" order="92"/>
+    <value id="Neg3_4A" name="-3 per 4 Associated Skill Rank" order="93"/>
+    <value id="Neg3_5A" name="-3 per 5 Associated Skill Rank" order="94"/>
+    <value id="Neg3_6A" name="-3 per 6 Associated Skill Rank" order="95"/>
+    <value id="Neg3_7A" name="-3 per 7 Associated Skill Rank" order="96"/>
+    <value id="Neg3_8A" name="-3 per 8 Associated Skill Rank" order="97"/>
+    <value id="Neg3_9A" name="-3 per 9 Associated Skill Rank" order="98"/>
+    <value id="Neg3_0A" name="-3 per 10 Associated Skill Rank" order="99"/>
+    <value id="Neg4_OA" name="-4 per odd Associated Skill Rank (not inc. 1st)" order="100"/>
+    <value id="Neg4_1A" name="-4 per Associated Skill Rank" order="101"/>
+    <value id="Neg4_2A" name="-4 per 2 Associated Skill Rank" order="102"/>
+    <value id="Neg4_3A" name="-4 per 3 Associated Skill Rank" order="103"/>
+    <value id="Neg4_4A" name="-4 per 4 Associated Skill Rank" order="104"/>
+    <value id="Neg4_5A" name="-4 per 5 Associated Skill Rank" order="105"/>
+    <value id="Neg4_6A" name="-4 per 6 Associated Skill Rank" order="106"/>
+    <value id="Neg4_7A" name="-4 per 7 Associated Skill Rank" order="107"/>
+    <value id="Neg4_8A" name="-4 per 8 Associated Skill Rank" order="108"/>
+    <value id="Neg4_9A" name="-4 per 9 Associated Skill Rank" order="109"/>
+    <value id="Neg4_0A" name="-4 per 10 Associated Skill Rank" order="110"/>
+    <value id="Neg5_OA" name="-5 per odd Associated Skill Rank (not inc. 1st)" order="111"/>
+    <value id="Neg5_1A" name="-5 per Associated Skill Rank" order="112"/>
+    <value id="Neg5_2A" name="-5 per 2 Associated Skill Rank" order="113"/>
+    <value id="Neg5_3A" name="-5 per 3 Associated Skill Rank" order="114"/>
+    <value id="Neg5_4A" name="-5 per 4 Associated Skill Rank" order="115"/>
+    <value id="Neg5_5A" name="-5 per 5 Associated Skill Rank" order="116"/>
+    <value id="Neg5_6A" name="-5 per 6 Associated Skill Rank" order="117"/>
+    <value id="Neg5_7A" name="-5 per 7 Associated Skill Rank" order="118"/>
+    <value id="Neg5_8A" name="-5 per 8 Associated Skill Rank" order="119"/>
+    <value id="Neg5_9A" name="-5 per 9 Associated Skill Rank" order="120"/>
+    <value id="Neg5_0A" name="-5 per 10 Associated Skill Rank" order="121"/>
+    <value id="Neg0_1A" name="-10 per Associated Skill Rank" order="122"/>
+    <value id="Neg0_2A" name="-10 per 2 Associated Skill Rank" order="123"/>
+    <value id="Neg0_3A" name="-10 per 3 Associated Skill Rank" order="124"/>
+    <value id="Neg0_4A" name="-10 per 4 Associated Skill Rank" order="125"/>
+    <value id="Neg0_5A" name="-10 per 5 Associated Skill Rank" order="126"/>
+    <value id="Neg0_6A" name="-10 per 6 Associated Skill Rank" order="127"/>
+    <value id="Neg0_7A" name="-10 per 7 Associated Skill Rank" order="128"/>
+    <value id="Neg0_8A" name="-10 per 8 Associated Skill Rank" order="129"/>
+    <value id="Neg0_9A" name="-10 per 9 Associated Skill Rank" order="130"/>
+    <value id="Neg0_0A" name="-10 per 10 Associated Skill Rank" order="131"/>
+    </group>
+  <group id="SoGAbV2Sc" name="abValue2 scaling" inherit="SoGAbV1Sc" sequence="explicit"></group>
+  <group id="SoGAbV3Sc" name="abValue3 scaling" inherit="SoGAbV1Sc" sequence="explicit"></group>
+  <!-- Add Operative Modifier to abValue fields -->
+  <group id="SoGAbV1OM" name="abValue adds OM" sequence="explicit">
+    <value id="Value" name="Add OM" order="0"/>
+    <value id="Positive" name="Add OM if positive" order="1"/>
+    <value id="Min1" name="Add OM (minimum 1)" order="2"/>
+    <value id="Min2" name="Add OM (minimum 2)" order="3"/>
+    <value id="SbValue" name="Subtract OM" order="4"/>
+    <value id="SbPositive" name="Subtract OM if positive" order="5"/>
+    <value id="SbMin1" name="Subtract OM (minimum 1)" order="6"/>
+    <value id="SbMin2" name="Subtract OM (minimum 2)" order="6"/>
+    </group>
+  <group id="SoGAbV2OM" name="abValue2 adds PM" inherit="SoGAbV1OM" sequence="explicit"></group>
+  <group id="SoGAbV3OM" name="abValue3 adds PM" inherit="SoGAbV1OM" sequence="explicit"></group>
+  <!-- Operative level progression -->
+  <group id="SoGOLProg" name="Operative Level" sequence="explicit">
+    <value id="Trained" name="Trained" order="0"/>
+    <value id="Journeyman" name="Journeyman" order="1"/>
+    <value id="Virtuoso" name="Virtuoso" order="2"/>
+    </group>
+  <!-- Operative Trade Rank for classes -->
+  <group id="SoGTRank" name="Trade Rank" sequence="explicit">
+    <value id="Competent" name="Competent" order="0"/>
+    <value id="Adroit" name="Adroit" order="1"/>
     </group>
   <group id="SoGSphere" name="Sphere" dynamic="yes">
     <value id="Artifice" name="Artifice"/>
@@ -86,52 +239,104 @@
   <group id="SoGHasTal" name="Has Talent" inherit="SoGSphere"></group>
   <!-- Spheres of Guile Talent Class -->
   <group id="SoGTlClass" name="Talent Class" sequence="explicit">
+    <value id="GainSphere" name="Sphere Access" order="0"/>
     <value id="InitTalent" name="Base Sphere Ability" order="1"/>
-    <value id="Talent" name="Basic Talent" order="1"/>
-    <value id="GainSphere" name="Sphere access" order="0"/>
-    <value id="Helper" name="Helper" order="1"/>
-    <value id="Package" name="Package" order="1"/>
-    <value id="Trade" name="A chosen Trade talent" order="1"/>
-    <value id="Any" name="A chosen Skill talent" order="1"/>
-    <value id="Utility" name="A chosen Utility talent" order="1"/>
-    <value id="Expanded" name="A chosen Non-Skill Utility talent" order="1"/>
-    <value id="AltStart" name="Has an Alternate Start" order="1"/>
-    <value id="ReqRetrain" name="Retrain to Remove"/>
-    <value id="UtilStart" name="Has an Utility Start" order="1"/>
-    <value id="ExcepTalent" name="Exceptional talent" order="1"/>
+    <value id="Talent" name="Basic Talent" order="2"/>
+    <value id="Package" name="Package" order="3"/>
+    <value id="ExcepTalent" name="Exceptional Talent" order="4"/>
+    <value id="AltStart" name="Alternate Start" order="5"/>
+    <value id="UtilStart" name="Utility Start" order="6"/>
+    <value id="ReqRetrain" name="Retrain to Remove" order="7"/>
+    <value id="Trade" name="A chosen Trade talent" order="8"/>
+    <value id="Any" name="A chosen Skill talent" order="9"/>
+    <value id="Utility" name="A chosen Utility talent" order="10"/>
+    <value id="Expanded" name="A chosen Non-Skill Utility talent" order="11"/>
+    <value id="SoGBonusTl" name="A Found Bonus Talent" order="12"/>
     </group>
   <!-- Talent descriptors -->
-  <group id="SoGTalDesc" name="Talent descriptor" dynamic="yes">
-    <value id="AltStart" name="Alternate Start for a Sphere" order="1"/>
-    <value id="UtilStart" name="Sphere has a Utility Start" order="1"/>
-    <value id="Trade" name="Trade" order="1"/>
-    <value id="Utility" name="Utility" order="1"/>
-    <value id="Analyze" name="Analyze" order="2"/>
-    <value id="Approach" name="Approach" order="2"/>
-    <value id="Disguise" name="Disguise" order="2"/>
-    <value id="Plan" name="Plan" order="2"/>
-    <value id="Rapport" name="Rapport" order="2"/>
-    <value id="Unorthodox" name="Unorthodox Methods" order="2"/>
-    <value id="HerbHerbal" name="Herbal" order="3"/>
-    <value id="HerbRemedy" name="Remedy" order="3"/>
+  <group id="SoGTalDesc" name="Talent descriptor" dynamic="yes" sequence="explicit">
+    <value id="AltStart" name="Alternate Start" order="0"/>
+    <value id="UtilStart" name="Utility Start" order="1"/>
+    <value id="Trade" name="Trade" order="4"/>
+    <value id="Utility" name="Utility" order="5"/>
+    <value id="Approach" name="Approach" order="6"/>
+    <value id="Plan" name="Plan" order="7"/>
+    <value id="ArtArtwork" name="Artifice (artwork)" abbrev="Artwork" order="8"/>
+    <value id="ArtFabrica" name="Artifice (fabrication)" abbrev="Fabrication" order="9"/>
+    <value id="ArtFlouris" name="Artifice (flourish)" abbrev="Flourish" order="10"/>
+    <value id="ArtFunctio" name="Artifice (function)" abbrev="Function" order="11"/>
+    <value id="ArtGear" name="Artifice (gear)" abbrev="Gear" order="12"/>
+    <value id="Quip" name="Bluster (quip)" abbrev="Quip" order="13"/>
+    <value id="Clarity" name="Body Control (clarity)" abbrev="Clarity" order="14"/>
+    <value id="Control" name="Body Control (control)" abbrev="Control" order="15"/>
+    <value id="Assist" name="Communication (assist)" abbrev="Assist" order="16"/>
+    <value id="Rapport" name="Communication (rapport)" abbrev="Rapport" order="17"/>
+    <value id="FacRetaine" name="Faction (retainer)" abbrev="Retainer" order="18"/>
+    <value id="FacSupply" name="Faction (supply)" abbrev="Supply" order="19"/>
+    <value id="HerbHerbal" name="Herbalism (herbal)" abbrev="Herbal" order="20"/>
+    <value id="HerbRemedy" name="Herbalism (remedy)" abbrev="Remedy" order="21"/>
+    <value id="HerbConcot" name="Herbalism (concoction)" abbrev="Concoction" order="22"/>
+    <value id="Sabotage" name="Infiltration (sabotage)" abbrev="Sabotage" order="23"/>
+    <value id="Analyze" name="Investigation (analyze)" abbrev="Analyze" order="24"/>
+    <value id="Apply" name="Investigation (apply)" abbrev="Apply" order="25"/>
+    <value id="NavAerial" name="Navigation (aerial)" abbrev="Aerial" order="26"/>
+    <value id="NavNautica" name="Navigation (nautical)" abbrev="Nautical" order="27"/>
+    <value id="NavUrban" name="Navigation (urban)" abbrev="Urban" order="28"/>
+    <value id="NavWildern" name="Navigation (wilderness)"  abbrev="Wilderness" order="29"/>
+    <value id="Acclimatio" name="Navigation (acclimation)" abbrev="Acclimation" order="30"/>
+    <value id="Pathing" name="Navigation (pathing)" abbrev="Pathing" order="31"/>
+    <value id="PerfAct" name="Performance (act)" abbrev="Act" order="32"/>
+    <value id="PerfDance" name="Performance (dance)" abbrev="Dance" order="33"/>
+    <value id="PerfInstru" name="Performance (instrumental)" abbrev="Instrumental" order="34"/>
+    <value id="PerfLyric" name="Performance (lyric)" abbrev="Lyric" order="35"/>
+    <value id="Hack" name="Spellhacking (hack)" abbrev="Hack" order="36"/>
+    <value id="Mishap" name="Spellhacking (mishap)" abbrev="Mishap" order="37"/>
+    <value id="Complication" name="Study (complication)" abbrev="Complication" order="38"/>
+    <value id="Research" name="Study (research)" abbrev="Research" order="39"/>
+    <value id="Theory" name="Study (theory)" abbrev="Theory" order="40"/>
+    <value id="Disguise" name="Subterfuge (disguise)" abbrev="Disguise" order="41"/>
+    <value id="SurDredge" name="Survivalism (dredge)" abbrev="Dredge" order="42"/>
+    <value id="SurGround" name="Survivalism (ground)" abbrev="Ground" order="43"/>
+    <value id="SurHarvest" name="Survivalism (harvest)" abbrev="Harvest" order="44"/>
+    <value id="Unorthodox" name="Unorthodox Methods -test" order="45"/>
     </group>
-  <!-- All Sphere descriptiors (Guile, Might & Power) -->
+  <!-- Expaned Sphere descriptiors (Might & Power) -->
   <group id="TalentDesc" name="Talent descriptor" dynamic="yes">
     <value id="Utility" name="Utility" order="1"/>
     </group>
-  <group id="SoGBanDesc" name="DB bans descriptor" inherit="SoGTalDesc"></group>
-  <group id="SoGDBanEx" name="Exempt from desc ban" inherit="SoGTalDesc"></group>
+  <group id="SoGFreeTal" name="Bon talents with tag" inherit="SoGTalDesc" sequence="explicit">
+    <value id="Any" name="Any talent - editor only" order="2"/>
+    <value id="Package" name="ReqPackage - editor only" order="3"/>
+    </group>
+  <group id="SoGBanDesc" name="DB bans descriptor" inherit="SoGTalDesc" sequence="explicit"></group>
+  <group id="SoGDBanEx" name="Exempt from desc ban" inherit="SoGTalDesc" sequence="explicit"></group>
   <group id="SoGBanTal" name="DB bans talent" dynamic="yes"></group>
-  <group id="SoGPrqDsc" name="Meet prereq for desc" inherit="SoGTalDesc"></group>
+  <group id="SoGPrqDsc" name="Meet prereq for desc" inherit="SoGTalDesc" sequence="explicit"></group>
   <group id="SoGVarTal1" name="Var. talent 1 choice" dynamic="yes"> </group>
   <group id="SoGVarTal2" name="Var. talent 2 choice" dynamic="yes"></group>
   <group id="SoGVarTals" name="Var. talent = Adroit">
     <value id="Auto" name="Automatic only"/>
     <value id="Adroit" name="Adroit only"/>
     </group>
-  <group id="SoGHasTlDs" name="Has talent w/desc" inherit="SoGTalDesc"></group>
-  <group id="SoGIsPkg" name="Sphere package" dynamic="yes">
-    <value id="Gear" name="Gear"/>
+  <group id="SoGHasTlDs" name="Has talent w/desc" inherit="SoGTalDesc" sequence="explicit"></group>
+  <group id="SoGIsPkg" name="Sphere package" dynamic="yes" sequence="explicit">
+    <value id="Artwork" name="Artifice: Artwork Package" order="0"/>
+    <value id="Fabrication" name="Artifice: Fabrication Package" order="1"/>
+    <value id="Gear" name="Artifice: Gear Package" order="2"/>
+    <value id="Retainer" name="Faction: Retainer Package" order="3"/>
+    <value id="Supply" name="Faction: Supply Package" order="4"/>
+    <value id="Herbal" name="Herbalism: Herbal Package" order="5"/>
+    <value id="Remedy" name="Herbalism: Remedy Package" order="6"/>
+    <value id="Aerial" name="Navigation: Aerial Package" order="7"/>
+    <value id="Nautical" name="Navigation: Nautical Package" order="8"/>
+    <value id="Urban" name="Navigation: Urban Package" order="9"/>
+    <value id="Wilderness" name="Navigation: Wilderness Package" order="10"/>
+    <value id="Act" name="Performance: Act" order="11"/>
+    <value id="Dance" name="Performance: Dance" order="12"/>
+    <value id="Instrument" name="Performance: Instrumental" order="13"/>
+    <value id="Lyric" name="Performance: Lyric Package" order="14"/>
+    <value id="Dredge" name="Survivalism: Dredge Package" order="15"/>
+    <value id="Harvest" name="Survivalism: Harvest Package" order="16"/>
     </group>
   <group id="SoGHasPkg" name="Hero has sphere pkg" inherit="SoGIsPkg"></group>
   <group id="SoGReqPkg" name="Requires sphere pkg" inherit="SoGIsPkg"></group>
@@ -147,16 +352,17 @@
   <source id="pSoGNoExcpT" name="No Exceptional Talents" selectable="yes" parent="pSoGHsRls" sortorder="1" description="Exceptional Talents cannot be selected"></source>
   <source id="pPF1e_ExpUtil" name="(LotS) Some non-Guile talents count as [utility]" selectable="yes" parent="pSoGHsRls" sortorder="2"></source>
   <source id="pPF1e_AssocComp" name="Variant Rule Associated Skills" selectable="yes" parent="pSoGHsRls" sortorder="3" description="If a character has skill spheres or packages with the same associated skill as combat spheres or packages, they do not gain more ranks than their usual maximum. Instead, they gain a competence bonus on checks with that skill equal to one-half their character level (minimum +1). This takes precedence over pure combat spheres using onehalf their base attack bonus in such situations."></source>
+  <source id="pPF1e_SoMnSoG" name="Show Might Associated Skills" selectable="yes" parent="pSoGHsRls" sortorder="3" description="Show Spheres of Might Associated Skills on the Skill Spere Associated Skills list."></source>
   <source id="pSoGUnrOM" name="Unrestricted OM choice" selectable="yes" parent="pSoGHsRls" sortorder="4" description="Any ability can be selected as operator modifier"></source>
   <!-- Pathfinder 1e Spheres -->
   <source id="pPF1e_Sph" name="Spheres Community Pack (PF1e v0.4)" selectable="no" parent="pDropDead" sortorder="10" description="Community Pack for Spheres (Pathfinder 1e)"></source>
+  <source id="pPF1e_Sph_Errat" name="Spheres Errata" selectable="yes" parent="pPF1e_Sph" sortorder="0"></source>
   <source id="pPF1e_Sph_Guile" name="Spheres of Guile" selectable="yes" parent="pPF1e_Sph" sortorder="0"></source>
   <source id="pPF1e_Sph_Might" name="Spheres of Might" selectable="yes" parent="pPF1e_Sph" sortorder="1"></source>
   <source id="pPF1e_Sph_Power" name="Spheres of Power" selectable="yes" parent="pPF1e_Sph" sortorder="2"></source>
   <source id="pPF1e_Sph_Other" name="DDS Expansions" selectable="no" parent="pPF1e_Sph" sortorder="3"></source>
   <source id="pPF1e_Sph_AoP2" name="Archetypes of Power 2" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
   <source id="pPF1e_Sph_OEO3" name="Expanded Options 3" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
-  <source id="pPF1e_Sph_OJestHB" name="Jester's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
   <source id="pPF1e_Sph_LotSpheres" name="Legends of the Spheres" selectable="yes" parent="pPF1e_Sph_Other" sortorder="0"></source>
   <source id="pPF1e_Sph_OApoc" name="Spheres Apocrypha" selectable="no" parent="pPF1e_Sph_Other" sortorder="1"></source>
   <source id="pPF1e_Sph_OApocArTa" name="Spheres Apocrypha: Armor Talents" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
@@ -166,13 +372,17 @@
   <source id="pPF1e_Sph_OApocSwash" name="Spheres Apocrypha: Swashbucklers" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
   <source id="pPF1e_Sph_OApocColle" name="Spheres Apocrypha: The Collector Armorist" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
   <source id="pPF1e_Sph_OConqHB" name="The Conqueror's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_ODiabHB" name="Diabolist's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_Sph_OHighHB" name="The Highlander's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
-  <source id="pPF1e_Sph_ManaHB" name="The Initiate's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_OInitHB" name="The Initiate's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
+  <source id="pPF1e_Sph_OJestHB" name="The Jester's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_Sph_OWarden" name="The Warden" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_Sph_OYouxHB" name="The Youxia's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_Sph_OTreasure" name="Treasures of the Spheres" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_DRS_Other" name="DRS Expansions" selectable="no" parent="pPF1e_Sph" sortorder="4"></source>
   <source id="pPF1e_DRS_InvIng" name="Diamond Spheres: Invention &amp; Ingenuity" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
+  <source id="pPF1e_DRS_HarDis" name="Diamond Spheres: Harmony &amp; Discord" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
+  <source id="pPF1e_DRS_ThaPot" name="Diamond Spheres: Thaumic Potential" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
   <!-- This corrects an error in the source file that ships with this book. -->
   <source id="pSoPWildMagic" name="Wild Magic Handbook" selectable="yes" parent="pSoPHandb" sortorder="21" description="New Archetypes, Class Options, and Wild Magic Events"></source>
   </document>

@@ -114,7 +114,6 @@
     </component>
   <!-- Sphere component -->
   <component id="SoGSphere" name="(SoG) Skill Spheres" autocompset="no" hasshortname="no" ispublic="yes">
-    <identity group="SoGSpTlSel"/>
     <eval phase="First" priority="10000" index="2"><![CDATA[
 	  ~ Look for a "package" resource that matches our sphere tag. If so we need to grant a single free package.
 	  perform hero.findchild[Resource, "SoGPackage." & replace(tagids[SoGSphere.?],"SoGSphere.","",0)].setfocus
@@ -141,7 +140,7 @@
 	]]></eval>
     </component>
   <!-- SoG Talent component -->
-  <component id="SoGTalent" name="(SoG) Trade Talents" autocompset="no" hasshortname="no" ispublic="yes">
+  <component id="SoGTalent" name="(SoG) Skill Talents" autocompset="no" hasshortname="no" ispublic="yes">
     <!-- FIELDS -->
     <field id="tOM" name="Operative Modifier" type="derived" maxlength="0">
       <calculate name="Calc tOM" phase="PostAttr" priority="5250"><![CDATA[
@@ -182,7 +181,7 @@
 	  endif
       ]]></eval>
     <eval phase="First" priority="10500" name="Disable Helper/InitTalent if banned by Drawback"><![CDATA[
-	  doneif (tagis[SoGTlClass.InitTalent] + tagis[SoGTlClass.Helper] < 1)
+	  doneif (tagis[SoGTlClass.InitTalent] + tagis[SphOfGuil.Helper] < 1)
 	  if (hero.intersect[SoGBanDesc,SoGBanDesc] + hero.intersect[SoGBanTal,SoGBanTal] > 0) then
 	        perform assign[Helper.SpcDisable]
 		perform assign[Hide.All]
@@ -215,16 +214,19 @@
   doneif (tagis[SoGTlClass.Package] = 1)
 
   ~ If not free:
-  if (tagis[SoGTlClass.InitTalent] + tagis[SoGTlClass.Helper] + tagis[SphOfGuil.TempTalent] + tagis[Helper.Free] = 0) then
+  if (tagis[SoGTlClass.InitTalent] + tagis[SphOfGuil.Helper] + tagis[SphOfGuil.TempTalent] + tagis[Helper.Free] + tagis[CustTaken.?] = 0) then
 
     ~ If we were added as a sphere-specific bonus talent, spend one of those talents.
     ~ Otherwise make checks to see which resource should catch ([utility], [trade], generic.)
     if (tagis[SoGBonTal.?] = 1) then
       container.findchild[Resource, "SoGBonTal." & replace(tagids[SoGBonTal.?],"SoGBonTal.","",0)].field[resSpent].value += 1
 
+      ~ This setfocus is just for the debug
       perform container.findchild[Resource, "SoGBonTal." & replace(tagids[SoGBonTal.?],"SoGBonTal.","",0)].setfocus
 
       debug "💵 " & this.field[name].text & " -- sphere specific resSpent +1 -- " & focus.field[name].text & " ~ SoGBonTal." & replace(tagids[SoGBonTal.?],"SoGBonTal.","",0) & " 242"
+
+      ~ We spent one, we can now be done.
       done
     endif
 
@@ -360,7 +362,33 @@
              debug db & dbe
           nexteach
           ]]>
-          <after name="Apply free ranks for associated skills"/>
+          <before name="Auto-increment abValue fields"/>
+          <after name="Set skExtRanks after SoM added"/>
+          </eval>
+    <eval phase="PostAttr" priority="2100" name="Pull Associated Ranks to talents"><![CDATA[
+
+          ~ This is ugly because something disables bootstraps of bootstraps.
+	  ~ The SphOfGuil.FixDisable tag is set when Helper.SpcDisable=1 at PreLevel/10000).
+          ~ I moved FixDisable to tag at 9999, fix at 10001.
+
+	  ~ Stop if disabled
+	  doneif (tagis[Helper.SpcDisable] = 1)
+
+	  ~ Stop if we are a package
+	  doneif (tagis[SoGTlClass.Package] = 1)
+
+	  ~ Stop if we have no SoGSphere (e.g. Buyoff Drawback)
+	  doneif (tagis[SoGSphere.?] = 0)
+
+          ~ Fetch our associated ranks from GainSphere talent, copy to here.
+          perform hero.findchild[SoGTalent,tagids[SoGSphere.?] & " & SoGTlClass.GainSphere"].setfocus
+          if (state.isfocus = 1) then
+            if (focus.tagis[SoGAssocSk.?] <> 0) then
+              field[tAssocRanks].value = focus.field[tAssocRanks].value
+            endif
+          endif]]>
+          <before name="Auto-increment abValue fields"/>
+          <after name="Apply free ranks for associated skills SoG"/>
           <after name="Set skExtRanks after SoM added"/>
           </eval>
     <eval phase="PostLevel" priority="3000" name="Handle Skill Leverage"><![CDATA[
@@ -386,6 +414,11 @@
              var db as string
              db = "🎯 " & this.idstring & " " & replace(tagids[SoGSphere.?],"SoGSphere.","",0)
 
+             ~ Make hero aware there is at least one Skill Leverage.
+             if (hero.tagis[SkLevPick.Hero] = 0) then
+               perform hero.assign[SkLevPick.Hero]
+             endif
+
              var tot as number
              if (eachpick.tagcountstr[SkLeverage] = 0) then
                   ~ Save a copy of this on the skill for reference.
@@ -408,6 +441,17 @@
           <before name="Spend Skill Leverage unlocks"/>
           <after name="Assign initial Skill Leverage"/>
           </eval>
+    <eval phase="PostAttr" priority="10000" index="9" name="Auto-increment abValue fields"><![CDATA[
+
+        ~ Call the SoGTlAbvAd procedure once for each abValue field
+        var i as number
+        var abIdx as number
+        ~ Only do up to abValue3 for now
+        for i = 1 to 3
+          abIdx = i
+          call SoGTlAbvAd
+        next
+      ]]></eval>
     <eval phase="PostAttr" priority="25000" name="Pass SoGDupBon tags to first copy of this talent"><![CDATA[
 	  doneif (tagis[Helper.FirstCopy] = 1)
 	  doneif (isunique + tagis[thing.useronce] = 0)
@@ -485,7 +529,7 @@
 	  doneif (tagis[Helper.SpcDisable] = 1)
 	  perform assign[SphOfGuil.FixDisable]
 	]]></eval>
-    <eval phase="Render" priority="300" index="17"><![CDATA[
+    <eval phase="PreLevel" priority="10001" index="17"><![CDATA[
 	  doneif (tagis[SphOfGuil.FixDisable] <> 1)
 	  perform delete[Helper.SpcNotWorn]
 	  perform delete[Helper.SpcDisable]
@@ -501,9 +545,9 @@
 
         ~ Ensure the hero has the required sphere for this talent
 		if (@ispick = 1) then
-		  validif (altpick.tagis[SoGTlClass.InitTalent] + altpick.tagis[SoGTlClass.GainSphere] + altpick.tagis[SoGTlClass.Helper] + altpick.tagis[SphOfGuil.CustTalent] > 0)
+		  validif (altpick.tagis[SoGTlClass.InitTalent] + altpick.tagis[SoGTlClass.GainSphere] + altpick.tagis[SphOfGuil.Helper] + altpick.tagis[SphOfGuil.CustTalent] > 0)
         else
-		  validif (altthing.tagis[SoGTlClass.InitTalent] + altthing.tagis[SoGTlClass.GainSphere] + altthing.tagis[SoGTlClass.Helper] + altthing.tagis[SphOfGuil.CustTalent]  > 0)
+		  validif (altthing.tagis[SoGTlClass.InitTalent] + altthing.tagis[SoGTlClass.GainSphere] + altthing.tagis[SphOfGuil.Helper] + altthing.tagis[SphOfGuil.CustTalent]  > 0)
 		endif
 
 		var ValidTalSp as number
@@ -589,7 +633,6 @@
       </prereq>
     </component>
   <component id="SoGDrawbk" name="(SoG) Drawback" autocompset="no" hasshortname="no" ispublic="yes">
-    <identity group="SoGDbTlSel"/>
     <!-- TAGS -->
     <tag group="SpecType" tag="Weakness"/>
     <tag group="Helper" tag="ShowSpec"/>
@@ -619,6 +662,8 @@
 	  ~ Stop now if we are not a sphere-specific drawback, or if this drawback does not grant a bonus talent
 	  doneif (tagis[SoGSphere.?] = 0)
 	  doneif (tagis[SphOfGuil.NoBnTalent] = 1)
+          ~ Or if the bonus talent is a Free one of a specific type (they will be marked InitTalent).
+	  doneif (tagis[SoGFreeTal.?] = 1)
 
 	  ~ Find the resource that tracks bonus talents for our sphere, and add 1 to it
 	  var tagStr as string
@@ -660,6 +705,26 @@
               done
           endif
 	]]></eval>
+    <!-- Prereq check for talents that belong to a package (such as Faction Retainer or Supply talents) -->
+    <prereq message="Package required.">
+      <validate><![CDATA[
+                var missing as string
+                @valid = 0
+
+                if (@ispick = 1) then
+                  validif (altpick.tagis[SoGReqPkg.?] = 0)
+                  validif (altpick.intersect[SoGReqPkg,SoGHasPkg] <> 0)
+                  missing = altpick.tagnames[SoGReqPkg.?, " or "]
+                else
+                  validif (altthing.tagis[SoGReqPkg.?] = 0)
+                  validif (altthing.intersect[SoGReqPkg,SoGHasPkg] <> 0)
+                  missing = altthing.tagnames[SoGReqPkg.?, " or "]
+                endif
+
+                validif (empty(missing) <> 0)
+                @message = missing & " package required"
+      ]]></validate>
+      </prereq>
     </component>
   <!-- "Skill Sphere Training" component - defines number of Skill Sphere talents a class gets at each level -->
   <component id="SoGSkTrain" name="(SoG) Skill Training" autocompset="no" hasshortname="no" ispublic="yes">
@@ -716,6 +781,7 @@
                   if (eachpick.tagis[SoGTRank.Adroit] <> 0) then
                        if (tagis[SoGTRank.Adroit] = 0) then
                             perform assign[SoGTRank.Adroit]
+                            field[livename].text = field[name].text & " (Adroit)"
                             perform delete[SoGTRank.Competent]
                        endif
                   endif
@@ -763,13 +829,12 @@
           nexteach
 
           doneif (state.isfocus = 1)
-          ~debug "There is no 1st level to apply the trade tradition."
 	]]>
-<before name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
-<before name="Component Class: Eval Script #13"/>
-<after name="Spend a trade tradition"/>
-<after name="Link class helper to trade tradition"/>
-</eval>
+	<before name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
+	<before name="Component Class: Eval Script #13"/>
+	<after name="Spend a trade tradition"/>
+	<after name="Link class helper to trade tradition"/>
+	</eval>
     <eval phase="PreLevel" priority="499" name="Add Trade Tradition class-skills"><![CDATA[~ If we don't have the SphOfGuil.Trade tag, get out.
           doneif (hero.tagis[SphOfGuil.Trade] = 0)
 
@@ -792,14 +857,13 @@
                     perform focus.assign[ClassSkill.Lore]
                     perform focus.assign[ClassSkill.Artistry]
                endif
-               ~debug "do Trade Tradition Automatic Class Skills"
           endif
 	]]>
-<before name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
-<before name="Component Class: Eval Script #13"/>
-<after name="Remove all class-skills"/>
-<after name="Link class helper to trade tradition"/>
-</eval>
+	<before name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
+	<before name="Component Class: Eval Script #13"/>
+	<after name="Remove all class-skills"/>
+	<after name="Link class helper to trade tradition"/>
+	</eval>
     <eval phase="Final" priority="99999995" index="6"><![CDATA[
 	doneif (tagis[SoGVarTal1.?] + tagis[SoGVarTal2.?] = 0)
 	var searchExpr as string
@@ -977,18 +1041,23 @@
 
         ]]></eval>
     <evalrule phase="Final" priority="999999999999999999" index="4" message="Invalid Trade Skill Replacements in Vocation"><![CDATA[              ~ Validate the replacement.
+              @valid = 0
               if (field[usrChosen1].ischosen + field[usrChosen2].ischosen < 2) then
                     @message = "You must chose valid skills"
 		    done
               endif
-              var val as number
-              perform hero.findchild[BaseSkill,"SphOfGuil.TradeDupe"].setfocus
-              val += state.isfocus
 
-              perform hero.findchild[SoGTalent,"TradeSkill." & field[usrChosen1].chosen.idstring].setfocus
-              val += state.isfocus
-              validif (val = 2)
-              @message = "You must have a dulicated class skill and have chosen it as the first skill"
+              if (field[usrChosen1].chosen.tagis[Helper.ClassSkill] = 0) then
+                @message = "The replaced skill " & field[usrChosen1].chosen.field[name].text & " must have been a duplicate"
+                done
+              endif
+
+              if (field[usrChosen2].chosen.tagis[Helper.ClassSkill] = 0) then
+                @message = "The replacement " & field[usrChosen2].chosen.field[name].text & " must now be a class skill"
+                done
+              endif
+
+              @valid = 1
 	]]></evalrule>
     </component>
   <component id="SoGSkillUse" name="Skill Use" autocompset="no" hasshortname="no" ispublic="yes">
@@ -998,6 +1067,106 @@
 
       focus.field[resSpent].value += 1
     ]]></eval>
+    </component>
+  <!-- SoG Bonus Talent component -->
+  <component id="SGBonusTal" name="(SoG) Bonus Talents" autocompset="yes" hasshortname="no" ispublic="yes">
+    <eval phase="First" priority="1000" name="Handle Bonus Talent"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if we are not a GainSphere, Package talent, or Drawback.
+  doneif (tagis[SoGTlClass.GainSphere] + tagis[SoGIsPkg.?] + tagis[component.SoGDrawbk] = 0)
+  ~ Or if we do not gain a talent
+  doneif (tagis[SoGFreeTal.?] = 0)
+
+  ~ Grant a bonus (SoGFreeTal) talent
+
+  var utc as string
+  if (tagis[SoGTlClass.Utility] <> 0) then
+    ~ If taken as a utility talent (SoGTlClass.Utility), find a [utility] talent.
+    utc = " & SoGTlClass.Utility & "
+  else
+    ~ Otherwise find a sphere-specific talent.
+    utc = " & " & replace(tagids[SoGSphere.?],"SoGSphere","SoGBonTal",0) & " & "
+  endif
+
+  var typ as string
+  if (tagis[SoGFreeTal.Package] = 0) then
+    typ = "(" & replace(tagids[SoGFreeTal.?," & "],"SoGFreeTal","SoGTalDesc",0) & ") &"
+  elseif (tagis[SoGReqPkg.?] <> 0) then
+    typ = "(" & tagids[SoGReqPkg.?] & ") &"
+  endif
+
+  perform hero.findchild[SoGTalent,tagids[SoGSphere.?] & utc & typ & " !SoGTlClass.SoGBonusTl & !SoGTlClass.ExcepTalent & !SoGTlClass.InitTalent"].setfocus
+  doneif (state.isfocus = 0)
+
+  ~ Mark as a free talent granted by Bonus Talent features of spheres/drawbacks.
+  perform focus.assign[SoGTlClass.SoGBonusTl]
+
+  ~ This is an InitTalent, therefore free.
+  perform focus.assign[SoGTlClass.InitTalent]]]></eval>
+    <evalrule phase="Final" priority="99999999999999" index="3" message="You must select a talent of a specific type with the bonus talent provided by the sphere" severity="error"><![CDATA[@valid = 0
+  ~ Valid if disabled
+  validif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if we are not a GainSphere, Package talent, or Drawback.
+  validif (tagis[SoGTlClass.GainSphere] + tagis[SoGIsPkg.?] + tagis[component.SoGDrawbk] = 0)
+  ~ If not a drawback, check FirstCopy.
+  if (tagis[component.SoGDrawbk] = 0) then
+    ~ Valid for duplicate non-Drawback things.
+    validif (tagis[Helper.FirstCopy] = 0)
+  endif
+  ~ Or if we a free talent (what this validation checks).
+  validif (tagis[SoGFreeTal.?] = 0)
+  validif (tagis[SphOfGuil.NoBnTalent] <> 0)
+
+  var ut as string
+  var utc as string
+  if (tagis[SoGTlClass.Utility] <> 0) then
+    ut = "[utility] "
+    utc = " & SoGTlClass.Utility & "
+  else
+    utc = " & (" & replace(tagids[SoGSphere.?],"SoGSphere","SoGBonTal",0) & ") & "
+  endif
+
+  var fr as string
+  if (tagis[SoGIsPkg.?] <> 0) then
+    fr = tagnames[SoGIsPkg.?]
+  elseif (tagis[component.SoGDrawbk] <> 0) then
+    fr = field[thingname].text & " drawback"
+  else
+    fr = tagnames[SoGSphere.?] & " sphere"
+  endif
+  @message = "You must select a " & ut & tagnames[SoGFreeTal.?] & " talent with the bonus talent provided by the base " & fr
+
+  var typ as string
+  if (tagis[SoGFreeTal.Package] = 0) then
+    typ = "(" & replace(tagids[SoGFreeTal.?," & "],"SoGFreeTal","SoGTalDesc",0) & ") &"
+  elseif (tagis[SoGReqPkg.?] <> 0) then
+    typ = "(" & tagids[SoGReqPkg.?] & ") &"
+  endif
+
+  ~ Find our selection
+  perform hero.findchild[SoGTalent,tagids[SoGSphere.?] & utc & typ & " SoGTlClass.SoGBonusTl & Helper.FirstCopy & !SoGTlClass.ExcepTalent"].setfocus
+
+  ~ If we found it, done.
+  if (state.isfocus <> 0) then
+    validif (state.isfocus <> 0)
+  else
+    ~ We failed to find, so try to mark it invalid.
+    if (ispanel <> 0) then
+      linkvalid = 0
+    elseif (ispanel = 0) then
+      ~ We don't have a panel/table link.
+      perform linkage[table].setfocus
+
+      var par as string
+      if (state.isfocus <> 0) then
+        par = " islinkage[table],isroot,idstring=" & focus.islinkage[table] & focus.isroot & focus.idstring
+
+        ~ Mark the panel/table invalid.
+        focus.linkvalid = 0
+        perform state.clearfocus
+      endif
+    endif
+  endif]]></evalrule>
     </component>
   <!-- ************************************************************************ -->
   <!--                          COMPONENT SETS                                  -->
@@ -1021,6 +1190,7 @@
   <compset id="SoGTalent">
     <compref component="SoGTalent"/>
     <compref component="DDSTalent"/>
+    <compref component="SGBonusTal"/>
     <compref component="AutoPrereq"/>
     <compref component="Ability"/>
     <compref component="Value"/>
@@ -1042,6 +1212,7 @@
     </compset>
   <compset id="SoGDrawbk">
     <compref component="SoGDrawbk"/>
+    <compref component="SGBonusTal"/>
     <compref component="Value"/>
     <compref component="Ability"/>
     <compref component="Tracker"/>
@@ -1084,5 +1255,6 @@
   <sortset id="SoGTalSort" name="SoG Talent Sort">
     <sortkey id="SoGSphere"/>
     <sortkey id="SoGTlClass"/>
+    <sortkey id="_Name_"/>
     </sortset>
   </document>

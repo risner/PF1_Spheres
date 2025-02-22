@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DDS - Errata"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="PMErrata" name="Power and Might Errata" compset="Mechanics" description="Errata for the released SoM v1.23, USoP v1.42, and CotS v1.52" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Errat"/>
+    <eval phase="First" priority="100"><![CDATA[
+
+       ~ For Incanter's tHelpInc thing, the first level index=0 was omitted.
+       perform hero.childfound[tHelpInc].setfocus
+       if (state.isfocus <> 0) then
+         ~ The Incanter gains 1 magic talent at 1st level.
+         focus.field[cTalKnown].arrayvalue[0] = 1
+         perform state.clearfocus
+       endif
+
+       ~bonus spells issue debug messages "Class can't (take/memorize) spells"
+       perform hero.childfound[arSPSphSor].setfocus
+       if (state.isfocus <> 0) then
+         ~ find all the bonus spells that were added by our bloodlines, and
+         ~ hide them
+         foreach pick in hero from BaseSpell where "SpellType.cHelpSor & BonusSplAt.?"
+           perform eachpick.assign[Hide.Spell]
+           ~ This prevents "Class can't (take|memorise) spells????" errors.
+           perform eachpick.assign[Helper.SplNotPrep]
+         nexteach
+       endif
+
+       ~Undead Servants misspells Knowledge (religion) thingid.
+       perform hero.childfound[somDbUndeadSer].setfocus
+       if (state.isfocus <> 0) then
+         if (focus.tagis[ClassSkill.skKnowRe] <> 0) then
+           perform focus.delete[ClassSkill.skKnowRe]
+           perform focus.assign[ClassSkill.skKnowRel]
+         endif
+       endif
+
+       ~ Additional errata planned to be incorporate:
+       ~ arSoPWendigo
+       ~ arChSpDimDefe
+       ~ somTlBashShield
+       ~ sopTlWpEmT
+       ~ somTlVersaShield
+       ~ somDbSavageCombat
+       ~ cSoMSkilledCrafts
+       ~ Timing issue with Shield Expert = somTlRShieldExper
+       ~ Timing issue with Tower Shield Mastery = somTlRiTowerShdMa
+
+     ]]></eval>
+    </thing>
+  </document>

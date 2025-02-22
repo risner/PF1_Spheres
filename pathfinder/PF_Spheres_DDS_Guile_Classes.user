@@ -23,13 +23,13 @@ BSD-2-Clause license</info_author>
       perform linkage[varies].assign[SoGTRank.Adroit]</eval>
     </thing>
   <thing id="cTradeTradition" name="Trade Tradition" compset="ClSpecial" description="Like your character’s class or race, you choose their trade tradition at character creation. A trade tradition represents the character’s background, practice, and training at a variety of tasks. Trade traditions allow you to exchange the usual class skills of a class for a more limited and specialized set of class skills and one or two other skill talents.">
-    <fieldval field="usrChkText" value="Chosen"/>
     <fieldval field="usrCandid1" value="component.SoGTraTrad"/>
+    <fieldval field="usrChkText" value="Chosen"/>
     <usesource source="pPF1e_Sph_Guile"/>
-    <tag group="Hide" tag="ClSpecList"/>
-    <tag group="Helper" tag="SpecUp"/>
-    <tag group="Helper" tag="NoMinimum"/>
     <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="Hide" tag="ClSpecList"/>
     <eval phase="First" priority="75" name="Link class helper to trade tradition"><![CDATA[~ If disabled, get out.
          doneif (tagis[Helper.SpcDisable] <> 0)
 
@@ -95,6 +95,28 @@ BSD-2-Clause license</info_author>
          <before name="Add additional free trade talents"/>
          </eval>
     </thing>
+  <thing id="sogTTAerialist" name="Aerialist" compset="SoGTraTrad" description="{b}Automatic Trade Talents{/b}: Duelist, Falconer\n\n{i}Trade Talent Class Skills{/i}: Bluff, Climbᴿ, Fly, Handle Animal*, Intimidate, Knowledge (nature), Linguistics, and Sense Motive.\n\n{b}Automatic Skill Sphere{/b}: Body Control sphere\n\n{b}Adroit Trade Talents{/b}: Roughrider, Sky Pilot\n\n{i}Trade Talent Class Skills{/i}: Acrobatics, Knowledge (geography), Ride, Survival, and Swim;\n\nᴿ Heal in place of redundant Climb, * increased class skill bonus to Handle Animal checks.\n\n{b}Adroit Bonus Skill Talent{/b}: Bluster sphere or the Body Control (Breath Control) talent." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGVarTal1" tag="sogTlBreathContr"/>
+    <tag group="SoGVarTal1" tag="sogTlSpBluster"/>
+    <tag group="SoGVarTals" tag="Adroit"/>
+    <bootstrap thing="SoGSkillReplace">
+      <autotag group="Reference" tag="skClimb"/>
+      <autotag group="Target" tag="skHeal"/>
+      </bootstrap>
+    <bootstrap thing="sogTlDuelist"></bootstrap>
+    <bootstrap thing="sogTlFalconer"></bootstrap>
+    <bootstrap thing="sogTlRoughrider">
+      <containerreq phase="First" priority="102">SoGTRank.Adroit</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlSkyPilot">
+      <containerreq phase="First" priority="102">SoGTRank.Adroit</containerreq>
+      </bootstrap>
+    <bootstrap thing="sogTlSpBodyCont"></bootstrap>
+    <bootstrap thing="sogTlSpVocation">
+      <autotag group="SphOfGuil" tag="NoBnTalent"/>
+      </bootstrap>
+    </thing>
   <thing id="sogTTBlank" name="Trade Tradition: Blank" compset="SoGTraTrad" description="Blank Trade Tradition\n\nGrants you 2 (trade) talents and 1 generic skill talent or double this amount for Adroit." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
     <eval phase="First" priority="1000"><![CDATA[~ If we have no rank, get out.
@@ -112,35 +134,13 @@ BSD-2-Clause license</info_author>
         <after name="Link class helper to trade tradition"/>
         </eval>
     </thing>
-  <thing id="sogTTAerialist" name="Aerialist" compset="SoGTraTrad" description="{b}Automatic Trade Talents{/b}: Duelist, Falconer\n\n{i}Trade Talent Class Skills{/i}: Bluff, Climbᴿ, Fly, Handle Animal*, Intimidate, Knowledge (nature), Linguistics, and Sense Motive.\n\n{b}Automatic Skill Sphere{/b}: Body Control sphere\n\n{b}Adroit Trade Talents{/b}: Roughrider, Sky Pilot\n\n{i}Trade Talent Class Skills{/i}: Acrobatics, Knowledge (geography), Ride, Survival, and Swim;\n\nᴿ Heal in place of redundant Climb, * increased class skill bonus to Handle Animal checks.\n\n{b}Adroit Bonus Skill Talent{/b}: Bluster sphere or the Body Control (Breath Control) talent." uniqueness="useronce">
-    <usesource source="pPF1e_Sph_Guile"/>
-    <tag group="SoGVarTal1" tag="sogTlSpBluster"/>
-    <tag group="SoGVarTal1" tag="sogTlBreathContr"/>
-    <tag group="SoGVarTals" tag="Adroit"/>
-    <bootstrap thing="SoGSkillReplace">
-      <autotag group="Reference" tag="skClimb"/>
-      <autotag group="Target" tag="skHeal"/>
-      </bootstrap>
-    <bootstrap thing="sogTlDuelist"></bootstrap>
-    <bootstrap thing="sogTlFalconer"></bootstrap>
-    <bootstrap thing="sogTlSpBodyCont"></bootstrap>
-    <bootstrap thing="sogTlRoughrider">
-      <containerreq phase="First" priority="102">SoGTRank.Adroit</containerreq>
-      </bootstrap>
-    <bootstrap thing="sogTlSkyPilot">
-      <containerreq phase="First" priority="102">SoGTRank.Adroit</containerreq>
-      </bootstrap>
-    <bootstrap thing="sogTlSpVocation">
-      <autotag group="SphOfGuil" tag="NoBnTalent"/>
-      </bootstrap>
-    </thing>
   <thing id="pSoGFeattTalProg" name="Feat to Talent Progression Conversion" compset="InPlay" description="While any class can buy some facility with the skill spheres by taking the Extra Skill Talent feat or a trade tradition, some characters may want to delve deeper into the system. A character can gain a skill talent progression by trading out some or all of their standard feat progression as described in {b}Table: Feat to Talent Progression Conversion{/b}.">
     <fieldval field="pCandExpr" value="component.Simple &amp; (thingid.DDSSGTrained | thingid.DDSSGJourneyman)"/>
     <usesource source="pPF1e_Sph_Guile"/>
-    <tag group="ProductId" tag="DropDead"/>
     <tag group="Helper" tag="NoIncr"/>
-    <bootstrap thing="DDSSGTrained"></bootstrap>
+    <tag group="ProductId" tag="DropDead"/>
     <bootstrap thing="DDSSGJourneyman"></bootstrap>
+    <bootstrap thing="DDSSGTrained"></bootstrap>
     <bootstrap thing="abSoGSkSp">
       <containerreq phase="First" priority="297">fieldval:pIsOn = 1</containerreq>
       </bootstrap>

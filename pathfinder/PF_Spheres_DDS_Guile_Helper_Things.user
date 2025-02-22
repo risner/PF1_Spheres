@@ -9,34 +9,39 @@ BSD-2-Clause license</info_author>
     <usesource source="pPF1e_Sph_Guile"/>
     <bootstrap thing="SoGOM"></bootstrap>
     <bootstrap thing="SoGOverlappingSk"></bootstrap>
+    <bootstrap thing="SoGTTJour"></bootstrap>
+    <bootstrap thing="SoGTTTrai"></bootstrap>
+    <bootstrap thing="SoGTTVirt"></bootstrap>
+    <bootstrap thing="resSGExUtilTal"></bootstrap>
     <bootstrap thing="resSGSSGen"></bootstrap>
+    <bootstrap thing="resSGSkLeverage">
+      <containerreq phase="First" priority="500">SphOfGuil.Class</containerreq>
+      </bootstrap>
+    <bootstrap thing="resSGTrSkCnt"></bootstrap>
+    <bootstrap thing="resSGTraTal"></bootstrap>
+    <bootstrap thing="resSGTraTrad"></bootstrap>
+    <bootstrap thing="resSGUtilTal"></bootstrap>
+    <bootstrap thing="resSGPkArtifice"></bootstrap>
     <bootstrap thing="resSGSEArtifice"></bootstrap>
     <bootstrap thing="resSGSEBluster"></bootstrap>
     <bootstrap thing="resSGSEBodyCont"></bootstrap>
     <bootstrap thing="resSGSECommunicat"></bootstrap>
+    <bootstrap thing="resSGPkFaction"></bootstrap>
     <bootstrap thing="resSGSEFaction"></bootstrap>
-    <bootstrap thing="resSGSEHerbalism"></bootstrap>
     <bootstrap thing="resSGPkHerbalism"></bootstrap>
+    <bootstrap thing="resSGSEHerbalism"></bootstrap>
     <bootstrap thing="resSGSEInfiltrati"></bootstrap>
     <bootstrap thing="resSGSEInvestigat"></bootstrap>
+    <bootstrap thing="resSGPkNavigation"></bootstrap>
     <bootstrap thing="resSGSENavigation"></bootstrap>
+    <bootstrap thing="resSGPkPerformanc"></bootstrap>
     <bootstrap thing="resSGSEPerformanc"></bootstrap>
     <bootstrap thing="resSGSESpellhack"></bootstrap>
     <bootstrap thing="resSGSEStudy"></bootstrap>
     <bootstrap thing="resSGSESubterfuge"></bootstrap>
+    <bootstrap thing="resSGPkSurvivalis"></bootstrap>
     <bootstrap thing="resSGSESurvivalis"></bootstrap>
     <bootstrap thing="resSGSEVocation"></bootstrap>
-    <bootstrap thing="resSGTraTrad"></bootstrap>
-    <bootstrap thing="resSGTraTal"></bootstrap>
-    <bootstrap thing="resSGUtilTal"></bootstrap>
-    <bootstrap thing="resSGExUtilTal"></bootstrap>
-    <bootstrap thing="resSGTrSkCnt"></bootstrap>
-    <bootstrap thing="SoGTTTrai"></bootstrap>
-    <bootstrap thing="SoGTTJour"></bootstrap>
-    <bootstrap thing="SoGTTVirt"></bootstrap>
-    <bootstrap thing="resSGSkLeverage">
-      <containerreq phase="First" priority="500">SphOfGuil.Class</containerreq>
-      </bootstrap>
     <bootstrap thing="stAddSkillUse">
       <containerreq phase="First" priority="500">SphOfGuil.Class</containerreq>
       </bootstrap>
@@ -52,12 +57,12 @@ BSD-2-Clause license</info_author>
 	  br = "{br}"
 
 	  ~ Go through all talents
-	  foreach thing in SoGTalent where "!SoGTlClass.Helper & !SoGTlClass.GainSphere"
+	  foreach thing in SoGTalent where "!SphOfGuil.Helper & !SoGTlClass.GainSphere"
 	    if (eachthing.ispick = 0) then
 	      var descTxt as string
 	      ~ Add descriptors to name
 		  if (eachthing.tagis[SoGTalDesc.?] <> 0) then
-		    nameTxt = eachthing.field[name].text & " (" & eachthing.tagnames[SoGTalDesc.?, ", "] & ")"
+		    nameTxt = eachthing.field[name].text & " (" & eachthing.tagabbrevs[SoGTalDesc.?, ", "] & ")"
 		    perform eachthing.amendthing[name,nameTxt]
 		  endif
 
@@ -110,6 +115,11 @@ BSD-2-Clause license</info_author>
               endif
             endif
 	  nexteach]]></eval>
+    <eval phase="First" priority="495" index="3"><![CDATA[      ~ If the hero has levels in at least one operative class, mark him as a operative
+      foreach pick in hero from Class where "SphOfGuil.Class"
+        perform hero.assign[SphOfGuil.Class]
+        done
+      nexteach]]></eval>
     <eval phase="PostAttr" priority="10000" name="Allow operatives to take a trade tradition"><![CDATA[
       ~ If we are not Guile, get out.
       doneif (hero.tagis[SphOfGuil.Class] = 0)
@@ -266,6 +276,18 @@ BSD-2-Clause license</info_author>
                endif
           nexteach
 
+          if (hero.tagis[source.pPF1e_SoMnSoG] <> 0) then
+            ~ Tag SoMAssocSk.? on skills, to make them appear on the Skill Sphere list.
+            var sexpr as string
+            foreach pick in hero from SoMTalent where "SoMAssocSk.?"
+              sexpr &= replace(eachpick.tagids[SoMAssocSk.?, " | "],"SoMAssocSk","thingid",0) & "|"
+            nexteach
+            sexpr &= "thingid." & idstring
+            foreach pick in hero from BaseSkill where sexpr
+              perform eachpick.assignstr["SoMAssocSk." & eachpick.idstring]
+            nexteach
+          endif
+
           doneif (hero.tagis[source.pPF1e_AssocComp] = 0)
 
           ~ Guild has a variant to not stack with the Might Sphere rule:
@@ -323,32 +345,9 @@ BSD-2-Clause license</info_author>
       <after name="Apply free ranks for associated skills"/>
       </eval>
     </thing>
-  <thing id="resSGTraTrad" name="Trade Traditions" compset="Resource" panellink="tbSoGSkSpTl">
-    <fieldval field="resObject" value="Trade Traditions"/>
-    <tag group="Helper" tag="NoMinimum"/>
-    </thing>
-  <thing id="resSGTraTal" name="Trade Talents" compset="Resource" panellink="tbSoGVocation">
-    <fieldval field="resObject" value="Trade Talents"/>
-    </thing>
-  <thing id="resSGUtilTal" name="Utility Talents" compset="Resource" panellink="tbSoGSkSpTl">
-    <fieldval field="resObject" value="Utility Talents"/>
-    </thing>
-  <thing id="resSGExUtilTal" name="Expanded Utility Talents" compset="Resource" description="Description in PF_Spheres_DDS_Guile_Helper_Things.user" panellink="tbSoGSkSpTl">
+  <thing id="resSGExUtilTal" name="Expanded Utility Talents" compset="Resource" panellink="tbSoGSkSpTl">
     <fieldval field="resObject" value="Expanded Utility Talents"/>
     <tag group="Helper" tag="NoMinimum"/>
-    </thing>
-  <thing id="resSGTrSkCnt" name="Trade Skill Replacements" compset="Resource" panellink="tbSoGVocation">
-    <fieldval field="resObject" value="Trade Skill Replacements"/>
-    <tag group="Helper" tag="NoMinimum"/>
-    <eval phase="First" priority="1001" name="Count allowed Trade Skill Replacements."><![CDATA[~ If we are not Guile, get out.
-      doneif (hero.tagis[SphOfGuil.Class] = 0)
-
-      var taln as number
-      taln = 0
-      foreach pick in hero from SoGTalent where "SoGTalDesc.Trade"
-        taln += 1
-      nexteach
-      hero.childfound[resSGTrSkCnt].field[resMax].value = round(taln/2,0,-1)]]></eval>
     </thing>
   <thing id="resSGSkLeverage" name="Skill Leverage Unlocked" compset="Resource" panellink="tbSoGSkSpTl">
     <fieldval field="resObject" value="Unlocks"/>
@@ -366,6 +365,29 @@ BSD-2-Clause license</info_author>
       field[resSpent].value += unlk]]></eval>
     </thing>
   <thing id="resSGSSGen" name="Skill Sphere Talents" compset="Resource" panellink="tbSoGSkSpTl"></thing>
+  <thing id="resSGTraTrad" name="Trade Traditions" compset="Resource" panellink="tbSoGSkSpTl">
+    <fieldval field="resObject" value="Trade Traditions"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    </thing>
+  <thing id="resSGUtilTal" name="Utility Talents" compset="Resource" panellink="tbSoGSkSpTl">
+    <fieldval field="resObject" value="Utility Talents"/>
+    </thing>
+  <thing id="resSGTrSkCnt" name="Trade Skill Replacements" compset="Resource" panellink="tbSoGVocation">
+    <fieldval field="resObject" value="Trade Skill Replacements"/>
+    <tag group="Helper" tag="NoMinimum"/>
+    <eval phase="First" priority="1001" name="Count allowed Trade Skill Replacements."><![CDATA[~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      var taln as number
+      taln = 0
+      foreach pick in hero from SoGTalent where "SoGTalDesc.Trade"
+        taln += 1
+      nexteach
+      hero.childfound[resSGTrSkCnt].field[resMax].value = round(taln/2,0,-1)]]></eval>
+    </thing>
+  <thing id="resSGTraTal" name="Trade Talents" compset="Resource" panellink="tbSoGVocation">
+    <fieldval field="resObject" value="Trade Talents"/>
+    </thing>
   <thing id="SoGOM" name="Operative Modifier" compset="SoGOM" uniqueness="unique"></thing>
   <thing id="SoGOverlappingSk" name="Overlapping Class Skills" compset="SoGOverlappingSk">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -527,9 +549,29 @@ BSD-2-Clause license</info_author>
     <after name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
     </eval>
     </thing>
-  <thing id="abSoGSkSp" name="Skills Training" compset="Ability" description="You have talents in one or more skill spheres" uniqueness="unique">
+  <thing id="abCSBlendTrain" name="Combat / Skill Blended Training" compset="Ability" uniqueness="useronce">
     <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <bootstrap thing="abSoMCmbTr"></bootstrap>
+    </thing>
+  <thing id="abMSBlendTrain" name="Magic / Skill Blended Training" compset="Ability" uniqueness="useronce">
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <bootstrap thing="abSoPCast"></bootstrap>
+    </thing>
+  <thing id="abSoGSkLeverage" name="Skill Leverage" compset="Ability" description="Skill leverage represents your unique insights and lateral thinking. You can spend uses of leverage to use a skill more effectively. You always have a single pool of skill leverage, which you can spend with any skill that you have unlocked skill leverage for. The most common way to unlock skill leverage is from skill spheres.\n\nIf you would unlock skill leverage with a skill you already have it unlocked for, you can unlock skill leverage with another skill of your choice.\n\nIf you have skill leverage, your pool of uses is equal to 1 + one-third your Hit Dice. You regain all uses of your leverage when you get a full 8 hours of rest.\n\nYou can also regain 1 use of skill leverage in any of the following ways:\n\nWhen you thwart a significant encounter with one or more creatures you have not faced before (typically one whose challenge rating is at least your level - 2), generally slaying them, rendering them harmless, or forcing them to abandon a goal for the foreseeable future. You only regain 1 use of leverage for an encounter, even if multiple individuals you defeated would be a significant threat. If an enemy's abilities change or grow, you can gain skill leverage from that foe again.\n\n{indent 50}* When you disable or intentionally avoid a significant trap (again, typically one with a challenge rating greater than your level, equal to your level, or 1 or 2 lower than your level)\n* When you successfully persuade someone to help you who never has before (or trick them into doing so), provided the social encounter was a significant challenge\n* When you make a discovery significant to one of your motivations or that gives you a new path (literal or figurative) to achieving a goal (such as opening a secret door leading somewhere new, learning a secret weakness of a challenging foe, or reaching a significant destination despite there being no known route){indent 0}\n\nIf it is not clear, the GM makes the final decision as to whether you regain your skill leverage. The GM might also allow other methods of regaining skill leverage in circumstances where you can bring a fresh perspective to bear.\n\nSkill leverage can be used in one of the following ways.\n\n{indent 50}* {b}Change Tactics{/b}: After you roll a skill check and see the die, but before the GM says the consequences of the roll, you can spend 1 use of leverage to roll 1d4 and add it to the result.\n\n* {b}Draw on Intuition{/b}: You can spend 1 use of leverage on a skill to get a clue about a creature, obstacle, hazard, or location that skill could be used to identify or interact with. When interacting with a creature, the clue might be something the creature is afraid of, one of its minor motivations, something it wants, or a line of conversation that it is particularly open to or unwilling to entertain. When trying to open a magical vault, the clue might be what the door is made of, the school of magic the vault's magical runes belong to, or where previous users have touched the vault before. This information should generally be of the sort that could be recalled with a Knowledge check with a DC no higher than 15 + twice your ranks in the leveraged skill.\n\n* {b}Seize an Opportunity{/b}: After you roll a skill check and compare the result to the DC, if your total exceeds the DC by enough, you can achieve a better result. If the difference is at least equal to the amount of a penalty or optional DC increase for an improved or greater effect (such as the voluntary penalty to Climb to increase your speed), you can spend 1 use of skill leverage to add the change. You can spend multiple uses of skill leverage to add that many different penalties or DC increases, or apply a stacking penalty repeatedly. If your game uses the Degrees of Success variant (see the Skills chapter), optional penalties and DCs that do not represent significant risk are available at no cost.{indent 0}" uniqueness="unique">
+    <comment>
+Not implemented:
+Variant: Leverage as a Daily Pool = Tag: Usage.Day
+Variant: Leverage for Improvisation</comment>
+    <fieldval field="trkMax" value="1"/>
+    <tag group="ChargeCalc" tag="HitDieDiv3"/>
+    <tag group="Helper" tag="ShowSpec" name="Show Spec" abbrev="Show Spec"/>
+    <tag group="User" tag="Tracker"/>
+    </thing>
+  <thing id="abSoGSkSp" name="Skills Training" compset="Ability" description="You have talents in one or more skill spheres" uniqueness="unique">
     <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
     <bootstrap thing="abSoGSkLeverage"></bootstrap>
     <eval phase="First" priority="495" name="Enable skill spheres">doneif (tagis[Helper.SpcDisable] = 1)
       doneif (hero.isminion = 1)
@@ -539,24 +581,44 @@ BSD-2-Clause license</info_author>
            perform hero.assign[SphOfGuil.Class]
       endif</eval>
     </thing>
-  <thing id="abSoGSkLeverage" name="Skill Leverage" compset="Ability" description="Skill leverage represents your unique insights and lateral thinking. You can spend uses of leverage to use a skill more effectively. You always have a single pool of skill leverage, which you can spend with any skill that you have unlocked skill leverage for. The most common way to unlock skill leverage is from skill spheres.\n\nIf you would unlock skill leverage with a skill you already have it unlocked for, you can unlock skill leverage with another skill of your choice.\n\nIf you have skill leverage, your pool of uses is equal to 1 + one-third your Hit Dice. You regain all uses of your leverage when you get a full 8 hours of rest.\n\nYou can also regain 1 use of skill leverage in any of the following ways:\n\nWhen you thwart a significant encounter with one or more creatures you have not faced before (typically one whose challenge rating is at least your level - 2), generally slaying them, rendering them harmless, or forcing them to abandon a goal for the foreseeable future. You only regain 1 use of leverage for an encounter, even if multiple individuals you defeated would be a significant threat. If an enemy's abilities change or grow, you can gain skill leverage from that foe again.\n\n{indent 50}* When you disable or intentionally avoid a significant trap (again, typically one with a challenge rating greater than your level, equal to your level, or 1 or 2 lower than your level)\n* When you successfully persuade someone to help you who never has before (or trick them into doing so), provided the social encounter was a significant challenge\n* When you make a discovery significant to one of your motivations or that gives you a new path (literal or figurative) to achieving a goal (such as opening a secret door leading somewhere new, learning a secret weakness of a challenging foe, or reaching a significant destination despite there being no known route){indent 0}\n\nIf it is not clear, the GM makes the final decision as to whether you regain your skill leverage. The GM might also allow other methods of regaining skill leverage in circumstances where you can bring a fresh perspective to bear.\n\nSkill leverage can be used in one of the following ways.\n\n{indent 50}* {b}Change Tactics{/b}: After you roll a skill check and see the die, but before the GM says the consequences of the roll, you can spend 1 use of leverage to roll 1d4 and add it to the result.\n\n* {b}Draw on Intuition{/b}: You can spend 1 use of leverage on a skill to get a clue about a creature, obstacle, hazard, or location that skill could be used to identify or interact with. When interacting with a creature, the clue might be something the creature is afraid of, one of its minor motivations, something it wants, or a line of conversation that it is particularly open to or unwilling to entertain. When trying to open a magical vault, the clue might be what the door is made of, the school of magic the vault's magical runes belong to, or where previous users have touched the vault before. This information should generally be of the sort that could be recalled with a Knowledge check with a DC no higher than 15 + twice your ranks in the leveraged skill.\n\n* {b}Seize an Opportunity{/b}: After you roll a skill check and compare the result to the DC, if your total exceeds the DC by enough, you can achieve a better result. If the difference is at least equal to the amount of a penalty or optional DC increase for an improved or greater effect (such as the voluntary penalty to Climb to increase your speed), you can spend 1 use of skill leverage to add the change. You can spend multiple uses of skill leverage to add that many different penalties or DC increases, or apply a stacking penalty repeatedly. If your game uses the Degrees of Success variant (see the Skills chapter), optional penalties and DCs that do not represent significant risk are available at no cost.{indent 0}" uniqueness="unique">
-    <comment>
-Not implemented:
-Variant: Leverage as a Daily Pool = Tag: Usage.Day
-Variant: Leverage for Improvisation</comment>
-    <fieldval field="trkMax" value="1"/>
-    <tag group="User" tag="Tracker"/>
-    <tag group="Helper" tag="ShowSpec" name="Show Spec" abbrev="Show Spec"/>
-    <tag group="ChargeCalc" tag="HitDieDiv3"/>
+  <thing id="DDSSGJourneyman" name="Journeyman" compset="Simple">
+    <tag group="SoGOLProg" tag="Journeyman"/>
     </thing>
   <thing id="DDSSGTrained" name="Trained" compset="Simple">
     <tag group="SoGOLProg" tag="Trained"/>
     </thing>
-  <thing id="DDSSGJourneyman" name="Journeyman" compset="Simple">
-    <tag group="SoGOLProg" tag="Journeyman"/>
-    </thing>
   <thing id="DDSSGVirtuoso" name="Virtuoso" compset="Simple">
     <tag group="SoGOLProg" tag="Virtuoso"/>
+    </thing>
+  <thing id="pSoGST" name="Skill Talents Known" compset="InPlay" description="Select this adjustment to change the number of bonus skill talents.">
+    <usesource source="pDDSSoM" parent="pDropDead" name="Spheres of Might"/>
+    <tag group="Helper" tag="NoPathSoc" name="Not Allowed for Pathfinder Society Characters" abbrev="Not Allowed for Pathfinder Society Characters"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="PostLevel" priority="10000"><![CDATA[~ Stop now if we're not activated
+      doneif (field[pIsOn].value = 0)
+
+      ~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      ~ Alter number of magic talents known
+      hero.childfound[resSGSSGen].field[resMax].value += field[pAdjust].value]]></eval>
+    </thing>
+  <thing id="pSoGCTKnownSp" name="Skill Talents Known (Sphere-specific)" compset="InPlay" description="Select this adjustment to change the number of bonus skill talents for a specific sphere known to a character.">
+    <fieldval field="pCandExpr" value="component.Resource &amp; SoGBonTal.?"/>
+    <usesource source="pDDSSoM" parent="pDropDead" name="Spheres of Might"/>
+    <tag group="Helper" tag="NoPathSoc" name="Not Allowed for Pathfinder Society Characters" abbrev="Not Allowed for Pathfinder Society Characters"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="PostLevel" priority="10000"><![CDATA[~ Stop now if we're not activated
+      doneif (field[pIsOn].value = 0)
+
+      ~ Stop if we haven't picked a sphere
+      doneif (field[pChosen].ischosen <> 1)
+
+      ~ If we are not Guile, get out.
+      doneif (hero.tagis[SphOfGuil.Class] = 0)
+
+      ~ Alter number of skill talents known
+      field[pChosen].chosen.field[resMax].value += field[pAdjust].value]]></eval>
     </thing>
   <thing id="pSoGSkForTraTrd" name="Trade class skills for trade tradition" compset="InPlay" description="When you take your first character level in a class which does not normally select a trade tradition, you may give up your class's usual class skills and in exchange gain a trade tradition. The class's usual number of skill ranks per level determines your trade rank." uniqueness="useronce">
     <fieldval field="pCandExpr" value="component.Class &amp; !SphOfGuil.Class &amp; Helper.FirstLevel"/>
@@ -625,36 +687,56 @@ Variant: Leverage for Improvisation</comment>
 validif (hero.tagcount[Classes.?] = 1)</validate>
       </prereq>
     </thing>
-  <thing id="pSoGCTKnownSp" name="Skill Talents Known (Sphere-specific)" compset="InPlay" description="Select this adjustment to change the number of bonus skill talents for a specific sphere known to a character.">
-    <fieldval field="pCandExpr" value="component.Resource &amp; SoGBonTal.?"/>
-    <usesource source="pDDSSoM" parent="pDropDead" name="Spheres of Might"/>
-    <tag group="Helper" tag="NoPathSoc" name="Not Allowed for Pathfinder Society Characters" abbrev="Not Allowed for Pathfinder Society Characters"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <eval phase="PostLevel" priority="10000"><![CDATA[      
-      ~ Stop now if we're not activated
-      doneif (field[pIsOn].value = 0)
+  <thing id="gMakeshiftTools" name="Makeshift Tools, masterwork" compset="Gear" description="The trinket functions as a masterwork tool of the chosen skill, but grants a +4 circumstance bonus to the chosen skill (instead of the normal +2). Additionally, the user temporarily unlocks skill leverage with the chosen skill while using the tool.\n\n{b}Special{/b}: If you possess the Fundamental Expertise talent, you can choose a second skill check for this function to apply to.\n\n{b}Note{/b}: May not be used on Initiative checks, but works with other ability checks. Ability checks may not be selected." uniqueness="unique">
+    <comment>TODO: Need to add a second choice if we have Fundamental Expertise talent</comment>
+    <fieldval field="gWeight" value="1"/>
+    <fieldval field="sbName" value="masterwork makeshift tools"/>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (SkillAbil.aSTR | SkillAbil.aDEX | Helper.SkCatArt | Helper.SkCatCraft | Helper.SkCatProf) &amp; !Helper.Obsolete &amp; !Helper.Helper"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="EquipType" tag="Masterwork" name="Masterwork" abbrev="Masterwork"/>
+    <tag group="Helper" tag="EquipMag" name="EquipMag" abbrev="EquipMag"/>
+    <tag group="Helper" tag="GearNoSize" name="GearNoSize" abbrev="GearNoSize"/>
+    <tag group="Helper" tag="Helper"/>
+    <tag group="gType" tag="Tools" name="Tools and Skill Kits" abbrev="Tools"/>
+    <eval phase="PreLevel" priority="9500"><![CDATA[~ Get out if no choice
+  doneif (field[usrChosen1].ischosen = 0)
+  ~ Or if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if not equipped
+  doneif (field[gIsEquip].value = 0)
 
-      ~ Stop if we haven't picked a sphere
-      doneif (field[pChosen].ischosen <> 1)
+  ~ get the ToolsAvail tag from the chosen skill
+  perform field[usrChosen1].chosen.pulltags[ToolsAvail.?]
 
-      ~ If we are not Guile, get out.
-      doneif (hero.tagis[SphOfGuil.Class] = 0)
+  ~ Change to +4
+  ~field[usrChosen1].chosen.field[skToolMod].value = maximum(4,field[usrChosen1].chosen.field[skToolMod].value)
+  ~ Put in the history record
+  perform field[usrChosen1].chosen.field[skToolMod].modify[+,4,field[thingname].text]
+  ~#applypenalty[skToolMod,field[usrChosen1].chosen,field[thingname].text]
 
-      ~ Alter number of skill talents known
-      field[pChosen].chosen.field[resMax].value += field[pAdjust].value]]></eval>
-    </thing>
-  <thing id="pSoGST" name="Skill Talents Known" compset="InPlay" description="Select this adjustment to change the number of bonus skill talents.">
-    <usesource source="pDDSSoM" parent="pDropDead" name="Spheres of Might"/>
-    <tag group="Helper" tag="NoPathSoc" name="Not Allowed for Pathfinder Society Characters" abbrev="Not Allowed for Pathfinder Society Characters"/>
-    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
-    <eval phase="PostLevel" priority="10000"><![CDATA[      
-      ~ Stop now if we're not activated
-      doneif (field[pIsOn].value = 0)
+  ~ Checking attribute, but I believe SkillAbil.? is newer way.
+  ~ field[usrChosen1].chosen.linkage[skillattr].tagis[thingid.aWIS] <> 0) then]]></eval>
+    <eval phase="Render" priority="10000" index="2"><![CDATA[
+      ~ there's nothing we can do if nothing's been chosen
+      doneif (field[usrChosen1].ischosen = 0)
 
-      ~ If we are not Guile, get out.
-      doneif (hero.tagis[SphOfGuil.Class] = 0)
+      var crafttarg as string
 
-      ~ Alter number of magic talents known
-      hero.childfound[resSGSSGen].field[resMax].value += field[pAdjust].value]]></eval>
+      if (field[usrChosen1].chosen.field[skToolTerm].isempty = 0) then
+        crafttarg = lowercase(field[usrChosen1].chosen.field[skToolTerm].text)
+      else
+        crafttarg = "artisan"
+        endif
+
+      field[sbName].text = "makeshift " & crafttarg & " tools"]]></eval>
+    <eval phase="PostLevel" priority="1500" index="3" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+   doneif (tagis[Helper.SpcDisable] <> 0)
+   ~ or if no choice made.
+   doneif (field[usrChosen1].ischosen = 0)
+   ~ Or if not equipped
+   doneif (field[gIsEquip].value = 0)
+
+   perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
     </thing>
   </document>

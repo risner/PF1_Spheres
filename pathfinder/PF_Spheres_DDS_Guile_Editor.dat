@@ -5,135 +5,267 @@
    BSD-2-Clause license</info_author>
   -->
   <loadonce key="PF_Spheres_DDS_SpheresOfMight - Editor"/>
-  <!-- Spheres of Guile spheres editthing -->
-  <editthing compset="SoGSphere" description="Spheres of Guile spheres" group="Spheres of Guile" name="Sphere" prefix="sogSp" summary="This lets you define new trade spheres for the Spheres of Guile system">
-    <inputthing helptext="The tag indicating the name of the sphere. Each sphere must have a unique tag." name="Sphere Tag">
+  <!--
+
+  Spheres of Guile skill uses
+
+  -->
+  <editthing compset="SoGSkillUse" name="Skill Use" prefix="st" description="Spheres of Guile skill uses" group="Spheres of Guile" summary="This lets you define new skill uses for the Spheres of Guile system">
+    <!-- SPECIAL -->
+    <inputthing name="Special Information" helptext="">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Do not show on Specials tab" helptext="Check if this talent has a permanent effect that factors into the Hero's other statistics and shouldn't be shown in the list of abilities on the Specials tab. It will still be shown on the sphere tab, however.">
+      <it_tagcheck group="Helper" tag="SpecUp" default="no"/>
+      </inputthing>
+    <inputthing name="Show in Statblock but not Specials?" helptext="Check if this ability should be shown in when generating a statblock, even though it is not shown on the specials tab. For example, the Plant traits ability grants several immunities shown on the specials tab, but does not itself need to be shown there (so it shouldn't have Show in Specials List checked). However, in the stablock the immunities are hidden and Plant traits are shown instead, so this box should be checked.\n\nNote that there is no need to check this if 'Show in Specials List?' is checked. Anything shown there will also display in the statblock unless it has the appropriate Hide tag applied to it.">
+      <it_tagcheck group="Helper" tag="ShowStatbl" default="no"/>
+      </inputthing>
+    <inputthing name="Ability Classification" helptext="Specify what type of special ability this is.">
+      <it_tagpick group="AbilType" tag="?"/>
+      </inputthing>
+    <inputthing name="Avoid core hiding at PreLevel/10000" helptext="Rarely core hides boootstraps of a root as 'Not Equipped'. This is only relevant if the talent bootstraps things.">
+      <it_tagcheck group="Helper" tag="AlwaysAvl" default="no"/>
+      </inputthing>
+    <inputthing name="Array-Based Menu?" helptext="If this thing has a menu for the user to select from, and you want to define this menu as an array of text, enter the text here. Note that if nothing is entered in the first element (Row O), the array will not be shown.">
+      <it_field field="usrArray"/>
+      </inputthing>
+    <inputthing name="Array Label" helptext="If the array needs to explain what it is for, enter label text here. Leave blank if this array is self explanatory or if there is insufficient space to show everything. This text shows just left of the array.">
+      <it_field field="usrLabelAr"/>
+      </inputthing>
+    <inputthing name="Other info">
+      <it_separator/>
+      </inputthing>
+    </editthing>
+  <!--
+
+  Spheres of Guile Spheres SoGSphere (sogSp)
+
+  -->
+  <editthing compset="SoGSphere" name="Sphere" prefix="sogSp" description="Spheres of Guile spheres" group="Spheres of Guile" summary="This lets you define new skill spheres for the Spheres of Guile system" defunique="unique">
+    <inputthing name="Sphere Tag" helptext="The tag indicating the name of the sphere. Each sphere must have a unique tag.">
       <it_tagpick group="SoGSphere" tag="?"/>
       </inputthing>
     </editthing>
-  <!-- Spheres of Guile talents editthing -->
-  <editthing compset="SoGTalent" description="Spheres of Guile talents" group="Spheres of Guile" name="Talent" prefix="sogTl" summary="This lets you define new skill talents for the Spheres of Guile system">
-    <inputthing helptext="Select the sphere that this talent belongs to." name="Sphere">
+  <!--
+
+  Spheres of Guile talents
+
+  -->
+  <editthing compset="SoGTalent" name="Talent" prefix="sogTl" description="Spheres of Guile talents" group="Spheres of Guile" summary="This lets you define new skill talents for the Spheres of Guile system">
+    <inputthing name="Required" helptext="This section is for all the required elements of a sphere talent.">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Sphere Tag" helptext="The tag indicating the name of the sphere. Each sphere must have a unique tag.">
       <it_tagpick group="SoGSphere" tag="?"/>
       </inputthing>
-    <inputthing helptext="Select 'Basic Talent' for most talents.  Select 'Sphere Access' for talents that grant access to their associated skill sphere.  Select 'Base Sphere Ability' for abilities that are granted for free when a sphere is first taken." name="Talent Class">
+    <inputthing name="Choose one section" helptext="A talent is either a Basic Talent, a Sphere Access talent, Base Sphere Ability, or a Package. For Sphere Access talents, you will also need to make this thing {b}unique{/b}.">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="━━━━━━━━━━━━" helptext="">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Basic Talent" helptext="For Basic Talents and Base Sphere Ability .">
+      <it_tagcheck group="SoGTlClass" tag="Talent"/>
+      </inputthing>
+    <inputthing name="Base Sphere Ability" helptext="For abilities that are granted for free when a sphere is first taken.">
+      <it_tagcheck group="SoGTlClass" tag="InitTalent"/>
+      </inputthing>
+    <inputthing name="━ OR ━" helptext="">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Sphere Access" helptext="For talents that grant access to their associated combat sphere.">
+      <it_tagcheck group="SoGTlClass" tag="GainSphere" default="no"/>
+      </inputthing>
+    <inputthing name="Sphere Thing" helptext="Select the base sphere (sogSp) for this Gain Sphere talent">
+      <it_bootcustom compset="SoGSphere">
+        <match><![CDATA[!Helper.Obsolete & !Helper.Helper]]></match>
+        </it_bootcustom>
+      </inputthing>
+    <inputthing name="Utility Start" helptext="Does the sphere has a utility start option?">
+      <it_tagcheck group="SoGTlClass" tag="UtilStart" default="no"/>
+      </inputthing>
+    <inputthing name="Bonus Talent Descriptor(s)" helptext="Select which descriptors are required for the bonus talent granted by the sphere or package.\n\nThis is duplicated in the GainSphere section and the Package section for convenience.\n\nThis implements checking the user selected a valid talent.">
+      <it_taglist group="SoGFreeTal" tag="?"/>
+      </inputthing>
+    <inputthing name="━━━━━━━━━━━━" helptext="">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Optional assignments" helptext="This section is for optional assignments for the talent.">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Utility talent" helptext="Enable if this talent is a utility talent.">
+      <it_tagcheck group="SoGTalDesc" tag="Utility"/>
+      </inputthing>
+    <inputthing name="Trade talent" helptext="Enable if this talent is a trade talent.">
+      <it_tagcheck group="SoGTalDesc" tag="Trade"/>
+      </inputthing>
+    <inputthing name="Talent Class" helptext="Select 'Basic Talent' for most talents.  Select 'Sphere Access' for talents that grant access to their associated skill sphere.  Select 'Base Sphere Ability' for abilities that are granted for free when a sphere is first taken.">
       <it_tagpick group="SoGTlClass" tag="?"/>
       </inputthing>
-    <inputthing helptext="Select any descriptors that apply to the talent.  These will be displayed in parentheses after the talent name." name="Talent Descriptor(s)">
+    <inputthing name="Talent Descriptor(s)" helptext="Select any descriptors that apply to the talent.  These will be displayed in parentheses after the talent name.">
       <it_taglist group="SoGTalDesc" tag="?"/>
       </inputthing>
-    <inputthing helptext="If this talent grants free ranks in one or more skills, select those skills here." name="Associated Skill(s)">
+    <inputthing name="Associated Skill" helptext="If this grants an associated skill, assign with this.">
       <it_taglist group="SoGAssocSk" tag="?"/>
       </inputthing>
-    <inputthing helptext="If this talent has any associated feats, select those feats here." name="Associated Feat(s)">
+    <inputthing name="Skill Leverage" helptext="If this grants skill leverage with a skill, assign with this.">
+      <it_taglist group="SkLeverage" tag="?"/>
+      </inputthing>
+    <inputthing name="Skill Leverage Bootstrap" helptext="Select the Skill Leverage bootstrap.">
+      <it_bootstrap compset="Ability">
+        <match>thingid.abSoGSkLeverage</match>
+        </it_bootstrap>
+      </inputthing>
+    <inputthing name="Associated Feat(s)" helptext="If this talent has any associated feats, select those feats here.">
       <it_taglist group="HasFeat" tag="?"/>
       </inputthing>
-    <inputthing helptext="If this talent can be taken more than once but not more than a certain number of times, enter the number here" name="Max Times Taken">
+    <inputthing name="Max Times Taken" helptext="If this talent can be taken more than once but not more than a certain number of times, enter the number here">
       <it_field field="tMaxTaken"/>
       </inputthing>
-    <inputthing helptext="If this talent has a minimum Base Attack Bonus required, enter it here. Generally, only Legendary Talents have BAB requirements." name="Base Attack Bonus required">
-      <it_field field="reqBAB"/>
+    <!-- SPECIAL -->
+    <inputthing name="Special Information" helptext="">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Do not show on Specials tab" helptext="Check if this talent has a permanent effect that factors into the Hero's other statistics and shouldn't be shown in the list of abilities on the Specials tab. It will still be shown on the sphere tab, however.">
+      <it_tagcheck group="Helper" tag="SpecUp" default="no"/>
+      </inputthing>
+    <inputthing name="Show in Statblock but not Specials?" helptext="Check if this ability should be shown in when generating a statblock, even though it is not shown on the specials tab. For example, the Plant traits ability grants several immunities shown on the specials tab, but does not itself need to be shown there (so it shouldn't have Show in Specials List checked). However, in the stablock the immunities are hidden and Plant traits are shown instead, so this box should be checked.\n\nNote that there is no need to check this if 'Show in Specials List?' is checked. Anything shown there will also display in the statblock unless it has the appropriate Hide tag applied to it.">
+      <it_tagcheck group="Helper" tag="ShowStatbl" default="no"/>
+      </inputthing>
+    <inputthing name="Ability Classification" helptext="Specify what type of special ability this is.">
+      <it_tagpick group="AbilType" tag="?"/>
+      </inputthing>
+    <inputthing name="Avoid core hiding at PreLevel/10000" helptext="Rarely core hides boootstraps of a root as 'Not Equipped'. This is only relevant if the talent bootstraps things.">
+      <it_tagcheck group="Helper" tag="AlwaysAvl" default="no"/>
       </inputthing>
     <!-- PACKAGE INFO -->
-    <inputthing helptext="This section is for information on how this talent interacts with sphere packages" name="Sphere Package Info">
+    <inputthing name="Sphere Package Info" helptext="This section is for information on how this talent interacts with sphere packages">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="If this is a package rather than a talent, assign the package tag here" name="Is Package">
+    <inputthing name="Package?" helptext="Enable this if this talent is a package.">
+      <it_tagcheck group="SoGTlClass" tag="Package"/>
+      </inputthing>
+    <inputthing name="Is Package" helptext="If this is a package rather than a talent, assign the package tag here">
       <it_tagpick group="SoGIsPkg" tag="?"/>
       </inputthing>
-    <inputthing helptext="Use if this talent requires the hero to have one or more of the checked packages." name="Requires Package">
+    <inputthing name="Requires Package" helptext="Use if this talent requires the hero to have one or more of the checked packages.">
       <it_taglist group="SoGReqPkg" tag="?"/>
       </inputthing>
+    <inputthing name="Bonus Talent Descriptor(s)" helptext="Select which descriptors are required for the bonus talent granted by the sphere or package.\n\nThis is duplicated in the GainSphere section and the Package section for convenience.\n\nThis implements checking the user selected a valid talent.">
+      <it_taglist group="SoGFreeTal" tag="?"/>
+      </inputthing>
     <!-- ACTIVATION -->
-    <inputthing helptext="This section allows you to set up talents as activated abilities" name="Activation">
+    <inputthing name="Activation" helptext="This section allows you to set up talents as activated abilities">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="Check this box if the Talent is an activated ability" name="Activated ability">
+    <inputthing name="Show in Activated Abilities List?" helptext="Check if this ability should be always shown in the list of activated abilities on the In-Play tab. You might not check this if, for example, the special ability is conditional on something like level or equipped items, in which case you'd need to assign the User. Activation tag via a script.">
       <it_tagcheck group="User" tag="Activation"/>
       </inputthing>
-    <inputthing helptext="This text will appear next to the activation checkbox" name="Activation Name">
+    <inputthing name="Activation Name" helptext="Enter text the activation should use in place of its name. Leave blank if the activation's name is the same as the ability's name.">
       <it_field field="actName"/>
       </inputthing>
-    <!-- CASTING TIME -->
-    <inputthing helptext="This section allows you to define the action(s) required to use the sphere ability" name="Action Cost Info">
+    <!-- ACTION COST -->
+    <inputthing name="Action Cost Info" helptext="This section allows you to define the action(s) required to use the sphere ability">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="Select the action required for this talent, if any" name="Action">
-      <it_tagpick group="tCastTime" tag="?"/>
+    <inputthing name="Action" helptext="Select the action required for this talent, if any">
+      <it_tagpick group="abAction" tag="?"/>
       </inputthing>
     <!-- RANGE -->
-    <inputthing helptext="This section allows you to define range info" name="Range Info">
+    <inputthing name="Range Info" helptext="This section allows you to define range info">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="Select the range of this talent." name="Range">
+    <inputthing name="Range" helptext="Select the range of this talent.">
       <it_taglist group="tRange" tag="?"/>
       </inputthing>
-    <inputthing helptext="Any text entered here will override the Range tag above; use this for unique cases." name="Range Text">
+    <inputthing name="Range Text" helptext="Any text entered here will override the Range tag above; use this for unique cases.">
       <it_field field="tRange"/>
       </inputthing>
     <!-- AREA -->
-    <inputthing helptext="This section allows you to define area-of-effect info" name="Area Info">
+    <inputthing name="Area Info" helptext="This section allows you to define area-of-effect info">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="Select the area of this talent." name="Area">
+    <inputthing name="Area" helptext="Select the area of this talent.">
       <it_taglist group="tArea" tag="?"/>
       </inputthing>
-    <inputthing helptext="Any text entered here will override the Area tag above; use this for unique cases." name="Area Text">
+    <inputthing name="Area Text" helptext="Any text entered here will override the Area tag above; use this for unique cases.">
       <it_field field="tArea"/>
       </inputthing>
     <!-- DURATION -->
-    <inputthing helptext="This section allows you to define duration information" name="Duration Info">
+    <inputthing name="Duration Info" helptext="This section allows you to define duration information">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="Select the duration of this talent's effect." name="Duration">
+    <inputthing name="Duration" helptext="Select the duration of this talent's effect.">
       <it_tagpick group="tDuration" tag="?"/>
       </inputthing>
-    <inputthing helptext="Any text entered here will override the Duration tag above; use this for unique cases." name="Duration Text">
+    <inputthing name="Duration Text" helptext="Any text entered here will override the Duration tag above; use this for unique cases.">
       <it_field field="tDuration"/>
       </inputthing>
     <!-- SAVING THROWS -->
-    <inputthing helptext="This section allows you to define saving throw information" name="Save Info">
+    <inputthing name="Save Info" helptext="This section allows you to define saving throw information">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="The type of saving throw used to defend against this talent's effect (if any)." name="Save">
+    <inputthing name="Save" helptext="The type of saving throw used to defend against this talent's effect (if any).">
       <it_taglist group="tSave" tag="?"/>
       </inputthing>
-    <inputthing helptext="Any text entered here will override the Save tag above; use this for unique cases." name="Save Text">
+    <inputthing name="Save Text" helptext="Any text entered here will override the Save tag above; use this for unique cases.">
       <it_field field="tSave"/>
       </inputthing>
     <!--sphere-specific info will go here -->
 	
 	<!-- ABVALUES -->
-    <inputthing helptext="" name="Generic Ability Values">
+    <inputthing name="Generic Ability Values" helptext="">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="" name="Value #1 (abValue)">
+    <inputthing name="Value #1 (abValue)" helptext="">
       <it_field field="abValue"/>
       </inputthing>
+    <inputthing name="abValue scaling" helptext="If abValue should increase with Associated Ranks of the sphere, select how often it should increase">
+      <it_tagpick group="SoGAbV1Sc" tag="?"/>
+      </inputthing>
+    <inputthing name="Add OM to abValue" helptext="If hero's Operative Modifier should be added to abValue, select rules governing how it is added">
+      <it_tagpick group="SoGAbV1OM" tag="?"/>
+      </inputthing>
+    <inputthing name="Value #2 (abValue2)" helptext="">
+      <it_field field="abValue2"/>
+      </inputthing>
+    <inputthing name="abValue2 scaling" helptext="If abValue should increase with Associated Ranks of the sphere, select how often it should increase">
+      <it_tagpick group="SoGAbV2Sc" tag="?"/>
+      </inputthing>
+    <inputthing name="Add OM to abValue2" helptext="If hero's Operative Modifier should be added to abValue, select rules governing how it is added">
+      <it_tagpick group="SoGAbV2OM" tag="?"/>
+      </inputthing>
+    <inputthing name="Value #3 (abValue3)" helptext="">
+      <it_field field="abValue3"/>
+      </inputthing>
+    <inputthing name="abValue3 scaling" helptext="If abValue should increase with Associated Ranks of the sphere, select how often it should increase">
+      <it_tagpick group="SoGAbV3Sc" tag="?"/>
+      </inputthing>
+    <inputthing name="Add OM to abValue3" helptext="If hero's Operative Modifier should be added to abValue, select rules governing how it is added">
+      <it_tagpick group="SoGAbV3OM" tag="?"/>
+      </inputthing>
     <!-- LIVENAME -->
-    <inputthing helptext="" name="Automatic livename Generation">
+    <inputthing name="Automatic livename Generation" helptext="">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="" name="Section 1 - Name">
+    <inputthing name="Section 1 - Name" helptext="">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="" name="Section 2 - Pre-Parenthesis">
+    <inputthing name="Section 2 - Pre-Parenthesis" helptext="">
       <it_taglist group="LvNameApp" tag="?"/>
       </inputthing>
-    <inputthing helptext="" name="Section 3 - In-Parenthesis">
+    <inputthing name="Section 3 - In-Parenthesis" helptext="">
       <it_taglist group="LvNamePar" tag="?"/>
       </inputthing>
-    <inputthing helptext="Most talents that can be taken multiple times will include the number of times they were taken in parentheses in the livename. Check this to prevent that. Darkvision is an example of a talent that would use this. Will be ignored for talents that can only be taken once." name="Do not include talent count in livename">
+    <inputthing name="Do not include talent count in livename" helptext="Most talents that can be taken multiple times will include the number of times they were taken in parentheses in the livename. Check this to prevent that. Darkvision is an example of a talent that would use this. Will be ignored for talents that can only be taken once.">
       <it_tagcheck group="SphOfGuil" tag="LnNoCount"/>
       </inputthing>
-    <inputthing helptext="Most talents that can be taken multiple times will only appear once in the Specials list" name="Do not collapse instances in Specials list">
+    <inputthing name="Do not collapse instances in Specials list" helptext="Most talents that can be taken multiple times will only appear once in the Specials list">
       <it_tagcheck group="SphOfGuil" tag="LnNoCollap"/>
       </inputthing>
-    <inputthing helptext="Check here if the talent should not be displayed at all in the Specials list" name="Do not display in Specials list">
-      <it_tagcheck group="Helper" tag="SpecUp"/>
-      </inputthing>
     <!-- STATBLOCK -->
-    <inputthing helptext="" name="Automatic statblock name Generation">
+    <inputthing helptext="" name="Automatic Statblock Name Generation">
       <it_separator/>
       </inputthing>
     <inputthing helptext="" name="Section 1 - Name">
@@ -146,90 +278,187 @@
       <it_taglist group="SbNamePar" tag="?"/>
       </inputthing>
     <!-- LIVENAME -->
-    <inputthing helptext="" name="Charge Information">
+    <inputthing name="Charge Information" helptext="">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="Talents that provide an expendable resource should check this list" name="Show in Tracked Resources list">
+    <inputthing name="Show in Tracked Resources list" helptext="Talents that provide an expendable resource should check this list">
       <it_tagcheck group="User" tag="Tracker"/>
       </inputthing>
-    <inputthing helptext="Enter the base number of charges available to the talent, this will be added to any charges calculated in scripts. If no charges are provided, leave this blank." name="Base charges">
+    <inputthing name="Base charges" helptext="Enter the base number of charges available to the talent, this will be added to any charges calculated in scripts. If no charges are provided, leave this blank.">
       <it_field field="trkMax"/>
       </inputthing>
-    <inputthing helptext="If this talent can be used a specific number of times in a given period, select the period here." name="Usage period?">
+    <inputthing name="Usage period?" helptext="If this talent can be used a specific number of times in a given period, select the period here.">
       <it_tagpick group="Usage" tag="?"/>
       </inputthing>
-    <inputthing helptext="Check if the talent's charges should not be restored when the user clicks the Night's Rest button on the In-Play tab." name="Don't reset with a night's rest">
+    <inputthing name="Don't reset with a night's rest" helptext="Check if the talent's charges should not be restored when the user clicks the Night's Rest button on the In-Play tab.">
       <it_tagcheck group="Helper" tag="NoNightRes"/>
-      </inputthing>
-    </editthing>
-  <!-- Spheres of Guile drawbacks editthing -->
-  <editthing compset="SoGDrawbk" description="Spheres of Guile drawbacks" group="Spheres of Guile" name="Drawback" prefix="sogDb" summary="This lets you define new Drawbacks for the Spheres of Guile system">
-    <inputthing helptext="Select the sphere is belongs to." name="Sphere">
-      <it_tagpick group="SoGSphere" tag="?"/>
-      </inputthing>
-    <inputthing helptext="Check this box if the drawback does not grant a bonus talent, or if the talent grants a specific bonus talent (which will be bootstrapped). This applies only to sphere-specific drawbacks." name="No bonus talent / specific bonus talent">
-      <it_tagcheck group="SphOfGuil" tag="NoBnTalent"/>
-      </inputthing>
-    <inputthing helptext="Select the bonus talent(s) this drawback grants" name="Bonus Talent">
-      <it_bootcustom compset="SoGTalent">
-        <match>SoGTlClass.Talent</match>
-        </it_bootcustom>
-      </inputthing>
-    <!-- RESTRICTIONS -->
-    <inputthing helptext="This section allows you to define any restrictions imposed by the drawback" name="Restrictions">
-      <it_separator/>
-      </inputthing>
-    <inputthing helptext="If this Drawback bans the hero from taking any specific talent(s), select those talents here." name="Ban Talent(s)">
-      <it_taglist group="SoGBanTal" tag="?"/>
-      </inputthing>
-    <inputthing helptext="If this Drawback bans the hero from taking talents with particular descriptors, select those descriptors here." name="Ban Talent Descriptor">
-      <it_taglist group="SoGBanDesc" tag="?"/>
       </inputthing>
     <inputthing name="Item Selection">
       <it_separator/>
       </inputthing>
-    <inputthing helptext="If you want to specify a custom tag expression for the selection list, enter it here" name="Custom Expression">
+    <inputthing name="Show selection options on the In-Play tab?" helptext="If selected, all of these options will be displayed on the In-Play tab, as well as their normal location.">
+      <it_tagcheck group="Helper" tag="ActivMenu"/>
+      </inputthing>
+    <inputthing name="Select From..." helptext="Choose the additional data that can be selected for the thing.\n\nShow selection For example, a skill would select 'Skills'.">
+      <it_taglist group="fShowWhat" tag="?"/>
+      </inputthing>
+    <inputthing name="Custom Expression" helptext="If you want to specify a custom tag expression for the selection list, enter it here">
       <it_field field="usrCandid1"/>
       </inputthing>
-    <inputthing helptext="Check this box if the drawback requires the user to select a talent to be banned." name="Ban user-selected talent">
+    <inputthing name="Restrict First List To..." helptext="Choose which list this thing can select from. If nothing is selected, the thing selects from everything available, not just items on the hero.\n\nFor example, the Weapon Focus feat selects from all weapons (not just ones you own), so it would leave this entry blank. The Skill Focus feat selects from the skill you have, so it would choose 'Picks on Hero'.">
+      <it_tagpick group="ChooseSrc1" tag="?"/>
+      </inputthing>
+    <inputthing name="Second Selection From..." helptext="Choose the additional data that can be selected for the thing.\n\nShow selection For example, a skill would select 'Skills'.">
+      <it_taglist group="fShowWhat2" tag="?"/>
+      </inputthing>
+    <inputthing name="2nd Custom Expression" helptext="If you want to specify a custom tag expression for the second selection list, enter it here">
+      <it_field field="usrCandid2"/>
+      </inputthing>
+    <inputthing name="Restrict Second List To..." helptext="Choose which list this thing can select from. If nothing is selected, the thing selects from everything available, not just items on the hero.\n\nFor example, the Weapon Focus feat selects from all weapons (not just ones you own), so it would leave this entry blank. The Skill Focus feat selects from the skill you have, so it would choose 'Picks on Hero'.">
+      <it_tagpick group="ChooseSrc2" tag="?"/>
+      </inputthing>
+    <inputthing name="Array-Based Menu?" helptext="If this thing has a menu for the user to select from, and you want to define this menu as an array of text, enter the text here. Note that if nothing is entered in the first element (Row O), the array will not be shown.">
+      <it_field field="usrArray"/>
+      </inputthing>
+    <inputthing name="Array Label" helptext="If the array needs to explain what it is for, enter label text here. Leave blank if this array is self explanatory or if there is insufficient space to show everything. This text shows just left of the array.">
+      <it_field field="usrLabelAr"/>
+      </inputthing>
+    <inputthing name="Enable a text field" helptext="Allow the user to enter information into a text field.">
+      <it_tagcheck group="User" tag="NeedDomain"/>
+      </inputthing>
+    <inputthing name="Don't Auto-Sythesize name?" helptext="Specify that this trait's name should not include in its user-entered text or selection.">
+      <it_tagcheck group="User" tag="NoAutoName"/>
+      </inputthing>
+    <inputthing name="Other info">
+      <it_separator/>
+      </inputthing>
+    </editthing>
+  <!--
+
+  Spheres of Guile drawbacks
+
+  -->
+  <editthing compset="SoGDrawbk" name="Drawback" group="Spheres of Guile" prefix="sogDb" description="Spheres of Guile drawbacks" summary="This lets you define new Drawbacks for the Spheres of Guile system">
+    <inputthing helptext="Select the sphere is belongs to." name="Sphere">
+      <it_tagpick group="SoGSphere" tag="?"/>
+      </inputthing>
+    <inputthing name="No bonus talent / specific bonus talent" helptext="Check this box if the drawback does not grant a bonus talent, or if the talent grants a specific bonus talent (which will be bootstrapped). This applies only to sphere-specific drawbacks.">
+      <it_tagcheck group="SphOfGuil" tag="NoBnTalent"/>
+      </inputthing>
+    <inputthing name="Alternate Start" helptext="Check this box if the drawback allows an alternate start method.">
+      <it_tagcheck group="SoGTlClass" tag="AltStart"/>
+      </inputthing>
+    <inputthing name="Utility Start" helptext="Check this box if the drawback allows an utility start method.">
+      <it_tagcheck group="SoGTlClass" tag="UtilStart"/>
+      </inputthing>
+    <inputthing name="Bonus Talent" helptext="Select the bonus talent(s) this drawback grants">
+      <it_bootcustom compset="SoGTalent">
+        <match>SoGTlClass.Talent | SoGTlClass.ExcepTalent</match>
+        </it_bootcustom>
+      </inputthing>
+    <inputthing name="Bonus Talent Descriptor(s)" helptext="Select which descriptors are required for the bonus talent granted by the drawback. This implements checking the user selected a valid talent.">
+      <it_taglist group="SoGFreeTal" tag="?"/>
+      </inputthing>
+    <!-- RESTRICTIONS -->
+    <inputthing name="Restrictions" helptext="This section allows you to define any restrictions imposed by the drawback">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Ban Talent(s)" helptext="If this Drawback bans the hero from taking any specific talent(s), select those talents here.">
+      <it_taglist group="SoGBanTal" tag="?"/>
+      </inputthing>
+    <inputthing name="Ban Talent Descriptor" helptext="If this Drawback bans the hero from taking talents with particular descriptors, select those descriptors here.">
+      <it_taglist group="SoGBanDesc" tag="?"/>
+      </inputthing>
+    <inputthing name="Exempt Talent(s)" helptext="If one or more specific talents are exempted from a general ban, select them here">
+      <it_taglist group="SoGBanEx" tag="?"/>
+      </inputthing>
+    <inputthing name="Requires Package" helptext="Use if this talent requires the hero to have one or more of the checked packages.">
+      <it_taglist group="SoGReqPkg" tag="?"/>
+      </inputthing>
+    <inputthing name="Item Selection">
+      <it_separator/>
+      </inputthing>
+    <inputthing name="Show selection options on the In-Play tab?" helptext="If selected, all of these options will be displayed on the In-Play tab, as well as their normal location.">
+      <it_tagcheck group="Helper" tag="ActivMenu"/>
+      </inputthing>
+    <inputthing name="Select From..." helptext="Choose the additional data that can be selected for the thing.\n\nShow selection For example, a skill would select 'Skills'.">
+      <it_taglist group="fShowWhat" tag="?"/>
+      </inputthing>
+    <inputthing name="Custom Expression" helptext="If you want to specify a custom tag expression for the selection list, enter it here">
+      <it_field field="usrCandid1"/>
+      </inputthing>
+    <inputthing name="Restrict First List To..." helptext="Choose which list this thing can select from. If nothing is selected, the thing selects from everything available, not just items on the hero.\n\nFor example, the Weapon Focus feat selects from all weapons (not just ones you own), so it would leave this entry blank. The Skill Focus feat selects from the skill you have, so it would choose 'Picks on Hero'.">
+      <it_tagpick group="ChooseSrc1" tag="?"/>
+      </inputthing>
+    <inputthing name="Second Selection From..." helptext="Choose the additional data that can be selected for the thing.\n\nShow selection For example, a skill would select 'Skills'.">
+      <it_taglist group="fShowWhat2" tag="?"/>
+      </inputthing>
+    <inputthing name="2nd Custom Expression" helptext="If you want to specify a custom tag expression for the second selection list, enter it here">
+      <it_field field="usrCandid2"/>
+      </inputthing>
+    <inputthing name="Restrict Second List To..." helptext="Choose which list this thing can select from. If nothing is selected, the thing selects from everything available, not just items on the hero.\n\nFor example, the Weapon Focus feat selects from all weapons (not just ones you own), so it would leave this entry blank. The Skill Focus feat selects from the skill you have, so it would choose 'Picks on Hero'.">
+      <it_tagpick group="ChooseSrc2" tag="?"/>
+      </inputthing>
+    <inputthing name="Array-Based Menu?" helptext="If this thing has a menu for the user to select from, and you want to define this menu as an array of text, enter the text here. Note that if nothing is entered in the first element (Row O), the array will not be shown.">
+      <it_field field="usrArray"/>
+      </inputthing>
+    <inputthing name="Array Label" helptext="If the array needs to explain what it is for, enter label text here. Leave blank if this array is self explanatory or if there is insufficient space to show everything. This text shows just left of the array.">
+      <it_field field="usrLabelAr"/>
+      </inputthing>
+    <inputthing name="Don't Auto-Sythesize name?" helptext="Specify that this trait's name should not include in its user-entered text or selection.">
+      <it_tagcheck group="User" tag="NoAutoName"/>
+      </inputthing>
+    <inputthing name="Ban user-selected talent" helptext="Check this box if the drawback requires the user to select a talent to be banned.">
       <it_tagcheck group="SphOfGuil" tag="DBBanSelTl"/>
       </inputthing>
-    <inputthing helptext="Check this box if the drawback not only bans the chosen talent, but all talents with the same descriptor (such as with Limited Necromancy)" name="Ban user-selected talent descriptors">
+    <inputthing name="Ban user-selected talent descriptors" helptext="Check this box if the drawback not only bans the chosen talent, but all talents with the same descriptor (such as with Limited Necromancy)">
       <it_tagcheck group="SphOfGuil" tag="DBBanSelDs"/>
       </inputthing>
-    <inputthing helptext="Check this box if the drawback allows the user a select a talent that is exempted from the ban (such as with Shape Focus)" name="Exempt selected talent from ban">
+    <inputthing name="Exempt selected talent from ban" helptext="Check this box if the drawback allows the user a select a talent that is exempted from the ban (such as with Shape Focus)">
       <it_tagcheck group="SphOfGuil" tag="DBBanSelEx"/>
       </inputthing>
     <inputthing name="Other">
       <it_separator/>
       </inputthing>
     </editthing>
-  <!-- Spheres of Guile Trade Tradition editthing -->
-  <editthing compset="SoGTraTrad" description="Spheres of Guile trade traditions" group="Spheres of Guile" name="Trade Tradition" prefix="sogTT" summary="This lets you define new Trade Traditions for the Spheres of Guile system">
-    <inputthing helptext="It is generally recommended that Trade Traditions add at least two Vocation talents." name="Vocation Talent(s)">
+  <!--
+
+  Spheres of Guile Trade Tradition
+
+  -->
+  <editthing compset="SoGTraTrad" name="Trade Tradition" group="Spheres of Guile" description="A base trade tradition will typically contain 3 skill talents: two (trade) talents and a base sphere. Certain skill-oriented feats may substitute for this base sphere.\n\nAll of the bonus talents granted by a trade tradition to characters of adroit rank should be either base spheres or [utility] talents from spheres automatically granted by that trade tradition. Two of them are generally (trade) talents." prefix="sogTT" summary="This lets you define new Trade Traditions for the Spheres of Guile system">
+    <inputthing name="Vocation Talent(s)" helptext="It is generally recommended that Trade Traditions add at least two Vocation (trade) talents.\n\nRemember to add a bootstrap for Vocation spher with the tag SphOfGuil.NoBnTalent when adding (trade) talents.">
       <it_bootcustom compset="SoGTalent">
-        <match><![CDATA[SoGTlClass.Talent & SoGSphere.Vocation]]></match>
+        <match><![CDATA[SoGTlClass.Talent & SoGSphere.Vocation & SoGTalDesc.Trade]]></match>
         </it_bootcustom>
       </inputthing>
-    <inputthing helptext="Add any specific base sphere(s) granted by this Trade Tradition. Every Trade Tradition should either grant at least one base sphere or a choice between two base spheres (handled in Variable Talents below). Also select any packages the tradition adds, if the player is not given a choice of package." name="Base Sphere(s)">
+    <inputthing name="Base Sphere(s)" helptext="Add any specific base sphere(s) granted automatically by this Trade Tradition. Every Trade Tradition should either grant at least one base sphere or a choice between two base spheres (handled in Variable Talents below). Also select any packages the tradition adds, if the player is not given a choice of package.\n\nAdd any specific adroit base sphere(s) granted by this Trade Tradition. Remember to add a container requirement at First/102 with the tag SoGTRank.Adroit.">
       <it_bootcustom compset="SoGTalent">
-        <match><![CDATA[SoGTlClass.GainSphere | SoGTlClass.Package]]></match>
+        <match><![CDATA[SoGTlClass.GainSphere | SoGTlClass.Package & !thingid.sogTlHd?]]></match>
         </it_bootcustom>
       </inputthing>
-    <inputthing helptext="Add any other non-variable spheres or talents granted by this Trade Tradition. " name="Other Talent(s)">
+    <inputthing name="Other Talent(s)" helptext="Add any other automatic non-variable spheres or talents granted by this Trade Tradition.\n\nAdd any other adroit non-variable spheres granted by this Trade Tradition. Remember to add a container requirement at First/102 with the tag SoGTRank.Adroit.">
       <it_bootcustom compset="SoGTalent">
-        <match><![CDATA[SoGTlClass.Talent & !SoGSphere.Vocation]]></match>
+        <match><![CDATA[SoGTlClass.Talent & !SoGSphere.Vocation& !thingid.sogTlHd?]]></match>
         </it_bootcustom>
       </inputthing>
-    <inputthing helptext="If this tradition grants a choice between variable talents, select the talents here" name="Variable Talent 1 Choices">
+    <inputthing name="Variable Talent 1 Choices" helptext="If this tradition automatically grants a choice between variable talents, select the talents here">
       <it_taglist group="SoGVarTal1" tag="?"/>
       </inputthing>
-    <inputthing helptext="If this tradition grants a choice between variable talents, select the talents here" name="Variable Talent 2 Choices">
+    <inputthing name="Variable Talent 2 Choices" helptext="If this tradition automatically grants a choice between variable talents, select the talents here">
       <it_taglist group="SoGVarTal2" tag="?"/>
       </inputthing>
-    <inputthing helptext="Add any bonus feats granted by this Trade Tradition. " name="Bonus Feat(s)">
+    <inputthing name="Variable Talents for Adroit?" helptext="Enable If the variable talents for this tradtion are Adroit options.\n\nIf not enabled, the variable choices are for automatic talents.">
+      <it_tagcheck group="SoGVarTals" tag="Adroit"/>
+      </inputthing>
+    <inputthing name="Bonus Feat(s)" helptext="Add any automatic bonus feats granted by this Trade Tradition.">
       <it_bootcustom compset="Feat">
         <match><![CDATA[!Helper.Obsolete]]></match>
+        </it_bootcustom>
+      </inputthing>
+    <inputthing name="Skill Replacements" helptext="Confirm a bootstrap for any remplacement class skills needed.\n\nAdd a tag like Reference.sk? for the duplicate and a tag like Target.sk? for the replacement.">
+      <it_bootcustom compset="SoGSkillReplace">
+        <match><![CDATA[!thingid.sogTlHd?]]></match>
         </it_bootcustom>
       </inputthing>
     </editthing>

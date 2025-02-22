@@ -14,7 +14,7 @@
     </portal>
   <!-- Trade Traditions -->
   <portal id="pSoGTraTrad" style="table">
-    <table_dynamic component="SoGTraTrad" showtemplate="tmSoGTTrPk" choosetemplate="tmSoGTalTh" alwaysupdate="yes">
+    <table_dynamic component="SoGTraTrad" showtemplate="tmSoGTTrPk" choosetemplate="tmSoGTalTh" alwaysupdate="yes" linkage="resSGTraTrad">
       <list><![CDATA[component.SoGTraTrad & !Hide.All & !Helper.Helper & !Helper.Obsolete]]></list>
       <!-- Use our <list> as our <candidate -->
       <description/>
@@ -26,9 +26,9 @@
     </portal>
   <!-- Skill Sphere Talent Pool -->
   <portal id="pSoGTalCnt" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes" linkage="resSGSSGen">
       <list><![CDATA[component.SoGTalent & SoGTlClass.Any & !Hide.All & !SoGTalent.sogTlSpVocation & !SoGTlClass.InitTalent & !SphOfMigh.HideTables & !thingid.sogTlUtilStart]]></list>
-      <candidate><![CDATA[(SoGTlClass.Talent | SoGTlClass.GainSphere) & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !Helper.Obsolete & !thingid.sogTlUtilStart]]></candidate>
+      <candidate><![CDATA[(SoGTlClass.Talent | SoGTlClass.GainSphere) & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete & !thingid.sogTlUtilStart]]></candidate>
       <autotag group="SoGTlClass" tag="Any"/>
       <description/>
       <headertitle><![CDATA[@text = "Skill Sphere Talents: " & hero.childfound[resSGSSGen].field[resSummary].text]]></headertitle>
@@ -37,9 +37,9 @@
     </portal>
   <!-- Utility Talent Pool -->
   <portal id="pSoGUtilTalCnt" style="table">
-    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes">
+    <table_dynamic component="SoGTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" showsortset="SoGTalSort" choosesortset="SoGTalSort" descwidth="350" alwaysupdate="yes" linkage="resSGUtilTal">
       <list><![CDATA[component.SoGTalent & SoGTlClass.Utility & !Hide.All & !SoGTlClass.InitTalent & !SphOfMigh.HideTables]]></list>
-      <candidate><![CDATA[(SoGTalDesc.Utility | SoGTlClass.UtilStart) & (SoGTlClass.Talent | SoGTlClass.GainSphere) & !SoGTlClass.InitTalent & !SoGTlClass.Helper & !Helper.Obsolete]]></candidate>
+      <candidate><![CDATA[(SoGTalDesc.Utility | SoGTlClass.UtilStart) & (SoGTlClass.Talent | SoGTlClass.GainSphere) & !SoGTlClass.InitTalent & !SphOfGuil.Helper & !Helper.Obsolete]]></candidate>
       <autotag group="SoGTlClass" tag="Utility"/>
       <description/>
       <headertitle><![CDATA[@text = "Utility Talents: " & hero.childfound[resSGUtilTal].field[resSummary].text]]></headertitle>
@@ -48,7 +48,7 @@
     </portal>
   <!-- Expanded Utility Talent Pool -->
   <portal id="pExpUtilTalCnt" style="table">
-    <table_dynamic component="DDSTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" descwidth="350" alwaysupdate="yes">
+    <table_dynamic component="DDSTalent" showtemplate="tmSoGTalPk" choosetemplate="tmSoGTalTh" descwidth="350" alwaysupdate="yes" linkage="resSGExUtilTal">
       <list><![CDATA[SoGTlClass.Expanded & !Hide.All & !SphOfMigh.HideTables]]></list>
       <candidate><![CDATA[TalentDesc.Utility & !SoGTalDesc.Trade & !Helper.Obsolete]]></candidate>
       <autotag group="SoGTlClass" tag="Expanded"/>
@@ -227,7 +227,7 @@
     </template>
   <!-- LAYOUTS -->
 
-  <!-- Trade & Utility layout -->
+  <!-- Trade & Utility counts layout -->
   <layout id="loSoGSABLa">
     <portalref portal="pSoGSphBas" taborder="10"/>
     <templateref template="tmSoGSATrade" thing="resSGTraTal"/>
@@ -275,9 +275,6 @@
                 else
                      portal[pSoGSphAssoSk].visible = 0
                 endif
-
-                ~ autotop seems odd, it is the minimum height of this layout.
-                height = autotop + 5
 	]]></position>
     </layout>
   <!-- Operator Modifier layout -->
@@ -312,12 +309,13 @@
                 ~ Limit the Skill Leverage to 10 and scroll if needed.
                 portal[pSoGSphSkLev].maxrows = 5
 
+                if (hero.tagis[SkLevPick.Hero] = 0) then
+		     portal[pSoGSphSkLev].visible = 0
+                endif
+
                 perform portal[pSoGSphSkLev].batchadd[8]
 
                 perform batchplace
-
-                ~ autotop seems odd, it is the minimum height of this layout.
-                height = autotop + 5
 	]]></position>
     </layout>
   <!-- Skill Sphere layout -->
@@ -327,7 +325,7 @@
     <portalref portal="pSoGUtilTalCnt" taborder="15"/>
     <portalref portal="pExpUtilTalCnt" taborder="20"/>
     <position><![CDATA[
-                autogap = 8
+                autogap = 4
 
                 ~ Trade Tradition
                 perform portal[pSoGTraTrad].batchadd
@@ -363,12 +361,29 @@
     <position><![CDATA[
         var val as number
         val = width/2
+
+        ~ Trade & Utility counts layout
         layout[loSoGSABLa].width = val
-        layout[loSoGSABLb].width = val
+
+        ~ Operator Modifier layout
         layout[loSoGSABRa].width = val
-        layout[loSoGSABRb].width = val
         layout[loSoGSABRa].left = val
+
+        var hval as number
+        hval = maximum(layout[loSoGSABLb].height, layout[loSoGSABRb].height)
+        if (hero.tagis[ExtRanks.?] + hero.tagis[SkLevPick.Hero] = 0) then
+          ~ We have no Associated skills and no Skill Leverage, save space.
+          hval = 28
+        endif
+
+        ~ Associated Skills layout (6 rows)
+        layout[loSoGSABLb].width = val
+        layout[loSoGSABLb].height = minimum(176, hval)
+
+        ~ Skill Leverage layout (5 rows)
+        layout[loSoGSABRb].width = val
         layout[loSoGSABRb].left = val
+        layout[loSoGSABRb].height = minimum(176, hval)
 
         ~ Ask these to minimum so they do not demand the whole height.
         perform layout[loSoGSABLa].render
@@ -383,7 +398,7 @@
 
         ~ Set out top to the lowest bottom of the two layouts above.
         layout[loSoGSkSpTl].top = maximum(layout[loSoGSABLb].bottom,layout[loSoGSABRb].bottom) + 5
-        ~layout[loSoGSkSpTl].height = height - layout[loSoGSkSpTl].top
+        layout[loSoGSkSpTl].height = height - layout[loSoGSkSpTl].top
 	]]></position>
     </panel>
   </document>

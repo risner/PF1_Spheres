@@ -5,16 +5,11 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
-  <thing id="somBruteGiantPhy" name="Giant Physique (stance)" compset="SoMTalent" description="While in this stance, you are treated as though you were one size category larger for the purpose of calculating CMB for combat maneuvers attempted with unarmed strikes (including any combat maneuver made with your hands, such as grapples), your CMD, and your ability to use combat maneuvers on a creature. For every 5 base attack bonus you possess, you are treated as an additional size larger (if this talent would make you Colossal or larger, you instead receive a +1 bonus to combat maneuvers made with unarmed strikes and to your CMD)." summary="Swift to perform combat maneuvers as if larger." uniqueness="useronce">
-    <usesource source="pPF1e_Sph_OYouxHB"/>
-    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
-    <tag group="SoMSphere" tag="Brute" name="Brute" abbrev="Brute"/>
-    </thing>
   <thing id="somForRedTec" name="Force Redirection Technique" compset="SoMTalent" description="You may use your Strength modifier in place of your Dexterity modifier to AC, up to a maximum of 3 + half of your base attack bonus. Characters who gain Climb or Swim as a class skill may instead choose to have the cap increase by +1 for every 2 ranks in the listed class skill they possess. Your bonus to AC is still affected by anything that would limit or remove your Dexterity modifier to AC such as wearing armor or being flat-footed. You may disable or enable Force Redirection Technique as a free action at the start of your turn, once per turn.\n\nTODO: The Maximum is not implemented." uniqueness="useronce">
     <usesource source="pPF1e_Sph_OYouxHB"/>
-    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
-    <tag group="SoMTlClass" tag="LegTalent" name="Legendary Talent" abbrev="Legendary Talent"/>
     <tag group="SoMSphere" tag="Equipment" name="Equipment" abbrev="Equipment"/>
+    <tag group="SoMTlClass" tag="LegTalent" name="Legendary Talent" abbrev="Legendary Talent"/>
+    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
     <tag group="Helper" tag="SpecUp"/>
     <eval phase="PostAttr" priority="20100" index="2"><![CDATA[
       ~ If we're disabled, do nothing
@@ -35,5 +30,10 @@ BSD-2-Clause license</info_author>
       hero.child[ArmorClass].field[tACDexMod].value += x]]>
       <after name="Calc tCMD"/>
       </eval>
+    </thing>
+  <thing id="somBruteGiantPhy" name="Giant Physique (stance)" compset="SoMTalent" description="While in this stance, you are treated as though you were one size category larger for the purpose of calculating CMB for combat maneuvers attempted with unarmed strikes (including any combat maneuver made with your hands, such as grapples), your CMD, and your ability to use combat maneuvers on a creature. For every 5 base attack bonus you possess, you are treated as an additional size larger (if this talent would make you Colossal or larger, you instead receive a +1 bonus to combat maneuvers made with unarmed strikes and to your CMD)." summary="Swift to perform combat maneuvers as if larger." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_OYouxHB"/>
+    <tag group="SoMSphere" tag="Brute" name="Brute" abbrev="Brute"/>
+    <tag group="SoMTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
     </thing>
   </document>

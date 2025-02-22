@@ -1,3 +1,72 @@
+1.1 ~ Feb 22 11:16:51 2025: Beta version 1.1 - second public release - work between Jan 20 - Feb 20, 2025.
+      Added Archetypes: Fey Adept (Auteur, Dreamtwister).
+      Added Artifice (flourish) talents: Compound Creation, Emotive Styles, Evocative Visuals, and Influential Artistry.
+      Added Artifice talents: Expressive Creativity, Makeshift Tools, Chemical Armaments, Mobile Defenses, Impressive Weaponry, Clear Interpretations, Field Repair, Meticulous Upkeep, Flawless Flourish, Greater Trinkets, and Aesthetic Artifice (incomplete).
+      Added Communication talents: Combat Courtesy, Brief Help, Recall Support, Sequestered Support, Clockwork Coordination, Mediator’s Mien, Heart To Heart, Wordmonger, Disenchanting Diatribe, Inspire Devotion, Overwhelming Suggestion, Demanding Letter, Failure To Communicate, Defensive Blockade, Tactical Preparation, Communication Breakthrough, and Friend of a Friend.
+      Added Faction talents: Armed Retainer, Extra Faction Package, Logistical Genius, Dabbler Retainer, Roguish Retainer, Talented Retainers, Specialist Liaison, Spellcasting Hireling, Diverse Faction Magic, Potion Supply, Scroll Cache, Wondrous Item Supply, Bound Retainer, Retainer Detail (incomplete), Magical Armory, Wand Supply, Magical Mercenary Retainer, and Survivalist Retainer.
+      Added Herbalism (remedy) talent: Proactive Care.
+      Added Herbalism drawbacks: Disciplined Physician.
+      Added Navigation (acclimation): Maritime Acclimatization, Community Sense, and Wild Wit.
+      Added Navigation (pathing): Terrain Advantage, Blaze Ahead, and Blindspotting.
+      Added Navigation drawbacks: Focused Wayfaring.
+      Added Ooptional house rule: Show Might Associated Skills on the Skill Sphere list.
+      Added Pantomime skill use, with author note.
+      Added Performance drawbacks: Emotional Performance and Instrumental Acoustics.
+      Added Performance talents A Gilded Tower, Assuring Anthem, Averting Switch, Dispiriting Lament, Guarded Twist, The Bonds Forged In War, Well-Timed Distraction, Expanded Repertoire, Flowing Theatrics, Performance Mastery, Captivating Spectacle, Ventriloquism, A Path Paved in Grey, Alone in a Crowd, "Love, Hate, And The Space Between”, The Fortunate Beggar, Coordinated Throw, Entwining Prance, Liberating Shift, Toppling Dive, Dynamic Pace, Courageous Chorus, and Pleasant Serenade.
+      Added Profession (dungeoneer) and Profession (monster slayer) used in Vocation talents.
+      Added Skill Use: Deniably Phrased.
+      Added Sources for Diamond Spheres: Invention & Ingenuity; Thaumic Potential; and Harmony & Discord.
+      Added Spellhacking (mishap) talents: Dazzling Mishap, Terrain Mishap, Obscuring Mishap, False Activation, and Watchful Mishap.
+      Added Spellhacking drawbacks: Destabilized Focus, Fashionista, Impressionist, and Personal Hack.
+      Added Spellhacking talents: Flexible Item Repurposing, Glitched Hack, Hide Manifestation, Preserve Remnants, Retarget Magic, Splinter Magic, Dimension Tuning, Malfunction Dweomer, Reposition Area, Sabotage Item, Shift Enchantment, Splinter Magic, Subvert Control, Suspend Magic, Conditional Hack, and Prescient Hack.
+      Added Subterfuge talents: As You Know, Shocking Betrayal, Scholarly Disguise, Adaptable Appearance, Clever Charlatan, Community Contacts, Costumer, Criminal Contacts, Flashy Outfit, Layered Disguise, Prestigious Disguise, Busy Hands, Close Sleight, Faster Disguise, Pull One Over, Subtle Trick, Martial Disguise, Monstrous Disguise, Spellcaster Disguise, and False Sense Of Security.
+      Added Survivalism (harvest) talents: Bone and Stench.
+      Added Survivalism drawbacks: Hunter.
+      Added Survivalism talents Complex Preparation, Corral, Disrupt Elevation, Hunter’s Eye, Manipulate Cover, Prepare Atmosphere, Right Where I Want You, Subduer, and Swift Dredging.
+      Added Vocation (trade) talents: Aberration Hunter, Anthropologist, Apothecary, Artificer, Artisan, Builder, Burglar, Commander, Counterfeiter, Courtier, Cutpurse, Doctor, Engineer, Escapologist, Esoteric Scholar, Explorer, Faith Heale, Farmer, Gambler, Guide, Handler, Historian, Interlocutor, Knight, Merchant, Miner, Orator, Philosopher, Pirate, Priest, Racer, Rescuer, Sailor, Scout, Scrounger, Smuggler, Soldier Of Fortune, Spy, Teacher, Technician, Trapper, and Virtuoso.
+      Added Vocation talents (Translator, Occultist).
+      Added Vocation talents: Adept Administrator, Adept Adventurer, Adept Builder, Adept Culinarian, Adept Handler, Adept Hunter, Adept Trader, Industrious Worker, Skill Confidence, Skill Tenacity, Versatile Leverage, and Working Folk,
+      Added: "Auto-increment abValue fields" script and tags for abValue, abValue2, and abValue3.
+      All talents now have `field[tAssocRanks]` available to use in scripts.
+      Changed: Added abbreviations for Talent Descriptions.
+      Changed: Corrected many typos.
+      Changed: Moved Expanded Herbalist and Toilbrook witch archetype into the Invention & Ingenuity file.
+      Changed: Removed SoGSpTlSel support for new SoGTlClass.SoGBonusTl support.
+      Enhanced: Added Artifice packages.
+      Enhanced: Added Collector's Dimensional Power CL bonus to (space) talents.
+      Enhanced: Added a linkage="res?" for each table on the Skill Sphere panel/tab.
+      Enhanced: Added a linkage="sogTlSp?" for each table on the Sphere panels/tabs.
+      Enhanced: Artifice Careful Engineer drawback fixed using SoGFreeTal.ArtFlouris now.
+      Enhanced: Bolstering Rapport calculates the bonuses.
+      Enhanced: Build Rapport, Herbal Lore, and Double Dose use auto-increment tags now.
+      Enhanced: Make Skill Leverage not visible if Skill Leverage resMax = 0.
+      Enhanced: Tighten up the timing FixDisable, down to just 9999 to 10001.
+      Enhanced: Trade Tradition to append (Adroit) to the name, if we are adroit.
+      Enhanced: Upgraded Editor support for most use cases, it should work for creating `.user` files.
+      Enhanced: Use Bonus Talent component with SoGFreeTal.Package a talent in the package.
+      Errata: Added a house rule to enable. I will use Errata to highlight these.
+      Errata: Sphere Sorcerer dumping debug errors.
+      Errata: for Soul Weaver's Channel Negative Energy.
+      Errata: for Undead Servants misspells Knowledge (religion) thingid.
+      Fixed: Added Aerial, Nautical, Urban, & Wilderness packages to Navigation sphere/tab.
+      Fixed: Added Retainer & Supply packages to Faction sphere/tab.
+      Fixed: Added missing script at First/495 to copy to hero SphOfGuil.Class on classes.
+      Fixed: Archetype: Soul Weaver (Banshee).
+      Fixed: Artfice packages were not selectable, Added portal/template to fix.
+      Fixed: Bug on the Associated Skill counting.
+      Fixed: Collector's Dimensional Power miscounting issue resolved.
+      Fixed: CustTaken.? should be free talents, added to "if not free” check/logic.
+      Fixed: Dilettante to catch duplicates and missing background skill.
+      Fixed: Drab Outfit to find favored terrain and apply bonus.
+      Fixed: Herbalist Lore failed to detect Large Batch correctly.
+      Fixed: Herbology Expert to correctly require Herbal package.
+      Fixed: Skill Replacement validation didn't catch skills no longer a class skill.
+      Fixed: Skill Sphere Abilities would scroll off screen for a character with many talents.
+      Fixed: Sortset issues w/ SoGTlClass, moved SoGTlClass.Helper to SphOfGuil.Helper tag.
+      Fixed: issue of guile duplicate upgrade +3->+4 applying when we have zero ranks.
+      Fixed: issue with blended class features and skill talents for Bravo and Theorist.
+      Fixed: taking Skill Acuity more than once, added a validation for duplicate skills.
+
 1.0 ~ Jan 19 21:43:12 2025: Alpha version 1.0 - first public release
 
 0.99 ~ Jan 11 22:42:55 2025: Additional implemented features
