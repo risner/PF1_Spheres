@@ -359,6 +359,13 @@
                   perform delete[SoGTopAsSk.?]
                   perform assignstr["SoGTopAsSk." & eachpick.idstring]
              endif
+
+             ~ If the skill is Linguistics, Core doesn't count skExtRanks for languages.
+             if (eachpick.tagis[thingid.skLinguist] <> 0) then
+                 ~ Core adds incorrectly, this should add the missing.
+                 dbe &= " langs +" & maximum(0,field[tAssocRanks].value - thisranks)
+                 herofield[tLangsSpk].value += (field[tAssocRanks].value - thisranks)
+             endif
              debug db & dbe
           nexteach
           ]]>
@@ -459,6 +466,9 @@
 	  doneif (state.isfocus = 0)
 	  perform focus.pushtags[SoGDupBon.?]
 	  perform assign[SphOfGuil.HideTables]
+          ~ Spheres with choices (usrChosen1) will get "You must choose an option"
+          ~ for duplicate copies if not disabled.
+	  perform assign[Helper.SpcDisable]
 	]]></eval>
     <eval phase="PostAttr" priority="30000" name="Turn duplicate copies into bonus talents"><![CDATA[
 	  ~ Sometimes, a talent is granted as a bonus talent by a class/arch, with the caveat that if the hero already
@@ -538,6 +548,14 @@
           doneif (tagis[Helper.SpcDisable] = 1)
           ~ The DDSSphere component only supports SoP/SoM, do SoG here.
           perform container.pushtags[SoGTalDesc.?]
+	]]></eval>
+    <eval phase="PostLevel" priority="5000" name="Enable Activation for Approach"><![CDATA[
+          doneif (tagis[SoGTalDesc.Approach] = 0)
+          doneif (tagis[Helper.SpcDisable] = 1)
+
+          perform assign[User.Activation]
+          perform delete[Hide.Activation]
+          field[actName].text = "Adopt this approach"
 	]]></eval>
     <prereq message="Sphere required.">
       <validate><![CDATA[
@@ -1061,6 +1079,7 @@
 	]]></evalrule>
     </component>
   <component id="SoGSkillUse" name="Skill Use" autocompset="no" hasshortname="no" ispublic="yes">
+    <field id="Valid" name="Valid" type="derived"></field>
     <eval phase="First" priority="1000"><![CDATA[perform hero.findchild[Resource, "thingid.resTrick"].setfocus
 
       doneif (state.isfocus = 0)
@@ -1070,10 +1089,22 @@
     </component>
   <!-- SoG Bonus Talent component -->
   <component id="SGBonusTal" name="(SoG) Bonus Talents" autocompset="yes" hasshortname="no" ispublic="yes">
+    <eval phase="First" priority="990" name="Push Bonus to GainSphere"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if we are not a Drawback.
+  doneif (tagis[component.SoGDrawbk] = 0)
+  ~ Or if we do not gain a talent
+  doneif (tagis[SoGFreeTal.?] = 0)
+
+  ~ Push SoGFreeTal to GainSphere, replacing any there.
+  perform hero.findchild[SoGTalent, tagids[SoGSphere.?] & " & SoGTlClass.GainSphere"].setfocus
+  doneif (state.isfocus = 0)
+  perform focus.delete[SoGFreeTal.?]
+  perform focus.pushtags[SoGFreeTal.?]]]></eval>
     <eval phase="First" priority="1000" name="Handle Bonus Talent"><![CDATA[~ Get out if disabled
   doneif (tagis[Helper.SpcDisable] <> 0)
-  ~ Or if we are not a GainSphere, Package talent, or Drawback.
-  doneif (tagis[SoGTlClass.GainSphere] + tagis[SoGIsPkg.?] + tagis[component.SoGDrawbk] = 0)
+  ~ Or if we are not a GainSphere or Package talent.
+  doneif (tagis[SoGTlClass.GainSphere] + tagis[SoGIsPkg.?] = 0)
   ~ Or if we do not gain a talent
   doneif (tagis[SoGFreeTal.?] = 0)
 

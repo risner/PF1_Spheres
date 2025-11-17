@@ -5,9 +5,35 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
+  <thing id="cSoPConvinR" name="Convincing" compset="ClSpecial" description="At 9th level, an eliciter may take 10 with any Bluff, Diplomacy, Intimidate, or Sense Motive check if he has ranks in that skill, even if circumstances would normally prohibit this action.\n\nIn addition, once per day the eliciter may choose to take 20 on one of these skill checks without taking additional time. He may use this ability twice per day at 13th level, and three times per day at 17th level." summary="You can always take 10 with social skills." replaces="cSoPConvin">
+    <fieldval field="trkMax" value="1"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <tag group="SpecType" tag="Skill"/>
+    <tag group="Usage" tag="Day"/>
+    <tag group="User" tag="Tracker"/>
+    <eval phase="PostLevel" priority="10000"><![CDATA[doneif (tagis[Helper.SpcDisable] = 0)
+
+     ~ Add uses/day from levels
+     if (field[xAllLev].value >= 13) then
+       field[trkMax].value += 1
+     endif
+     if (field[xAllLev].value >= 17) then
+       field[trkMax].value += 1
+     endif]]></eval>
+    <eval phase="Render" priority="10000" index="2"><![CDATA[doneif (tagis[Helper.SpcDisable] = 0)
+      var desc as string
+      desc = "You can always take 10 with this skill, even if circumstances would normally prohibit that action."
+      #situational[hero.childfound[skBluff],desc,field[thingname].text]
+      #situational[hero.childfound[skDiplo],desc,field[thingname].text]
+      #situational[hero.childfound[skIntim],desc,field[thingname].text]
+      #situational[hero.childfound[skSenseMot],desc,field[thingname].text]
+      field[abSumm].text = "You can always take 10 with social skills, and take 20 without spending more time " & field[trkMax].value & tagnames[Usage.?]]]></eval>
+    </thing>
   <thing id="PMErrata" name="Power and Might Errata" compset="Mechanics" description="Errata for the released SoM v1.23, USoP v1.42, and CotS v1.52" uniqueness="unique">
     <usesource source="pPF1e_Sph_Errat"/>
     <eval phase="First" priority="100"><![CDATA[
+       doneif (hero.tagis[source.pPF1e_Sph_Errat] = 0)
 
        ~ For Incanter's tHelpInc thing, the first level index=0 was omitted.
        perform hero.childfound[tHelpInc].setfocus
@@ -49,6 +75,42 @@ BSD-2-Clause license</info_author>
        ~ Timing issue with Shield Expert = somTlRShieldExper
        ~ Timing issue with Tower Shield Mastery = somTlRiTowerShdMa
 
+     ]]></eval>
+    <eval phase="PostAttr" priority="50001" name="Correct SoP redundant talents"><![CDATA[
+     doneif (hero.tagis[source.pPF1e_Sph_Errat] = 0)
+
+     var ct as number
+     var tot as number
+     var sp as string
+     foreach pick in hero from SoPSphere where "SoPSphere.?"
+        ct = 0
+        tot = 0
+        sp = eachpick.tagids[SoPSphere.?]
+        foreach pick in hero from SoPTalent where sp & " & SphOfPow.Talent & SoPTlClass.GainSphere & (SoPDupBon.? | SphOfPow.DupeBonTal)"
+           var dupes as number
+           if (eachpick.isunique = 1) then
+              dupes = eachpick.uniqcount - 1
+           elseif (eachpick.tagis[thing.useronce] = 1) then
+              if (eachpick.tagis[Helper.FirstCopy] = 0) then
+                 dupes = eachpick.field[tTaken].value - 1
+              endif
+           endif
+
+           if (dupes > 1) then
+              ct += 1
+              tot += dupes
+           endif
+        nexteach
+        if (ct > 0) then
+           dupes = tot / ct
+           perform hero.findchild[Resource, replace(sp,"SoPSphere.","SoPBonTal.",0)].setfocus
+           if (state.isfocus = 1) then
+              ~ A bug in Spheres of Power adds extra for each duplicate instead
+              ~ of just adding +1 for each duplicate, this deducts.
+              focus.field[resMax].value -= (tot - dupes)
+           endif
+        endif
+     nexteach
      ]]></eval>
     </thing>
   </document>

@@ -8,7 +8,6 @@ BSD-2-Clause license</info_author>
   <thing id="arDreamtwister" name="Dreamtwister" compset="ClassVary" description="Dreamtwisters harness the power of dreams and delusions to trap foes in false realities. " uniqueness="unique">
     <fieldval field="srcPageNum" value="7"/>
     <usesource source="pPF1e_Sph_ODiabHB"/>
-    <tag group="SphOfGuil" tag="Class"/>
     <tag group="AbReplace" tag="cSoPCrReal"/>
     <tag group="AbReplace" tag="cSoPFeyMag"/>
     <tag group="AbReplace" tag="cSoPFeytch"/>
@@ -47,7 +46,8 @@ BSD-2-Clause license</info_author>
       <autotag group="SphOfPow" tag="NoBnTalent"/>
       </bootstrap>
     <bootstrap thing="sopTlMind">
-      <autotag group="SphOfPow" tag="FreeTalent"/>
+      <autotag group="Helper" tag="Free"/>
+      <autotag group="SoPDupBon" tag="Mind"/>
       </bootstrap>
     <bootstrap thing="sopTlMndGC">
       <autotag group="SphOfPow" tag="FreeTalent"/>

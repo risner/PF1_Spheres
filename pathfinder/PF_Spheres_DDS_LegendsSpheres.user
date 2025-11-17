@@ -465,6 +465,205 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
       endif
     ]]></eval>
     </thing>
+  <thing id="arEliBellether" name="Bellwether" compset="ClassVary" description="Bellwethers see their hypnotic powers as but one tool in an arsenal of social influence, relying more upon conventional means of communication to achieve their goals." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="AbModify" tag="cSoPPersua"/>
+    <tag group="AbReplace" tag="cSoPEnchnt"/>
+    <tag group="AbReplace" tag="cSoPLink"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <bootstrap thing="cLotSUtilExpertis">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cLotSWordwise">
+      <containerreq phase="First" priority="95">!AbReplace.cLotSWordwise</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="7"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cLotSIntimateLink">
+      <containerreq phase="First" priority="95">!AbReplace.cLotSIntimateLink</containerreq>
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="16"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="19"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrBell">
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <link linkage="varies" thing="cHelpSPElc"/>
+    <eval phase="First" priority="50">perform linkage[varies].assign[SphOfGuil.Class]
+  perform linkage[varies].assign[SoGTRank.Adroit]
+
+  ~ Remove talents, replaced by Blended Training
+  perform hero.childfound[tHelpSPElc].setfocus
+    doneif (state.isfocus = 0)
+    var i as number
+    for i = 0 to 19
+      focus.field[cTalKnown].arrayvalue[i] = 0
+    next</eval>
+    </thing>
+  <thing id="cLotSIntimateLink" name="Intimate Link" compset="ClSpecial" description="At 15th level, whenever the bellwether charms or dominates a target (such as through the Enthrall charm from the Mind sphere, the love emotion power, or the domination eliciter class ability), the bellwether learns one of the target’s major motivations. For the purpose of your Communication sphere abilities, the bellwether may treat any creature affected by this ability as knowing one of the bellwether’s major motivations." summary="You learn major motivations from anyone you {i}charm{/i} or dominate">
+    <fieldval field="abRange" value="60"/>
+    <tag group="AbilType" tag="Super" name="Supernatural Ability" abbrev="Su"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="SpecType" tag="Language" name="Languages and Communication" abbrev="Languages and Communication"/>
+    <tag group="abRange" tag="Feet" name="Feet" abbrev="ft."/>
+    </thing>
+  <thing id="cLotSWordwise" name="Wordwise" compset="ClSpecial" description="At 1st level, the bellwether gains the Communication sphere and Mind sphere as bonus talents. His bonus from the persuasive class feature applies to the DC of his Communication sphere effects in addition to his Mind sphere effects, Bluff checks, Diplomacy checks, and Intimidate checks." summary="Gain Communication and Mind as bonus spheres">
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="Hide" tag="ClSpecList"/>
+    <tag group="Hide" tag="Statblock"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="sogTlSpCommunicat">
+      <containerreq phase="First" priority="95">!AbReplace.cLotSWordwise</containerreq>
+      <autotag group="SoGDupBon" tag="Communication"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <bootstrap thing="sopTlMind">
+      <containerreq phase="First" priority="95">!AbReplace.cLotSWordwise</containerreq>
+      <autotag group="Helper" tag="Free"/>
+      <autotag group="SoPDupBon" tag="Mind"/>
+      </bootstrap>
+    <eval phase="Render" priority="10000" index="3"><![CDATA[      field[listname].text = field[thingname].text & " " & signed(field[abValue2].value)
+      field[abSumm].text = "Gain a " & signed(field[abValue2].value) & " bonus to Communication Sphere DCs"]]></eval>
+    <eval phase="PostLevel" priority="10001" index="2"><![CDATA[~ If we're not shown, just get out now
+  doneif (tagis[Helper.ShowSpec] = 0)
+  doneif (tagis[Helper.SpcDisable] <> 0)
+
+  perform hero.childfound[cSoPPersua].setfocus
+  doneif (state.isfocus = 0)
+
+  field[abValue2].value += focus.field[abValue2].value
+
+  perform hero.childfound[sogSpCommunicatio].setfocus
+  doneif (state.isfocus = 0)
+
+  ~ Add bonus to Communication DCs
+  focus.field[abDC].value += field[abValue2].value]]></eval>
+    </thing>
+  <thing id="cSoGBlendTrBell" name="Blended Training" compset="ClSpecial" description="Whenever a bellwether would gain a magic talent from his class levels, he may instead choose to gain a skill talent." summary="Gain a magic or skill talent">
+    <arrayval field="usrArray" index="0" value="Combat Talent"/>
+    <arrayval field="usrArray" index="1" value="Skill Talent"/>
+    <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="abMSBlendTrain"></bootstrap>
+    <eval phase="PostLevel" priority="5000">doneif (tagis[Helper.ShowSpec] = 0)
+      if (field[usrIndex].value = 0) then
+        hero.child[resSPMTGen].field[resMax].value += 1
+        debug "🛠 Adding one Magic talent from Bellwether Blended Training."
+      elseif (field[usrIndex].value = 1) then
+        hero.child[resSGSSGen].field[resMax].value += 1
+        debug "🛠 Adding one Skill talent from Bellwether Blended Training."
+      endif</eval>
+    </thing>
+  <thing id="cLotSUtilExpertis" name="Utility Expertise" compset="ClSpecial" description="In place of the emotions gained at 2nd, 8th, 14th, and 20th level, the bellwether may choose to gain a [utility] talent at 2nd level and every even level thereafter. He may not take this option if possessing an archetype that would alter or replace these emotions." summary="Exchange emotions for [utility] talents at 2nd level and every even level thereafter">
+    <comment>TODO Add [utility] to add</comment>
+    <arrayval field="usrArray" index="0" value="Emotions at 2nd"/>
+    <arrayval field="usrArray" index="1" value="Emotions at 5th"/>
+    <tag group="ChargeCalc" tag="LevelDiv2"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="Hide" tag="ClSpecList" name="Class Special List" abbrev="Class Special List"/>
+    <tag group="Hide" tag="Statblock" name="Statblock" abbrev="Statblock"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <eval phase="First" priority="50">~ Always run this, as it is a choice between two options.
+  if (field[usrIndex].value = 0) then
+    ~ Keep Emotions - so hide this except on class tab.
+    perform assign[Helper.SpecUp]
+    perform delete[Helper.ShowSpec]
+    perform assign[Hide.Statblock]
+  elseif (field[usrIndex].value = 1) then
+    ~ Trade Emotions for Utility Expertise.
+
+    ~ Find the Emotions class special, and change to 5th
+    perform hero.childfound[cSoPElicEm].setfocus
+    doneif (state.isfocus = 0)
+
+    perform focus.assign[ClSpecWhen.5]
+    perform focus.delete[ClSpecWhen.2]
+
+    ~ Find the archetype and change the custom ability total for Emotions.
+    perform root.setfocus
+    doneif (state.isfocus = 0)
+
+    ~ Remove Emotions at 2nd, 8th, 14th, and 20th level.
+    ~ Reduce all lines with increases to maintain the loss of the 4 emotions.
+    focus.field[cvCustTot].arrayvalue[1] = -1
+    focus.field[cvCustTot].arrayvalue[4] = -1
+    focus.field[cvCustTot].arrayvalue[7] = -2
+    focus.field[cvCustTot].arrayvalue[10] = -2
+    focus.field[cvCustTot].arrayvalue[13] = -3
+    focus.field[cvCustTot].arrayvalue[16] = -3
+    focus.field[cvCustTot].arrayvalue[19] = -4
+
+    ~ Mark Emotions as modified
+    perform focus.linkage[varies].assign[AbModify.cSoPElicEm]
+  endif</eval>
+    <eval phase="PostLevel" priority="1000" index="2">~ At 2nd and every 2 levels.
+  var c as number
+  c = round(field[xTotalLev].value/2,0,-1)
+
+  debug "🛠 Adding " &amp; c &amp; " [utility] talents from Utility Expertise."
+  hero.findchild[Resource, "thingid.resSGUtilTal"].field[resMax].value += c
+
+  doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
+
+  ~ Also add here if enabled.
+  debug "🛠 Adding " &amp; c &amp; " Expanded [utility] talents from Utility Expertise."
+  hero.findchild[Resource, "thingid.resSGExUtilTal"].field[resMax].value += c</eval>
+    <evalrule phase="Render" priority="1000" message="Utility Expertise may not be taken when emotions are altered or replaced." summary="Utility Expertise may not be taken when emotions are altered or replaced."><![CDATA[~ Emotions were chosen, so we are valid.
+  validif (field[usrIndex].value = 0)
+
+  @valid = 0
+  ~ No replacements are valid.
+  doneif (hero.tagcount[AbReplace.cSoPElicEm] <> 0)
+
+  ~ Only our modify is valid.
+  doneif (hero.tagcount[AbModify.cSoPElicEm] > 1)
+
+  ~ Archetypes that replace emotions entirely are valid.
+  validif (root.linkage[varies].tagcount[Helper.RemovePrim] = 0)]]></evalrule>
+    </thing>
   <thing id="arSophist" name="Sophist" compset="ClassVary" uniqueness="unique">
     <tag group="AbReplace" tag="cLotSTheoryBon"/>
     <!-- TODO Add Manipulator’s Postulates: Foundational Flaw, Nonsensical Origin, and Reaching Words -->

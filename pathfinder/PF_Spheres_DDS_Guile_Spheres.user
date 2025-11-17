@@ -292,7 +292,9 @@ BSD-2-Clause license</info_author>
     <tag group="LvNamePar" tag="AppText"/>
     <tag group="LvNamePar" tag="AppValue"/>
     <tag group="HasFeat" tag="fFieldRepa"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
     <tag group="SoGFreeTal" tag="Plan"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
     </thing>
   <thing id="sogTlGreaterTrink" name="Greater Trinkets" compset="SoGTalent" description="When you create a trinket, they last 8 hours, plus an additional hour for every point your check exceeds the Craft DC before it returns to its base components. You can also create trinkets that are complex in nature without increasing its Craft DC. This does not benefit trinkets created in 1 round or shorter, or those created with Cobbled Creation.\n\nAdditionally, while you maintain the cobbled creation approach, you can create a trinket as a standard action instead of a full-round action. For every 10 ranks you possess in the associated skill, this action cost is reduced by one step (standard to move, move to swift)." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -311,23 +313,416 @@ BSD-2-Clause license</info_author>
     field[abText].text = "standard"
   endif]]></eval>
     </thing>
-  <thing id="sogTlAestheticArt" name="Aesthetic Artifice" compset="SoGTalent" description="You unlock skill leverage with one of the skills listed below. Additionally, you gain the following benefits if you have unlocked skill leverage with the appropriate skill (as listed below):\n\n{b}Glimmering (flourish) (jewelry) (Craft (jewelry)){/b}: The wearer gains a +2 circumstance bonus to Bluff and Diplomacy checks, as well as checks made to entertain or impress. This bonus increases by +1 per 5 ranks in Craft (jewelry) you possess, and by +2 against creatures that value grand wealth and extravagant apparel (such as nobles and merchants).\n\nAdditionally, the wearer can make an impressive display of skill as a move action using either their Diplomacy or your Craft (jewelry) bonus.\n\n{b}Literary Text (Artistry (literature) or Craft (books or calligraphy)){/b}: When you create an artwork in a written form (such as a book), you can choose to make it a literary artwork. A literary artwork takes 1 hour to engage with, becomes a language-dependent effect, and lasts twice as long as normal.\n\nAdditionally, choose 1 + 1 skills per 10 ranks in Artistry (literature) or Craft (books or calligraphy) you possess. A creature that engages with a literary artwork is considered taught in the chosen skills (new skill use) and unlocks skill leverage with those skills for 24 hours.\n\n{b}Living Canvas (Craft (tattoos)){/b}: You can apply +1 artwork to a creature–such a creature can engage with artworks applied to them without having to see it, and can enter the following approach:\n\n    {b}Ink-proud [approach]{/b}: You can reveal artworks applied to you as though it were a distinct trinket function (as per the Clear Interpretations talent).\n\n{b}Sonorous (flourish) (musical instruments) (Craft (musical instruments)){/b}: The instrument grants a +2 circumstance bonus to Perform checks made to perform with the instrument, +1 per 5 ranks in Craft (musical instruments) you possess.–this bonus stacks with the circumstance bonus due to being masterwork.\n\nAdditionally, whenever the instrument is played, the area that it can be clearly heard is increased by 50% (this includes abilities such as a Performance sphere instrumental or an instrument-based bardic performance). You can also alter the instrument so that it sounds like a different instrument (such as making a lute sound like a guitar, or a keyboard sound like drums), although the qualities of the instrument (such as volume, pitch, method of playing) are unchanged.\n\n{b}Visual Expression (Craft (paintings, pottery, or sculptures)){/b}: You can apply +1 artwork to Small-sized objects or larger, and artworks applied to such an object function as though your associated ranks were 4 higher for determining its effects." uniqueness="useronce">
-    <comment>TODO coding missing.</comment>
+  <thing id="sogTlExquisitEqui" name="Exquisite Equipment" compset="SoGTalent" description="{b}Prerequisite:{/b} Artifice sphere.\n\nYou may craft equipment far beyond the quality of other smiths. The crafted item becomes a masterwork item. At 4 ranks in a package’s associated skill, you can provide special maintenance to the flourish to improve the item further.\n\nIf you possess the (fabrication) package, you can provide this flourish to a tool, which increases the circumstance bonus associated with being masterwork by 1 per 4 ranks in the package’s associated skill you possess.\n\nIf you possess the (gear) package, you can provide this flourish to a set of armor, a shield or a weapon. An exquisite weapon has an enhancement bonus to attack rolls equal to 1 + 1 per 4 ranks in the package’s associated skill you possess (maximum +5). This does not stack with any other enhancement bonuses, and counts towards the maximum enhancement bonus a weapon can have (which cannot exceed a +10 bonus-equivalent as normal). Unlike most enhancement bonuses, this bonus is non-magical and does not allow the weapon to bypass any special damage resistances.\n\nIf you create an exquisite shield or armor, you may choose one of the following options:\n\n{indent 20}\n* Reduce the item’s armor check penalty by 1 per 3 ranks in the package’s associated skill you possess. This is applied before any abilities from the wearer that might reduce their armor check penalties.\n* Increase the item’s maximum Dexterity bonus by 1 per 6 ranks in the package’s associated skill you possess." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGAbV1Sc" tag="1_4A"/>
+    <tag group="SoGAbV2Sc" tag="1_3A"/>
+    <tag group="SoGAbV3Sc" tag="1_6A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="SoGReqPkg" tag="Fabrication"/>
+    <tag group="SoGReqPkg" tag="Gear"/>
+    <eval phase="PostAttr" priority="12000"><![CDATA[~ Get out if disabled
+debug "exquite eqipment"
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if less than 4 ranks.
+debug "exquite eqipment2"
+  doneif (field[tAssocRanks].value < 4)
+debug "exquite eqipment3"
+
+  if (hero.tagis[SoGHasPkg.Fabrication] <> 0) then
+    field[abText].text = signed(field[abValue].value) & " T"
+  endif
+
+  if (hero.tagis[SoGHasPkg.Gear] <> 0) then
+    if (empty(field[abText].text) = 0) then
+      field[abText].text &= ", "
+    endif
+    field[abText].text &= signed(maximum(5,1+field[abValue].value)) & " W, "
+    field[abText].text &= signed(-1*field[abValue2].value) & " ACP or "
+    field[abText].text &= signed(field[abValue3].value) & "Max Dex"
+  endif]]></eval>
+    </thing>
+  <thing id="sogTlConfidenCraf" name="Confident Craftsmanship" compset="SoGTalent" description="When crafting mundane items, you count your progress in gold pieces instead of silver pieces. You never ruin any material if you fail your check by 5 or more. At 5 ranks in the associated Craft skill, you may multiply your check result by 2 when counting your progress; this multiplier increases by 1 at 10 ranks and every 5 ranks thereafter. Also, the time required to craft a trinket is halved (this excludes if the trinket is created in 1 round or shorter).\n\nAdditionally, when creating a masterwork item using a Craft skill you have unlocked skill leverage for, you pay for the materials for the masterwork component normally but ignore them when calculating how much progress you need to finish (effectively, the masterwork component costs no time)." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    </thing>
+  <thing id="sogTlExpandedArti" name="Expanded Artifice" compset="SoGTalent" description="You gain one Artifice sphere package which you do not already possess. You unlock skill leverage with the package’s associated skill (in addition to the other benefits associated with gaining a new package), in addition to gaining a bonus (function) talent from the chosen package. You may select this talent multiple times, each time selecting a different package." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <eval phase="PostAttr" priority="30000">hero.childfound[resSGPkArtifice].field[resMax].value += 1</eval>
+    </thing>
+  <thing id="sogTlFavoriteTool" name="Favorite Tools" compset="SoGTalent" description="When you adopt this approach as a swift action, you gain a +1 circumstance bonus when using a set of artisan’s tools, increasing by 1 per 5 ranks in the appropriate skill, and stacks with the bonus from using masterwork tools." uniqueness="useronce">
+    <comment>TODO stack with masterwork tools</comment>
+    <fieldval field="abText" value="circumstance"/>
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Approach"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    </thing>
+  <thing id="sogTlForgery" name="Forgery" compset="SoGTalent" description="Whenever you disguise an object as an object (new skill use), you disguise it in the least time possible (usually to 10 minutes), or as part of creating a trinket. Whenever you disguise an object, using it does not automatically spoil the disguise, instead only allowing observers a new chance to attempt a Perception check against the disguise; if the discrepancy is minor, observers do not receive a chance to perceive the disguise.\n\nYou can also use an appropriate Artistry skill to forge documents in place of Linguistics.\n\nAdditionally, you can spend 10 minutes (or reveal as a plan) to attempt to create a copy of a key, although you must have some level of familiarity with the original key or lock to do so. Attempt a Craft check against the lock's Disable Device DC; on a success, the key functions as the original (bar any exceptional qualities it may possess). The Craft check may suffer a penalty due to how familiar you are with the key or lock.\n{vert 4}{b}Penalty{/b}\n{b}DC{/b}{horz 30}{b}Familiarity{/b}\n-16{horz 32}Have only description or have seen illustration\n-12{horz 30}Seen once or have illustration\n{horz 6}-8{horz 31}Seen repeatedly or handled\n{horz 6}-4{horz 31}Studied carefully\n{horz 3}+0{horz 30}Intimately familiar with\n\nYou can reveal a plan as a standard action to treat your familiarity with an object as being one higher for an attempt." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
+    </thing>
+  <thing id="sogTlFundamenExpe" name="Fundamental Expertise" compset="SoGTalent" description="The first function you apply to a trinket that is replicating an object from the same package does not count towards the total number of functions that can be applied to it. Additionally, it only takes 2 hours for you to add (or replace) a flourish to an object.\n\nAdditionally, you gain an additional associated skill of your choice from your Artifice sphere package(s).\n\nThis talent can be taken multiple times as a [utility] talent, each time gaining an additional associated skill of your choice from your Artifice sphere package(s).\n\n{b}Author note:{/b} The first time, gain X and then a new associated skill. Each time you take it again, gain an additional associated skill.">
+    <comment>TODO Add associated skill code
+
+Author note:
+https://discord.com/channels/533773201549819925/585184023794679810/1342956396655935558</comment>
     <usesource source="pPF1e_DRS_InvIng"/>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Artifice"/>
     <tag group="SoGTlClass" tag="Talent"/>
+    </thing>
+  <thing id="sogTlMagicalCraft" name="Magical Crafter" compset="SoGTalent" description="You use your ranks in the associated skill as your caster level for the purposes of qualifying for item creation feats. You can create magic items using these feats, substituting your ranks in an appropriate Craft skill for your total caster level. If you do not have a caster level, you must use a Craft skill to create the item. The DC to create the item still increases for any necessary requirements you lack (see the magic item creation rules in the Pathfinder Roleplaying Game Core Rulebook).\n\n{b}Associated Feat:{/b} Master Craftsman." uniqueness="useronce">
+    <fieldval field="abText" value="eff. CL"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGAbV1Sc" tag="1_1A"/>
     <tag group="LvNamePar" tag="AppText"/>
-    <eval phase="Render" priority="400"><![CDATA[~ Do nothing if disabled.
-  doneif (tagis[Helper.SpcDisable] <> 0)
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="HasFeat" tag="fMasCraft"/>
+    </thing>
+  <thing id="sogTlNebulousFunc" name="Nebulous Functionality" compset="SoGTalent" description="When you prepare this plan, you can designate an additional function of a trinket you have created (or will create, if you possess the Secret Project talent) as a nebulous function.\n\nA nebulous function has no benefit, except that you or the trinket's user can reveal this plan as a swift or immediate action to replace the nebulous function with a function you could add to the trinket, making any checks or paying any costs when revealed. Regardless of who reveals the plan, it counts towards your prepared plans." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    </thing>
+  <thing id="sogTlReinforcMate" name="Reinforce Material" compset="SoGTalent" description="{i}You reinforce the object and the materials that make it up, usually by applying certain waxes, lotions, or similar maintenance techniques.{/i}\n\nWhen you provide maintenance to a flourish, the object adds your operative modifier (minimum 1) to its break DC and hardness, as well as to the wielder’s CMD against sunder attempts. The object also gains an amount of hit points equal to your associated ranks + your operative modifier (minimum 1).\n\nThe object also ceases to deteriorate through natural causes, and is immune to effects that replicate such deterioration (such as a rust monster’s rust ability, or the Age alter time effect)." uniqueness="useronce">
+    <fieldval field="abText" value="hp"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGAbV1OM" tag="Value"/>
+    <tag group="SoGAbV1Sc" tag="1_1A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    </thing>
+  <thing id="sogTlSecretProjec" name="Secret Project" compset="SoGTalent" description="When you prepare this plan, you may set aside up to 10 gp worth of unspecified starting materials per rank in the associated skill you possess, working to create an item in the occasional moments you are able to break out your tools. When you reveal this plan, you produce an item you can create (including a trinket) with the unspecified starting materials. The Craft DC for the item must be no greater than 10 + the modifier for the Craft skill used + any bonuses from magic items or tools (if any). You may apply flourishes to this creation as normal.\n\nAt 10 ranks in the associated skill, you may set aside up to 100 gp worth of starting materials per rank in the associated skill you possess." uniqueness="useronce">
+    <comment>TODO handle 10 ranks</comment>
+    <fieldval field="abText" value="gp"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGAbV1Sc" tag="0_1A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    </thing>
+  <thing id="sogTlSizeableTrin" name="Sizeable Trinkets" compset="SoGTalent" description="You can treat your size as being one larger for the purposes of determining craft time and check DC increases when creating the trinket. You can also create trinkets up to two size categories larger than you, but the craft time is increased by an additional 30 minutes (instead of 5 minutes) for each step over your usual maximum size. For every 5 ranks in the associated skill you possess, you can create trinkets an additional size category larger than you, to a maximum size of Colossal.\n\nFor example, if you are a Medium-sized creature and attempt to create a Colossal trinket, it would take you 105 minutes and increase the DC to create it by 30." uniqueness="useronce">
+    <comment>TODO script the max size (abValue) and the mins/DC.</comment>
+    <fieldval field="abValue" value="2"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    </thing>
+  <thing id="sogTlTrueArtist" name="True Artist" compset="SoGTalent" description="You can apply up to two flourishes to an object. Additionally, you can have your artworks only confer its effects to certain creatures (such as a specific creature or those from a certain group or settlement) when it is engaged with. You can change this choice in the same time it takes to provide maintenance.\n\nFor example, you could have the Comforting Design artwork only apply to your allies, and a Review artwork only apply to those of a certain faction.\n\nYou can take this talent an additional time for every 10 ranks you possess in the associated skill, allowing you to add an additional flourish for each time you have taken this talent.">
+    <fieldval field="abText" value="flourishes"/>
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGAbV1Sc" tag="1_0A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <evalrule phase="Final" priority="2147483647" message="You must have 10 ranks in the Associated Skill for each additional time taken." summary="You must have 10 ranks in the Associated Skill for each additional time taken."><![CDATA[@valid = 0
+  ~ Valid if disabled.
+  validif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or a duplicate.
+  validif (tagis[Helper.FirstCopy] = 0)
+  ~ Or we have 10 ranks per time taken.
+  var allow as number
+  allow = field[abValue].value - field[tTaken].value
+  validif (allow >= 0)]]></evalrule>
+    </thing>
+  <thing id="sogTlArtificeEye" name="Artificer's Eye" compset="SoGTalent" description="You can adopt this approach as a swift action. While you maintain this approach, you can spend a swift action observing a lock (or an object that includes a lock, such as a chest or door) to automatically determine whether it is open, closed, or jammed; you can instead spend a standard action to observe a lock to also determine the quality of the lock (simple, average, good, or superior).\n\nYou can spend 1 use of skill leverage when adopting this approach. If you do you can spend a standard action to observe two objects and determine how related they are to one another, with potential options listed below:\n\n{indent 20}* {b}Identical:{/b} The objects are an exact match, such as two teeth being from the same creature, or two fragments of cloth being from the same article of clothing.* {b}Related:{/b} The objects are similar to one another but not exactly, or they have some sort of connection due to outside context (for example, a brick used to shatter a window, and the associated shattered glass would be related to one another).* {b}Unrelated:{/b} The objects are not associated with each other in any way." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Approach"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    </thing>
+  <thing id="sogTlAbstractDesi" name="Abstract Design" compset="SoGTalent" description="You gain the following {i}artworks{/i}:\n\n{b}Focusing:{/b} Creatures that engage with the artwork that are subject to a d% roll due to miss chance, wild magic chance, spell failure chance, or for determining how they act while confused, roll the percentile roll twice and choose which result to take. Additionally, once during the artwork’s duration the creature can regain their martial focus as a move or swift action (if they can achieve martial focus).\n\n{b}Puzzling:{/b} Creatures that engage with the artwork must succeed at a Will saving throw or roll twice any d% roll due to miss chance, wild magic chance, spell failure chance, or for determining how they act while confused, and take the worst result (with the GM being the final arbiter as to what is considered the ‘worst’ result). Additionally, whenever they would regain their martial focus, they must succeed at a Will saving throw or fail to regain their martial focus.\n\nOn a successful save, such d% rolls they are subject to are subtracted by 10% (minimum 0%)." uniqueness="useronce">
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    </thing>
+  <thing id="sogTlAlloyedPlati" name="Alloyed Plating" compset="SoGTalent" description="As part of applying this flourish, you plate, reinforce, or otherwise apply a second material to the crafted object—this requires you to spend half the normal cost required to create the object of the chosen material (for example, applying mithral to a chain shirt would cost 500 gp). You can choose a material that would normally be unable to be made into the crafted object (such as adding glass to armor, or bone to a weapon).\n\nThe crafted object is treated as if it were made of both its original material and the chosen material for overcoming damage reduction, and uses the better of the two hardnesses and hit points—if either material has a mutually exclusive property (such as a weight modifier), you can choose your preferred properties between each material. You may also choose to give it the visual appearance of either material, or both.\n\nAdditionally, as long as the second material’s cost increase does not exceed 500 gp, both materials no longer confer any detrimental effects or drawbacks (such as a silver weapon’s penalty to damage or gold armor’s fragile quality). This gp restriction is lifted if you have at least 10 ranks in this package’s associated skill.\n\nIf you have the (gear) package, this flourish does not count towards the total number of flourishes you can have on an object. Additionally, this flourish can be applied multiple times to the same object, each time choosing a new material, although the subsequent applications of this flourish still count towards your flourish maximum." uniqueness="useronce">
+    <comment>Errata current to 2/24/25.</comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    </thing>
+  <thing id="sogTlArmamentModd" name="Armament Modder" compset="SoGTalent" description="You can apply armor and weapon modifications as flourishes at no additional cost ({i}Adventurer’s Armory 2{/i}). Weapons and armor granted a modification with this talent are no longer treated as being one category more difficult to wield and do not impart penalties to the wearer (for weapon and armor modifications respectively).\n\nThis ability may allow a weapon or armor to have more than one modification (such as a modification the weapon or armor is crafted with initially, plus this flourish separately, or this flourish applied multiple times).\n\n{b}Associated Feats:{/b} Armor Adept, Weapon Adept ({i}Adventurer’s Armory 2{/i})." uniqueness="useronce">
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    </thing>
+  <thing id="sogTlComfortiDesi" name="Comforting Design" compset="SoGTalent" description="Whenever a creature engages with this artwork, they gain a number of temporary hit points equal to twice your operative ability modifier (minimum 1). A creature can only benefit from the temporary hit points granted by this flourish twice per day, plus an additional time for every 5 ranks in associated skill you possess. Additionally, a creature can adopt the following approach as part of engaging with this artwork:\n\n{b}Serene [approach]:{/b} A creature who adopts this artwork’s approach halves the duration of harmful emotion-based conditions and effects, to a minimum of 1 round. The creature also gains a +1 morale bonus to checks when taking 10 or 20, increasing by 1 per 5 ranks in this package’s associated skill." uniqueness="useronce">
+    <fieldval field="abText" value="morale"/>
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    </thing>
+  <thing id="sogTlConvenieDesi" name="Convenient Designs" compset="SoGTalent" description="You gain the following flourishes:\n\n{b}Applicator:{/b} This flourish can only be applied to objects that hold weapons (such as a sheath, or a compartment flourish within a weapon). A single use of an oil, blanch, poison, or similar liquid can be applied to the flourish as a full-round action (which still runs the risk of exposing themselves to the poison). The next time a weapon is drawn from the object, the applied liquid is applied to the weapon, consuming it in the process. The flourish can only hold one use of a specific liquid at one time, plus an additional dose per 4 ranks in the associated skill you possess.\n\n{b}Compactible:{/b} You can alter an object so that it can be folded up to occupy a smaller amount of space. While folded, the item is considered to be one size category smaller than its normal size, but cannot be used for its original purpose. A compactible object can be folded or unfolded as a swift action. For every 5 ranks in the associated skill you possess, the item is considered to be an additional size category smaller than its normal size while folded.\n\n{b}Launcher:{/b} The object gains a mechanism that can store a single object (which is done as a swift action) that is at least one size category smaller than the object the flourish is attached to.\n\nAs a move action, the user can launch the stored object to any square within close range, as though throwing a splash weapon (requiring a ranged attack as normal). Generally, this causes the object to harmlessly land in the chosen square, although the user can choose to launch it in a way so that a creature occupying the square can catch it as a free action usable outside of their turn.\n\nIf the object already has a range increment (such as a splash weapon), you must launch it using the same action required to throw the object, and instead increase the range increment of the object by 20 feet + 5 feet per 4 associated ranks you possess." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    </thing>
+  <thing id="sogTlFunctionArti" name="Functional Artifice" compset="SoGTalent" description="You unlock skill leverage with one of the skills listed below. Additionally, you gain access to the following flourishes if you have unlocked skill leverage with the appropriate Craft skill.\n\n{b}Durable (container) (Craft (baskets)):{/b} The container’s hit points increase by 5 × your operative modifier (minimum 1), and its hardness increases by your operative modifier (minimum 1).\n\n{b}Sturdy (construct) (Craft (clockwork or mechanical)):{/b} The construct’s hit points increase by twice your ranks in Craft (clockwork or mechanical), and any damage reduction it possesses is converted to DR/–.\n\nIf this flourish receives special maintenance, the construct is treated as if it were two size categories higher for determining its bonus hit points.\n\n{b}Padded (clothing) (Craft (clothing)):{/b} The clothing confers an armor bonus equal to 1 + 1 per 5 ranks in Craft (clothing) to the wearer (which replaces and does not stack with armor bonuses the clothing may normally confer).\n\nThis clothing does not count as armor for any purpose, and cannot be granted enhancement bonuses or similar benefits.\n\n{b}Secure (lock) (Craft (locks)):{/b} The Disable Device DC to open the lock increases by 5 + 1/2 your ranks in Craft (locks)–a creature that fails such a check by 5 or more causes any tools being used (usually thieves’ tools) to be destroyed, or broken if they are magical (Fortitude negates).\n\n{b}Sturdy (Feet) (Craft (shoes):{/b} The wearer can move through up to 5 feet of difficult terrain each round as if it were normal terrain, +5 feet per 10 ranks in Craft (shoes), and may 5-foot step into difficult terrain. Additionally, the wearer can run and charge across difficult terrain (this movement still costs twice as much as normal).\n\nIf this flourish receives special maintenance, the wearer can ignore double the amount of feet of difficult terrain per round." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skCrafBask | thingid.skCrafCloc | thingid.skCrafMech | thingid.skCrafLock | thingid.skCrafShoe)"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFabrica"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
 
-  if (field[abValue].value >= 2) then
-    field[abText].text = "swift"
-  elseif (field[abValue].value = 1) then
-    field[abText].text = "move"
-  else
-    field[abText].text = "standard"
-  endif]]></eval>
+      perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    </thing>
+  <thing id="sogTlInspirinComp" name="Inspiring Composition" compset="SoGTalent" description="Whenever a creature engages with this artwork, they can use the basic uses of skill leverage in skills you have unlocked leverage in for 24 hours.\n\nAdditionally, a creature can adopt the following approach as part of engaging with this artwork:\n\n{b}Instructive [approach]:{/b} When you create this artwork, choose two skills you are trained in. A creature who adopts this artwork’s approach gains a competence bonus equal to 1/2 your associated ranks to one of the chosen skills (chosen when adopting the approach).\n\nAdditionally, this artwork can receive maintenance—if you do, you can store any number of uses of skill leverage within the artwork–the artwork can have a maximum number of stored skill leverage equal to your operative modifier (minimum 1). Whenever a creature engages with this artwork, they can withdraw any number of uses of skill leverage stored within the artwork to restore an equivalent amount to their own skill leverage pool.\n\nThe artwork loses 1 stored use of skill leverage every 24 hours. If it does not receive maintenance for 24 hours, a creature cannot withdraw skill leverage from the artwork until it is maintained." uniqueness="useronce">
+    <fieldval field="abText" value="competence"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGAbV1Sc" tag="1_2A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    </thing>
+  <thing id="sogTlMartialArtif" name="Martial Artifice" compset="SoGTalent" description="You unlock skill leverage with one of the Craft skills listed below. Additionally, you gain access to the following flourishes if you have unlocked skill leverage with the appropriate Craft skill.\n\n{b}Capacious (firearm) (Craft (firearms)):{/b} The firearm’s capacity increases by +1, although its misfire value increases by 1. This flourish cannot be applied to siege weapons.\n\nIf this flourish receives special maintenance, the firearm’s capacity increases by +1, and you can choose to not have its misfire value increase.\n\n{b}Cruel (trap) (Craft (traps)):{/b} The trap’s save DC (if any) becomes your Artifice save DC (if higher), as well as increasing its critical threat range by 1 and granting it a +2 bonus to critical confirmation rolls. This does not stack with any other effects that increase critical threat range.\n\nIf this flourish receives special maintenance, the trap deals an additional amount of damage equal to 1/2 your ranks in Craft (traps), which is multiplied on a critical hit.\n\n{b}Propulsive (thrown or ranged weapon) (Craft (bows)):{/b} The weapon only imposes a -1 penalty per full range increment between the user and their target, and its strength rating (if any) changes to that of the wielder’s Strength bonus. Also, the weapon reduces the ranged attack penalty associated with strong or severe wind by 2.\n\nIf this flourish receives special maintenance, the range increment of the weapon increases by 50% or 10 feet (whichever is better). Additionally, the weapon can be used to make ranged attacks in windstorm-level winds at a –4 penalty.\n\n{b}Sharpened (manufactured weapon) (Craft (weapons)):{/b} If any of the weapon’s damage dice result in a 1, it becomes the average result (rounded up–a 1 on a d6 becomes a 4). Any additional damage dice (such as from Vital Strike or flaming) do not benefit from this flourish.\n\n{b}Vitalward (armor) (Craft (armor)):{/b} The armor’s bonus to AC increases by +1 for the purposes of confirming critical hits against the wearer, +1 per 6 associated ranks. If the armor’s wearer loses their Dexterity bonus to AC, the armor’s armor bonus increases by +50%, rounding up (excluding other armor bonus increases outside of this flourish); this increase cannot cause the wearer’s AC to exceed their normal AC.\n\n{b}Example:{/b} A set of vitalward full plate grants a +10 armor bonus, which increases by +5 if they lose their Dexterity bonus to AC (which cannot exceed their normal AC).\n\nIf this flourish receives special maintenance, whenever the wearer is subject to a critical hit, the attack's critical multiplier is reduced by 1 (minimum x1.5).\n\n{b}Associated Feats:{/b} Armor Focus (Craft (armor) option), Deadly Trap (Craft (traps) option), Far Shot (Craft (bows) option)." uniqueness="useronce">
+    <comment>Errata current to 2/24/25.</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skCrafGun | thingid.skCrafTrap | thingid.skCrafBows | thingid.skCrafWeap | thingid.skCrafArm)"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <eval phase="PostLevel" priority="3500" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpArtifice].setfocus
+     doneif (state.isfocus <> 0)
+
+     if (hero.childfound[skCrafTrap].tagis[SkLeverage.skCrafTrap] <> 0) then
+       perform hero.assign[HasFeat.fDeadlyTra]
+     endif
+
+     if (hero.childfound[skCrafBows].tagis[SkLeverage.skCrafBows] <> 0) then
+       perform hero.assign[HasFeat.fFarShot]
+     endif]]>
+     <after name="Handle Skill Leverage"/>
+     </eval>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+      perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    </thing>
+  <thing id="sogTlPreciousMate" name="Precious Material Refinement  {url http://spheresofpower.wikidot.com/artifice#toc42}Wiki   {url}" compset="SoGTalent" description="As a flourish, you improve a special material that the item is primarily made of. If a benefit relies on a ‘weight category’ of a weapon, shield, or set of armor, use the following categories: light armor, buckler, light shield, light weapon > medium armor, heavy shield, one-handed weapon > heavy armor, tower shield, two-handed weapon. The weight category of an object is not affected by effects that change how heavy or light it is (mithral full plate is still considered heavy armor for this talent's benefits).\n\nAdditionally, if such a material has an ability that requires a saving throw, use your Artifice save DC (if higher).\n\nThis ability has more text than HeroLab allows. Please {b}{url http://spheresofpower.wikidot.com/artifice#toc42}use this link.{url}{/b}\n\n{indent 20}* {i}* Adamantine\n* Alchemical Silver\n* Singing Steel\n* Sunsilver\n* Angelskin\n* Arcsilver\n* Cold Iron\n* Darkleaf Cloth\n* Darkwood\n* Dragonhide\n* Eel Hide, Fire-Forged Steel or Frost-Forged Steel\n* Elysian Bronze\n* Greenwood\n* Living Steel\n* Viridium\n* Whipwood\n* Wyroot" uniqueness="useronce">
+    <comment>TODO Change desction to be URL</comment>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    </thing>
+  <thing id="sogTlRefinedArms" name="Refined Arms" compset="SoGTalent" description="You gain the following {i}flourishes{/i}:\n\n{b}Refined (manufactured weapon or shield):{/b} You change the weapon’s effective weapon damage die to 1d4 (1d3 for Small creatures) for the purposes of dealing damage–effects that rely on a weapon’s damage die instead use the weapon’s actual damage die. This damage die increases by 1 step (1d4 > 1d6 > 1d8 > 1d10 > 1d12) for every 6 associated ranks you possess.\n\nThis increase in damage does not affect any other aspect of the weapon, and doesn’t apply to alchemical items, bombs, or other weapons that do not deal any damage or only deal energy damage.\n\nIf this flourish receives special maintenance, the effective damage die of the weapon increases to 1d6 (which scales as normal).\n\n{b}Reinforced (armor or shield):{/b} You reinforce key parts of the armor to help protect the vital parts of its wearer. The armor grants the wearer a 20% chance to cause any critical hit or source of precision damage made against them to instead be considered a normal hit, increasing by 10% per 3 associated ranks you possess. Whenever such an attack is prevented this way, the percentage chance reduces by 10%—you can reset this percentage chance by spending 1 minute with the flourish (or when the flourish is maintained). This percentage chance does not stack with similar chances (such as fortification).\n\nIf this flourish receives special maintenance, the armor grants the wearer DR 2/– against critical hits and precision damage (which stacks with other damage reductions), +1 per 4 associated ranks." uniqueness="useronce">
+    <comment>TODO code damage dice increasing
+Errata current to 2/24/25.</comment>
+    <fieldval field="abText" value="DC"/>
+    <fieldval field="abValue" value="3"/>
+    <fieldval field="abValue2" value="2"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <tag group="SoGAbV1Sc" tag="2_6A"/>
+    <tag group="SoGAbV2Sc" tag="1_4A"/>
+    <tag group="LvNameApp" tag="AppText2"/>
+    <tag group="LvNameApp" tag="AppValue2"/>
+    <tag group="LvNamePar" tag="DieSizVal"/>
+    </thing>
+  <thing id="sogTlSensoryProte" name="Sensory Protections" compset="SoGTalent" description="The following options grant the wearer a +2 circumstance bonus to certain saving throws, depending on the flourish chosen. This bonus increases by 1 per 4 ranks in this package’s associated skill you possess.\n\n{b}Insulated (Head):{/b} The bonus applies to saving throws against clouds, vapors, and gasses (such as cloudkill, stinking cloud, and inhaled poisons), in addition to any effects that would cause the sickened or nauseated condition.\n\n{b}Mirrored (Eyes):{/b} The bonus applies to saving throws against (and to the skill DC to apply) gaze attacks and visual effects, in addition to any effects that would cause the dazzled or blinded condition. Additionally, if the wearer succeeds a saving throw against a gaze attack, they can spend an immediate action to force the originator of the gaze attack to succeed at a saving throw to resist its own gaze or lose access to its gaze attack for 1 round.\n\n{b}Muffled (Head):{/b} The bonus applies to saving throws against (and to the skill DC to apply) auditory and sonic effects, in addition to any effects that would cause the deafened condition." uniqueness="useronce">
+    <fieldval field="abText" value="circ."/>
+    <fieldval field="abValue" value="2"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <tag group="SoGAbV1Sc" tag="1_4A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    </thing>
+  <thing id="sogTlStabilizRein" name="Stabilizing Reinforcements" compset="SoGTalent" description="You may create items that further reinforce your stature or position. The following options grant the wearer a +2 competence bonus to certain rolls, depending on the flourish chosen. This bonus increases by 1 per 5 ranks in this package’s associated skill you possess.\n\n{b}Grippy Palms (Hand):{/b} The bonus applies to Climb checks, Ride checks to stay in a saddle or use a mount as cover, and to Sleight of Hand checks to lift or palm an object, in addition to the wearer’s CMD against disarm combat maneuvers and CMB to attempt grapple combat maneuvers.\n\n{b}Heavy Soles (Feet):{/b} The bonus applies to Acrobatics checks attempted to move across narrow or uneven surfaces, in addition to the wearer’s CMD against bull rush, pull, and reposition combat maneuvers. Additionally, any unarmed strikes using their feet gain a bonus to damage rolls equal to half their Strength bonus (minimum 1).\n\n{b}Webbed Netting (Body or Shoulders):{/b} The bonus applies to Acrobatics checks to soften a fall and to Fly and Swim checks. Additionally, you can use this webbed netting to increase the DC to soften a fall by 5. If you succeed, you ignore the first 20 feet fallen and convert the damage from the next 10 feet of the fall to nonlethal damage; you avoid falling prone at the end of your jump even if you take damage." uniqueness="useronce">
+    <fieldval field="abText" value="competence"/>
+    <fieldval field="abValue" value="2"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    </thing>
+  <thing id="sogTlStorageEnhan" name="Storage Enhancement" compset="SoGTalent" description="You can augment items that store or reinforce things. Choose from one of the following flourishes:\n\n{b}Commodious:{/b} This flourish can only be applied to containers. The object’s user treats their Strength score as +1 higher than normal when calculating their carrying capacity. Additionally, the object can hold an additional 50% more ounces or cubic feet within it (for example, a backpack would be able to hold 3 cubic feet of material). If this flourish is not maintained, the container breaks, spilling its contents. For every 5 ranks in the (fabrication) package’s associated skill you possess, these benefits increase by +1 and 50% of its original volume respectively.\n\n{b}Compartment:{/b} The object gains a small compartment that can hold at least 1 ounce of liquid or a single object that is at least two size categories smaller than the object benefiting from this flourish. The compartments are usually within an object, making it difficult to discover without a successful Perception check (DC 10 + the (fabrication) package’s associated skill modifier). For every 5 ranks you possess in the associated skill, you can add an additional compartment. If you possess the Convenient Designs talent, the compartment’s contents can be ejected as a free action. If the compartment is holding a consumable liquid (and it would normally be imbibed or applied as a standard action), the user can imbibe or apply the liquid within the compartment as a move action.\n\n{b}Resistant:{/b} This flourish can only be applied to containers. The container and any objects stored within it halve any damage they suffer from external effects, and is immune to any water damage that would be caused due to its material. Effects that originate from within the container still affect items normally. If the container would spill its contents due to being broken or destroyed, it retains its contents for 1 minute (or until it is damaged again, whichever comes first)." uniqueness="useronce">
+    <fieldval field="abText" value="eff. STR"/>
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFabrica"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    </thing>
+  <thing id="sogTlVehicleImpro" name="Vehicle Improvements" compset="SoGTalent" description="You gain the following flourishes that can be applied to vehicles ({i}Ultimate Combat{/i}).\n\n{b}Refined Propulsion:{/b} The vehicle gains a +2 resistance bonus to Reflex saving throws and a +1 bonus to its AC for as long as it is being piloted, which increases by 1 for every 5 associated ranks you possess.\n\nAdditionally, its maximum speed and acceleration increases by 10 feet.\n\n{b}Reinforced Chassis:{/b} The vehicle increases its hit points by an amount equal to twice your associated ranks, and only takes half damage from energy attacks (as normal for an object).\n\n{b}Side Plating:{/b} The vehicle gains a +2 resistance bonus to Fortitude saving throws, in addition to a +1 bonus to its base AC and hardness, which increases by 1 for every 5 associated ranks you possess.\n\nAdditionally, its ramming damage die increases by one step." uniqueness="useronce">
+    <fieldval field="abText" value="AC"/>
+    <fieldval field="abText2" value="hp"/>
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFabrica"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    <tag group="SoGAbV2Sc" tag="2_1A"/>
+    <tag group="LvNameApp" tag="AppText2"/>
+    <tag group="LvNameApp" tag="AppValue2"/>
+    <tag group="LvNameApp" tag="SignAppVal"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    </thing>
+  <thing id="sogTlDefensivEqui" name="Defensive Equipment" compset="SoGTalent" description="You can provide the following function to your trinkets:\n\n{b}Warding (+10 DC):{/b} You create a trinket that can be worn underneath armor or clothing. While this trinket is worn, the wearer gains DR 2, which is bypassed by a single physical damage type (your choice when creating the trinket), increasing by 1 per 4 ranks in the (gear) package’s associated skill you possess.\n\nOnce the warding trinket has absorbed damage equal to 5 x the number of ranks in the (gear) package’s associated skill you possess, the trinket and any other warding trinket you wear is destroyed.\n\nIf you possess the Chemical Armaments talent, you can instead have a warding function grant resistance to one of acid, cold, electricity, or fire equal to the DR’s value." uniqueness="useronce">
+    <fieldval field="abText" value="DR"/>
+    <fieldval field="abValue" value="2"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFunctio"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <tag group="SoGAbV1Sc" tag="1_4A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    </thing>
+  <thing id="sogTlEmbarrasSati" name="Embarrassing Satire" compset="SoGTalent" description="You can add the following function to your trinkets:\n\n{b}Mocking (+10 DC):{/b} You create a trinket that has a particularly confusing, mocking, or embarrassing design. The user can spend a standard action to force all creatures of their choice within 30 feet of them to succeed at a Will saving throw or become livid or shocked (chosen when you create this trinket) for 1 round, plus 1 round for every 5 ranks you possess in the (artwork) package’s associated skill. You can invoke a motivation as part of creating this trinket to cause creatures with that motivation to be affected by the condition for twice as long." uniqueness="useronce">
+    <fieldval field="abText" value="rounds"/>
+    <fieldval field="abValue" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFunctio"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGAbV1Sc" tag="1_5A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    </thing>
+  <thing id="sogTlIntegritShif" name="Integrity Shifter" compset="SoGTalent" description="You gain the following function:\n\n{b}Reinforcer/Wrecker (+10 DC):{/b} When you apply this function, choose whether it is a reinforcer or a wrecker. The trinket can be deployed onto a door or surface in 1 round, and can affect up to a 5 + 5-foot cube per 2 associated ranks (chosen when deployed).\n{indent 20}\n* {b}Reinforcer:{/b} The door or surface’s break DC and hardness increases by +3 + 1 per 3 associated ranks, and gains a number of temporary hit points equal to your associated ranks + your operative modifier (minimum 1), which you can replenish as a standard action.\n\nIf you spend 1 use of skill leverage when creating a reinforcer, the door or surface remains structurally sound for 1 + 1 round per 5 associated ranks after it is destroyed.\n* {b}Wrecker:{/b} The door or surface’s break DC and hardness decreases by 3 + 1 per 3 associated ranks, and at the start of each round, the trinket deals an amount of bludgeoning damage to the door or surface equal to 1/2 your associated ranks + your operative modifier (minimum 1); the sound of this damage can be heard with a successful DC 10 Perception check.\n\nIf you spend 1 use of skill leverage when creating a wrecker, the Perception DC to notice this damage (as well as to notice the door or surface break or become destroyed) becomes 15 + your associated skill modifier.{indent -20}\n\nThe trinket can be removed from a surface or door as a standard action." uniqueness="useronce">
+    <fieldval field="abText" value="cubes"/>
+    <fieldval field="abText2" value="DC"/>
+    <fieldval field="abValue" value="5"/>
+    <fieldval field="abValue2" value="3"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="ArtFabrica"/>
+    <tag group="SoGTalDesc" tag="ArtFunctio"/>
+    <tag group="SoGAbV1Sc" tag="5_2A"/>
+    <tag group="SoGAbV2Sc" tag="1_3A"/>
+    <tag group="LvNameApp" tag="AppText2"/>
+    <tag group="LvNameApp" tag="AppValue2"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    </thing>
+  <thing id="sogTlAestheticArt" name="Aesthetic Artifice" compset="SoGTalent" description="You unlock skill leverage with one of the skills listed below. Additionally, you gain the following benefits if you have unlocked skill leverage with the appropriate skill (as listed below):\n\n{b}Glimmering (flourish) (jewelry) (Craft (jewelry)){/b}: The wearer gains a +2 circumstance bonus to Bluff and Diplomacy checks, as well as checks made to entertain or impress. This bonus increases by +1 per 5 ranks in Craft (jewelry) you possess, and by +2 against creatures that value grand wealth and extravagant apparel (such as nobles and merchants).\n\nAdditionally, the wearer can make an impressive display of skill as a move action using either their Diplomacy or your Craft (jewelry) bonus.\n\n{b}Literary Text (Artistry (literature) or Craft (books or calligraphy)){/b}: When you create an artwork in a written form (such as a book), you can choose to make it a literary artwork. A literary artwork takes 10 minutes to engage with, becomes a language-dependent effect, and lasts twice as long as normal.\n\nAdditionally, choose 1 + 1 skills per 10 ranks in Artistry (literature) or Craft (books or calligraphy) you possess. A creature that engages with a literary artwork is considered taught in the chosen skills (new skill use) and unlocks skill leverage with those skills for 24 hours.\n\n{b}Living Canvas (Craft (tattoos)){/b}: You can apply +1 artwork to a creature–such a creature can engage with artworks applied to them without having to see it, and can enter the following approach:\n\n    {b}Ink-proud [approach]{/b}: You can reveal artworks applied to you as though it were a distinct trinket function (as per the Clear Interpretations talent).\n\n{b}Sonorous (flourish) (musical instruments) (Craft (musical instruments)){/b}: The instrument grants a +2 circumstance bonus to Perform checks made to perform with the instrument, +1 per 5 ranks in Craft (musical instruments) you possess.–this bonus stacks with the circumstance bonus due to being masterwork.\n\nAdditionally, whenever the instrument is played, the area that it can be clearly heard is increased by 50% (this includes abilities such as a Performance sphere instrumental or an instrument-based bardic performance). You can also alter the instrument so that it sounds like a different instrument (such as making a lute sound like a guitar, or a keyboard sound like drums), although the qualities of the instrument (such as volume, pitch, method of playing) are unchanged.\n\n{b}Visual Expression (Craft (paintings, pottery, or sculptures)){/b}: You can apply +1 artwork to Small-sized objects or larger, and artworks applied to such an object function as though your associated ranks were 4 higher for determining its effects." uniqueness="useronce">
+    <comment>TODO coding missing.
+Errata current to 2/24/25.</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skCrafJewe | thingid.skArtLiter | thingid.skCrafBook | thingid.skCrafCall | thingid.skCrafMusi thingid.skCrafPain | thingid.skCrafPott | thingid.skCrafScul)"/>
+    <usesource source="pPF1e_DRS_InvIng" parent="pPF1e_DRS_Other" name="Diamond Spheres: Invention &amp; Ingenuity"/>
+    <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
+    <tag group="SoGSphere" tag="Artifice" name="Artifice" abbrev="Artifice"/>
+    <tag group="SoGTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
+    <tag group="LvNamePar" tag="AppText" name="Append &quot;field[abText].text&quot;" abbrev="Append &quot;field[abText].text&quot;"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+      perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
     </thing>
   <thing id="sogDbCarefulEngin" name="Careful Engineer" compset="SoGDrawbk" description="You lose the trinket ability and cobbled creation approach, as well as the bonus (function) talent granted when you gain a package. You gain a [utility] talent and a (flourish) talent of your choice.\n\n{b}Special{/b}: This drawback can be taken as a [utility start] if the chosen (flourish) talent is a utility talent." panellink="tbSoGArtifice" uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
@@ -770,8 +1165,11 @@ BSD-2-Clause license</info_author>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Communication"/>
     <tag group="SoGTlClass" tag="Talent"/>
-    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
     <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
     </thing>
   <thing id="sogTlDefensiveBlo" name="Defensive Blockade" compset="SoGTalent" description="Whenever you improve an ally’s AC using aid another, the bonus granted increases to +3. This increases by 1 per 10 ranks in the associated skill you possess.\n\nIf you improve an ally’s AC using aid another, the aided ally also gains one of the following benefits against that opponent for the aid another effect’s duration:\n\n    * The ally does not provoke attacks of opportunity from the opponent for standing up from prone, moving out of their threatened area, picking up an item, or drinking a potion.\n    * The ally is not considered flanked or flat-footed against the opponent.\n\n{b}Associated Feat{/b}: Got Your Back ({i}Melee Tactics Toolbox{/i})" uniqueness="useronce">
     <fieldval field="abText" value="ally’s AC"/>
@@ -1051,6 +1449,8 @@ The Faction sphere can grant access to spellcasting. In games using Spheres of P
     <tag group="SoGSphere" tag="Faction"/>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
     </thing>
   <thing id="sogTlArmedRetaine" name="Armed Retainer" compset="SoGTalent" description="You can requisition a gamekeeper, a bouncer, an off-duty watch officer, or other hireling with weapon training as your retainer using the warden profession.\n\nWith GM permission, you can instead use the statistics (and for 2+ authorizations, the equipment) for an aristocrat or warrior with character level up to your retainer Hit Dice maximum.\n\nIf you have at least 4 ranks in the associated skill, fighter or ranger are also options using your usual Hit Dice maximum, and the maximum increases by 1 for aristocrats and warriors.\n\n{b}Warden{/b}\n\n{b}Role 1 Authorization{/b} Patrol somewhere not expecting trouble, discourage rowdy people in a public place, or find game (noncombatant with listed equipment), {b}2 Authorizations (requires (supply) package){/b} Defend a secure location, hunt specific game of a lower challenge rating (combatant with NPC equipment), {b}3 Authorizations (requires (supply) package){/b} Any other reasonably hazardous task (combatant with NPC equipment); Skills (2 primary, 3 secondary) Climb, Craft (traps), Handle Animal, Intimidate, Perception, Profession (hunter or trapper), Ride, Stealth, Survival, Swim; {b}Trade Tradition{/b} adroit granting two of Herbalism, Navigation, and Survivalism;\n\n{b}Ability Scores{/b} Str 11, Dex 15, Con 10, Int 9, Wis 12, Cha 8; {b}Hit Dice{/b} d10 (6 hp per level); {b}Base Attack Bonus{/b} good; {b}Saves{/b} Fort (good), Ref (poor), Will (poor); {b}Special{/b} The warden takes no penalty for dealing nonlethal damage with lethal weapons and can gain investigator or slayer talents (Pathfinder Roleplaying Game Advanced Class Guide) instead of feats. {b}Equipment{/b} a javelin, a spear, a net, a sling and 10 rocks, either leather or hide armor" uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -1089,7 +1489,7 @@ The Faction sphere can grant access to spellcasting. In games using Spheres of P
   validif (tagis[Helper.FirstCopy] = 0)
   ~ Or we have 5 ranks and taken twice.
   validif (field[abValue].value = 1)]]></evalrule>
-    <exprreq message="5 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 5]]></exprreq>
+    <exprreq message="Associated Skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 5]]></exprreq>
     </thing>
   <thing id="sogTlRoguishRetai" name="Roguish Retainer" compset="SoGTalent" description="You can requisition a spy, diplomat, con artist, interrogator, scout, guild thief, private snoop, or other stealthy character as your retainer, using either the sneak or trickster profession. If the retainer steals anything, they keep it unless you purchase it from them for 90% its market price.\n\nYou can requisition the stolen item by spending authorizations (multiplying the appropriate budget by the number of authorizations you spend), but you must turn it over to the faction to regain the authorizations (or use it up, if a temporary item).\n\n{b}Sneak{/b}\n\n{b}Role 1 Authorization{/b} Survey places the public is welcome for security vulnerabilities, keep watch anywhere they can reliably hide, tail a person in a public place, create a diversion in a public place, commit petty crimes you will bail them out of, or undertake other reasonable inconveniences (noncombatant), {b}2 Authorizations{/b} Approach enemies to spy upon or sneak past them, travel, pick pockets in a lowrisk public place, commit substantial property crimes you will bail them out of, or creating a diversion in a private place (noncombatant);\n\n{b}Skills{/b} (4 primary, 4 secondary) Acrobatics, Bluff, Climb, Disable Device, Escape Artist, Perception, Sleight of Hand, Stealth;\n\n{b}Trade Tradition{/b} adroit Tracer;\n\n{b}Ability Scores{/b} Str 8, Dex 15, Con 10, Int 11, Wis 10, Cha 12; {b}Hit Dice{/b} d8 (5 hp per level); {b}Base Attack Bonus{/b} medium; {b}Saves{/b} Fort (poor), Ref (good), Will (poor); {b}Special{/b} The sneak can gain rogue talents instead of feats. {b}Equipment{/b} thieves’ tools\n\n{b}Trickster{/b}\n\n{b}Role 1 Authorization{/b} Survey places the public is welcome for security vulnerabilities, keep watch anywhere they can blend in, tail a person in a low-risk public place, create a diversion in a safe public place, commit petty crimes you’ll bail them out of, travel, or undertake other reasonable inconveniences (noncombatant), {b}2 Authorizations{/b} Approach enemies to spy upon or bluff past them, smuggle an item past a checkpoint, commit fraud you’ll bail them out of, or create a diversion in a private place they can blend in (noncombatant);\n\n{b}Skills{/b} (3 primary, 4 secondary) Bluff, Diplomacy, Disguise, Intimidate, Knowledge (local), Knowledge (nobility), Linguistics, Perception, Perform, Sense Motive, Sleight of Hand;\n\n{b}Trade Tradition{/b} adroit granting two of Bluster, Subterfuge, and Investigation;\n\n{b}Ability Scores{/b} Str 10, Dex 10, Con 8, Int 12, Wis 11, Cha 15; {b}Hit Dice{/b} d8 (4 hp per level); {b}Base Attack Bonus{/b} medium; {b}Saves{/b} Fort (poor), Ref (good), Will (poor); {b}Special{/b} The trickster can gain vigilante social talents (Pathfinder Roleplaying Game: Ultimate Intrigue) instead of shared utility talents, even social talents you do not possess. {b}Equipment{/b} disguise kit, cards or dice, entertainer’s outfit" uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -1300,11 +1700,20 @@ abValue3   =  # of types</comment>
     <tag group="SoGTlClass" tag="Talent"/>
     </thing>
   <thing id="sogTlPhysicianE" name="Physician’s Efficacy" compset="SoGTalent" description="You can adopt this approach as a swift action. While adopting this approach, you gain a +2 insight bonus to Heal checks, +1 per 4 associated ranks. You can also treat deadly wounds as a full-round action (which provokes attacks of opportunity); or one step faster if you can already do so as a full-round action.\n\nYou can spend 1 use of skill leverage when adopting this approach to allow you to treat any roll of a 4 or lower on a Heal check as if you had rolled a 5 instead, as well as allowing you to add twice your operative modifier (minimum 1) instead of your Wisdom modifier if you exceed the DC to treat deadly wounds by 5 or more." uniqueness="useronce">
+    <fieldval field="abValue" value="2"/>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Herbalism"/>
     <tag group="SoGTlClass" tag="InitTalent"/>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="Approach"/>
+    <tag group="SoGAbV1Sc" tag="1_4A"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="LvNamePar" tag="SignAppVal"/>
+    <eval phase="PostAttr" priority="11000"><![CDATA[doneif (tagis[Helper.SpcDisable] <> 0)
+    doneif (field[abilActive].value = 0)
+
+    #applybonus[BonInsight, hero.child[skHeal], field[abValue].value]
+]]></eval>
     </thing>
   <thing id="sogTlNaturalEye" name="Naturalist's Eye" compset="SoGTalent" description="You may adopt this approach as a swift action. While you maintain this approach, you gain a +2 insight bonus to this package’s associated skill checks, Knowledge (nature) and Survival checks, increasing by 1 per 4 ranks in the associated skill you possess. You can also identify a poison or potion as a swift or immediate action with a successful associated skill check against the save DC of the poison (if a poison) or 15 + the potion’s spell level (if a potion)–to identify a poison or potion, you must either be handling it or witness it affecting a creature within close range.\n\nAdditionally, you can use this package’s associated skill instead of any Dexterity-, Intelligence-, Wisdom-, or Charisma-based skill check made against a plant creature or any such check made in regards to plants. Whenever you attempt such a check, you can spend 1 use of skill leverage to treat the check as though you had rolled a 15 on the die–this is treated as if you had taken 10 on the check.\n\nFinally, you regain 1 skill leverage when you successfully identify a plant or plant type creature that you have never encountered before." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -1378,13 +1787,16 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGSphere" tag="Herbalism"/>
     <tag group="SoGTlClass" tag="Talent"/>
     </thing>
-  <thing id="sogTlProactiveCar" name="Proactive Care" compset="SoGTalent" description="You improve the following Heal skill uses in the following ways on a successful check:\n\n    {b}First Aid{/b}: The creature reduces the next instance of bleed damage they suffer within the next hour by an amount equal to your operative modifier (minimum 1).\n    {b}Treat Deadly Wounds{/b}: Any excess healing healed through this skill use that exceeds their maximum hit point total is applied as temporary hit points which last for 1 hour–these temporary hit points cannot exceed 10 + your ranks in this package’s associated skill.\n    {b}Treat Disease or Poison{/b}: The patient gains a +2 competence bonus to saving throws against poisons and disease for 8 hours. You can use this skill use on a creature that is not suffering from a disease or poison to grant them this bonus, although it only applies to such affliction’s with a saving throw DC equal to or below your Heal check result.\n\nYou can also reveal the use of any of these Heal skill uses as a plan; doing so is an immediate action (although the benefits always take effect at the end of the current turn)." uniqueness="useronce">
+  <thing id="sogTlProactiveCar" name="Proactive Care" compset="SoGTalent" description="You improve the following Heal skill uses in the following ways on a successful check:\n\n    {b}First Aid{/b}: The creature reduces the next instance of bleed damage they suffer within the next hour by an amount equal to your operative modifier (minimum 1).\n    {b}Treat Deadly Wounds{/b}: Any excess healing healed through this skill use that exceeds their maximum hit point total is applied as temporary hit points which last for 1 hour–these temporary hit points cannot exceed 10 + your ranks in this package’s associated skill.\n    {b}Treat Disease or Poison{/b}: The patient gains a +2 competence bonus to saving throws against poisons and disease for 8 hours. You can use this skill use on a creature that is not suffering from a disease or poison to grant them this bonus, although it only applies to such affliction’s with a saving throw DC equal to or below your Heal check result.\n\nYou can also reveal the use of any of these Heal skill uses as a plan performed as an immediate action. In the case of a prepared treat deadly wounds, a creature can only be healed through this plan if the damage was incurred before you prepared your plans, otherwise they only receive the temporary hit points and only for 1 minute (which still counts towards the daily limit of treat deadly wounds)." uniqueness="useronce">
+    <comment>Errata current to 2/24/25.</comment>
     <usesource source="pPF1e_DRS_InvIng"/>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Herbalism"/>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="HerbRemedy"/>
     <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
     </thing>
   <thing id="sogDbHerbExpert" name="Herbology Expert" compset="SoGDrawbk" description="You lose the Naturalist's Eye approach. You gain the Double Dose talent." summary="Trade Naturalist's Eye for Double Dose." panellink="tbSoGHerbalism" uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -1746,25 +2158,26 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGAbV1Sc" tag="1_8A"/>
     </thing>
-  <thing id="sogTlAerial" name="Aerial" compset="SoGTalent" description="You gain the following acclimation:\n\n    {b}Weatherproofing{/b}: Acclimated targets may treat the severity of all weather effects as one step lower for all purposes for 24 hours. For every 7 ranks you possess in your associated skill, they reduce the severity of weather effects by an additional step.\n\n{b}Associated Skill{/b}: Fly or Profession (pilot)." summary="Gain the aerial package" uniqueness="useronce">
+  <thing id="sogTlAerial" name="Aerial" compset="SoGTalent" description="You gain the following acclimation:\n\n    {b}Weatherproofing{/b}: Acclimated targets may treat the severity of weather effects as being 1 step lower, +1 step per 7 ranks you possess in this package’s associated skill. Additionally, such targets improve the maneuverability on any fly speed they possess by one step (maximum good maneuverability), and are always considered to have moved at least half their speed for the purpose of determining if they need to make Fly checks to remain flying. Acclimated air-current vehicles reduce the DC of any piloting checks attempted to perform actions on them by 1 + 1 per 4 ranks in this package’s associated skill.\n\n{b}Associated Feat:{/b} Careful Flyer (Ultimate Intrigue)\n\n{b}Associated Skill{/b}: Fly or Profession (pilot)." summary="Gain the aerial package" uniqueness="useronce">
+    <comment>Errata current to 2/24/25.</comment>
+    <fieldval field="abText" value="steps"/>
+    <fieldval field="abValue" value="1"/>
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skFly | thingid.skProfRPilot)"/>
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
     <tag group="SoGSphere" tag="Navigation"/>
     <tag group="SoGTlClass" tag="Package" name="Package" abbrev="Package"/>
     <tag group="SoGTalDesc" tag="NavAerial"/>
     <tag group="SoGIsPkg" tag="Aerial"/>
+    <tag group="SoGAbV1Sc" tag="1_7A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
     <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="HasFeat" tag="fCareFlyer"/>
     <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <bootstrap thing="abSoGSkLeverage"></bootstrap>
     <bootstrap thing="sogTlWeatherproof">
       <containerreq phase="First" priority="500">!SoGBanTal.sogTlAerial</containerreq>
       </bootstrap>
-    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[~ Get out if disabled
-     doneif (tagis[Helper.SpcDisable] <> 0)
-     ~ or if no choice made.
-     doneif (field[usrChosen1].ischosen = 0)
-
-     perform hero.childfound[sogTlSpNavigation].assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
     <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
      doneif (tagis[Helper.SpcDisable] <> 0)
      ~ or a duplicate.
@@ -1773,6 +2186,12 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
      doneif (field[usrChosen1].ischosen = 0)
 
      perform hero.childfound[sogTlSpNavigation].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <eval phase="First" priority="103" name="Assign initial Associated Skill"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpNavigation].assignstr["SoGAssocSk." & field[usrChosen1].chosen.idstring]]]></eval>
     </thing>
   <thing id="sogTlNautical" name="Nautical" compset="SoGTalent" description="You gain the following acclimation:\n\n    {b}Aquatic Adaptation{/b}: Acclimated targets ignore any penalties to attack rolls from being underwater (including allowing them to use thrown weapons normally underwater), can hold their breath for 2 additional rounds before having to attempt Constitution checks to avoid drowning, and gains a +1 competence bonus to Swim checks. This bonus and the duration of which creatures can hold their breath increases by +1 and 1 round respectively for every 2 ranks you possess in this package's associated skill. If you have at least 5 ranks in this package's associated skill, acclimated creatures also deal full damage with all weapon attacks while underwater. Acclimated vehicles reduce the DC of any Profession (sailor) check attempted to perform actions on them by 1, plus 1 per 4 ranks in this package's associated skill.\n\n{b}Associated Skill{/b}: Profession (sailor) or Swim." summary="Gain the nautical package" uniqueness="useronce">
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skSwim | thingid.skProfSail)"/>
@@ -1830,7 +2249,8 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
 
      perform hero.childfound[sogTlSpNavigation].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
     </thing>
-  <thing id="sogTlWilderness" name="Wilderness" compset="SoGTalent" description="You gain the following acclimation:\n\n    {b}Conditioning{/b}: Acclimated targets gain a +2 competence bonus on saving throws against environmental hazards and weather effects. This includes Fortitude saves to avoid fatigue and nonlethal damage from hot or cold environments. For every 8 ranks you have in this package’s associated skills, the bonus to saving throws increases by +1.\n\n{b}Associated Skill{/b}: Climb, Profession (guide), Profession (driver), or Survival." summary="Gain the wilderness package" uniqueness="useronce">
+  <thing id="sogTlWilderness" name="Wilderness" compset="SoGTalent" description="You gain the following acclimation:\n\n    {b}Conditioning{/b}: Acclimated targets gain a +2 competence bonus to Constitution checks, and to saving throws against environmental hazards and weather effects, as well as effects that cause fatigue or nonlethal damage. They also reduce all nonlethal damage as well as damage dealt due to environmental hazards (such as falling, pressure, extreme temperatures, etc.) by 3. These bonuses (and damage reduction) increase by +1 per 5 ranks you possess in this package’s associated skill.\n    Lastly, such creatures do not become fatigued due to sleeping in armor or from suffering nonlethal damage from extreme temperatures, and do not take a penalty to Constitution checks for wearing armor in hot climates.\n\n{b}Associated Feat:{/b} Endurance\n\n{b}Associated Skill{/b}: Climb, Profession (guide), Profession (driver), or Survival." summary="Gain the wilderness package" uniqueness="useronce">
+    <comment>Errata current to 2/24/25.</comment>
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skClimb | thingid.skSurvival | thingid.skProfDriv | thingid.skProfRGuide)"/>
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
     <tag group="SoGSphere" tag="Navigation"/>
@@ -1838,6 +2258,7 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGTalDesc" tag="NavWildern"/>
     <tag group="SoGIsPkg" tag="Wilderness"/>
     <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="HasFeat" tag="fEndure"/>
     <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <bootstrap thing="abSoGSkLeverage"></bootstrap>
     <bootstrap thing="sogTlConditioning">
@@ -1864,13 +2285,15 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="Pathing"/>
     </thing>
-  <thing id="sogTlMaritimeAccl" name="Maritime Acclimatization" compset="SoGTalent" description="You may select the following acclimation benefits:\n\n    * {b}Depth Stalker{/b}: Acclimated targets can see twice as far the normal distance underwater–if they have darkvision, its range is doubled when underwater. Also, acclimated targets gain a +2 competence bonus to saving throws against effects with the water descriptor, or exceptional or supernatural abilities of creatures with the aquatic or water subtype.\nIf you possess the (nautical) package, acclimated targets also gain tremorsense for up to 10 feet (except only allowing them to detect anything in contact with the same body of water as them). If the target possesses a similar form of tremorsense (such as the Adept Hunter Vocation talent, or the courser’s forage ability), the range increases by +10 feet.\n\n    * {b}Tide Strider{/b}: Acclimated targets that succeed at a Swim check can move their full speed as a full-round action, or half their speed as a move action. If they already possess a swim speed, it increases by 10 feet. Additionally, whenever they are moved by a current, they can increase or decrease the movement by 50%.\n    If you possess the (nautical) package, acclimated targets can also run, charge, and 5-foot step while swimming. Additionally, such targets can change their buoyancy between rising, neutral, or sinking as a free action once per round (instead of a move action), and they are not off-balanced while sinking or rising due to their buoyancy." uniqueness="useronce">
-    <comment>TODO show increased range and speed?</comment>
+  <thing id="sogTlMaritimeAccl" name="Maritime Acclimatization" compset="SoGTalent" description="You may select the following acclimation benefits:\n\n    * {b}Depth Stalker{/b}: Acclimated targets can see twice as far the normal distance underwater–if they have darkvision, its range is doubled when underwater. Also, acclimated targets gain a +2 competence bonus to saving throws against effects with the water descriptor, or exceptional or supernatural abilities of creatures with the aquatic or water subtype.\nIf you possess the (nautical) package, acclimated targets also gain tremorsense for up to 10 feet (except only allowing them to detect anything in contact with the same body of water as them). If the target possesses a similar form of tremorsense (such as the Adept Hunter Vocation talent, or the courser’s forage ability), the range increases by +10 feet.\n\n    * {b}Tide Strider{/b}: Acclimated targets that succeed at a Swim check can move their full speed as a full-round action, half their speed as a move action, or double the normal amount when swimming downwards (at least 45 degrees down from the horizontal). If they already possess a swim speed, it increases by 10 feet.\n    Additionally, whenever they are moved by a current, they can increase or decrease the movement by 50%.\n\n{b}Associated Feat:{/b} Deep Diver (Ultimate Wilderness)" uniqueness="useronce">
+    <comment>TODO show increased range and speed?
+Errata current to 2/24/25.</comment>
     <usesource source="pPF1e_DRS_InvIng"/>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Navigation"/>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="Acclimatio"/>
+    <tag group="HasFeat" tag="fDeepDiver"/>
     </thing>
   <thing id="sogTlCommunityAwa" name="Community Awareness" compset="SoGTalent" description="You may select the following acclimation benefits:\n\n    * {b}Pocket Sense{/b}: Acclimated targets gain a +2 bonus on Perception checks made against Sleight of Hand checks, +1 per 5 associated ranks. Additionally, whenever such a creature has an object stolen from them, they become aware of the theft 3 rounds afterwards unless the creature exceeded the DC to steal the object by 5 or more.\n    If you possess the (urban) package, this changes to 1 round afterwards unless the creature exceeds the DC by 10.\n\n    * {b}Idiosyncratic Adaptation{/b}: Acclimated targets become aware of their own cultural and personal mannerisms and idiosyncrasies, and versed in the arts of others as well. Such creatures gain a +2 circumstance bonus to Knowledge (history), Knowledge (local), and Knowledge (nobility) checks, +1 per 5 associated ranks, and are considered trained in these skills.\n    If you possess the (urban) package, this bonus increases by 1. The circumstance bonus is doubled when attempting to recall information about any topics or actions that may particularly negatively or positively affect their standing with a specific creature or group (such as a cultural group or faction)." uniqueness="useronce">
     <fieldval field="abValue" value="2"/>
@@ -1906,18 +2329,19 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGTalDesc" tag="Utility"/>
     <tag group="SoGAbV1Sc" tag="1_1A"/>
     <tag group="LvNamePar" tag="AppValue"/>
-    <eval phase="Render" priority="400">~ Get out if disabled
-  doneif (tagis[Helper.SpcDisable] &lt;> 0)
+    <eval phase="Render" priority="400"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
 
   ~ by 5. If you have 10 or more ranks … increases to 10.
   if (field[abValue].value >= 10) then
     field[abValue].value = 10
   else
     field[abValue].value = 5
-  endif</eval>
+  endif]]></eval>
     </thing>
-  <thing id="sogTlWildWit" name="Wild Wit" compset="SoGTalent" description="You may select the following acclimation benefits:\n\n    * {b}Natural Shroud{/b}: Acclimated targets can spend 1 minute to cover themselves in loose parts of the terrain surrounding them (such as branches, dirt, snow, etc) and take 20 on a Stealth check. This causes the creature to be prone and be considered to have concealment for Stealth checks until they move or stand up. The creature can burst from their hiding place when they (or their allies) start a surprise round, allowing them to stand up as a free action and take a full-round worth of actions during the surprise round, as well as granting them a +2 circumstance bonus to the subsequent initiative check (if any).\nIf you possess the (wilderness) package, the first successful attack made by each creature during this surprise round deals an additional amount of precision damage equal to your associated ranks.\n\n    * {b}Terrain Sense{/b}: Acclimated targets can see twice as far as normal in fog, mist, murky water, vegetation, and similar environmental-based obscurement, and creatures adjacent to them never gain concealment from such obscurements.\nIf you possess the (wilderness) package, such creatures also gain a +1 cover bonus to their AC whenever they are adjacent to a tree (including while climbing), or are treated as if they were standing in the same square as a tree if they are adjacent to two or more trees simultaneously (which grants partial cover). Lastly, when you are in a tree, you count as having a running start when you jump.\n\n{b}Associated Feat{/b}: Forester (Ultimate Wilderness), Forest Ambush (Heroes of the Wild)." uniqueness="useronce">
-    <comment>wilderness) package = +ranks damage</comment>
+  <thing id="sogTlWildWit" name="Wild Wit" compset="SoGTalent" description="You may select the following acclimation benefits:\n\n    * {b}Natural Shroud{/b}: Acclimated targets can spend 1 minute to cover themselves in loose parts of the terrain surrounding them (such as branches, dirt, snow, etc) and take 20 on a Stealth check. This causes the creature to be prone and be considered to have concealment for Stealth checks until they move or stand up. The creature can burst from their hiding place when they (or their allies) start a surprise round, allowing them to stand up as a free action and take a full-round worth of actions during the surprise round, as well as granting them a +2 circumstance bonus to the subsequent initiative check (if any).\n    If you possess the (wilderness) package, the first successful attack made by each creature during this surprise round deals an additional amount of precision damage equal to your associated ranks. Also, the concealment you gain from underbrush increases to 50% (instead of 20%).\n\n    * {b}Terrain Sense{/b}: Acclimated targets can see twice as far as normal in fog, mist, murky water, vegetation, and similar environmental-based obscurement, and creatures adjacent to them never gain concealment from such obscurements.\nIf you possess the (wilderness) package, such creatures also gain a +1 cover bonus to their AC whenever they are adjacent to a tree (including while climbing), or are treated as if they were standing in the same square as a tree if they are adjacent to two or more trees simultaneously (which grants partial cover). Lastly, when you are in a tree, you count as having a running start when you jump.\n\n{b}Associated Feat{/b}: Forester (Ultimate Wilderness), Forest Ambush (Heroes of the Wild)." uniqueness="useronce">
+    <comment>wilderness) package = +ranks damage
+Errata current to 2/24/25.</comment>
     <usesource source="pPF1e_DRS_InvIng"/>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Navigation"/>
@@ -2192,8 +2616,11 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Performance"/>
     <tag group="SoGTlClass" tag="Talent"/>
-    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
     <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
     </thing>
   <thing id="sogTlTheBondsForg" name="The Bonds Forged In War" compset="SoGTalent" description="You speak of the bonds forged between a small group of soldiers; as the group slowly dwindles, their ferocity and determination grows.\n\n{b}Relentless (approach){/b}: Allies in the area can postpone the start of any unwanted emotion effects for 1 round, plus 1 round per 5 ranks in this package’s associated Perform skill you possess. After this period, the effect’s duration begins as normal.\n\n{b}Forged in Blood (scene, standard action){/b}: Whenever an enemy successfully damages an ally in the area, all other allies within the area gain a +1 morale bonus to attack and damage rolls against the attacker until the end of the attacker’s next turn; this bonus is cumulative to a maximum equal to your operative ability modifier (minimum 1).\n\n{b}Fight for Your Life (scene, move action){/b}: All allies in the area gain a number of temporary hit points equal to 2 + your operative ability modifier (minimum 1). These temporary hit points are replenished for an ally whenever they confirm a critical hit.\n\n{b}Stand Together (finale, standard action){/b}: For 1 minute, allies in the area gain damage reduction 1 that cannot be overcome and they do not immediately fall unconscious when they are reduced to 0 hit points or below, unless they choose to. Allies who benefit from this ability are still disabled, but do not suffer damage after taking a standard action. The value of the damage reduction increases by 1 for every 3 ranks you possess in the associated Perform skill." uniqueness="useronce">
     <fieldval field="abValue" value="1"/>
@@ -2208,16 +2635,16 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGAbV3Sc" tag="1_3A"/>
     <tag group="LvNamePar" tag="AppText"/>
     <tag group="SoGReqPkg" tag="Act"/>
-    <eval phase="Render" priority="400">~ Get out if disabled
-  doneif (tagis[Helper.SpcDisable] &lt;> 0)
+    <eval phase="Render" priority="400"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
 
-  field[abText].text = field[abValue].value &amp; " rnds, "
-  field[abText].text &amp;= "≤ " &amp; signed(field[abValue2].value) &amp; ", "
+  field[abText].text = field[abValue].value & " rnds, "
+  field[abText].text &= "≤ " & signed(field[abValue2].value) & ", "
 
   ~ Add one, because we use the OM for both the ≤OM (Forged) and +2+OM (Fight)
   field[abValue2].value += 2
-  field[abText].text &amp;= field[abValue2].value &amp; " tHP, "
-  field[abText].text &amp;= " DR " &amp; field[abValue3].value &amp; "/-"</eval>
+  field[abText].text &= field[abValue2].value & " tHP, "
+  field[abText].text &= " DR " & field[abValue3].value & "/-"]]></eval>
     </thing>
   <thing id="sogTlGuardedTwis" name="Guarded Twist" compset="SoGTalent" description="A creature can pick up an item from the ground, retrieve a stored item, sheathe a weapon, or stand up from prone as part of the movement required to join or maintain this dance. Dancers taking the actions listed above do not provoke an attack of opportunity (including when they initially take the action to become a dancer).\n\nAdditionally, whenever you begin or maintain a dance with this talent, roll a Perform (dance) check with a circumstance bonus equal to the number of dancers, which cannot exceed your operative ability modifier (minimum +1). All dancers may use your Perform (dance) check result in place of any Acrobatics check to avoid provoking an attack of opportunity for as long as they continue the dance.\n\nIf you have at least 6 ranks in the associated skill for this package, the dancers also get a +1 dodge bonus to AC for every 6 ranks you possess." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -2327,6 +2754,7 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGTalDesc" tag="PerfDance"/>
     </thing>
   <thing id="sogTlLiberatiShif" name="Liberating Shift" compset="SoGTalent" description="All dancers gain a +2 morale bonus to Escape Artist checks, combat maneuver checks made to escape a grapple, and to saving throws against mind-affecting effects, effects that would slow or restrict their actions, and effects that inflict the entangled, paralyzed, staggered, or stunned conditions. The dancers also get an equivalent dodge bonus to Combat Maneuver Defense. This bonus increases by 1 per 5 associated skill ranks you possess.\n\nIf a dancer is already grappled or suffering from such an effect, they may spend an immediate action to attempt to break free of a grapple, or attempt a new saving throw against a single applicable effect they are currently suffering from that normally grants a saving throw against the original DC, ending that effect on a success. This dance only allows each dancer to attempt one new saving throw or check against a specific effect or grapple." uniqueness="useronce">
+    <comment>Author note: https://discord.com/channels/533773201549819925/585184023794679810/1343082213348216903</comment>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Performance"/>
     <tag group="SoGTlClass" tag="Talent"/>
@@ -2627,6 +3055,8 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <tag group="SoGSphere" tag="Spellhacking"/>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
     </thing>
   <thing id="sogDbTruenamer" name="Truenamer" compset="SoGDrawbk" description="You use Linguistics instead of Use Magic Device as the associated skill." summary="You can use Sleight of Hand adeptly." panellink="tbSoGSpellhack" uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
@@ -2651,18 +3081,6 @@ perform hero.childfound[sogTlSpHerbalism].assign[SoGAssocSk.skProfHerb]]]></eval
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
     <tag group="SphOfGuil" tag="NoBnTalent" name="No Bonus Talent from this Drawback" abbrev="No Bonus Talent from this Drawback"/>
     <tag group="SoGSphere" tag="Spellhacking" name="Spellhacking" abbrev="Spellhacking"/>
-    <tag group="SoGFreeTal" tag="Hack"/>
-    <eval phase="First" priority="1000" index="2"><![CDATA[~ Get out if disabled
-     doneif (tagis[Helper.SpcDisable] <> 0)
-
-     ~ grant a bonus (hack) talent
-
-     ~ Find a sphere-specific (hack).
-     perform hero.findchild[SoGTalent,"SoGSphere.Spellhacking & SoGTalDesc.Hack & !SoGTlClass.SoGBonusTl & !SoGTlClass.ExcepTalent & !SoGTlClass.InitTalent"].setfocus
-     doneif (state.isfocus = 0)
-
-     perform focus.assign[SoGTlClass.InitTalent]
-     field[abValue].value = 1]]></eval>
     <eval phase="PostAttr" priority="10000"><![CDATA[~ Get out if disabled
   doneif (tagis[Helper.SpcDisable] <> 0)
 
@@ -2685,6 +3103,7 @@ TODO When SoGFreeTal.descriptor is done, chanage to use.</comment>
     <tag group="SphOfGuil" tag="NoBnTalent"/>
     <tag group="SoGSphere" tag="Spellhacking"/>
     <tag group="SoGBanTal" tag="sogTlHackMagic"/>
+    <tag group="SoGFreeTal" tag="Mishap"/>
     </thing>
   <thing id="sogSpStudy" name="Study Sphere" compset="SoGSphere" uniqueness="unique">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -2778,8 +3197,10 @@ TODO When SoGFreeTal.descriptor is done, chanage to use.</comment>
     <tag group="SoGTlClass" tag="InitTalent"/>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
     <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <tag group="abAction" tag="FullRound"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
     </thing>
   <thing id="sogTlTheorize" name="Theorize" compset="SoGTalent" description="As an immediate action, you can begin a theory on a creature, object, or area that you have successfully recalled information about, choosing a single (theory) talent to apply to the subject of your theory. A theory applies to all instances of the subject; if you begin a theory on a dire wolf, it applies to all dire wolves, but not other wolf-like animals. Creatures that vary exclusively by size (such as an earth elemental) or subtype (such as an orc and human bandit that share the same number of Hit Dice) are treated as the same `instance’ of a subject.\n\nWhile you have an active theory, you can expand it by gaining notions. Each theory can gain notions in unique ways, with a specific action granting one notion to the theory when it is observed. A specific action can only grant one notion once per round (unless specified otherwise). A theory can have a maximum number of notions equal to twice your operative ability modifier (minimum 1), with any notions beyond this maximum being wasted.\n\nYou can use these notions on any breakthrough listed within the theory; usually improving the base ability granted by the theory or granting you new actions to use.\n\nYou can only have one theory active at one time; if you attempt to theorize a second time while you have an active theory, you must choose which theory to maintain. A theory lasts until you change to a different subject, and remains indefinitely (so long as your memories remain intact). When a theory ends, it loses all notions.\n\nYou can always outwit the subject of your theory by spending 3 notions, generally by divulging something you have theorized about them." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -3025,9 +3446,12 @@ endif
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
     <tag group="SoGSphere" tag="Subterfuge" name="Subterfuge" abbrev="Subterfuge"/>
     <tag group="SoGTlClass" tag="Talent" name="Basic Talent" abbrev="Basic Talent"/>
-    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
     <tag group="SoGTalDesc" tag="Utility"/>
     <tag group="LvNamePar" tag="AppText"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
     <eval phase="First" priority="1000"><![CDATA[doneif (tagis[Helper.SpcDisable] <> 0)
 
 perform hero.childfound[sogTlLayeredDisgu].setfocus
@@ -3178,16 +3602,14 @@ endif]]></eval>
     <tag group="SoGTalDesc" tag="Approach"/>
     </thing>
   <thing id="sogDbDeft" name="Deft" compset="SoGDrawbk" description="You use Sleight of Hand (instead of Disguise) as the associated skill for this sphere. You lose the fast disguise ability and cannot gain (disguise) talents; you gain the Effortless Theft talent instead." summary="You can use Sleight of Hand adeptly." panellink="tbSoGSubterfuge" uniqueness="useronce">
-    <comment>
-     Counting Bonus Talents
+    <comment>Counting Bonus Talents
 	  If a base sphere or drawback grants an additional talent
 	  (such as via a package selection or alternate start), the
 	  additional talents do not count as talents spent for rules
 	  that count the number of talents spent in a sphere. (This
 	  most often applies to gaining skill ranks.)
 
-SoGBanDesc.Disguise warns you the talent is banned in the pick view.
-</comment>
+SoGBanDesc.Disguise warns you the talent is banned in the pick view.</comment>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SphOfGuil" tag="NoBnTalent"/>
     <tag group="SoGSphere" tag="Subterfuge"/>
@@ -3403,6 +3825,8 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
     <tag group="LvNamePar" tag="AppText"/>
     <tag group="LvNamePar" tag="AppValue"/>
     <tag group="LvNamePar" tag="SignAppVal"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
     </thing>
   <thing id="sogTlSubduer" name="Subduer" compset="SoGTalent" description="You take no penalty on attack rolls for using a lethal weapon to deal nonlethal damage. Additionally, whenever you deal nonlethal damage to a creature that is suffering a penalty to their AC (or a similar reduction to their AC against the attack, such as being prone, blind, flat-footed, or the penalties associated with broken armor or a Dexterity penalty), you add your operative modifier to the amount of nonlethal damage dealt.\n\nIn addition, you regain 1 use of skill leverage when you apply the unconscious condition to a creature with more than 0 hit points for at least 10 minutes, or render them helpless but conscious for at least 10 minutes. Once you do, you cannot regain skill leverage that way until you regain it in a different manner." uniqueness="useronce">
     <usesource source="pPF1e_DRS_InvIng"/>
@@ -3492,7 +3916,7 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
      doneif (state.isfocus = 0)
 
      perform focus.assign[SoGTlClass.InitTalent]]]></eval>
-    <eval phase="Final" priority="26001" name="Increase Class Skill Bonus +3 -> +4"><![CDATA[~ Look for skills that need bumped from +3 to +4.
+    <eval phase="Final" priority="20001" name="Increase Class Skill Bonus +3 -> +4"><![CDATA[~ Look for skills that need bumped from +3 to +4.
 
               ~ If we are not the first copy, get out.
               doneif (tagis[Helper.FirstCopy] = 0)
@@ -3508,7 +3932,9 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
                           endif
                     endif
               nexteach]]>
-              <after name="Tag all duplicate TradeSkills"/>
+              <before name="Skill Final"/>
+              <after name="Tag all duplicate TradeSkills"/><after name="Calc skClsSkBon"/><after name="Assign Helper.ClassSkill based on ClassSkill tags on Hero"/>
+              <after name="Apply SpecSkill competence bonus"/>
               </eval>
     <eval phase="First" priority="13000" name="Tag all duplicate TradeSkills"><![CDATA[      ~ Tag all duplicate TradeSkills
 
@@ -3794,8 +4220,7 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
      doneif (tagis[Helper.FirstCopy] = 0)
 
      ~ You treat yourself and any vehicle you are piloting as one size larger for the purpose of being checked or blown away by wind.
-     #situational[hero.childfound[skFly], "Treat yourself & any vehicle you pilot as 1 size larger for the purpose of being checked or blown away by wind.", field[thingname].text]
-     ]]></eval>
+     #situational[hero.childfound[skFly], "Treat yourself & any vehicle you pilot as 1 size larger for the purpose of being checked or blown away by wind.", field[thingname].text]]]></eval>
     </thing>
   <thing id="sogTlDiplomat" name="Diplomat" compset="SoGTalent" description="You gain Diplomacy, Knowledge (local), Linguistics, and Sense Motive as class skills. If you fail a Diplomacy check to alter a creature's attitude and the creature's attitude would worsen, instead the creature's attitude towards you is unchanged. A specific creature may only be affected by this ability once every 24 hours." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -4111,7 +4536,7 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
      perform this.assign[TradeSkill.skKnowNobl]
      perform this.assign[TradeSkill.skSenseMot]
      perform this.assign[TradeSkill.skLinguist]]]></eval>
-    <eval phase="PostAttr" priority="5000" index="2"><![CDATA[~ Get out if disabled
+    <eval phase="PostLevel" priority="11000" index="2"><![CDATA[~ Get out if disabled
      doneif (tagis[Helper.SpcDisable] <> 0)
      ~ or a duplicate.
      doneif (tagis[Helper.FirstCopy] = 0)
@@ -6134,8 +6559,8 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
      perform this.assign[TradeSkill.skEscape]
      perform this.assign[TradeSkill.skKnowDun]
      perform this.assign[TradeSkill.skKnowEng]]]></eval>
-    <eval phase="Attr" priority="100003" index="2">~ Get out if disabled
-     doneif (tagis[Helper.SpcDisable] &lt;> 0)
+    <eval phase="Attr" priority="100003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
      ~ or a duplicate.
      doneif (tagis[Helper.FirstCopy] = 0)
 
@@ -6143,30 +6568,30 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
 
      var bon as number
      perform hero.childfound[skPercep].setfocus
-     if (state.isfocus &lt;> 0) then
+     if (state.isfocus <> 0) then
        bon = 4 - focus.field[BonInsight].value
        if (bon > 0) then
-         #situational[focus, "+" &amp; bon &amp; " to notice natural deposits of precious metals or minerals or gems.", field[thingname].text]
+         #situational[focus, "+" & bon & " to notice natural deposits of precious metals or minerals or gems.", field[thingname].text]
        endif
        perform state.clearfocus
      endif
 
      perform hero.childfound[skAppraise].setfocus
-     if (state.isfocus &lt;> 0) then
+     if (state.isfocus <> 0) then
        bon = 4 - focus.field[BonInsight].value
        if (bon > 0) then
-         #situational[focus, "+" &amp; bon &amp; " to determine worth of natural deposits of precious metals or minerals or gems.", field[thingname].text]
+         #situational[focus, "+" & bon & " to determine worth of natural deposits of precious metals or minerals or gems.", field[thingname].text]
        endif
        perform state.clearfocus
      endif
 
      foreach pick in hero from BaseWep where "wFtrGroup.Hammers | IsWeapon.wWarhammer? | IsWeapon.wHamm? | wFtrGroup.Axes"
-       if (eachpick.field[gIsEquip].value &lt;> 0) then
+       if (eachpick.field[gIsEquip].value <> 0) then
          #applybonus[BonEnhance, hero.childfound[skCrafArm], eachpick.field[BonEnhance].value]
          #applybonus[BonEnhance, hero.childfound[skCrafWeap], eachpick.field[BonEnhance].value]
          #applybonus[BonEnhance, hero.childfound[skCrafSton], eachpick.field[BonEnhance].value]
        endif
-     nexteach</eval>
+     nexteach]]></eval>
     </thing>
   <thing id="sogTlOrator" name="Orator" compset="SoGTalent" description="You gain Bluff, Diplomacy, Intimidate, and Knowledge (history) as class skills. When you modify a character’s attitude with the Diplomacy or Intimidate skill, the attitude change lasts 5 times longer than it otherwise would." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
@@ -6200,15 +6625,15 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
      perform this.assign[TradeSkill.skDiplo]
      perform this.assign[TradeSkill.skIntim]
      perform this.assign[TradeSkill.skKnowHist]]]></eval>
-    <eval phase="Final" priority="15100" index="2">~ Get out if disabled
-     doneif (tagis[Helper.SpcDisable] &lt;> 0)
+    <eval phase="Final" priority="15100" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
      ~ or a duplicate.
      doneif (tagis[Helper.FirstCopy] = 0)
 
      ~ When you modify a character’s attitude with the Diplomacy or Intimidate skill, the attitude change lasts 5 times longer than it otherwise would.
 
      #situational[hero.childfound[skDiplo], "Modified attitudes change lasts 5 times longer.", field[thingname].text]
-     #situational[hero.childfound[skIntim], "Modified attitudes change lasts 5 times longer.", field[thingname].text]</eval>
+     #situational[hero.childfound[skIntim], "Modified attitudes change lasts 5 times longer.", field[thingname].text]]]></eval>
     </thing>
   <thing id="sogTlPhilosopher" name="Philosopher" compset="SoGTalent" description="You gain Knowledge (history), Knowledge (nature), Knowledge (religion), and Sense Motive as class skills. You can use the better of your Intelligence or Wisdom modifier when attempting Sense Motive checks." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
@@ -6640,13 +7065,16 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skProfBarr | thingid.skProfCler | thingid.skProfScri | thingid.skProfLibr){br}{br}{br}{br}{br}"/>
     <tag group="SoGSphere" tag="Vocation"/>
     <tag group="SoGTlClass" tag="Talent"/>
-    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
     <tag group="SoGTalDesc" tag="Utility"/>
     <tag group="LvNamePar" tag="AppText"/>
     <tag group="LvNamePar" tag="AppValue"/>
     <tag group="LvNamePar" tag="SignAppVal"/>
     <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
     <bootstrap thing="abSoGSkLeverage"></bootstrap>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
     <eval phase="First"><![CDATA[~ Get out if disabled
      doneif (tagis[Helper.SpcDisable] <> 0)
      ~ or a duplicate.
@@ -7136,8 +7564,87 @@ SoGBanDesc.Disguise warns you the talent is banned in the pick view.
 
      @valid = 1]]></evalrule>
     </thing>
+  <thing id="sogTlCrowdPleaser" name="Crowd Pleaser" compset="SoGTalent" description="When gathering a crowd (new skill use), you can do so as a plan. Additionally, you can increase the size of your crowd to 1d4 x your check result, instead of 1d3, increasing by one die size for every 5 ranks you possess in the used Perform skill you possess (1d4, 1d6, 1d8, 1d10, 1d12). Lastly, a crowd gathered lingers for up to 8 hours, although they must still remain engaged (although interruptions of 5 minutes every 30 minutes is generally acceptable).\n\nWhen you have the attention of a crowd, you can spend 1 round to direct them, choosing one of the following options.\n\n{indent 20}* {b}Chaotic (requires Bluster sphere):{/b} The crowd becomes densely packed and difficult to move through. A creature attempting to enter a square where the crowd occupies (or movement made through the crowd) costs 3 squares of movement, and if such a creature moves more than 10 feet within the crowd, they must succeed at a Reflex save (using your Bluster sphere DC) or fall prone.\n* {b}Helpful (requires Communication sphere):{/b} The crowd becomes helpful and calm, generally with a purpose of assisting those they can. The crowd provides a +2 bonus to creatures attempting skill checks, and feels inclined to provide general assistance to their community, depending on the individual’s capabilities (such as repairing, rebuilding, clearing out rubble or trash, etc.).\n* {b}Rhapsodic (requires Performance sphere):{/b} The crowd becomes exhilarated and enthusiastic. You can choose to treat the check result as an attempt to earn income using Perform; if you do you earn the maximum potential result from the attempt (for example, 1d10 sp instead grants 10 sp). Additionally, you can entertain (new skill use) as part of gathering the crowd, and doing so doubles the range that the skill use extends to.\n* {b}Shielding (requires Subterfuge sphere):{/b} The crowd becomes dedicated to keeping you and your allies hidden. Squares that the crowd occupies grant a +4 circumstance bonus to Stealth checks. Additionally, if you or an ally is discovered within the crowd, you can spend a plan to instead have it be someone who vaguely had the allies appearance within the crowd, with you being in a different square nearby.\n{indent -20}\nOnce you have directed a crowd this way, any subsequent attempts to direct the same crowd require you to spend 1 use of skill leverage to do so." uniqueness="useronce">
+    <usesource source="pPF1e_DRS_HarDis"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="stGatherCrowd"></bootstrap>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
+    </thing>
+  <thing id="sogTlDivergenApti" name="Divergent Aptitude" compset="SoGTalent" description="{b}Prerequisite:{/b} Chosen skill 1 rank.\n\nChoose one skill you have as a class skill and one ability score which is not usually used for that skill. When you attempt skill checks with the chosen skill, you may use the chosen ability score in place of the normal ability score for that skill. You also unlock skill leverage with that skill.\n\nYou may take this talent multiple times, choosing a different skill each time.">
+    <comment>eachpick.linkage[skillattr].tagis</comment>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; Helper.ClassSkill"/>
+    <fieldval field="usrCandid2" value="component.BaseAttr"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="ChooseSrc2" tag="Hero"/>
+    <eval phase="First" priority="11000" index="4"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+     doneif (field[usrChosen2].ischosen = 0)
+
+     ~ Pull skill target for validation.
+     perform field[usrChosen1].chosen.pulltags[Target.?]
+     ~ Pull over default ability.
+     perform field[usrChosen1].chosen.linkage[skillattr].pulltags[SkillAbil.?]
+debug tagnames[SkillAbil.?] & field[usrChosen1].chosen.linkage[skillattr].idstring]]></eval>
+    <eval phase="Attr" priority="10003" index="2"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+     doneif (field[usrChosen2].ischosen = 0)
+
+     ~ Pull skill ability for validation.
+~     perform field[usrChosen1].chosen.pulltags[SkillAbil.?]
+     perform field[usrChosen2].chosen.pulltags[SkillOpt.?]
+     perform field[usrChosen1].chosen.pushtags[SkillOpt.?]]]></eval>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpVocation].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <evalrule phase="Final" priority="2147483647" message="Choose a class skill."><![CDATA[@valid = 0
+     validif (tagis[Helper.SpcDisable] <> 0)
+     ~ or not chosen.
+     doneif (field[usrChosen1].ischosen = 0)
+     doneif (field[usrChosen2].ischosen = 0)
+     ~ Or if not a class skill.
+     doneif (field[usrChosen1].chosen.tagis[Helper.ClassSkill]= 0)
+
+     @message = "Choose a unique skill for each time taken."
+     foreach pick in hero from SoGTalent where "thingid." & idstring
+       if (eachpick.uniqindex <> this.uniqindex) then
+         if (eachpick.intersect[Target,Target] <> 0) then
+           done
+         endif
+       endif
+     nexteach
+
+     ~ If the ability chosen matches the default, we are invalid.
+     if (field[usrChosen2].chosen.intersect[SkillAbil,SkillAbil] <> 0) then
+      @message = field[usrChosen2].chosen.tagnames[SkillAbil.?] & " is normally used for the skill."
+      done
+     endif
+
+     if (field[usrChosen1].chosen.field[skRanks].value = 0) then
+      @message = "Choose a skill with at least 1 rank."
+      done
+     endif
+
+     @valid = 1]]></evalrule>
+    </thing>
   <thing id="cVigSkilledSoc" name="Skilled Socialite" compset="CustomSpec" description="A vigilante can select a [utility] talent in place of a social talent. He may select this social talent multiple times.\n\nAuthor Note: Its intended to be able to take any utility talent from other spheres if using the variant rule [LotS Utility Talents in Non-Skill Spheres]." summary="Select a [utility] talent in place of a social talent.">
-    <comment>Hydronz's (the author) clarified how this works on Discord: https://discord.com/channels/533773201549819925/533774611415040010/1317126790048776262</comment>
+    <comment><![CDATA[Hydronz's (the author) clarified how this works on Discord: https://discord.com/channels/533773201549819925/533774611415040010/1317126790048776262]]></comment>
     <fieldval field="usrCandid1" value="component.DDSTalent &amp; (SoGTalDesc.Utility | SoGTlClass.Expanded)"/>
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SpecSource" tag="cHelpVig" name="Vigilante" abbrev="Vigilante"/>
@@ -7254,8 +7761,7 @@ Spellhacking - Destabilized Focus
 
      ~ Increase our available generic skills.
      focus.field[resMax].value += 1
-     debug "💸 " & this.field[name].text & "(" & this.uniqindex & ") on resource resSGSSGen +1 resMax 2234"
-     ]]></eval>
+     debug "💸 " & this.field[name].text & "(" & this.uniqindex & ") on resource resSGSSGen +1 resMax 2234"]]></eval>
     <evalrule phase="Final" priority="2147483647" message="You must choose a Utility Start drawback."><![CDATA[doneif (tagis[Helper.SpcDisable] = 1)
      doneif (field[usrChosen1].ischosen = 0)
 
@@ -7285,7 +7791,7 @@ Spellhacking - Destabilized Focus
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Artifice"/>
     <tag group="SoGTlClass" tag="ExcepTalent"/>
-    <exprreq message="3 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 3]]></exprreq>
+    <exprreq message="Associated Skill 3 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 3]]></exprreq>
     <exprreq message="At least one (flourish) talent."><![CDATA[tagcount[SoGHasTlDs.ArtFlouris] > 0]]></exprreq>
     </thing>
   <thing id="sogTlSequesteredS" name="Sequestered Support" compset="SoGTalent" description="{b}Prerequisites{/b}: Associated 5 ranks, Communication sphere (Recall Support).\n\nWhenever you use the Recall Support talent, it no longer has a limit on the types of rolls it can benefit (as long as it could normally benefit from aid another). If the aid attempt requires an opponent to be relevant to, the aided creature chooses the opponent when they ponder your words.\n\nYou can spend 1 use of skill leverage when using the Recall Support talent to have part of your cognitive ability ‘stored’ within the creature for the next day, allowing them to ponder your words a number of times per day equal to 1/2 your ranks in the sphere’s associated skill." uniqueness="useronce">
@@ -7303,7 +7809,7 @@ Spellhacking - Destabilized Focus
     perform assign[LvNamePar.AppText]
     perform assign[LvNamePar.AppValue]
   endif]]></eval>
-    <exprreq message="5 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpCommunicat].field[tAssocRanks].value >= 5]]></exprreq>
+    <exprreq message="Associated Skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpCommunicat].field[tAssocRanks].value >= 5]]></exprreq>
     <exprreq message="Recall Support required."><![CDATA[#hasability[sogTlRecallSuppor] <> 0]]></exprreq>
     </thing>
   <thing id="sogTlDisenchantDi" name="Disenchanting Diatribe" compset="SoGTalent" description="{b}Prerequisites{/b}: Linguistics 5 ranks, Communication sphere (Mental Loophole).\n\nYou can use Linguistics to find a loophole in any one spell that allowed a Will saving throw other than a curse. If the spell was mind-affecting, the new save is attempted with a +4 insight bonus. You end the spell if the new saving throw succeeds.\n\nIf you have at least 10 ranks in Linguistics, you can find a loophole in any curse (regardless of whether it allowed a saving throw or what the save was) if you spend 1 minute and a total of 2 uses of skill leverage per target and your Linguistics check succeeds against the DC to dispel it. If the curse did not normally allow a save, the target can attempt a Will saving throw to end it." uniqueness="useronce">
@@ -7337,10 +7843,13 @@ Spellhacking - Destabilized Focus
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Communication"/>
     <tag group="SoGTlClass" tag="ExcepTalent"/>
-    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGTalDesc" tag="PlanUtil"/>
     <tag group="SoGTalDesc" tag="Utility"/>
     <tag group="SoGAbV1Sc" tag="1_2A"/>
-    <exprreq message="3 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpCommunicat].field[tAssocRanks].value >= 3]]></exprreq>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <bootstrap thing="trkSoGPlansUtil"></bootstrap>
+    <exprreq message="Associated Skill 3 ranks required."><![CDATA[hero.childfound[sogTlSpCommunicat].field[tAssocRanks].value >= 3]]></exprreq>
     </thing>
   <thing id="sogTlFailureToCom" name="Failure To Communicate" compset="SoGTalent" description="{b}Prerequisites{/b}: Linguistics 5 ranks, Communication sphere (Veiled Dialogue (utility)).\n\nAdopting this approach is a swift action. Until you adopt a new approach, you distract all other creatures from communicating using any language, causing affected creatures to shout nonsense or make distracting gestures instead of their intended speech. Each other creature within 60 feet of you is unable to use or understand any language or provide verbal components for spellcasting until it leaves this approach’s radius or this approach ends. A creature may attempt a Will saving throw as a standard action. You cannot affect a creature with this approach for 24 hours after they successfully save against this effect. This is a visual and auditory effect. Creatures are only affected by this approach as long as they can see or hear you. This is a supernatural effect." uniqueness="useronce">
     <fieldval field="abText" value="/day"/>
@@ -7376,7 +7885,7 @@ Spellhacking - Destabilized Focus
     <tag group="SoGSphere" tag="Spellhacking"/>
     <tag group="SoGTlClass" tag="ExcepTalent"/>
     <exprreq message="Splinter Magic required."><![CDATA[#hasability[sogTlSHSplinterMa] <> 0]]></exprreq>
-    <exprreq message="15 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpSpellHack].field[tAssocRanks].value >= 15]]></exprreq>
+    <exprreq message="Associated Skill 15 ranks required."><![CDATA[hero.childfound[sogTlSpSpellHack].field[tAssocRanks].value >= 15]]></exprreq>
     </thing>
   <thing id="sogTlDimensioTuni" name="Dimension Tuning" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 5 ranks.\n\n{b}Target:{/b} A magical area effect with a duration other than instantaneous, concentration, or permanent, or with at least one variable, numeric effect\n\nYou can increase a magical area in each dimension by 50%. If it has a suitable duration and effects, they are each reduced by 25%. If it has such a duration but no variable, numeric effects, reduce its duration by half. If its duration is instantaneous, concentration, or permanent, then reduce its variable, numeric effects by half.\n\nIf you possess at least 10 ranks in the associated skill, you can take this talent a second time. Doing so allows you to either double or halve the magical effect’s area in each dimension. Doubling the area reduces any variable, numeric effects of the area as well as its duration by 50% each. Halving the area increases any variable, numeric effects of the area by 50% as if with the Empower Spell feat and doubles the remaining duration as if with the Enlarge Spell feat.">
     <comment>TODO Fix taking a second time.</comment>
@@ -7410,7 +7919,7 @@ Spellhacking - Destabilized Focus
   validif (tagis[Helper.FirstCopy] = 0)
   ~ Or we have 10 ranks and taken twice.
   validif (field[abValue].value = 1)]]></evalrule>
-    <exprreq message="5 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpSpellHack].field[tAssocRanks].value >= 5]]></exprreq>
+    <exprreq message="Associated Skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpSpellHack].field[tAssocRanks].value >= 5]]></exprreq>
     </thing>
   <thing id="sogTlSubvertContr" name="Subvert Control" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 7 ranks, Spellhacking sphere.\n\n{b}Target:{/b} A magical effect that has the option for the caster to dismiss, alter, or direct it after it takes effect\n\nYou gain the same degree of control over the effect as the caster has. You do not prevent the caster from continuing to control it using their own actions. If the spell is dismissible, you can dismiss it. If the effect can normally be moved, you can move it using the same action. If the effect allows the caster to issue new orders or suggestions, you can do so but any order that contradicts the caster’s previous order is only followed if you succeed at an opposed Charisma check against the caster.\n\nIf you have also applied the Subvert Information (hack) to the effect, your Subvert Information can interfere with the caster’s ability to control the effect. When you use this option, the next time the caster sends a command to the hacked effect, the attempt fails unless they succeed at a caster level check against DC 10 + the ranks in the associated skill you possess." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -7431,7 +7940,7 @@ Spellhacking - Destabilized Focus
     <usesource source="pPF1e_Sph_Guile"/>
     <tag group="SoGSphere" tag="Spellhacking"/>
     <tag group="SoGTlClass" tag="ExcepTalent"/>
-    <exprreq message="10 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpSpellHack].field[tAssocRanks].value >= 10]]></exprreq>
+    <exprreq message="Associated Skill 10 ranks required."><![CDATA[hero.childfound[sogTlSpSpellHack].field[tAssocRanks].value >= 10]]></exprreq>
     </thing>
   <thing id="sogTlBoundRetaine" name="Bound Retainer" compset="SoGTalent" description="{b}Prerequisites:{/b} Knowledge (arcana) or Knowledge (religion) 10 ranks, Faction sphere ((retainer) package).\n\nYour faction secures the service of an outsider to be your retainer through planar binding, planar ally, or similar magic.\n\n{b}Spirit Ally{/b}\n\n{b}Role 1 Authorization{/b} noncombatant, {b}3 Authorizations{/b} defend an area (combatant), {b}5 Authorizations{/b} any task that does not go against the creature’s nature or betray the faction (combatant); {b}Statistics{/b} As an outsider from the summon monster list of a level equal to half the number of ranks in the associated skill you possess. When you permanently gain this talent, you can work with your GM to replace monsters on the list with different monsters of similar challenge rating as appropriate for your faction (for example, many religions allow clerics to replace monsters with the appropriate servitors of the religion’s deity)." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -7454,7 +7963,7 @@ Spellhacking - Destabilized Focus
     <tag group="SoGReqPkg" tag="Retainer"/>
     <tag group="SoGReqPkg" tag="Supply"/>
     <exprreq message="Scroll Cache required."><![CDATA[#hasability[sogTlScrollCache] <> 0]]></exprreq>
-    <exprreq message="5 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 5]]></exprreq>
+    <exprreq message="Associated Skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 5]]></exprreq>
     <exprreq message="Wand Supply required."><![CDATA[#hasability[sogTlWandSupply] <> 0]]></exprreq>
     </thing>
   <thing id="sogTlRetainerDeta" name="Retainer Detail" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 3 ranks, Faction sphere ((retainer) package, any talent granting a retainer profession with a combatant role).\n\nYou can requisition two combatant retainers at a time. You must pay the authorization costs for each retainer, and the maximum level or Hit Dice for each one is reduced by 1 while you have two of them.\n\nYou can take this talent a second time. If you do, having two retainers does not reduce their maximum level. You can also choose to requisition a third combatant retainer, but if you do all three have their maximum level or Hit Dice are reduced by 1 each." uniqueness="useronce">
@@ -7464,7 +7973,7 @@ Spellhacking - Destabilized Focus
     <tag group="SoGTlClass" tag="ExcepTalent"/>
     <tag group="SoGTalDesc" tag="FacRetaine"/>
     <tag group="SoGReqPkg" tag="Retainer"/>
-    <exprreq message="3 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 3]]></exprreq>
+    <exprreq message="Associated Skill 3 ranks required."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 3]]></exprreq>
     </thing>
   <thing id="sogTlSurvivalReta" name="Survivalist Retainer" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 3 ranks, Faction sphere ((retainer) package, (supply) package, Magical Armory).\n\nYou can choose an explorer, skilled hunter, priest of nature, herbalist, or other wilderness traveler as your faction retainer.\n\n{b}Survivalist{/b}\n\n{b}Role 2 Authorizations{/b} Guide you and cooperate with you against wilderness hazards and enemies while traveling overland or transiting through settlements (combatant with equipment), {b}3 Authorizations{/b} Enter dungeons, monster lairs, or other strongholds alongside you (combatant with equipment);\n\n{b}Skills{/b} (2 primary, 4 secondary) Climb, Handle Animal, Heal, Knowledge (geography), Knowledge (nature), Profession (herbalist), Ride, Survival, Swim; {b}Statistics{/b} As an NPC barbarian, druid, hunter, or ranger with character level up to your retainer Hit Dice maximum." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>
@@ -7474,7 +7983,386 @@ Spellhacking - Destabilized Focus
     <tag group="SoGTalDesc" tag="FacSupply"/>
     <tag group="SoGReqPkg" tag="Retainer"/>
     <tag group="SoGReqPkg" tag="Supply"/>
-    <exprreq message="3 ranks in the Associated Skill."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 3]]></exprreq>
+    <exprreq message="Associated Skill 3 ranks required."><![CDATA[hero.childfound[sogTlSpFaction].field[tAssocRanks].value >= 3]]></exprreq>
     <exprreq message="Magical Armor required."><![CDATA[#hasability[sogTlMagicalArmor] <> 0]]></exprreq>
+    </thing>
+  <thing id="sogTlAlchemicRepl" name="Alchemical Replication" compset="SoGTalent" description="{b}Prerequisites:{/b} Artifice sphere ((gear) package).\n\nYour trinkets can replicate alchemical tools with a Craft DC of 15 + 1 per rank in this package’s associated skill. If the alchemical item requires a saving throw, use your Artifice sphere DC.\n\nYou also gain the following function:\n\n{b}Luminous (+10 DC):{/b} You create a trinket that can be struck as a standard action to shed light. This sheds normal light in a 30-foot radius and increases the light level by 1 step for an additional 30 feet beyond that area (darkness > dim light > normal light). This cannot increase the light level in normal or bright light. This light lasts up to 1 hour, after which it must be struck again.\n\nWhen applying this function, you can choose to reduce the light it produces, as well as changing the color of the light it produces. You can also choose to have the trinket only shed dim light (which cannot increase the light level beyond dim light), but doing so causes the light to be undetectable outside of the radius.\n\n{b}Special:{/b} If you possess the Alchemy or Herbalism sphere, your trinkets can also replicate alchemical remedies, drugs, and poisons with the same Craft DC limitations as above." uniqueness="useronce">
+    <fieldval field="abText" value="DC"/>
+    <fieldval field="abValue" value="15"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtFunctio"/>
+    <tag group="SoGTalDesc" tag="ArtGear"/>
+    <tag group="SoGAbV1Sc" tag="1_1A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="SoGReqPkg" tag="Gear"/>
+    </thing>
+  <thing id="sogTlArtisticTran" name="Artistic Transportation" compset="SoGTalent" description="{b}Prerequisites:{/b} Artifice sphere, Craft (books, carpentry, cloth, glass, jewelry, paintings, pottery, sculptures, or stonemasonry) 10 ranks.\n\nWhen you create this artwork, you must spend 1 use of skill leverage and choose a location–this location must be on the same plane and planet as you. If you are unfamiliar with the area (such as only viewing the area casually, or having it described to you), it requires +1 use of skill leverage to create and maintain. If the location does not exist, the artwork fails to function and the uses of skill leverage are wasted.\n\nThis artwork requires special maintenance to function. This artwork has a number of uses equal to your operative modifier (minimum 1), which are replenished whenever it receives special maintenance.\n\nWhenever a creature willingly engages with the artwork (and takes at least 1 minute to do so), they are teleported to the chosen location.\n\nYou can choose this talent a second time–if you do, you can choose a location on a different plane to you (or a different planet, if you have at least 15 ranks in this package’s associated skill), although such a location is always treated as unfamiliar to you, despite your actual familiarity.">
+    <fieldval field="abText" value="uses"/>
+    <fieldval field="tMaxTaken" value="2"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="SoGAbV1OM" tag="Value"/>
+    <tag group="LvNameApp" tag="AppText2"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="User" tag="NeedDomain"/>
+    <eval phase="PostAttr" priority="12000"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if only taken once.
+  doneif (field[tTaken].value <= 1)
+
+  if (tagis[Helper.FirstCopy] = 0) then
+    if (field[tAssocRanks].value >= 15) then
+      field[abText2].text = "plane or planet"
+    else
+      field[abText2].text = "plane"
+    endif
+  endif]]></eval>
+    <prereq message="10 ranks in books, carpentry, cloth, glass, jewelry, paintings, pottery, sculptures, or stonemasonry.">
+      <validate><![CDATA[~ Craft (books, carpentry, cloth, glass, jewelry, paintings, pottery, sculptures, or stonemasonry) 10 ranks
+
+validif (#skillranks[skCrafBook] >= 10)
+validif (#skillranks[skCrafCarp] >= 10)
+validif (#skillranks[skCrafClot] >= 10)
+validif (#skillranks[skCrafGlas] >= 10)
+validif (#skillranks[skCrafJewe] >= 10)
+validif (#skillranks[skCrafPain] >= 10)
+validif (#skillranks[skCrafPott] >= 10)
+validif (#skillranks[skCrafCarp] >= 10)
+validif (#skillranks[skCrafScul] >= 10)
+validif (#skillranks[skCrafSton] >= 10)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlBizarreArtis" name="Bizarre Artistry" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 5 ranks, Artifice sphere ((artwork) package).\n\nWhen you create an artwork, you can have it rely on auditory and/or visual components, regardless of the type of artwork (such as a painting that requires a creature to hear it to engage with it). Additionally, your artworks ignore any immunity to emotion or mind-affecting effects that a creature possesses due to their creature type or subtype, although such creatures gain a +4 bonus to saving throws against such an artwork.\n\nThis talent affects both the act of engaging and benefiting from an artwork.\n\nAt 10 ranks in this package’s associated skill, you can create an artwork that relies on no components, and instead treats any creature that enters within close range of such an artwork as if they were engaging with it, regardless of their intention or awareness–the creature must remain in this radius for the normal time it takes to engage with the artwork." uniqueness="useronce">
+    <comment>TODO Add aura at 10 ranks</comment>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="SoGReqPkg" tag="Artwork"/>
+    <exprreq message="Associated Skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 5]]></exprreq>
+    </thing>
+  <thing id="sogTlMagicalFever" name="Magical Feverish Pace" compset="SoGTalent" description="{b}Prerequisites:{/b} Artistry or Craft 6 ranks, Artifice sphere (Confident Craftsmanship).\n\nYou may craft much faster than normal. Whenever you craft a magical item using an Artistry or Craft skill you have unlocked skill leverage for, the time required to craft the object is reduced by half.\n\nAt 12 ranks in the associated skill, the time required to craft a magical item is reduced by two-thirds instead of half." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <eval phase="PostAttr" priority="12000"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+
+  ~ We have 12+ ranks
+  if (field[tAssocRanks].value >= 12) then
+    field[abText].text = "⅓ time"
+  else
+    field[abText].text = "½ time"
+  endif]]></eval>
+    <exprreq message="Confident Craftsmanship required."><![CDATA[#hasability[sogTlConfidenCraf] <> 0]]></exprreq>
+    <prereq message="Artistry or Craft 6 ranks required.">
+      <validate><![CDATA[~ Artistry or Craft 6 ranks
+
+~search through all our artistry or craft skills
+~if any have 6 ranks, set this as valid
+foreach pick in hero from BaseSkill where "Helper.SkCatCraft | Helper.SkCatArt"
+  if (eachpick.field[skUser].value + eachpick.field[skInnate].value >= 6) then
+    @valid = 1
+    done
+  endif
+nexteach]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlMarvelouMate" name="Marvelous Material Refinement {url http://spheresofpower.wikidot.com/artifice#toc65}Wiki   {url}" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 10 ranks, Artifice sphere (Precious Material Refinement).\n\nYou can provide special maintenance to the flourish associated with the Precious Material Refinement talent to improve its effects.\n\nThis ability has more text than HeroLab allows. Please {b}{url http://spheresofpower.wikidot.com/artifice#toc65}use this link.{url}{/b}\n{indent 20}\n* {i}Adamantine\n* Alchemical Silver or Mithra\n* Angelskin\n* Arcsilver\n* Cold Iron\n* Darkleaf Cloth\n* Darkwood\n* Dragonhide\n* Eel Hide, Fire-Forged Steel or Frost-Forged Steel\n* Elysian Bronze\n* Greenwood\n* Living Steel\n* Viridium\n* Whipwood\n* Wyroot" uniqueness="useronce">
+    <comment>The data overflows the maximum text size around Darkwood. So I’m using a link to the wiki’s url.</comment>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <exprreq message="Associated Skill 10 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 10]]></exprreq>
+    <exprreq message="Precious Material Refinement required."><![CDATA[#hasability[sogTlPreciousMate] <> 0]]></exprreq>
+    </thing>
+  <thing id="sogTlMassiveTrink" name="Massive Trinkets" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 5 ranks, Artifice sphere.\n\nWhenever you create a trinket that is up to your own size category, the trinket does not take any additional time to create due to its size. The time taken to create a trinket that is beyond your size category is halved (including with trinkets created with the Sizeable Trinkets talent).\n\nYou also do not increase the craft DC of a trinket due to its size." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <exprreq message="Associated skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 5]]></exprreq>
+    </thing>
+  <thing id="sogTlNaturalArtif" name="Natural Artifice" compset="SoGTalent" description="{b}Prerequisites:{/b} Craft (carpentry, cloth, glass, leather, or stonemasonry) 5 ranks, Artifice sphere.\n\nYou unlock skill leverage with one of the skills listed below, and gain access to the following flourishes if you have unlocked skill leverage with the appropriate Craft skill. These flourishes can only be applied to an object made of the relevant skills’ associated material: carpentry (wood), cloth (cloth), glass (glass), leather (leather or hide), stonemasonry (stone).\n\nAn object benefitting from one of these flourishes improves its hit points, hardness, and resistances by two steps (glass > cloth > leather > wood > stone > steel), and an additional two steps if it receives special maintenance.\n\n{b}Adamant Weave Craft (cloth):{/b} The object still suffers only half damage from fire damage, instead of full damage.\n\nWhen applied to armor or clothing comprised mostly of cloth, it grants its wearer DR 3/bludgeoning or slashing (which stacks with other sources), +1 per 4 ranks in Craft (cloth).\n\nIf this flourish receives special maintenance (and is applied to armor or clothing), the armor or clothing grants an armor bonus to AC equal to 3 + 1 per 3 ranks in Craft (cloth) you possess–clothing benefitting from this flourish is not considered armor for any purposes, does not stack with the AC bonus class feature (or similar abilities), and cannot be granted enhancement bonuses or similar benefits.\n\n{b}Hardened (armor) Craft (leather):{/b} The armor’s armor bonus increases by +1, and grants the wearer DR 3/slashing or piercing (which stacks with other sources), +1 per 4 ranks in Craft (leather).\n\nIf this flourish receives special maintenance, its armor bonus increases by an additional +1.\n\n{b}Lancinating (weapon) Craft (glass):{/b} If the weapon deals piercing or slashing damage, its critical threat range increases by 1 (which is applied after any other increases, such as keen, and cannot be doubled). Whenever the weapon confirms a critical hit, the wielder can choose to give the weapon the broken condition to deal +1d4 bleed damage to the damaged creature (which stacks with other sources of bleed); this increases to 1d6 if the weapon deals piercing or slashing damage.\n\nIf this flourish receives special maintenance, whenever the weapon confirms a critical hit, it deals an additional amount of damage equal to 1/2 your ranks in Craft (glass), or your full ranks in Craft (glass) if you decide to give the weapon the broken condition as part of the critical hit.\n\n{b}Solid (Craft (carpentry or stonemasonry)):{/b} When applied to a weapon comprised mostly of stone or wood (excluding the haft), it deals damage as though it were one size larger.\n\nIf this flourish receives special maintenance, its critical multiplier increases by 1 (maximum ×4). Additionally, whenever the weapon confirms a critical hit, the wielder can choose to give the weapon the broken condition to maximize the weapon’s damage die (but not other damage dice, such as flaming or Vital Strike).\n\nAdditionally, whenever you craft an item made of a material associated with a relevant Craft skill you have unlocked skill leverage with, you decrease the cost to do so by 10% (unless it is also treated as another material associated with a Craft skill you have not unlocked skill leverage with).\n\n{b}Associated Feats:{/b} Hide Worker and Wood Crafter ({i}Ultimate Wilderness{/i})." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skCrafClot | thingid.skCrafGlas | thingid.skCrafLeat | thingid.skCrafSton)"/>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="ChooseSrc1" tag="Hero"/>
+    <tag group="HasFeat" tag="fHideWorke"/>
+    <tag group="HasFeat" tag="fWoodCraft"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+      perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <prereq message="Craft (carpentry, cloth, glass, leather, or stonemasonry) 5 ranks required.">
+      <validate><![CDATA[~ Craft (carpentry, cloth, glass, leather, or stonemasonry) 5 ranks
+
+validif (#skillranks[skCrafCarp] >= 5)
+validif (#skillranks[skCrafClot] >= 5)
+validif (#skillranks[skCrafGlas] >= 5)
+validif (#skillranks[skCrafLeat] >= 5)
+validif (#skillranks[skCrafSton] >= 5)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlPerfectPortr" name="Perfect Portrayal" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 10 ranks, Artifice sphere ((artwork) package).\n\nThe created artwork must include your likeness in some discernible fashion. You can spend a standard action to transfer your consciousness into an artwork with this flourish that you created, allowing you to observe (and in some cases, interact with) an area up to close range around the artwork. This allows you to observe with all of your normal senses (but not special senses such as blindsight), although the DC of any Perception checks are increased by 10 when observing in this way.\n\nYou are flat-footed and senseless (from your physical form) while you have your consciousness transferred to an artwork, but you may return to your body as an immediate action. You can transfer your consciousness to any artwork with this flourish regardless of distance, but it must be on the same plane as you. When you transfer your consciousness into an artwork, it becomes slightly animated; three-dimensional depictions (such as statues) can move its head, make gestures, and talk, but cannot attack or leave their square without assistance. Two-dimensional depictions (such as portraits) can talk and the depiction itself can move within the artwork or even temporarily alter it (such as by picking a flower in the artwork); although you cannot use spells or other abilities inside.\n\nWhen you cease to inhabit an artwork, it immediately reverts to the appearance it had before you entered it. If the artwork is destroyed or damaged, you return to your body unharmed.\n\nWhen you create the artwork with this flourish and have at least 15 ranks in the associated skill, you can choose to accept 1 temporary negative level to store a portion of your soul within, which cannot be removed until the artwork is destroyed. You can only have your soul bound into one artwork at one time. If you die while your soul is bound this way, your soul is transferred to the soulbound artwork if it is on the same plane of existence. Your soul persists within your soulbound artwork indefinitely (or until resurrected), and you may still transfer your consciousness to any artwork with the Perfect Portrayal flourish. If you are resurrected and the soulbound artwork your soul is occupying is used as an additional material component for the spell, any negative levels caused by your revivification are reduced by 1.\n\nIf your soulbound artwork is destroyed with your soul within, your soul is released into the afterlife." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="SoGReqPkg" tag="Artwork"/>
+    <exprreq message="Associated skill 10 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 10]]></exprreq>
+    </thing>
+  <thing id="sogTlPrisonOfDepi" name="Prison Of Depiction" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 15 ranks, Artifice sphere ((artwork) package).\n\nWhen creating this artwork, you can increase the Craft DC by 10 and spend 2 uses of skill leverage to create an artwork that bonds flesh and soul to itself. If a creature engages with the artwork, they must succeed at a Will saving throw or be magically transported within the artwork itself, bringing along their equipment (which becomes non-functional while within the demiplane).\n\nWhile within the artwork, the creature is treated as being within a demiplane, and may move around freely within the artwork itself (which is apparent on the artwork's surface).\n\nSuch an artwork can hold a single creature, plus an additional creature for every 10 by which you exceed the Craft DC. While within the artwork, the creature does not need to breathe, eat, drink, or sleep, and cannot be harmed by anything depicted within the artwork.\n\nCreatures outside of the artwork cannot interact with creatures within the artwork. If the item is destroyed, all creatures contained within the artwork are harmlessly shunted out of the artwork." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="SoGReqPkg" tag="Artwork"/>
+    <exprreq message="Associated skill 15 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 15]]></exprreq>
+    </thing>
+  <thing id="sogTlReconstrDweo" name="Reconstruct Dweomer" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 5 ranks, Artifice sphere.\n\nYou can spend 8 hours and 1 use of skill leverage to repair a destroyed magic item, in addition to restoring the magical properties of the item as long as the item’s caster level is equal to or less than your ranks in the associated skill. Limited-use items (such as wands, potions, and scrolls) cannot be repaired in this way.\n\nIf you possess the Industrious Engineer feat, you can ignore the repair limit associated with the feat when repairing a construct by spending 8 hours and 1 use of skill leverage when doing so." uniqueness="useronce">
+    <fieldval field="abText" value="CL or less"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGAbV1Sc" tag="1_1A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <exprreq message="Associated skill 5 ranks required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 5]]></exprreq>
+    </thing>
+  <thing id="sogTlStupendoCraf" name="Stupendous Crafter" compset="SoGTalent" description="{b}Prerequisites:{/b} Craft (any) 1 rank, Artifice sphere (Magical Crafter).\n\nYou gain an item creation feat you qualify for which you may only use with the Magical Crafter talent. You may take this talent multiple times, selecting a different feat each time.">
+    <fieldval field="usrCandid1" value="component.BaseFeat &amp; fCategory.ItemCreate &amp; !thing.skipprereq &amp; !Helper.Helper &amp; !Helper.Obsolete"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <eval phase="First" priority="600"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if nothing chosen, get out now
+  doneif (field[usrChosen1].ischosen = 0)
+
+  ~ Pull feat tag to compare.
+  perform field[usrChosen1].chosen.pulltags[fInclude.?]
+
+  ~ now need to increase the # of bonus feats we have on character
+  hero.findchild[BaseRace].field[rFeat].value += 1]]></eval>
+    <evalrule phase="Final" priority="2147483647" message="You must select a different feat each time." summary="You must select a different feat each time."><![CDATA[     @valid = 0
+     validif (tagis[Helper.SpcDisable] <> 0)
+     ~ or not chosen.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     foreach pick in hero from SoGTalent where "thingid." & idstring
+       if (eachpick.uniqindex <> this.uniqindex) then
+         if (eachpick.field[usrChosen1].ischosen <> 0) then
+           if (eachpick.intersect[fInclude,fInclude] <> 0) then
+             done
+           endif
+         endif
+       endif
+     nexteach
+
+     @valid = 1]]></evalrule>
+    <exprreq message="Magical Crafter required."><![CDATA[#hasability[sogTlMagicalCraft] <> 0]]></exprreq>
+    <prereq message="Craft (any) 1 rank required.">
+      <validate><![CDATA[~ Craft 1 rank
+
+~search through all our craft skills
+~if any have 1 ranks, set this as valid
+foreach pick in hero from BaseSkill where "Helper.SkCatCraft"
+  if (eachpick.field[skUser].value + eachpick.field[skInnate].value >= 1) then
+    @valid = 1
+    done
+  endif
+nexteach]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlSymbolog" name="Symbologist" compset="SoGTalent" description="{b}Prerequisites:{/b} Artistry (literature) or Craft (books, calligraphy, or tattoos) 5 ranks, Artifice sphere.\n\nYou unlock skill leverage with one of the skills listed below. Additionally, you gain the following benefits if you have unlocked skill leverage with the appropriate skill (as listed below):\n\n{b}Inkbound Arcana (Su) (Craft (tattoos)):{/b}As part of applying this artwork on a creature, you absorb the magic from a magical item and draw it into the artwork (as long as the item’s caster level does not exceed your ranks in Craft (tattoos) and is not an artifact). The magic item is destroyed and occupies the appropriate slot as normal (if it was a slotted item). If the item was a held item, it can be drawn from the tattoo as if retrieving a stored item (or in the case of a weapon, as though drawing a weapon), and can be stowed in the same way. Such an object is physical when drawn, but is obviously magical in nature; such an object retains any damage it suffers, but recovers an equal number of hit points when the creature rests (and can be repaired when drawn as normal). The tattoo otherwise functions akin to the absorbed magic item (and can still be dispelled as normal).\n\nThis artwork can incorporate a number of magical tattoos equal to 1 + 1 per 5 Craft (tattoos) ranks you possess—adding or removing a magical tattoo takes the same amount of time to apply an artwork. If removed, the magic item corporealizes into its original form (although retains any damage it may have incurred).\n\n{b}Power Script (Artistry (literature) or Craft (books or calligraphy)):{/b} Whenever you create an artwork, you can have it appear as a complex symbol or script and choose any of the following triggers: reads the script, touches the script, passes over or under the script. Whenever a creature within 60 feet qualifies for one of the chosen triggers, they are immediately considered to have engaged with the artwork. Covering or hiding the script renders it suppressed until it is no longer so, and a touch-triggered script does not trigger if an object bearing its script is used to touch a creature (such as hitting a creature with a weapon with this script). You can set more unique triggers if you wish, and can specify creatures to be unable to trigger the script. This is considered a ‘symbol’-based effect." uniqueness="useronce">
+    <comment>Errata current to 2/24/25.</comment>
+    <usesource source="pPF1e_DRS_InvIng"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="ArtArtwork"/>
+    <tag group="SoGTalDesc" tag="ArtFlouris"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <prereq message="Artistry (literature) or Craft (books, calligraphy, or tattoos) 5 ranks required.">
+      <validate><![CDATA[~ Artistry (literature) or Craft (books, calligraphy, or tattoos) 5 ranks
+
+validif (#skillranks[skArtLiter] >= 5)
+validif (#skillranks[skCrafBook] >= 5)
+validif (#skillranks[skCrafCall] >= 5)
+validif (#skillranks[skCrafTatt] >= 5)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlUnderwatBask" name="Underwater Basketweaving" compset="SoGTalent" description="{b}Prerequisites:{/b} Craft (any three) 3 ranks, Artifice sphere.\n\nYou may use any Craft skill you are trained in in place of any other Craft skill by taking a -10 penalty on the skill check. At 10 ranks in the associated skill, this penalty is reduced to -5." uniqueness="useronce">
+    <fieldval field="abText" value="penalty"/>
+    <fieldval field="abValue" value="-10"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <eval phase="PostAttr" priority="12000"><![CDATA[~ Get out if disabled
+  doneif (tagis[Helper.SpcDisable] <> 0)
+  ~ Or if less than 10 ranks.
+  doneif (field[tAssocRanks].value < 10)
+
+  ~ We have 10+ ranks
+  field[abValue].value = -5]]></eval>
+    <prereq message="Craft (any three) 3 ranks required.">
+      <validate><![CDATA[~ Craft (any three) 3 ranks
+
+var c as number
+
+~search through all our craft skills
+~if any have 3 ranks, add to count
+foreach pick in hero from BaseSkill where "Helper.SkCatCraft"
+  if (eachpick.field[skUser].value + eachpick.field[skInnate].value >= 3) then
+    c += 1
+  endif
+nexteach
+
+validif (c >= 3)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlVividCreativ" name="Vivid Creativity" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 8 ranks, Artifice sphere ((artwork) package).\n\nWhen you create an artwork, you can spend 1 use of skill leverage to have it be a vivid artwork. A creature only needs to observe a vivid artwork to engage with it; with a successful Will saving throw negating its effects for that round. This functions akin to a gaze attack, and a creature who is aware of the artwork can choose to avert their eyes so that they are not affected by the artwork. The vivid artwork’s effects last for as long as the creature can see the artwork, plus 1 round after (instead of its normal duration). A creature can only be affected by a single vivid artwork at one time this way–if you would subject a creature to multiple vivid artworks at once, choose which one to subject them to.\n\nYou can outwit a hostile creature that is being affected by a vivid artwork as a cost to have the artwork’s effects last for 1 minute after instead of 1 round after." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGReqPkg" tag="Artwork"/>
+    <exprreq message=" Associated skill 8 rank required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 8]]></exprreq>
+    </thing>
+  <thing id="sogTlWondrousProj" name="Wondrous Project" compset="SoGTalent" description="{b}Prerequisites:{/b} Associated skill 5 ranks, Artifice sphere (Magical Crafter, Secret Project), any item creation feat.\n\nWhen you reveal your Secret Project plan, you may produce a magic item you are capable of creating with the starting materials you have set aside; doing so increases the amount of starting materials you can set aside with this plan to 1000 gp worth of starting materials per rank in the associated skill you possess. This may be any item except one with a spell completion (such as a scroll) or spell trigger (such as a wand) function." uniqueness="useronce">
+    <fieldval field="abText" value="k gp"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Artifice"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="Plan"/>
+    <tag group="SoGAbV1Sc" tag="1_1A"/>
+    <tag group="LvNamePar" tag="AppText"/>
+    <tag group="LvNamePar" tag="AppValue"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <bootstrap thing="trkSoGPlans"></bootstrap>
+    <exprreq message=" Associated skill 5 rank required."><![CDATA[hero.childfound[sogTlSpArtifice].field[tAssocRanks].value >= 5]]></exprreq>
+    <exprreq message="Magical Crafter required."><![CDATA[#hasability[sogTlMagicalCraft] <> 0]]></exprreq>
+    <exprreq message="Secret Project required."><![CDATA[#hasability[sogTlSecretProjec] <> 0]]></exprreq>
+    <exprreq message="Any item creation feat required."><![CDATA[tagcount[fCategory.ItemCreate] >= 1]]></exprreq>
+    </thing>
+  <thing id="sogTlAdeptCompani" name="Adept Companion" compset="SoGTalent" description="{b}Prerequisites:{/b} Profession (courtesan, innkeeper, or gambler) 1 rank.\n\nYou unlock skill leverage with one of the Profession skills listed below. Additionally, you gain the following benefits if you have unlocked skill leverage with the appropriate Profession skill:\n\n{indent 20}* {b}Profession (courtesan):{/b} You can spend 10 minutes entertaining a willing creature. After this time, the creature recovers ability damage as if they had 8 hours of rest with long-term care, and gains a +4 morale bonus to saving throws against emotion effects for 1 hour. Additionally, they receive a new saving throw against any negative emotion effects, mind-affecting effects, or temporary negative levels they are suffering from with a +4 morale bonus to the attempt. Once a creature attempts this new saving throw against an effect, they cannot do so again using this talent.\n* {b}Profession (innkeeper):{/b} You can spend 1 hour and 1 use of skill leverage at an inn, tavern, or similar establishment providing advice or your services to the inn; after this time, choose two of the following (although other options may be provided at the GM's discretion). You can only use this ability once per day at a specific establishment. If you exploit the establishment’s generosity (such as by attempting to feed or house an excessive amount of ‘allies’, or by causing unwanted chaos or destruction), you may not be able to use this ability at a specific establishment for a longer period of time, up to GM's discretion.{indent 20}\n○︎ You and your close allies gain the highest quality services the business can offer (such as meals, drinks, lodging, etc.) for 24 hours. If this includes lodging, the services granted function as the exceptional accommodations authorization use (as the Restful Refuge Faction sphere talent).\n○︎ You learn two pieces of information as if you had successfully gathered information by taking 10 on a Profession (innkeeper) check.\n○︎ The establishment ignores and/or pardons a moderately-impactful event that had occurred, such as inciting a bar brawl, destroying property worth less than 100 gp, etc. An event that caused grievous injury or impacted the establishment’s public opinion greatly is out of the realm of possibility for this option.{indent -20}\n* {b}Profession (gambler):{/b} You can use Profession (gambler) instead of a Bluff check made to lie, a Sense Motive check to determine when a creature is lying or to sense their emotions, and to a Sleight of Hand check to hide an object on your body. Additionally, once per game when playing a game of chance, you can spend 1 use of skill leverage to force luck in your favor. When the deciding factor in a game would be made apparent (such as the revealing of cards in poker, something landing in a certain location in roulette, etc.), something incredibly abnormal forces the game of chance to redo this deciding factor. This could be a sudden burst of wind blowing away some cards, a roulette ball shooting from its place due to an unfortunate fall, etc." uniqueness="useronce">
+    <comment/>
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skProfCour | thingid.skProfInnk | thingid.skProfGamb)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpVocation].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <prereq message="Profession (courtesan, innkeeper, or gambler) 1 rank required.">
+      <validate><![CDATA[~ Profession (courtesan, innkeeper, or gambler) 1 rank.
+
+validif (#skillranks[skProfCour] >= 1)
+validif (#skillranks[skProfInnk] >= 1)
+validif (#skillranks[skProfGamb] >= 1)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlAdeptGathere" name="Adept Gatherer" compset="SoGTalent" description="{b}Prerequisites:{/b} Profession (miner, tanner, or woodcutter) 7 ranks.\n\nYou unlock skill leverage with one of the Profession skills listed below. Additionally, you gain a +4 insight bonus to sunder combat maneuvers against objects associated with any of the following Profession skills you have unlocked skill leverage with: stone and minerals (Profession (miner)), leather (Profession (tanner)), wood and plants (Profession (woodcutter)).\n\nYou gain the following benefits if you have unlocked skill leverage with the appropriate Profession skill:\n\n{indent 20}* {b}Profession (miner):{/b} When using a miner's pick (or a similar tool or weapon) you gain a burrow speed of 10 feet. You can tunnel through stone at half your burrow speed. You leave a tunnel as wide as your space in earth or as wide as half your space in stone.\n* {b}Profession (tanner):{/b} When attacking a creature wearing hide or leather armor or an animal, magical beast, monstrous humanoid, or humanoid with natural armor, you get a +2 insight bonus on the attack roll.\n* {b}Profession (woodcutter):{/b} When using a weapon from the axes fighter weapon group to damage wood or plant-based materials (including plant creatures), you gain an insight bonus to damage rolls made against them equal to half the ranks you possess in Profession (woodcutter)." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skProfMine | thingid.skProfTann | thingid.skProfWood)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpVocation].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <prereq message=" Profession (miner, tanner, or woodcutter) 7 ranks required.">
+      <validate><![CDATA[~  Profession (miner, tanner, or woodcutter) 7 ranks.
+
+validif (#skillranks[skProfMine] >= 1)
+validif (#skillranks[skProfTann] >= 1)
+validif (#skillranks[skProfWood] >= 1)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlAdeptNatural" name="Adept Naturalist" compset="SoGTalent" description="{b}Prerequisites:{/b} Profession (farmer, gardener, or miller) ranks 5.\n\nFor every week you spend earning a wage using Profession (farmer, gardener, or miller), you have a 50% chance to discover a useful reagent, worth a number of gold pieces equal to 5 x your Profession check result when used in the crafting of an alchemical or magical item. It can be sold for half as much gold pieces.\n\nYou can communicate with animals (for Profession (farmer)) or plants and plant creatures (for Profession (gardener or miller)) as if you shared a common language, although they are still limited by their intelligence; a normal plant's sense of its surroundings is limited, so it won't be able to give (or recognize) detailed descriptions of creatures or answer questions about events outside its immediate vicinity.)\n\nSuch creatures have a starting attitude of indifferent, although domesticated animals and well-maintained plants are usually friendly.\n\nYou can also spend 1 minute and 1 use of skill leverage tending to an animal (Profession (farmer)) or plant or plant creature (Profession (gardener or miller)) and attempt a relevant Profession check against the saving throw DC of each disease, poison, and curse it is affected by. On a success, the affliction is removed. Once you tend a creature or plant this way, you cannot do so again for 24 hours.\n\nLastly, if you spend at least 1 hour during the day in direct sunlight, you do not need to eat or drink that day.\n\nIf using the Kingdom Building rules (Pathfinder Roleplaying Game: Ultimate Campaign), the BP cost to create a Farm within a Desert or Hills is halved, and you may cultivate a Farm within any other hex by spending 8 BP." uniqueness="useronce">
+    <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skProfFarm | thingid.skProfGard | thingid.skProfMill)"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <eval phase="PostLevel" priority="1500" name="Assign initial Skill Leverage"><![CDATA[~ Get out if disabled
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     ~ or a duplicate.
+     doneif (tagis[Helper.FirstCopy] = 0)
+     ~ or if no choice made.
+     doneif (field[usrChosen1].ischosen = 0)
+
+     perform hero.childfound[sogTlSpVocation].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
+    <prereq message="Profession (farmer, gardener, or miller) ranks 5 required.">
+      <validate><![CDATA[~  Profession (farmer, gardener, or miller) ranks 5.
+
+validif (#skillranks[skProfFarm] >= 1)
+validif (#skillranks[skProfGard] >= 1)
+validif (#skillranks[skProfMill] >= 1)]]></validate>
+      </prereq>
+    </thing>
+  <thing id="sogTlEntrepre" name="Entrepreneur" compset="SoGTalent" description="{b}Prerequisites:{/b} Profession ranks (any) 8 ranks, Vocation sphere (Industrious Worker).\n\nWhen using a skill check to earn income, you increase the type of coin earned by one step (copper to silver, silver to gold, gold to platinum). For example, a memorable performance using Perform would grant 1d6 platinum pieces instead of gold pieces.\n\nIf you are using the Downtime rules (Pathfinder Roleplaying Game: Ultimate Campaign), you double the spending limit of Goods, Influence, and Labor you can spend per day within a settlement. Additionally, you may trade 2 points of Goods, Labor, Influence, or Magic for 1 point of Goods, Labor, or Influence. You may spend 2 uses of skill leverage when converting capital to do so at a 1-for-1 rate rather than the normal 2-for-1. You may also trade 4 points of Goods, Labor, or Influence for 1 point of Magic." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Vocation"/>
+    <tag group="SoGTlClass" tag="ExcepTalent"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <exprreq message="Industrious Worker required."><![CDATA[#hasability[sogTlIndustriousW] <> 0]]></exprreq>
+    <prereq message="Profession ranks (any) 8 ranks required.">
+      <validate><![CDATA[~ Profession ranks (any) 8 ranks
+
+~search through all our profession skills
+~if any have 8 ranks, valid.
+foreach pick in hero from BaseSkill where "Helper.SkCatProf"
+  validif (eachpick.field[skUser].value + eachpick.field[skInnate].value >= 8)
+nexteach
+
+@valid = 0]]></validate>
+      </prereq>
     </thing>
   </document>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document signature="Hero Lab Data">
+  <loadonce key="PF_Spheres_DRS - Diamond Spheres: Thaumic Potential"/>
+  <fileinfo>
+    <info_author>(C) James Risner, 2023-2025
+BSD-2-Clause license</info_author>
+    </fileinfo>
+  <thing id="arSphWizMagi" name="Magitect" compset="ClassVary" uniqueness="unique">
+    <comment>TODO Need to do this:
+Arcane Theorem (Ex) at 1st, 3rd, 13th
+Foundations Studies optionally replaces replaces arcane school or Sphere Specialization
+At First/100 add "Mark the base class as a spherecasting class" if not already: perform linkage[varies].assign[SphOfPow.Class]
+</comment>
+    <usesource source="pPF1e_DRS_ThaPot"/>
+    <tag group="AbReplace" tag="cWizScribe"/>
+    <tag group="AllowCust" tag="arSphWizMagi"/>
+    <tag group="ClVaryName" tag="Replace"/>
+    <tag group="Helper" tag="RemoveTert"/>
+    <bootstrap thing="cMagiArcaneTheo">
+      <containerreq phase="First" priority="95">!AbReplace.cMagiArcaneTheo</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <link linkage="varies" thing="cHelpWiz"/>
+    <eval phase="First"><![CDATA[
+      perform hero.childfound[arSPSphWiz].setfocus
+      if (state.isfocus = 0) then
+          perform assign[Helper.RemoveSec]
+          perform assign[AllowCust.arSphWizMagi]
+      endif
+      ]]></eval>
+    <eval phase="Validation" index="2"><![CDATA[
+      ~ Sphere Wizard assigns this at the end of Final phase,
+      ~ so we must redefine at the beginning of Validation.
+      if (tagis[Helper.RemoveSec] = 0) then
+          linkage[varies].field[cCstS4Expr].text = "(" & linkage[varies].field[cCstS4Expr].text & ") | SpecSource.arSphWizMagi"
+          ~ perform linkage[varies].assign[Helper.OptCustQua]
+      endif
+      ]]></eval>
+    </thing>
+  <thing id="cMagiArcaneTheo" name="Arcane Theorem" compset="ClSpecial" description="The magitect does not form a bond with an object or familiar, but instead delves into arcane theories and study. At 1st level, the magitect gains the Spellhacking and Study skill spheres as bonus talents. Starting at 3rd level, as a standard action, he may grant himself the benefit of any one skill talent from either of these spheres for 1 minute. The magitect may do this once per day at 3rd level, plus an additional time per day at 13th level. Multiple uses of this ability do not stack; if he uses this ability again before the previous duration has expired, it replaces the previous use.">
+    <usesource source="pPF1e_DRS_ThaPot"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="sogTlSpSpellHack">
+      <containerreq phase="First" priority="95">!AbReplace.cMagiArcaneTheo</containerreq>
+      <autotag group="SoGDupBon" tag="Spellhacking"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <bootstrap thing="sogTlSpStudy">
+      <containerreq phase="First" priority="95">!AbReplace.cMagiArcaneTheo</containerreq>
+      <autotag group="SoGDupBon" tag="Study"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <eval phase="PostLevel" priority="10000"><![CDATA[
+      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[xTotalLev].value < 3)
+
+      perform assign[Usage.Day]
+      perform assign[User.Tracker]
+      perform assign[Helper.ShowSpec]
+
+      ~ one at 3rd
+      field[trkMax].value += 1
+
+      ~ additional at 11th
+      if (field[xTotalLev].value >= 11) then
+        field[trkMax].value += 1
+      endif
+      ]]></eval>
+    </thing>
+  <thing id="cMagiFoundSt" name="Foundations Studies" compset="ClSpecial" description="He can choose to gain a number of breakthroughs that he can use with any theory:\n\n * The magitect can spend 3 notions whenever he casts a spell to increase the saving throw DC of the effect by 1.\n * At 6th level, the magitect can spend any amount of notions as a swift action to treat his ranks in the associated skills for Spellhacking and Study sphere as being an amount higher equal to the number of notions spent (maximum equal to his operative modifier) for the purposes of determining the effects of sphere abilities (except dispel checks and the DC to remove your (hack) talents) for 1 minute.\n * At 11th level, the magitect can spend up to 3 notions as part of using hack magic to decrease the action cost to do so by one step for each notion spent as part of this breakthrough (standard > move > swift > immediate).\n\nAdditionally, the magitect gains the following notions that can be applied to any theory (a specific action can only grant one notion once per round):\n\n * The magitect expends a spell slot of the highest or second highest level he can cast (or spends at least 2 spell points on a single sphere effect).\n * The subject of his theory fails their saving throw against a magical effect by 5 or more. At 11th level, the subject does not need to fail the save by 5 or more to gain the notion.\n * The magitect successfully uses hack magic on a magical effect originating from or a magical item attended by the subject of his theory.">
+    <usesource source="pPF1e_DRS_ThaPot"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cWizMagiFS" name="Foundations Studies" compset="CustomSpec" description="The magitect gains Mystical Aptitude as a bonus feat, even if he does not meet the prerequisites. Additionally, he can choose to gain a number of breakthroughs that he can use with any theory:\n\n * The magitect can spend 3 notions whenever he casts a spell to increase the saving throw DC of the effect by 1.\n * At 6th level, the magitect can spend any amount of notions as a swift action to treat his ranks in the associated skills for Spellhacking and Study sphere as being an amount higher equal to the number of notions spent (maximum equal to his operative modifier) for the purposes of determining the effects of sphere abilities (except dispel checks and the DC to remove your (hack) talents) for 1 minute.\n * At 11th level, the magitect can spend up to 3 notions as part of using hack magic to decrease the action cost to do so by one step for each notion spent as part of this breakthrough (standard > move > swift > immediate).\n\nAdditionally, the magitect gains the following notions that can be applied to any theory (a specific action can only grant one notion once per round):\n\n * The magitect expends a spell slot of the highest or second highest level he can cast (or spends at least 2 spell points on a single sphere effect).\n * The subject of his theory fails their saving throw against a magical effect by 5 or more. At 11th level, the subject does not need to fail the save by 5 or more to gain the notion.\n * The magitect successfully uses hack magic on a magical effect originating from or a magical item attended by the subject of his theory.">
+    <usesource source="pPF1e_DRS_ThaPot"/>
+    <tag group="SpecSource" tag="arSphWizMagi"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="cMagiFoundSt">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cMagiFoundSt">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cMagiFoundSt">
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="fMystAptitude">
+      <autotag group="thing" tag="skipprereq"/>
+      </bootstrap>
+    </thing>
+  </document>

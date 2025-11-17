@@ -221,6 +221,9 @@
     <inputthing name="Value #1 (abValue)" helptext="">
       <it_field field="abValue"/>
       </inputthing>
+    <inputthing name="Text #1 (abText)" helptext="">
+      <it_field field="abText"/>
+      </inputthing>
     <inputthing name="abValue scaling" helptext="If abValue should increase with Associated Ranks of the sphere, select how often it should increase">
       <it_tagpick group="SoGAbV1Sc" tag="?"/>
       </inputthing>
@@ -230,6 +233,9 @@
     <inputthing name="Value #2 (abValue2)" helptext="">
       <it_field field="abValue2"/>
       </inputthing>
+    <inputthing name="Text #2 (abText2)" helptext="">
+      <it_field field="abText2"/>
+      </inputthing>
     <inputthing name="abValue2 scaling" helptext="If abValue should increase with Associated Ranks of the sphere, select how often it should increase">
       <it_tagpick group="SoGAbV2Sc" tag="?"/>
       </inputthing>
@@ -238,6 +244,9 @@
       </inputthing>
     <inputthing name="Value #3 (abValue3)" helptext="">
       <it_field field="abValue3"/>
+      </inputthing>
+    <inputthing name="Text #3 (abText3)" helptext="">
+      <it_field field="abText3"/>
       </inputthing>
     <inputthing name="abValue3 scaling" helptext="If abValue should increase with Associated Ranks of the sphere, select how often it should increase">
       <it_tagpick group="SoGAbV3Sc" tag="?"/>

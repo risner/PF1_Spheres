@@ -189,9 +189,19 @@
   <template id="tmSoGSkPk" name="Skills" compset="SoGSkillReplace" height="20">
     <portal id="pName" style="lblLeftNormal">
       <label text="💥"/>
+      <mouseinfo mousepos="right+above"><![CDATA[
+        if (field[usrChosen1].ischosen <> 0) then
+          @text &= field[usrChosen1].chosen.field[name].text
+        endif
+      ]]></mouseinfo>
       </portal>
     <portal id="pNew" style="lblNormal">
       <label text="➡️✅️"/>
+      <mouseinfo mousepos="middle+above"><![CDATA[
+        if (field[usrChosen2].ischosen <> 0) then
+          @text &= field[usrChosen2].chosen.field[name].text
+        endif
+      ]]></mouseinfo>
       </portal>
     <portal id="mnChoose1" style="menuNormal" width="80">
       <menu_things field="usrChosen1" component="BaseSkill" usepicks="hero">

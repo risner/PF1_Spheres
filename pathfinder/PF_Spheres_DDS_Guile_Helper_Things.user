@@ -364,7 +364,9 @@ BSD-2-Clause license</info_author>
       debug "🏹 Spent " & unlk & " unlocks from Skills"
       field[resSpent].value += unlk]]></eval>
     </thing>
-  <thing id="resSGSSGen" name="Skill Sphere Talents" compset="Resource" panellink="tbSoGSkSpTl"></thing>
+  <thing id="resSGSSGen" name="Skill Sphere Talents" compset="Resource" panellink="tbSoGSkSpTl">
+    <usesource source="pPF1e_Sph_Guile"/>
+    </thing>
   <thing id="resSGTraTrad" name="Trade Traditions" compset="Resource" panellink="tbSoGSkSpTl">
     <fieldval field="resObject" value="Trade Traditions"/>
     <tag group="Helper" tag="NoMinimum"/>
@@ -388,7 +390,9 @@ BSD-2-Clause license</info_author>
   <thing id="resSGTraTal" name="Trade Talents" compset="Resource" panellink="tbSoGVocation">
     <fieldval field="resObject" value="Trade Talents"/>
     </thing>
-  <thing id="SoGOM" name="Operative Modifier" compset="SoGOM" uniqueness="unique"></thing>
+  <thing id="SoGOM" name="Operative Modifier" compset="SoGOM" uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    </thing>
   <thing id="SoGOverlappingSk" name="Overlapping Class Skills" compset="SoGOverlappingSk">
     <usesource source="pPF1e_Sph_Guile"/>
     </thing>
@@ -521,7 +525,9 @@ BSD-2-Clause license</info_author>
     <arrayval field="cUtiKnown" index="19" value="10"/>
     <tag group="SoGOLProg" tag="Virtuoso"/>
     </thing>
-  <thing id="SoGSkillReplace" name="Skill Replacement" compset="SoGSkillReplace" panellink="tbSoGVocation"></thing>
+  <thing id="SoGSkillReplace" name="Skill Replacement" compset="SoGSkillReplace" panellink="tbSoGVocation">
+    <usesource source="pPF1e_Sph_Guile"/>
+    </thing>
   <thing id="SoGSKUnlock" name="Skill Leverage Unlock" compset="SGSkLevUnlock" description="Skill Leverage Unlock">
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; !SkLeverage.?"/>
     <usesource source="pPF1e_Sph_Guile"/>

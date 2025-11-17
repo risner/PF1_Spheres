@@ -261,6 +261,7 @@
     <value id="Utility" name="Utility" order="5"/>
     <value id="Approach" name="Approach" order="6"/>
     <value id="Plan" name="Plan" order="7"/>
+    <value id="PlanUtil" name="Plan [utility]" order="7"/>
     <value id="ArtArtwork" name="Artifice (artwork)" abbrev="Artwork" order="8"/>
     <value id="ArtFabrica" name="Artifice (fabrication)" abbrev="Fabrication" order="9"/>
     <value id="ArtFlouris" name="Artifice (flourish)" abbrev="Flourish" order="10"/>
@@ -367,6 +368,7 @@
   <source id="pPF1e_Sph_OApoc" name="Spheres Apocrypha" selectable="no" parent="pPF1e_Sph_Other" sortorder="1"></source>
   <source id="pPF1e_Sph_OApocArTa" name="Spheres Apocrypha: Armor Talents" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
   <source id="pPF1e_Sph_OApocArTa2" name="Spheres Apocrypha: Armor Talents 2" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
+  <source id="pPF1e_Sph_OApocBanGr" name="Spheres Apocrypha: Banshee's Grasp" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
   <source id="pPF1e_Sph_OApocCasTr" name="Spheres Apocrypha: Casting Traditions" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
   <source id="pPF1e_Sph_OApocCasT2" name="Spheres Apocrypha: Casting Traditions 2" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
   <source id="pPF1e_Sph_OApocSwash" name="Spheres Apocrypha: Swashbucklers" selectable="yes" parent="pPF1e_Sph_OApoc" sortorder="0"></source>
@@ -380,8 +382,8 @@
   <source id="pPF1e_Sph_OYouxHB" name="The Youxia's Handbook" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_Sph_OTreasure" name="Treasures of the Spheres" selectable="yes" parent="pPF1e_Sph_Other" sortorder="2"></source>
   <source id="pPF1e_DRS_Other" name="DRS Expansions" selectable="no" parent="pPF1e_Sph" sortorder="4"></source>
-  <source id="pPF1e_DRS_InvIng" name="Diamond Spheres: Invention &amp; Ingenuity" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
   <source id="pPF1e_DRS_HarDis" name="Diamond Spheres: Harmony &amp; Discord" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
+  <source id="pPF1e_DRS_InvIng" name="Diamond Spheres: Invention &amp; Ingenuity" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
   <source id="pPF1e_DRS_ThaPot" name="Diamond Spheres: Thaumic Potential" selectable="yes" parent="pPF1e_DRS_Other" sortorder="10"></source>
   <!-- This corrects an error in the source file that ships with this book. -->
   <source id="pSoPWildMagic" name="Wild Magic Handbook" selectable="yes" parent="pSoPHandb" sortorder="21" description="New Archetypes, Class Options, and Wild Magic Events"></source>
