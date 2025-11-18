@@ -1,3 +1,48 @@
+1.3 ~ Nov 18 06:51:03 2025: Beta version 1.3 - fourth public release
+    * Resolve missing thingid somDbUndeadSer
+
+1.2 ~ Nov 17 07:31:34 2025: Beta version 1.2 - third public release - work between Feb 21, 2025 - Nov 17, 2025.
+    * Dreamtwister fixes for free talent
+    * SoP Errata for incorrectly calculated bonus talents
+    * Power and Might errata deactivated when source inactive
+    * Core incorrectly calculates tLangsSpk without added skExtRanks
+    * Disable duplicate copies of SoGTalent talents to avoid "You must choose an option"
+    * Enable Activation for Approach
+    * SoGSkillUse set to derived
+    * Component correctly handles SoGFreeTal.? on Drawbacks and GainSphere.
+    * Add abText, abText2, abText3 to Editor
+    * Added Feat Mystical Aptitude
+    * Added mouseover for Skill Replacements.
+    * Tag some helpers to the Guile source
+    * Added some Skill Use Gather Crowd
+    * Added URL for Universal Skill Use
+    * Implement Plans tracker on several talents that use plans
+    * Resolved issues with Aesthetic Artifice
+    * Added Exquisite Equipment, Confident Craftsmanship, Expanded Artifice,
+        Favorite Tools, Forgery, Fundamental Expertise, Magical Crafter,
+        Nebulous Functionality, Reinforce Material, Secret Project, Sizeable Trinkets,
+        True Artist, Artificer's Eye, Abstract Design, Alloyed Plating,
+        Armament Modder, Comforting Design, Convenient Designs, Functional Artifice,
+        Inspiring Composition, Martial Artifice, Precious Material Refinement,
+        Refined Arms, Sensory Protections, Stabilizing Reinforcements,
+        Storage Enhancement, Vehicle Improvements, Defensive Equipment,
+        Embarrassing Satire, and Integrity Shifter
+    * Apply bonus for Physician’s Efficacy
+    * Updated Errata 2/24/25: Proactive Care, Aerial, Wilderness,
+        Maritime Acclimatization, and Wild Wit
+    * Track duplicate skill assigned for Skill Leverage
+    * Added Crowd Pleaser, Divergent Aptitude, Alchemical Replication,
+        Artistic Transportation, Bizarre Artistry, Magical Feverish Pace,
+        Marvelous Material Refinement, Massive Trinkets, Natural Artifice,
+        Perfect Portrayal, Prison Of Depiction, Reconstruct Dweomer,
+        Stupendous Crafter, Symbologist, Underwater Basketweaving, Vivid Creativity,
+        Wondrous Project, Adept Companion, Adept Gatherer, Adept Naturalist, and
+        Entrepreneur
+    * Added Eliciter options (Bellwether, Intimate Link, Utility Expertise, Wordwise)
+    * Errata to Eliciter Convincing to disable prior to level 9 when gained
+    * Added Terrifying Mind (Cognition)
+    * Added Magitect, Arcane Theorem, and Foundations Studies.
+
 1.1 ~ Feb 22 11:16:51 2025: Beta version 1.1 - second public release - work between Jan 20 - Feb 20, 2025.
       Added Archetypes: Fey Adept (Auteur, Dreamtwister).
       Added Artifice (flourish) talents: Compound Creation, Emotive Styles, Evocative Visuals, and Influential Artistry.
