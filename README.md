@@ -8,6 +8,7 @@ This project requires a purchased copy of Hero Lab, with a license for pathfinde
 - Spheres of Might v1.23
 - Ultimate Spheres of Power v1.42
 - Champions of the Spheres v1.52
+- [Pathfinder Community Pack](http://www.shadowsoftware.net/herolab/d20pfsrd/Community_Server_Setup.pdf)
 
 # Installation
 
