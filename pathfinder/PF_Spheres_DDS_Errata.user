@@ -55,19 +55,6 @@ BSD-2-Clause license</info_author>
          nexteach
        endif
 
-       ~Undead Servants misspells Knowledge (religion) thingid.
-       if (hero.tagis[source.pSoMLead] <> 0) then
-         var undead as string
-         undead = "thingid.somDbUndeadSer"
-         perform hero.findchild[SoMDrawbk,undead].setfocus
-         if (state.isfocus <> 0) then
-           if (focus.tagis[ClassSkill.skKnowRe] <> 0) then
-             perform focus.delete[ClassSkill.skKnowRe]
-             perform focus.assign[ClassSkill.skKnowRel]
-           endif
-         endif
-       endif
-
        ~ Additional errata planned to be incorporate:
        ~ arSoPWendigo
        ~ arChSpDimDefe

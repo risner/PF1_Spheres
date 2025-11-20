@@ -1,3 +1,7 @@
+1.4 ~ Nov 19 21:23:34 2025: Beta version 1.4 - fifth public release
+    * Remove reference to HL files not in SoM/SoP/CoS requirements
+    * Adding missing Plans trackers
+
 1.3 ~ Nov 18 06:51:03 2025: Beta version 1.3 - fourth public release
     * Resolve missing thingid somDbUndeadSer
 
