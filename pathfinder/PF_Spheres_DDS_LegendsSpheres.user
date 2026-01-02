@@ -62,7 +62,6 @@ BSD-2-Clause license</info_author>
     <tag group="Classes" tag="Bravo" name="Bravo"/>
     <tag group="LGClTable2" tag="BrvWhim" name="Whim" abbrev="Whim"/>
     <tag group="ProductId" tag="DropDead"/>
-    <tag group="ProductId" tag="DropDead"/>
     <tag group="cAttack" tag="Good"/>
     <tag group="cFort" tag="Poor"/>
     <tag group="cRef" tag="Good"/>
@@ -465,6 +464,165 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
       endif
     ]]></eval>
     </thing>
+  <thing id="arEnvoyBeguiler" name="Beguiler" compset="ClassVary" description=" Where an envoy could be called the ‘chisel’ of the social world, the beguiler is thought of more as the ‘hammer’; capable of significant social integration at the cost of the fallout that ensues afterwards. Beguilers possess both the gift of magic and the gift of the gab, allowing them to influence people more efficiently than an envoy, while also possessing a knack for subtlety for their magic as well. " uniqueness="unique">
+    <arrayval field="cvCustSTot" index="4" value="-1"/>
+    <arrayval field="cvCustSTot" index="5" value="-1"/>
+    <arrayval field="cvCustSTot" index="6" value="-1"/>
+    <arrayval field="cvCustSTot" index="7" value="-1"/>
+    <arrayval field="cvCustSTot" index="8" value="-2"/>
+    <arrayval field="cvCustSTot" index="9" value="-2"/>
+    <arrayval field="cvCustSTot" index="10" value="-2"/>
+    <arrayval field="cvCustSTot" index="11" value="-2"/>
+    <arrayval field="cvCustSTot" index="12" value="-3"/>
+    <arrayval field="cvCustSTot" index="13" value="-3"/>
+    <arrayval field="cvCustSTot" index="14" value="-3"/>
+    <arrayval field="cvCustSTot" index="15" value="-3"/>
+    <arrayval field="cvCustSTot" index="16" value="-4"/>
+    <arrayval field="cvCustSTot" index="17" value="-4"/>
+    <arrayval field="cvCustSTot" index="18" value="-4"/>
+    <arrayval field="cvCustSTot" index="19" value="-4"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="AbModify" tag="cSoGEnvInfluence"/>
+    <tag group="AbModify" tag="cSoGSEEnvoy"/>
+    <tag group="AbReplace" tag="cSoGEnvPowPer"/>
+    <tag group="ClVaryName" tag="AppParen" name="Append (in Parentheses)" abbrev="Append (in Parentheses)"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="cCastingEnvBeguil">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cEnvForInf">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cEnvMagEmi">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="1"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrEnv">
+      <autotag group="ClSpecWhen" tag="1"/>
+      <autotag group="Assist" tag="AddMagic"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="2"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="2"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="3"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="4"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="5"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="6"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="6"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="7"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="8"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="9"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="10"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="10"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="11"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="12"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="13"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="14"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="14"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="15"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="16"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="17"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="18"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="18"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnv">
+      <autotag group="ClSpecWhen" tag="19"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTSMCEnvU">
+      <autotag group="ClSpecWhen" tag="20"/>
+      <autotag group="Hide" tag="All"/>
+      </bootstrap>
+    <bootstrap thing="tHelpEnvBeguiler"></bootstrap>
+    <link linkage="varies" thing="cHelpSGEnvoy"/>
+    <eval phase="First">~ Mark the base class as a spherecasting class
+      perform linkage[varies].assign[SphOfPow.Class]</eval>
+    </thing>
+  <thing id="cEnvForInf" name="Forceful Influence" compset="ClSpecial" description="Whenever the beguiler would spend skill leverage to gain influence over a creature faster, he can spend spell points instead of skill leverage when doing so. The beguiler can also use this ability instead of outwitting by spending 1 spell point as a standard action. If the beguiler does this, the influence is more akin to a hammer than a chisel, and becomes an enchantment (compulsion) mind-affecting effect.\n\nWhen such influence disappears, the creature is aware that there was magic at play, and may become hostile or at least decrease their attitude towards the beguiler by one step.">
+    <tag group="SpecSource" tag="arEnvoyBeguiler"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    </thing>
+  <thing id="cCastingEnvBeguil" name="Casting" compset="ClSpecial" description="A beguiler may combine spheres and talents to create magical effects. A beguiler is considered a Mid-Caster. (Note: All casters gain 2 bonus talents and a casting tradition the first time they gain the casting class feature.)" summary="You can cast sphere effects">
+    <usesource source="pPF1e_Sph_OWarden"/>
+    <tag group="SpecSource" tag="cHelpPal"/>
+    <tag group="SphOfPow" tag="Casting" name="Spherecasting" abbrev="Spherecasting"/>
+    <tag group="Helper" tag="ClExLose"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <bootstrap thing="abSoPCast"></bootstrap>
+    </thing>
+  <thing id="tHelpEnvBeguiler" name="Beguiler Talents" compset="SoPSetupMg" uniqueness="unique">
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="SoPCLProg" tag="CasterMid" name="Low Caster" abbrev="Low Caster"/>
+    <link linkage="sopClass" thing="cHelpSGEnvoy"/>
+    </thing>
   <thing id="arEliBellether" name="Bellwether" compset="ClassVary" description="Bellwethers see their hypnotic powers as but one tool in an arsenal of social influence, relying more upon conventional means of communication to achieve their goals." uniqueness="unique">
     <usesource source="pPF1e_Sph_Guile" parent="pPF1e_Sph" name="Spheres of Guile"/>
     <usesource source="pPF1e_Sph_LotSpheres"/>
@@ -864,7 +1022,7 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
       <autotag group="SoGDupBon" tag="Study"/>
       </bootstrap>
     </thing>
-  <thing id="cSoGBlendTrTheoU" name="Theorist Utility Training" compset="ClSpecial" description="The bravo gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
+  <thing id="cSoGBlendTrTheoU" name="Theorist Utility Training" compset="ClSpecial" description="The theorist gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
     <usesource source="pPF1e_Sph_LotSpheres"/>
     <tag group="Helper" tag="SpecUp"/>
     <tag group="ProductId" tag="DropDead"/>
@@ -1107,7 +1265,6 @@ TODO 3rd+: Postulate, Rigorous Analysis (Ex), Networked Understanding (Ex), Univ
   <extthing thing="sopTlWpFlw" group="TalentDesc" tag="Utility"/>
   <extthing thing="sopTlWhisperWinds" group="TalentDesc" tag="Utility"/>
   <extthing thing="sopTlWpFlw" group="TalentDesc" tag="Utility"/>
-  <extthing thing="somTlDelayedPsn" group="TalentDesc" tag="Utility"/>
   <extthing thing="somTlDelayedPsn" group="TalentDesc" tag="Utility"/>
   <extthing thing="somTlTalentlesP" group="TalentDesc" tag="Utility"/>
   <extthing thing="somTlMightyCondi" group="TalentDesc" tag="Utility"/>

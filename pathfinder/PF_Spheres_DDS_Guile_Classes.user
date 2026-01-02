@@ -5,6 +5,322 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
+  <thing id="cHelpSGEnvoy" name="Envoy" compset="Class" uniqueness="unique">
+    <fieldval field="cAbbr" value="Env"/>
+    <fieldval field="cHDSides" value="6"/>
+    <fieldval field="cSkills" value="6"/>
+    <fieldval field="cSpec2ndNm" value="Flairs"/>
+    <fieldval field="cSpec2ndSi" value="Flair"/>
+    <fieldval field="cSpecName" value="Fortes"/>
+    <fieldval field="cSpecSing" value="Forte"/>
+    <fieldval field="srcPageNum" value="94"/>
+    <arrayval field="cCustScTot" index="1" value="1"/>
+    <arrayval field="cCustScTot" index="4" value="2"/>
+    <arrayval field="cCustScTot" index="6" value="3"/>
+    <arrayval field="cCustScTot" index="8" value="4"/>
+    <arrayval field="cCustScTot" index="10" value="5"/>
+    <arrayval field="cCustScTot" index="12" value="6"/>
+    <arrayval field="cCustScTot" index="14" value="7"/>
+    <arrayval field="cCustScTot" index="16" value="8"/>
+    <arrayval field="cCustScTot" index="18" value="9"/>
+    <arrayval field="cCustTot" index="0" value="1"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SphOfGuil" tag="Class"/>
+    <tag group="SoGOLProg" tag="Virtuoso"/>
+    <tag group="SoGTRank" tag="Adroit"/>
+    <tag group="ClassRole" tag="Skill"/>
+    <tag group="ClassRole" tag="Special"/>
+    <tag group="ClassSkill" tag="Artistry"/>
+    <tag group="ClassSkill" tag="Craft"/>
+    <tag group="ClassSkill" tag="Lore"/>
+    <tag group="ClassSkill" tag="Perform"/>
+    <tag group="ClassSkill" tag="Profession"/>
+    <tag group="ClassSkill" tag="skBluff"/>
+    <tag group="ClassSkill" tag="skDiplo"/>
+    <tag group="ClassSkill" tag="skDisguise"/>
+    <tag group="ClassSkill" tag="skIntim"/>
+    <tag group="ClassSkill" tag="skKnowLoc"/>
+    <tag group="ClassSkill" tag="skKnowNobl"/>
+    <tag group="ClassSkill" tag="skPercep"/>
+    <tag group="ClassSkill" tag="skSenseMot"/>
+    <tag group="ClassSkill" tag="skStealth"/>
+    <tag group="Classes" tag="Envoy" name="Envoy"/>
+    <tag group="LGClTable2" tag="EnvForte" name="Forte" abbrev="Forte"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <tag group="cAttack" tag="Poor"/>
+    <tag group="cFort" tag="Poor"/>
+    <tag group="cRef" tag="Poor"/>
+    <tag group="cWill" tag="Good"/>
+    <bootstrap thing="cSoGEnvDisWor">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvDisWor</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvIncCon">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvIncCon</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvInfluence">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvInfluence</containerreq>
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGSEEnvoy">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvWorDis">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvWorDis</containerreq>
+      <autotag group="ClSpecWhen" tag="2"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvConPre">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvConPre</containerreq>
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvMagDec">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvMagDec</containerreq>
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvPowPer">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvPowPer</containerreq>
+      <autotag group="ClSpecWhen" tag="3"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvRapPer">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvRapPer</containerreq>
+      <autotag group="ClSpecWhen" tag="5"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvUnyVoi">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvUnyVoi</containerreq>
+      <autotag group="ClSpecWhen" tag="8"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvPerPre">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvPerPre</containerreq>
+      <autotag group="ClSpecWhen" tag="9"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvComPhr">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvComPhr</containerreq>
+      <autotag group="ClSpecWhen" tag="11"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvBouWor">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvBouWor</containerreq>
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvCalPre">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvCalPre</containerreq>
+      <autotag group="ClSpecWhen" tag="12"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvMerInf">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvMerInf</containerreq>
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvPheCha">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvPheCha</containerreq>
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvStaPre">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvMerInf</containerreq>
+      <autotag group="ClSpecWhen" tag="15"/>
+      </bootstrap>
+    <bootstrap thing="cSoGEnvEpiSoc">
+      <containerreq phase="First" priority="95">!AbReplace.cSoGEnvEpiSoc</containerreq>
+      <autotag group="ClSpecWhen" tag="20"/>
+      </bootstrap>
+    <bootstrap thing="cTradeTradition"></bootstrap>
+    <bootstrap thing="fArmBuckl"></bootstrap>
+    <bootstrap thing="fSimple"></bootstrap>
+    </thing>
+  <thing id="cSoGEnvoy" name="Envoy" compset="ClassLevel" description=" Empathic and strong-willed, envoys are adept at conversation in most forms, and often act as bridges and emissaries between people and communities. This inner knack for connection and understanding lend envoys to be rather well-known among those they speak to, and are capable of forming strong bonds with people very quickly." maxlimit="20">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="ClassType" tag="Normal"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="cHelpSGEnvoy"></bootstrap>
+    <link linkage="helper" thing="cHelpSGEnvoy"/>
+    </thing>
+  <thing id="cSoGEnvIncCon" name="Incredible Confidence" compset="ClSpecial" description="When wearing no armor, not carrying a shield, and unencumbered, the envoy adds his Charisma modifier (if any) to his AC and CMD. These bonuses increase by +1 for every 4 envoy levels possessed. This AC bonus does not stack with similar class features or other ways to add an additional ability score to the envoy’s AC; if he has more than one such ability, he uses the highest extra ability score modifier.\n\nThis bonus to AC applies even against touch attacks or when the envoy is flat-footed. He loses these bonuses when he is immobilized or helpless, when he wears any armor, uses a shield, or when he carries a medium or heavy load." summary="Gain a monk-like AC bonus based on your Charisma ability score">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <tag group="UseAttr" tag="aCHA"/>
+    <eval phase="PostAttr" priority="30000"><![CDATA[      var modval as number
+      var modname as string
+
+      ~ Get our encumbrance level - if we're encumbered by that, or if we're
+      ~ wearing armor or a shield, we're disabled.
+      if (hero.tagis[Hero.EquipArmor] <> 0) then
+        if (hero.tagis[Hero.MnkACArmOK] = 0) then
+          perform assign[Helper.SpcDisable]
+          endif
+        endif
+
+      ~ Finally, encumberance could disable us.
+      if (hero.tagexpr[Encumbered.Medium | Encumbered.Heavy | Encumbered.Overloaded] <> 0) then
+        perform assign[Helper.SpcDisable]
+        endif
+
+      ~ Stop if we're disabled or have no bonus to apply
+      doneif (tagis[Helper.SpcDisable] <> 0)
+      doneif (field[abValue].value < 1)
+
+      ~ Apply our AC bonus to all our armor scores
+      ~ CHA and WIS have explicit fields we can use, anything else will fall back on the ACModIns procedure
+      if (tagis[UseAttr.aCHA] <> 0) then
+        hero.child[ArmorClass].field[tACChaMod].value = maximum(#attrbonus[aCHA],hero.child[ArmorClass].field[tACChaMod].value)
+      elseif (tagis[UseAttr.aWIS] <> 0) then
+        hero.child[ArmorClass].field[tACWisMod].value = maximum(#attrbonus[aWIS],hero.child[ArmorClass].field[tACChaMod].value)
+      else
+        modval = field[abValue].value
+        modname = hero.findchild[BaseAttr,tagids[UseAttr.?]].field[aAbbr].text
+        modname = uppercase(left(modname,1)) & lowercase(right(modname,2))
+
+        call ACModIns
+      endif
+
+      ~ If we have any additional bonus from levels, apply that now
+      doneif (field[abValue2].value < 1)
+      modval = field[abValue2].value
+      modname = field[thingname].text
+      call ACModIns]]></eval>
+    <eval phase="PostAttr" priority="15000" index="2"><![CDATA[      ~ Get our highest mental attribute, and stop if it's not positive
+      foreach pick in hero from BaseAttr where "AttribCat.Mental"
+        if (eachpick.field[aModBonus].value > field[abValue].value) then
+          perform delete[UseAttr.?]
+          perform eachpick.pulltags[UseAttr.?]
+          field[abValue].value = eachpick.field[aModBonus].value
+
+        endif
+      nexteach
+
+      ~ Increase bonus by +1 per 4 class levels
+      field[abValue2].value += round(field[xTotalLev].value/4,0,-1)
+      doneif (field[abValue].value + field[abValue2].value <= 0)
+
+      ~ Look for an AC bonus from Monk or similar sources, stop if we find one that's equal to or larger than our bonus
+      foreach pick in hero from Ability where "Ability.cMnkAC"
+        var bon as number
+        bon = eachpick.field[abValue].value
+        if (eachpick.tagis[UseAttr.aCHA] <> 0) then
+          bon += #attrbonus[aCHA]
+        elseif (eachpick.tagis[UseAttr.aINT] <> 0) then
+          bon += #attrbonus[aINT]
+        else
+          bon += #attrbonus[aWIS]
+        endif
+
+        ~ If our bonus is bigger, disable the other ability
+        ~ Otherwise set our bonus to 0 and get out
+        if (bon >= field[abValue].value + field[abValue2].value) then
+          field[abValue].value = 0
+          field[abValue2].value = 0
+          done
+        else
+          perform eachpick.assign[Helper.SpcDisable]
+        endif
+      nexteach]]></eval>
+    </thing>
+  <thing id="cSoGEnvInfluence" name="Influence" compset="ClSpecial" description="The envoy can be a formidable force of personality, gaining leverage over people through careful conversation.\n\nThe envoy can spend 1 hour (or 10 minutes by spending 1 use of skill leverage) in conversation with a single creature to gain influence over them for 3 days. The time taken to gain influence over a creature is not interrupted by simple breaks in conversation, but any major disturbances or breaks (such as combat) may delay or halt such attempts.\n\nIf the creature is unfriendly or hostile towards the envoy, he can outwit them as a standard action (that provokes attacks of opportunity) by using his forte sphere’s associated skill, gaining influence over them for 1 minute on a success. The DC of the check is equal to 15 + the creature’s ranks in Sense Motive + their Wisdom modifier, or 15 + the creature’s Will save modifier (whichever is higher). Creatures that the envoy has influenced this way are no longer influenced if the envoy becomes dumbfounded or shocked.\n\nThe envoy can spend influence in the following ways:\n\n    {b}Deep Discouragement:{/b} If the envoy has influence over a creature, he may choose two ability scores instead of one when using his dispiriting words ability on them. Alternatively, he can expend his influence over a creature to affect all ability scores.\n\n    {b}Gossip:{/b} The envoy can spend 1 minute and expend his influence over a creature to have them reveal a secret they know of - either accidentally or purposefully - that generally fits the theme of conversation (generally decided when the envoy uses this ability). As a general rule of thumb, the quality of the secret is dependent on the attitude and relationship the envoy has with the creature: an unfriendly creature may cut themselves off midsentence, whereas a helpful creature may provide intricate details.\n\n    {b}Trusted Words:{/b} As a standard action, the envoy can expend his influence over a creature to immediately alter their attitude towards himself or another creature by one step in either direction for 8 hours. If the envoy invokes a motivation when expending influence in this way, the creature’s attitude instead changes by two steps for the duration, or by one step and the attitude adjustment becomes permanent. A successful Will saving throw negates this attitude adjustment. If the starting attitude was indifferent, this saving throw is attempted with a -4 penalty.\n\n{b}Sidebar: Depicting Influence{/b}\n\nThe envoy’s influence ability does not solely represent supporting and creating a positive connection with a creature, and should depict someone’s ability to affect and ‘influence’ a creature for a large period of time, which can include negative associations as well. An envoy can gain influence through care, respect, and genuine connection as much as they can gain influence through insults, deception, and manipulation." summary="Gain leverage over people with your formidable force of personality">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvWorDis" name="Wordless Disparagement" compset="ClSpecial" description="At 2nd level, whenever the envoy uses his dispiriting words ability, he can increase the action cost by one step (swift to move, move to standard, standard to full-round, and full-round to 1 round) or outwit the target as a cost to allow him to affect creatures with his dispiriting words ability regardless of language.\n\nIf the target does not share a language with the envoy, any saving throws attempted as part of the ability gains a +4 bonus." summary="Use dispiriting words ability without language barriers">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvConPre" name="Confident Presence" compset="ClSpecial" description="At 3rd level, an envoy can instill vigor and resolve into those around him, emitting a 30-foot aura of palpable confidence.\n\nThe envoy’s confident presence has a pool of temporary hit points equal to 3 x his envoy level, plus his Charisma modifier; this pool replenishes after 8 hours of rest. Allies within this aura can spend temporary hit points from this pool as if it were their own whenever they suffer damage.\n\nThis ability only functions while the envoy is conscious, and not if he is dazed, dead, frightened, helpless, panicked, paralyzed, shocked, stunned, or unconscious. An ally cannot draw from the envoy’s confident presence pool if they cannot benefit from morale bonuses.\n\nSome abilities allow the envoy to regain temporary hit points within his confident presence; unless otherwise specified, these abilities can only be applied once per round, and any creature involved in the trigger of the ability must have a CR of at least his character level - 3.\n\nWhenever the envoy or an ally he can perceive regains a use of skill leverage, or he inflicts a disorientation condition or the impressed or fascinated condition, his confident presence regains an amount of temporary hit points equal to 3 + his Charisma modifier. Once the envoy regains temporary hit points this way, he cannot do so again for 1 hour." summary="Gain a 30 ft aura of palpable confidence">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvPowPer" name="Powerful Personality" compset="ClSpecial" description="At 3rd level, the envoy gains a +1 competence bonus to the DCs of sphere abilities associated with his forte sphere and envoy class features. This bonus increases by 1 at 8th level and every five levels thereafter." summary="Increases DC of forte sphere abilities">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvMagDec" name="Magical Decorum" compset="ClSpecial" description="At 3rd level, the beguiler gains the Cunning Caster feat as a bonus feat, even if he does not meet the prerequisites; he may use a Diplomacy check opposed by an observer's Sense Motive check if he chooses.\n\nCreatures that he has influence over suffer a penalty to the opposed check equal to his dispiriting words penalty (which does not stack with an actual use of dispiriting words).\n\nAdditionally, a creature suffers a -1 penalty to saving throws against the beguiler’s magical sphere abilities as long as they do not see him as a threat; this increases by 1 per 5 envoy levels beyond 3rd he possesses." summary="Gain Cunning Caster and new uses for it">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="fUspCunCas">
+      <containerreq phase="First" priority="500"><![CDATA[
+        !AbReplace.cSoGEnvMagDec]]></containerreq>
+      <autotag group="thing" tag="skipprereq"/>
+      </bootstrap>
+    </thing>
+  <thing id="cSoGEnvRapPer" name="Rapid Persuasion" compset="ClSpecial" description="At 5th level, the envoy further develops his ability to persuade and get to know those around him. The envoy only has to spend 10 minutes talking to a single creature to gain influence over them, or just 1 minute when he spends 1 use of skill leverage.\n\nAdditionally, whenever the envoy attempts to gain influence over a creature by outwitting them, he can increase the DC to do so by 10 to make the attempt as a move action." summary="Faster persuasions">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvUnyVoi" name="Unyielding Voice" compset="ClSpecial" description="At 8th level, the envoy becomes immune to effects that would make him unable to speak (such as a silence spell or the throat punch ability of the agent class). This does not allow the envoy to speak while he is underwater (or in a similar environment where he cannot breathe) or unconscious." summary="Immune to effects making you unable to speak">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvPerPre" name="Personable Presence" compset="ClSpecial" description="At 9th level, an envoy’s ability to charm and influence people becomes so strong that any attempts made against him and those around him are near impossible. An envoy is immune to charm effects. All allies within 20 feet gain a +4 morale bonus on saving throws against charm effects. This ability only functions while the envoy is conscious (not if he is unconscious or dead)." summary="Immune to charm effects">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvComPhr" name="Complex Phrase" compset="ClSpecial" description="At 11th level, the envoy may use his dispiriting words ability as a full-round action to apply the effects of two [phrase] abilities instead of one. If both phrases require an initial saving throw, the envoy attempts a single saving throw against the ability; any additional saving throws after the initial use of dispiriting words are made individually." summary="Do two [phrase] abilites at once">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvBouWor" name="Boundless Words" compset="ClSpecial" description="At 12th level, the envoy gains the ability to speak and understand the language of any intelligent creature, including regional dialects and non-verbal languages.\n\nAdditionally, the envoy’s dispiriting words class feature loses the language-dependent descriptor." summary="Gain a tongues like effect">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvCalPre" name="Calming Presence" compset="ClSpecial" description="At 12th level, the envoy’s demeanor is hard to rattle, making it difficult to stir the emotions of him and those around him. The envoy is immune to anger, disorientation, and fear effects. All allies within 20 feet of the envoy gain a +4 morale bonus to saving throws against harmful emotion effects." summary="Immune to anger, disorientation, and fear effects">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvMerInf" name="Mercurial Influence" compset="ClSpecial" description="At 15th level, the envoy becomes almost supernaturally fast at connecting deeply with an individual. The envoy only has to spend 1 minute talking to a single creature to gain influence over them, or just 1 round when he spends 1 use of skill leverage.\n\nAdditionally, whenever the envoy attempts to gain influence over a creature by outwitting them as a move action, he does not need to increase the DC to do so." summary="Faster influence times">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvStaPre" name="Stabilizing Presence" compset="ClSpecial" description="At 16th level, the envoy is immune to compulsion effects. All allies within 20 feet gain a +4 morale bonus on saving throws against compulsion effects.\n\nThis ability only functions while the envoy is conscious (not if he is unconscious or dead)." summary="Immune to compulsion effects">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvEpiSoc" name="Epic Socialite" compset="ClSpecial" description="At 20th level, the envoy’s conversational abilities become almost magical. The envoy only needs to spend 1 round speaking with a creature to gain influence over them or a standard action by spending 1 use of skill leverage. The envoy also reduces the action cost when attempting to gain influence over a creature by outwitting them from a move action to a swift action." summary="Fasted Influence at 1 round">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvPheCha" name="Phenomenal Charisma" compset="ClSpecial" description="At 20th level, the envoy cannot suffer penalties to his Charisma-based skill checks, nor can he suffer from Charisma damage or drain. Finally, the envoy gains the following influence use:\n\n    {b}Dire Request{/b}\n\nThe envoy can spend 1 minute speaking with a creature, expending his influence over the creature and invoking a major motivation to make a single request of them (no save). The creature must fulfill the request until it is completed, regardless of how long it takes (if the task is open-ended, it instead remains in effect for 1 day per envoy level he possesses). For every 24 hours that the target fails to obey the request, they suffer 2 permanent negative levels. These negative levels are removed 24 hours after the target obeys the request, and are cumulative (but cannot exceed the creature’s maximum Hit Dice - 1). This effect can only be removed with a limited wish, miracle or wish spell. This is a compulsion effect." summary="Make dire requests, gain immunite to Charisma damage/drain">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cSoGEnvDisWor" name="Dispiriting Words" compset="ClSpecial" description="An envoy’s words can cut surprisingly deep wounds. As a swift action, the envoy chooses a creature that can hear and understand him within close range (25 feet + 5 feet per 2 envoy levels), making them dispirited for 1 minute.\n\nThe envoy can only have a single instance of dispiriting words applied to a target at one time, overriding any other non-instantaneous phrases he previously applied. Instantaneous phrases do not override previously applied instances of dispiriting words.\n\nWhile dispirited, the target suffers a -2 penalty to ability checks and skill checks attempted using a single ability score of the envoy’s choice, in addition to the DC required to affect them with skills of the chosen ability score. This penalty increases by 1 per 5 envoy levels he possesses. This is a language-dependent, mind-affecting emotion effect, and is generally considered a non-hostile action unless otherwise stated. Additionally, the envoy can instead use this ability as a standard action, adding a single [phrase] ability to it. If a [phrase] requires a saving throw, the DC is equal to 10 + 1/2 his envoy level + his Charisma modifier.\n\nThe envoy gains the following [phrase] abilities; he can only choose a [phrase] if he meets its prerequisites:\n\n    {b}Exhausting Words:{/b} The dispirited penalty also applies to the creature’s attack and damage rolls. The dispirited creature can attempt a Will save at the end of each of their turns to reduce the penalties associated with being dispirited by 1; removing the dispirited status if the penalty is reduced to 0.\n\n    {b}Weakening Words:{/b} The dispirited creature suffers an amount of nonlethal damage equal to 1d10 + his Charisma modifier (Will halves); increasing by 1d10 per 5 envoy levels he possesses. Additionally, if the creature’s nonlethal damage equals or exceeds half their current hit point total, they become fatigued. This phrase is considered a hostile action. If the envoy has influence (see below) over the creature, this nonlethal damage changes to 2d10 + his Charisma modifier, plus 1d10 per 3 envoy levels he possesses.\n\n    {b}Harsh Words (requires 4th level):{/b} Whenever the creature fails a roll penalized by dispirited words, they must succeed at a Will save or have the dispirited penalty increase by 1 (maximum equal to his base dispirited words penalty plus his Charisma modifier).  \n\n    {b}Critical Words (requires 7th level):{/b} The dispirited creature becomes dumbfounded for the duration, or shocked on a successful Will saving throw. The creature can attempt to orient themselves as a standard action; if the condition is removed, so is the dispirited status.\n\n    {b}Wavering Words (requires 14th level):{/b} The dispirited creature must succeed at a Will saving throw or be unable to benefit from beneficial emotion effects, morale bonuses, and temporary hit points for as long as they are dispirited. Additionally, on a failed save, all beneficial emotion effects and morale bonuses they are benefiting from are dispelled. The creature can attempt a Will saving throw at the end of each of their turns to reduce the duration of the dispirited status by 2 rounds.\n\n    {b}Crushing Words (requires 17th level):{/b} The dispirited creature becomes stunned for the duration (Will negates). The creature can attempt a Will saving throw at the end of each of their turns to end the dispirited status. This phrase is generally considered a hostile action.\n\nIf a [phrase] ability requires an initial saving throw, a successful save also negates the dispirited condition. Some class features grant the envoy additional [phrase] abilities, and possess the appropriate tag." summary="Your words can cut surprisingly deep wounds">
+    <comment>TODO: Move Exhausting Words, Weakening Words, Harsh Words, Critical Words, Wavering Words, and Crushing Words to separate bootstraps.</comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy"/>
+    <tag group="LvNameApp" tag="AppText"/>
+    <tag group="SbNameApp" tag="AppText"/>
+    <tag group="AbilType" tag="Extra"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <eval phase="PostAttr" priority="5000"><![CDATA[      field[abValue].value += 10 + #attrbonus[aCHA] + round(field[xAllLev].value/2,0,-1)
+      field[abText].text = "DC " & field[abValue].value]]></eval>
+    </thing>
   <thing id="arVigInformant" name="Informant" compset="ClassVary" description="An informant is something of a private investigator, piecing together seemingly disparate pieces of information to discover the true culprit (and then hunt them down)." summary="An informant is something of a private investigator." uniqueness="unique">
     <comment>TODO: Sleuth and the Informant Talents are not implemented</comment>
     <arrayval field="cvCustSTot" index="4" value="-1"/>
@@ -94,6 +410,224 @@ BSD-2-Clause license</info_author>
          ]]>
          <before name="Add additional free trade talents"/>
          </eval>
+    </thing>
+  <thing id="cEnvActAsp" name="Actualize Aspirations" compset="ClSpecial" description="At 18th level, once per day the envoy can spend 1 minute convincing a creature that their ambitions and dreams can become reality. The envoy chooses a motivation the creature possesses that can be resolved in some way. For example, “yearns to defeat the evil king” is appropriate, whereas a comfort of nature is not. The creature becomes immune to fear and gains a +4 morale bonus to all ability checks, attack rolls, saving throws, and skill checks, as long as such a roll is made to pursue the chosen motivation.\n\nThese bonuses last for 1 day or until the motivation is resolved or substantially advanced (such as dethroning the evil king, instead of killing him), whichever comes first.">
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cSoGBlendTSMCEnv" name="Blended Training" compset="ClSpecial" description="The envoy gains a choice between talents at 1st, 2nd, and 3rd level, and 3/4ths of a talent thereafter, according to {b}Table: Envoy{/b}. In addition, they gain a utility talent at every even level. A envoy uses his operative modifier as his practitioner or casting ability modifier." summary="Gain a choice of talents">
+    <arrayval field="usrArray" index="0" value="Skill Talent"/>
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abMSBlendTrain"></bootstrap>
+    <eval phase="First" priority="500"><![CDATA[    ~ Add array choices
+    if (tagis[Assist.AddMagic] <> 0) then
+      field[usrArray].arraytext[1] = "Magic Talent"
+    endif
+    if (tagis[Assist.AddCombat] <> 0) then
+      field[usrArray].arraytext[2] = "Combat Talent"
+    endif
+    ]]></eval>
+    <eval phase="PostLevel" priority="5000" index="2"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
+      if (field[usrIndex].value = 0) then
+        hero.child[resSGSSGen].field[resMax].value += 1
+        debug "🛠 Adding one Skill talent from Envoy Blended Training."
+      elseif (field[usrIndex].value = 1) then
+        hero.child[resSPMTGen].field[resMax].value += 1
+        debug "🛠 Adding one Magic talent from Envoy Blended Training."
+      endif]]></eval>
+    </thing>
+  <thing id="cEnvDeeCon" name="Deep Conversation" compset="ClSpecial" description="At 10th level, whenever the envoy gains influence over a creature that he has a rapport with and takes longer than 1 round when doing so, he may force the creature to succeed at a Will saving throw or have them reveal a single minor motivation, treating the envoy as a trusted friend or confidant.\n\nThe envoy can attempt to learn a major motivation when using this ability by either spending 1 use of skill leverage or granting the creature a +2 bonus to their saving throw. Once the envoy has attempted to use this ability on a creature, he cannot attempt to do so again for 4 hours.">
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cEnvDesCry" name="Desperate Cry" compset="ClSpecial" description="Whenever an enemy successfully damages a creature within 60 feet of the envoy, as long as he is aware of the attack and is not flat-footed, he can spend an immediate action to reduce the damage by an amount equal to his Charisma modifier (minimum 1). If the envoy has influence over the enemy, this amount doubles.">
+    <tag group="LvNameApp" tag="AppValue"/>
+    <tag group="SbNameApp" tag="AppValue"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="PostAttr" priority="5000"><![CDATA[      field[abValue].value += minimum(#attrbonus[aCHA], 1)]]></eval>
+    </thing>
+  <thing id="cEnvEmpAff" name="Empathetic Affinity" compset="ClSpecial" description="At 6th level, creatures that share your Communication sphere rapport treat other creatures who also share your rapport as being 10 feet closer for the purposes of the range of range-based abilities (including touch effects). This does not apply to abilities that rely on reach or a creature’s threatened area. This increases by 20 feet for every 3 envoy levels beyond 6th he possesses.">
+    <tag group="LvNameApp" tag="AppValue"/>
+    <tag group="SbNameApp" tag="AppValue"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="PostAttr" priority="5000"><![CDATA[      field[abValue].value += 10 + round(field[xAllLev].value/3-6,0,-1)]]></eval>
+    </thing>
+  <thing id="cSoGBlendTSMCEnvU" name="Envoy Utility Training" compset="ClSpecial" description="The envoy gains a utility talent at every even level." summary="Gain a [utility] talent every even level.">
+    <usesource source="pPF1e_Sph_LotSpheres"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    <eval phase="PostLevel" priority="5000" name="Add a Envoy Utility Talent"><![CDATA[doneif (tagis[Helper.ShowSpec] = 0)
+
+        ~ Add to generic [Utility] talent count.
+        perform container.findchild[Resource, "thingid.resSGUtilTal"].setfocus
+        debug "🛠 Adding a [utility] talent(s) from Envoy Blended Training."
+        focus.field[resMax].value += 1
+
+        ~ Done if not enabled
+        doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
+
+        ~ Also add here.
+        perform container.findchild[Resource, "thingid.resSGExUtilTal"].setfocus
+        debug "🛠 Adding (also) add an Expanded [utility] talent(s) from Envoy Blended Training."
+        focus.field[resMax].value += 1]]></eval>
+    </thing>
+  <thing id="cEnvMagEmi" name="Magical Emissary" compset="ClSpecial" description="At 1st level, the beguiler chooses one of the following spheres: Conjuration, Dark, Illusion, Light, or Mind. The beguiler gains the chosen sphere as a bonus sphere, and treats his class level as his caster level for the sphere. This stacks normally with caster levels from other sources." summary="You gain a sphere at full caster level">
+    <arrayval field="usrArray" index="0" value="Dark"/>
+    <arrayval field="usrArray" index="1" value="Illusion"/>
+    <arrayval field="usrArray" index="2" value="Light"/>
+    <arrayval field="usrArray" index="3" value="Mind"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="sopTlDark">
+      <containerreq phase="First" priority="95"><![CDATA[fieldval:usrIndex = 0 & !AbReplace.cEnvMagEmi]]></containerreq>
+      <autotag group="SoPDupBon" tag="Dark"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <bootstrap thing="sopTlIllus">
+      <containerreq phase="First" priority="95"><![CDATA[fieldval:usrIndex = 1 & !AbReplace.cEnvMagEmi]]></containerreq>
+      <autotag group="SoPDupBon" tag="Illus"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <bootstrap thing="sopTlLight">
+      <containerreq phase="First" priority="95"><![CDATA[fieldval:usrIndex = 2 & !AbReplace.cEnvMagEmi]]></containerreq>
+      <autotag group="SoPDupBon" tag="Light"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <bootstrap thing="sopTlMind">
+      <containerreq phase="First" priority="95"><![CDATA[fieldval:usrIndex = 3 & !AbReplace.cEnvMagEmi]]></containerreq>
+      <autotag group="SoPDupBon" tag="Mind"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    <eval phase="First" priority="100"><![CDATA[~ Mark the parent class as high-caster for chosen sphere
+      doneif (tagis[Helper.SpcDisable] = 1)
+
+      ~ Set to high casting
+      var hicast as string
+
+      if (field[usrIndex].value = 0) then
+        hicast = "SoPHiCast.Dark"
+      elseif (field[usrIndex].value = 1) then
+        hicast = "SoPHiCast.Illus"
+      elseif (field[usrIndex].value = 2) then
+        hicast = "SoPHiCast.Light"
+      elseif (field[usrIndex].value = 3) then
+        hicast = "SoPHiCast.Mind"
+      endif
+
+      if (root.islinkage[varies] = 1) then
+        perform root.linkage[varies].assignstr[hicast]
+      else
+        perform root.assignstr[hicast]
+      endif]]></eval>
+    </thing>
+  <thing id="cEnvSedWor" name="Sedating Words [phrase]" compset="ClSpecial" description="At 14th level, the envoy can use his dispiriting words to instill a moment of hesitation in a creature. While they remain dispirited, the first time each round the creature attempts an attack against a creature, they must succeed at a Will saving throw or lose their attack. If the creature possesses multiple attacks, the remaining attacks can be made against other targets.">
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cSoGSEEnvoy" name="Skill Expertise" compset="ClSpecial" description="An envoy may combine skill spheres and talents to perform incredible acts of guile. Whenever the envoy gains a skill talent, they must choose a skill sphere to spend it on. The first time a character spends a skill talent on a sphere, they gain that sphere’s base abilities instead of gaining a talent within the sphere.\n\nAfter a character possesses a base sphere, spending an additional skill talent on that sphere gains them one of that sphere’s talents. Envoys are considered Virtuoso operatives and choose their Intelligence, Wisdom, or Charisma modifier as their operative ability modifier. The Virtuoso skill talent progression is reprinted in the Envoy table for ease of reference." summary="You have training in one or more skill spheres">
+    <tag group="Helper" tag="SpecUp"/>
+    <tag group="ProductId" tag="DropDead"/>
+    <bootstrap thing="abSoGSkSp"></bootstrap>
+    </thing>
+  <thing id="cEnvSpuSaf" name="Spur Safety" compset="ClSpecial" description="At 4th level, whenever an enemy within the envoy’s confident presence fails an attack roll against an ally, his confident presence regains an amount of temporary hit points equal to 1/2 his envoy level + his Charisma modifier (minimum 2).">
+    <tag group="LvNameApp" tag="AppValue"/>
+    <tag group="SbNameApp" tag="AppValue"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="PostAttr" priority="5000"><![CDATA[      field[abValue].value += minimum(#attrbonus[aCHA] + round(field[xAllLev].value/2,0,-1),2)]]></eval>
+    </thing>
+  <thing id="cSoGBlendTrEnv" name="Blended Training" compset="CustomSpec" description="{b}Gained via Forte:{/b}\nIf an envoy takes a forte that has a combat sphere as its forte sphere, he can spend his skill talents to gain talents from that sphere, and uses his operative modifier as his practitioner modifier when determining its effects. This is treated as gaining a combat talent progression for the purposes of being able to maintain martial focus, but does not grant the envoy the ability to gain a martial tradition. [Utility] talents cannot be used to gain combat talents unless they have the [utility] tag (which can be introduced using the variant rule).\n\nFor an envoy to take a forte that has a magic sphere as its forte sphere, he must first possess a spell pool and caster level, such as from an archetype or the Basic Magic Training feat. An envoy that takes such a forte can spend his skill talents to gain magic talents from that sphere.\n\n{b}Gained via Beguiler:{/b}\nWhenever a beguiler would gain a skill talent from his class levels, he may instead choose to gain a magic talent. [Utility] talents cannot be used to gain magic talents unless they have the [utility] tag (which can be introduced using the variant on page 4).\n\n{b}Gained via Officer:{/b}\nWhenever an officer would gain a skill talent from his class levels, he may instead choose to gain a combat talent. The officer uses his operative modifier as his practitioner modifier.\n\n{b}Note:{/b} This does not enforce the Allure forte's requirement that only mind talents are taken." uniqueness="unique">
+    <comment>TODO Handle Combat spheres and addin operative modifier to allowed practitioner modifiers
+      TODO For the one granted by Allure Forte, it only allows Mind talents. So I need to have two separate abilities. Use one for Allure and one for Beguiler.
+      </comment>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy" name="Envoy" abbrev="Envoy"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <eval phase="First"><![CDATA[      ~ Turn off full progression for Blended Training
+      perform hero.childfound[cHelpSGEnvoy].delete[SoGOLProg.Virtuoso]]]></eval>
+    <eval phase="First" priority="100" index="2"><![CDATA[~ Hide Skill Expertise
+      perform hero.childfound[cSoGSEEnvoy].setfocus
+      doneif (state.isfocus = 0)
+      perform focus.assign[Hide.All]
+      perform focus.delete[Helper.SpcDisable]
+
+      var el as number
+      el = hero.tagcount[Classes.Envoy] + hero.tagcount[CSCountAs.Envoy]
+
+      foreach pick in hero from BaseClSpec where "(thingid.cSoGBlendTSMCEnvU | thingid.cSoGBlendTSMCEnv)"
+        if (eachpick.tagvalue[ClSpecWhen.?] <= el) then
+          perform eachpick.assign[Helper.ShowSpec]
+        endif
+        perform eachpick.delete[Hide.All]
+        perform eachpick.pushtags[Assist.Add?]
+      nexteach]]></eval>
+    </thing>
+  <thing id="cEnvConnection" name="Connection" compset="CustomSpec" description="These envoys are driven by the connection they have with an individual, and often lead their interactions with a deep care and empathy.\n\n{b}Forte Sphere:{/b} Communication" uniqueness="unique">
+    <fieldval field="sbName" value="connection"/>
+    <fieldval field="shortname" value="Connection"/>
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy" name="Envoy" abbrev="Envoy"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="abCategory" tag="EnvForte" name="Forte" abbrev="Forte"/>
+    <bootstrap thing="cEnvDesCry">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cEnvSpuSaf">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cEnvEmpAff">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cEnvDeeCon">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cEnvSedWor">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cEnvActAsp">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="sogTlSpCommunicat">
+      <autotag group="SoGDupBon" tag="Communication"/>
+      <autotag group="Helper" tag="Free"/>
+      </bootstrap>
+    </thing>
+  <thing id="cEnvConEmpRes" name="Empathic Response" compset="CustomSpec" description="The envoy can spend a standard action talking with a creature to transfer any negative emotion effects (including emotion conditions) from the creature to himself, granting no new saving throws (unless the effect has a continuous effect that the envoy would be affected by). The envoy can instead use this ability as an immediate action by expending his influence on the creature." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy" name="Envoy" abbrev="Envoy"/>
+    <tag group="Helper" tag="Secondary" name="Secondary" abbrev="Secondary"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="abCategory" tag="EnvFlair" name="Flair" abbrev="Flair"/>
+    <exprreq message="Connection Forte required"><![CDATA[#hasability[cEnvConnection] > 0]]></exprreq>
+    </thing>
+  <thing id="cEnvConSupWell" name="Support Wellbeing" compset="CustomSpec" description="The envoy can spend a swift action with a creature he shares a rapport with that can hear him to grant them a new saving throw with a +4 morale bonus against all ongoing effects they are currently suffering from that normally grants a saving throw using the original DC, even if they have already failed the initial save and would not normally be granted another.\n\nOn a success, the creature is treated as if they had succeeded their initial saving throw against the effect, although any damage dealt (such as from an affliction) still remains. On a failure, the attempt does not count as a failed save for the purposes of afflictions and effects that would worsen with each save.\n\nOnce a creature has attempted a new saving throw against a specific effect, they cannot gain the benefits of this ability against the same effect again. The envoy can use this ability as a standard action to instead affect all creatures that share his rapport." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy" name="Envoy" abbrev="Envoy"/>
+    <tag group="Helper" tag="Secondary" name="Secondary" abbrev="Secondary"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="abCategory" tag="EnvFlair" name="Flair" abbrev="Flair"/>
+    <exprreq message="Connection Forte required"><![CDATA[#hasability[cEnvConnection] > 0]]></exprreq>
+    <exprreq message="Envoy level 7 required"><![CDATA[#custspeciallevelcount[Envoy] >= 7]]></exprreq>
+    </thing>
+  <thing id="cEnvConSymWor" name="Sympathetic Words" compset="CustomSpec" description="Whenever the envoy uses the sedating words phrase on a creature he has influence over, its effects apply against all attacks the creature attempts, not just the first one they attempt, receiving a saving throw each time.\n\nThe envoy can invoke one of the creature’s motivations when he uses this phrase to have them become deeply sympathetic to the envoy. Whenever the dispirited creature fails a saving throw against sedating words as part of an attack roll, the envoy can choose which creature their attack is directed towards. If the attack is directed towards one of the creature’s allies, their new attack roll is made at a -4 penalty. This is a mind-affecting compulsion effect." uniqueness="unique">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy" name="Envoy" abbrev="Envoy"/>
+    <tag group="AbilType" tag="Super"/>
+    <tag group="Helper" tag="Secondary" name="Secondary" abbrev="Secondary"/>
+    <tag group="ProductId" tag="DropDead" name="Drop Dead Studios" abbrev="Drop Dead Studios"/>
+    <tag group="abCategory" tag="EnvFlair" name="Flair" abbrev="Flair"/>
+    <exprreq message="Connection Forte required"><![CDATA[#hasability[cEnvConnection] > 0]]></exprreq>
+    <exprreq message="Envoy level 15 required"><![CDATA[#custspeciallevelcount[Envoy] >= 15]]></exprreq>
     </thing>
   <thing id="sogTTAerialist" name="Aerialist" compset="SoGTraTrad" description="{b}Automatic Trade Talents{/b}: Duelist, Falconer\n\n{i}Trade Talent Class Skills{/i}: Bluff, Climbᴿ, Fly, Handle Animal*, Intimidate, Knowledge (nature), Linguistics, and Sense Motive.\n\n{b}Automatic Skill Sphere{/b}: Body Control sphere\n\n{b}Adroit Trade Talents{/b}: Roughrider, Sky Pilot\n\n{i}Trade Talent Class Skills{/i}: Acrobatics, Knowledge (geography), Ride, Survival, and Swim;\n\nᴿ Heal in place of redundant Climb, * increased class skill bonus to Handle Animal checks.\n\n{b}Adroit Bonus Skill Talent{/b}: Bluster sphere or the Body Control (Breath Control) talent." uniqueness="useronce">
     <usesource source="pPF1e_Sph_Guile"/>

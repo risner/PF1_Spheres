@@ -771,4 +771,22 @@ validif (hero.tagcount[Classes.?] = 1)</validate>
 
    perform hero.childfound[sogTlSpArtifice].assignstr["SkLeverage." & field[usrChosen1].chosen.idstring]]]></eval>
     </thing>
+  <thing id="sogTlExpandedUt" name="Expanded Utility" compset="SoGTalent" description="Take one Expanded Utilty talent as a [utility] talent.\n\n{b}Note:{/b} You may wish to confirm with your gamemaster the ability granting the [utility] talent allows you to take [utility] tagged Might or Magic talents." uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SphOfGuil" tag="Helper"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="SoGTlClass" tag="Utility"/>
+    <tag group="SoGTalDesc" tag="Utility"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <eval phase="First" name="Add an Expanded Utility Talent"><![CDATA[~ Add one [utility] talent.
+     doneif (tagis[Helper.SpcDisable] <> 0)
+     doneif (hero.tagis[source.pPF1e_ExpUtil] = 0)
+
+     debug "🛠 Adding one [utility] talent from Expanded Utility."
+     ~ hero.findchild[Resource, "thingid.resSGUtilTal"].field[resMax].value -= 1
+     hero.findchild[Resource, "thingid.resSGExUtilTal"].field[resMax].value += 1]]>
+     <before name="Increment talents spent if applicable"/>
+     <before name="Increment talents spent if applicable SoG"/>
+     </eval>
+    </thing>
   </document>

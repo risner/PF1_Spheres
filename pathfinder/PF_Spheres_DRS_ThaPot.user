@@ -70,10 +70,84 @@ At First/100 add "Mark the base class as a spherecasting class" if not already: 
       endif
       ]]></eval>
     </thing>
+  <thing id="cEnvBegAid" name="Beguiling Aid" compset="ClSpecial" description="At 18th level, the envoy can spend 1 round and expend his influence over a creature to attempt to establish such a deep connection to the creature that they become devoted to the envoy. The target must succeed at a Will saving throw or become beguiled by the envoy for 1 minute. While beguiled, the creature becomes helpful towards the envoy, and obeys any order the envoy gives them, except orders that directly compromise their survival and needs (such as eating, sleeping, etc.).\n\nThe target is allowed a new saving throw with a +2 bonus if asked to do something against its nature, or a +4 bonus if it is asked to perform an overtly self-destructive action. This is an enchantment (compulsion) mind-affecting effect, which can be discovered using Sense Motive as normal.\n\nThe envoy can only have one target beguiled in this way at one time; if the envoy successfully uses this ability to beguile a second creature, the first creature is no longer beguiled.">
+    <tag group="AbilType" tag="Super"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cEnvCogSwi" name="Cognitive Switch" compset="ClSpecial" description="At 14th level, the envoy can spend a swift action and choose a creature currently affected by one of his charms that he can see, swapping the current (charm) talent applied to the creature with a different (charm) talent he possesses (paying any of its associated costs). The creature gains a new saving throw against the new (charm) talent (if it normally grants one), and regardless of the result the creature is unaware of the attempt. On a failed save, they are affected by the new charm, with its duration starting now. On a successful save, the previous charm remains unchanged.">
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cEnvEncWor" name="Enchanting Words [phrase]" compset="ClSpecial" description="At 6th level, whenever the envoy uses dispiriting words, he can also use a Mind sphere lesser charm on the creature as part of the same action, ignoring the daily limit he can target an individual creature with a lesser charm. If the envoy has influence over the creature or outwits the creature as a cost, he can use a greater charm instead, paying any costs associated with it.">
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cEnvEntFle" name="Entice Flexibility" compset="ClSpecial" description="Whenever the envoy uses a Mind sphere charm on a creature he has influence over, the creature treats his requests as being one step more reasonable (requests normally against their nature are treated as something they would not normally do for example). Additionally, the envoy gains a bonus to Bluff and Diplomacy checks against creature’s they have influence over equal to 2 + his powerful personality bonus.">
+    <comment>TODO Fix calculation </comment>
+    <usesource source="pPF1e_DRS_ThaPot"/>
+    <tag group="LvNameApp" tag="AppValue"/>
+    <tag group="SbNameApp" tag="AppValue"/>
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="PostAttr" priority="5000"><![CDATA[      ~  2 + his powerful personality bonus.
+      ~field[abValue].value += ]]></eval>
+    </thing>
   <thing id="cMagiFoundSt" name="Foundations Studies" compset="ClSpecial" description="He can choose to gain a number of breakthroughs that he can use with any theory:\n\n * The magitect can spend 3 notions whenever he casts a spell to increase the saving throw DC of the effect by 1.\n * At 6th level, the magitect can spend any amount of notions as a swift action to treat his ranks in the associated skills for Spellhacking and Study sphere as being an amount higher equal to the number of notions spent (maximum equal to his operative modifier) for the purposes of determining the effects of sphere abilities (except dispel checks and the DC to remove your (hack) talents) for 1 minute.\n * At 11th level, the magitect can spend up to 3 notions as part of using hack magic to decrease the action cost to do so by one step for each notion spent as part of this breakthrough (standard > move > swift > immediate).\n\nAdditionally, the magitect gains the following notions that can be applied to any theory (a specific action can only grant one notion once per round):\n\n * The magitect expends a spell slot of the highest or second highest level he can cast (or spends at least 2 spell points on a single sphere effect).\n * The subject of his theory fails their saving throw against a magical effect by 5 or more. At 11th level, the subject does not need to fail the save by 5 or more to gain the notion.\n * The magitect successfully uses hack magic on a magical effect originating from or a magical item attended by the subject of his theory.">
     <usesource source="pPF1e_DRS_ThaPot"/>
     <tag group="Helper" tag="SpecUp"/>
     <tag group="ProductId" tag="DropDead"/>
+    </thing>
+  <thing id="cEnvMenCon" name="Mental Conditioning" compset="ClSpecial" description="At 10th level, creatures under the envoy’s influence suffer a -2 penalty to saves against mind-affecting effects. The envoy can expend his influence over a creature as part of using a mind-affecting effect on them, forcing them to roll twice and take the lowest result against the saving throw.">
+    <tag group="AbilType" tag="Extra" name="Extraordinary Ability" abbrev="Ex"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    </thing>
+  <thing id="cEnvStiInf" name="Stirring Influence" compset="ClSpecial" description="At 4th level, whenever the envoy gains or expends his influence over a non-allied creature, his confident presence regains an amount of temporary hit points equal to 1/2 his envoy level + his Charisma modifier (minimum 2).">
+    <tag group="LvNameApp" tag="AppValue"/>
+    <tag group="SbNameApp" tag="AppValue"/>
+    <tag group="Helper" tag="ShowStatbl"/>
+    <tag group="Helper" tag="SpecUp"/>
+    <eval phase="PostAttr" priority="5000"><![CDATA[      field[abValue].value += minimum(#attrbonus[aCHA] + round(field[xAllLev].value/2,0,-1),2)]]></eval>
+    </thing>
+  <thing id="cEnvAllure" name="Allure" compset="CustomSpec" description="These envoys are often found to be the ‘queen bee’ of a group, acting as a source of inspiration in many forms to those around them." uniqueness="unique">
+    <fieldval field="sbName" value="allure"/>
+    <fieldval field="shortname" value="Allure"/>
+    <usesource source="pPF1e_DRS_ThaPot"/>
+    <tag group="SpecSource" tag="cHelpSGEnvoy" name="Envoy" abbrev="Envoy"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
+    <tag group="abCategory" tag="EnvForte" name="Forte" abbrev="Forte"/>
+    <bootstrap thing="cEnvEntFle">
+      <autotag group="ClSpecWhen" tag="1"/>
+      </bootstrap>
+    <bootstrap thing="cSoGBlendTrEnv">
+      <autotag group="ClSpecWhen" tag="1"/>
+      <autotag group="Assist" tag="AddMagic"/>
+      </bootstrap>
+    <bootstrap thing="cEnvStiInf">
+      <autotag group="ClSpecWhen" tag="4"/>
+      </bootstrap>
+    <bootstrap thing="cEnvEncWor">
+      <autotag group="ClSpecWhen" tag="6"/>
+      </bootstrap>
+    <bootstrap thing="cEnvMenCon">
+      <autotag group="ClSpecWhen" tag="10"/>
+      </bootstrap>
+    <bootstrap thing="cEnvCogSwi">
+      <autotag group="ClSpecWhen" tag="14"/>
+      </bootstrap>
+    <bootstrap thing="cEnvBegAid">
+      <autotag group="ClSpecWhen" tag="18"/>
+      </bootstrap>
+    <bootstrap thing="sopTlMind">
+      <autotag group="Helper" tag="Free"/>
+      <autotag group="SoPDupBon" tag="Mind"/>
+      </bootstrap>
+    <eval phase="First"><![CDATA[      ~ Turn off full progression for Blended Training
+      perform hero.childfound[cHelpSGEnvoy].delete[SoGOLProg.Virtuoso]]]></eval>
+    <exprreq message="Spell Pool required">hero.childlives[trkSoPSP] = 1</exprreq>
+    <exprreq message="Caster level required"><![CDATA[hero.childfound[SoPCstLev].field[CastLevTot].value >= 1]]></exprreq>
     </thing>
   <thing id="cWizMagiFS" name="Foundations Studies" compset="CustomSpec" description="The magitect gains Mystical Aptitude as a bonus feat, even if he does not meet the prerequisites. Additionally, he can choose to gain a number of breakthroughs that he can use with any theory:\n\n * The magitect can spend 3 notions whenever he casts a spell to increase the saving throw DC of the effect by 1.\n * At 6th level, the magitect can spend any amount of notions as a swift action to treat his ranks in the associated skills for Spellhacking and Study sphere as being an amount higher equal to the number of notions spent (maximum equal to his operative modifier) for the purposes of determining the effects of sphere abilities (except dispel checks and the DC to remove your (hack) talents) for 1 minute.\n * At 11th level, the magitect can spend up to 3 notions as part of using hack magic to decrease the action cost to do so by one step for each notion spent as part of this breakthrough (standard > move > swift > immediate).\n\nAdditionally, the magitect gains the following notions that can be applied to any theory (a specific action can only grant one notion once per round):\n\n * The magitect expends a spell slot of the highest or second highest level he can cast (or spends at least 2 spell points on a single sphere effect).\n * The subject of his theory fails their saving throw against a magical effect by 5 or more. At 11th level, the subject does not need to fail the save by 5 or more to gain the notion.\n * The magitect successfully uses hack magic on a magical effect originating from or a magical item attended by the subject of his theory.">
     <usesource source="pPF1e_DRS_ThaPot"/>

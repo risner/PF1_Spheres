@@ -16,6 +16,8 @@
 <!-- ============================================== -->
   <group id="Assist">
     <value id="AddBinder" name="Armorist (Collector) adds Binder"/>
+    <value id="AddMagic" name="Add Magic to array"/>
+    <value id="AddCombat" name="Add Combat to array"/>
     </group>
   <group id="SphOfGuil">
     <value id="Trade" name="Trade Tradition"/>

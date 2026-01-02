@@ -765,7 +765,7 @@ Errata current to 2/24/25.</comment>
     <tag group="SoGSphere" tag="Bluster"/>
     <tag group="SoGTlClass" tag="GainSphere"/>
     </thing>
-  <thing id="sogTlSpBluster" name="Bluster Sphere" compset="SoGTalent" description=" Operatives of the Bluster sphere are skilled at trickery and emotional influence. They know how to make the most of information about enemies’ hopes and fears.\n\n{b}Associated Skill{/b}: Bluff or Intimidate. Choose one to be the associated skill when you gain the sphere.\n\nYou gain the following benefits when you gain the Bluster sphere:\n\nYou gain 5 ranks in the chosen skill, plus 5 ranks per additional talent spent in the Bluster sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the chosen skill, you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with the Bluff and Intimidate skills.\n\n{b}Bonus Talent{/b}: When you gain the Bluster sphere, you gain one (quip) talent of your choice. It cannot be an exceptional talent. If you choose one with the [utility] tag, you can take the Bluster base sphere as a [utility] talent.\n\nYou also gain the Flaunt Secrets and Quip abilities." summary="Gain access to the Bluster Sphere." panellink="tbSoGBluster" uniqueness="useronce">
+  <thing id="sogTlSpBluster" name="Bluster Sphere" compset="SoGTalent" description="Operatives of the Bluster sphere are skilled at trickery and emotional influence. They know how to make the most of information about enemies’ hopes and fears.\n\n{b}Associated Skill{/b}: Bluff or Intimidate. Choose one to be the associated skill when you gain the sphere.\n\nYou gain the following benefits when you gain the Bluster sphere:\n\nYou gain 5 ranks in the chosen skill, plus 5 ranks per additional talent spent in the Bluster sphere (maximum ranks equal to your Hit Dice). If you already have ranks in the chosen skill, you may immediately retrain them.\n\n{b}Skill Leverage{/b}: You unlock skill leverage with the Bluff and Intimidate skills.\n\n{b}Bonus Talent{/b}: When you gain the Bluster sphere, you gain one (quip) talent of your choice. It cannot be an exceptional talent. If you choose one with the [utility] tag, you can take the Bluster base sphere as a [utility] talent.\n\nYou also gain the Flaunt Secrets and Quip abilities." summary="Gain access to the Bluster Sphere." panellink="tbSoGBluster" uniqueness="useronce">
     <comment>TODO: Implement Bonus Talent.</comment>
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; (thingid.skBluff | thingid.skIntim)"/>
     <usesource source="pPF1e_Sph_Guile"/>
@@ -3209,6 +3209,13 @@ TODO When SoGFreeTal.descriptor is done, chanage to use.</comment>
     <tag group="SoGTlClass" tag="Talent"/>
     <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     <tag group="abAction" tag="Immediate"/>
+    </thing>
+  <thing id="sogTlCollabUnder" name="Collaborative Understanding" compset="SoGTalent" description="You keep your allies aware of your theories and hunches, allowing them to use this information to their advantage. As long as your allies can communicate with you, your allies can use your theories’ base ability and may spend notions from your theories to gain the benefits of your (theory) talent’s breakthroughs. (Even if they have their own theories, they cannot spend your notions on them.)" uniqueness="useronce">
+    <usesource source="pPF1e_Sph_Guile"/>
+    <tag group="SoGSphere" tag="Study"/>
+    <tag group="SoGTlClass" tag="Talent"/>
+    <tag group="Helper" tag="AlwaysAvl"/>
+    <tag group="Helper" tag="SpecUp" name="SpecUp" abbrev="SpecUp"/>
     </thing>
   <thing id="sogTlFocusedStudy" name="Focused Study" compset="SoGTalent" description="You gain a Knowledge or Lore skill of your choice as an additional associated skill for this sphere, and you unlock skill leverage with that skill. You can choose this talent multiple times; each time choosing a new skill." summary="Gain an additional associated skill and leverage." uniqueness="useronce">
     <fieldval field="usrCandid1" value="component.BaseSkill &amp; (Helper.SkCatKnow | Helper.SkCatLore)"/>

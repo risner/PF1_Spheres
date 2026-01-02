@@ -60,25 +60,41 @@
         endif
 
         if (sections = 3) then
-             ~ Allow the 3 to take at most 82 each
-             wide = maximum(width - portal[name].width - 50, 2*82) / 3
+             ~ Allow the 3 a default of 82
+             wide = 82
         elseif (sections = 2) then
-             ~ Allow the 2 to take at most 100 each
-             wide = maximum(width - portal[name].width - 50, 2*100) / 2
+             ~ Allow the 2 a default of 100
+             wide = 100
         elseif (sections = 1) then
              ~ Allow 1 to take at most a third
              wide = width / 3
         endif
 
-       if (portal[domDomain].visible <> 0) then
-            portal[domDomain].width = wide
-       endif
-       if (portal[mnChoose1].visible <> 0) then
+        var ratio as number
+        ratio = width / length(field[name].text) / 3
+
+        if (sections > 1) then
+             if (ratio > 13) then
+                  ~ The name is short, use a lot more for sections
+                  wide *= 1.7
+             elseif (ratio > 10) then
+                  ~ The name has plenty of space, give more to sections
+                  wide *= 1.3
+             elseif (ratio < 5) then
+                  ~ The name is very long, shrink sections to help scaling
+                  wide *= 0.82
+             endif
+        endif
+
+        if (portal[mnChoose1].visible <> 0) then
             portal[mnChoose1].width = wide
-       endif
-       if (portal[mnChoose2].visible <> 0) then
+        endif
+        if (portal[mnChoose2].visible <> 0) then
             portal[mnChoose2].width = wide
-       endif
+        endif
+        if (portal[domDomain].visible <> 0) then
+            portal[domDomain].width = wide
+        endif
 
         ~ Position name on the left
         portal[name].left = 0
@@ -88,10 +104,10 @@
 
         ~ Align to left edge, center, and size to fit
         perform portal[name].alignedge[left,2]
+        perform portal[name].setstyle[lblLeftNormal]
         perform portal[name].sizetofit[18]
         perform portal[name].autoheight
         perform portal[name].centervert
-        perform portal[name].setstyle[lblLeftNormal]
 
         ~ Now place the rest
         perform portal[mnChoose1].alignrel[ltor,name,2]

@@ -1,3 +1,16 @@
+1.6 ~ Jan  2 13:07:47 EST 2026: Beta version 1.6 - sixth public release
+    * Beta releases will be 1.x, with x being count of public releases
+    * Official release will be 2.0 and support all classes in Guile.
+    * Text formatting changes - adding/removing unneeded whitespace
+    * Corrected several typos and duplications
+    * Added Envoy class skeleton, still need Forte and Flair to be added
+    * Enhanced how spacing works name and choosers (selectors and domain)
+    * Moved .setstyle[] to before .sizetofit[] in form to fix scaling
+    * Added Expanded Utility option (Ask your GM) to allow any Might/Power [utility]
+    * Added Collaborative Understanding talent
+    * Added Allure forte for Envoy
+    * Clarify that the Pathfinder Community Pack is also required
+
 1.4 ~ Nov 19 21:23:34 2025: Beta version 1.4 - fifth public release
     * Remove reference to HL files not in SoM/SoP/CoS requirements
     * Adding missing Plans trackers

@@ -5,7 +5,7 @@
     <info_author>(C) James Risner, 2023-2025
 BSD-2-Clause license</info_author>
     </fileinfo>
-  <thing id="arMercenary" name="Mercenary" compset="ClassVary" description=" Mercenaries are products of their time. Lethal blades, efficient warriors. Hunters. Trackers. If there are coins to be paid, they have the time. Mercenaries can be found anywhere there is conflict from adventuring parties looking for a skilled pair of hands, armies looking for extra manpower, and even in the service of evil, should the price pay right.\n\nTODO: Not implemented past 1st level yet. Also need to create Manhunter (Ex) and the bootstrap conditions instead of directly bootstrapping Scout sphere." uniqueness="unique">
+  <thing id="arMercenary" name="Mercenary" compset="ClassVary" description="Mercenaries are products of their time. Lethal blades, efficient warriors. Hunters. Trackers. If there are coins to be paid, they have the time. Mercenaries can be found anywhere there is conflict from adventuring parties looking for a skilled pair of hands, armies looking for extra manpower, and even in the service of evil, should the price pay right.\n\nTODO: Not implemented past 1st level yet. Also need to create Manhunter (Ex) and the bootstrap conditions instead of directly bootstrapping Scout sphere." uniqueness="unique">
     <usesource source="pPF1e_Sph_OConqHB"/>
     <tag group="AbReplace" tag="cRgrTrack"/>
     <tag group="ClVaryName" tag="AppParen"/>
